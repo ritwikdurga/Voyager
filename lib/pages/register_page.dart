@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:group9_auth/components/back_ground/animatedbck.dart';
 import 'package:group9_auth/components/my_button.dart';
 import 'package:group9_auth/components/third_party.dart';
+import 'package:group9_auth/home_screen.dart';
 import 'package:group9_auth/services/auth_service.dart';
 import 'package:ionicons/ionicons.dart';
 import 'dart:math' as math;
@@ -73,6 +74,10 @@ class _RegisterPageState extends State<RegisterPage> {
           successSnackBar();
           // Close the dialog
           Navigator.pop(context);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+        );
       } on FirebaseAuthException catch (e) {
           Navigator.pop(context);
         if (e.code == 'weak-password') {
@@ -415,7 +420,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: widget.onTap,
+                          onTap: (){
+                            Navigator.pop(context);
+                          },
                           child: Text(
                             "Login Here",
                             style: TextStyle(

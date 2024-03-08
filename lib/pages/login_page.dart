@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:group9_auth/components/back_ground/animatedbck.dart';
 import 'package:group9_auth/components/loading.dart';
 import 'package:group9_auth/components/my_button.dart';
+import 'package:group9_auth/pages/register_page.dart';
 import 'package:group9_auth/services/auth_service.dart';
 import 'package:ionicons/ionicons.dart';
 import 'dart:math' as math;
@@ -305,7 +306,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
 
                     SizedBox(height: 10),
-                    // send this row to the bottom of the screen
+// send this row to the bottom of the screen
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -317,8 +318,14 @@ class _LoginPageState extends State<LoginPage> {
                             fontWeight: FontWeight.w300,
                           ),
                         ),
-                        GestureDetector(
-                          onTap: widget.onTap,
+                        InkWell(
+                          onTap: () {
+                            // Navigate to the SignUpPage
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => RegisterPage(onTap: widget.onTap)),
+                            );
+                          },
                           child: Text(
                             "Sign Up",
                             style: TextStyle(
@@ -331,7 +338,8 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ],
                     ),
-                  ],
+                      ],
+
                 ),
               ),
             ),
