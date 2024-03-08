@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1029716095379",
+    "project_id": "auth-g9",
+    "storage_bucket": "auth-g9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029716095379:android:b863ff26e6591aec14f866",
+        "android_client_info": {
+          "package_name": "com.example.group9_auth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9v7cuj_1TmL97tV2nUgdRtCoGJkeeHug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
