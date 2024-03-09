@@ -4,44 +4,69 @@ import 'package:ionicons/ionicons.dart';
 import '../services/auth_service.dart';
 import '../utils/constants.dart';
 
-
 class SocialAuth extends StatelessWidget {
   final Function()? onPressGoogle;
   final Function()? onPressApple;
-  const SocialAuth({super.key, required this.onPressGoogle, required this.onPressApple});
+
+  const SocialAuth({
+    super.key,
+    required this.onPressGoogle,
+    required this.onPressApple,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: kPrimaryColor,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      // create google icon and apple icon seperately
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          IconButton(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.white.withOpacity(0.7),
+                spreadRadius: 4,
+                blurRadius: 5,
+                offset: Offset(0, 0), // changes position of shadow
+              ),
+            ],
+          ),
+          child: IconButton(
             onPressed: onPressGoogle,
             icon: Icon(
               Ionicons.logo_google,
               size: 45,
-              color: Colors.white,
+              color: kGreenColor,
             ),
           ),
-          const SizedBox(width: 10),
-          IconButton(
+        ),
+        const SizedBox(width: 30),
+        Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.white.withOpacity(0.7),
+                spreadRadius: 4,
+                blurRadius: 5,
+                offset: Offset(0, 0), // changes position of shadow
+              ),
+            ],
+          ),
+          child: IconButton(
             onPressed: onPressApple,
             icon: Icon(
               Ionicons.logo_apple,
-              size: 47,
-              color: Colors.white,
+              size: 45,
+              color: kGreenColor,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
-

@@ -1,18 +1,18 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:group9_auth/components/back_ground/animatedbck.dart';
 import 'package:group9_auth/components/my_button.dart';
 import 'package:group9_auth/components/third_party.dart';
-import 'package:group9_auth/home_screen.dart';
 import 'package:group9_auth/services/auth_service.dart';
-import 'package:ionicons/ionicons.dart';
-import 'dart:math' as math;
 
 import '../components/loading.dart';
 import '../utils/constants.dart';
 
 class RegisterPage extends StatefulWidget {
   final Function()? onTap;
+
   const RegisterPage({Key? key, required this.onTap}) : super(key: key);
 
   @override
@@ -22,8 +22,10 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _enterPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _enterPasswordController =
+      TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   // password visibility flags
   bool _isEnterPasswordVisible = false;
@@ -43,14 +45,16 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
-
   void _signUp() async {
     showDialog(
       context: context,
       builder: (context) => const Loading(),
     );
 
-    if (_nameController.text.isEmpty || _emailController.text.isEmpty || _enterPasswordController.text.isEmpty || _confirmPasswordController.text.isEmpty) {
+    if (_nameController.text.isEmpty ||
+        _emailController.text.isEmpty ||
+        _enterPasswordController.text.isEmpty ||
+        _confirmPasswordController.text.isEmpty) {
       if (mounted) {
         Navigator.pop(context);
       }
@@ -66,20 +70,11 @@ class _RegisterPageState extends State<RegisterPage> {
           email: _emailController.text,
           password: _enterPasswordController.text,
         );
-        // Get the current user
-        User? user = FirebaseAuth.instance.currentUser;
-        // set the users display name
-        user!.updateDisplayName(_nameController.text);
-          // Show a snackbar
-          successSnackBar();
-          // Close the dialog
-          Navigator.pop(context);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
-        );
+        successSnackBar();
+        // Close the dialog
+        Navigator.pop(context);
       } on FirebaseAuthException catch (e) {
-          Navigator.pop(context);
+        Navigator.pop(context);
         if (e.code == 'weak-password') {
           weakPassword();
         } else if (e.code == 'email-already-in-use') {
@@ -91,16 +86,19 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
-
   void successSnackBar() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        backgroundColor: kRedColor,
+        // Change the background color of the snackbar
+
         content: Center(
           child: Text(
             'Account created successfully!',
             style: TextStyle(
               fontSize: 16, // Change the font size as needed
               fontFamily: 'ProductSans', // Change the font family as needed
+              color: Colors.white, // Change the font color as needed
             ),
           ),
         ),
@@ -111,12 +109,16 @@ class _RegisterPageState extends State<RegisterPage> {
   void errorSnackBar() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        backgroundColor: kRedColor,
+        // Change the background color of the snackbar
+
         content: Center(
           child: Text(
             'An error occurred. Please try again later.',
             style: TextStyle(
               fontSize: 16, // Change the font size as needed
               fontFamily: 'ProductSans', // Change the font family as needed
+              color: Colors.white, // Change the font color as needed
             ),
           ),
         ),
@@ -127,12 +129,16 @@ class _RegisterPageState extends State<RegisterPage> {
   void passMismatch() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        backgroundColor: kRedColor,
+        // Change the background color of the snackbar
+
         content: Center(
           child: Text(
-            'Passwords donot match.',
+            'Passwords doesnt match.',
             style: TextStyle(
               fontSize: 16, // Change the font size as needed
               fontFamily: 'ProductSans', // Change the font family as needed
+              color: Colors.white, // Change the font color as needed
             ),
           ),
         ),
@@ -140,16 +146,19 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-
   void emailInUse() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        backgroundColor: kRedColor,
+        // Change the background color of the snackbar
+
         content: Center(
           child: Text(
             'The account already exists for that email.',
             style: TextStyle(
               fontSize: 16, // Change the font size as needed
               fontFamily: 'ProductSans', // Change the font family as needed
+              color: Colors.white, // Change the font color as needed
             ),
           ),
         ),
@@ -160,12 +169,16 @@ class _RegisterPageState extends State<RegisterPage> {
   void weakPassword() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        backgroundColor: kRedColor,
+        // Change the background color of the snackbar
+
         content: Center(
           child: Text(
             'The password provided is too weak.',
             style: TextStyle(
               fontSize: 16, // Change the font size as needed
               fontFamily: 'ProductSans', // Change the font family as needed
+              color: Colors.white, // Change the font color as needed
             ),
           ),
         ),
@@ -176,12 +189,16 @@ class _RegisterPageState extends State<RegisterPage> {
   void emptyFields() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        backgroundColor: kRedColor,
+        // Change the background color of the snackbar
+
         content: Center(
           child: Text(
             'All fields are required.',
             style: TextStyle(
               fontSize: 16, // Change the font size as needed
               fontFamily: 'ProductSans', // Change the font family as needed
+              color: Colors.white, // Change the font color as needed
             ),
           ),
         ),
@@ -198,11 +215,8 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-
     return Scaffold(
       body: Stack(
         children: [
@@ -214,81 +228,126 @@ class _RegisterPageState extends State<RegisterPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Let's Create an Account for You!",
+                      "New to Voyager?",
                       style: TextStyle(
-                        fontSize: 23,
+                        fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context).primaryColor,
+                        color: Colors.white,
                       ),
                     ),
-                    SizedBox(height: 50),
+                    SizedBox(height: 10),
+                    Text("Let's get you started!",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.white,
+                        )),
+                    SizedBox(height: 60),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
                       child: Container(
+                        height: 50,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(14),
+                          borderRadius: BorderRadius.circular(30),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 18.0),
+                          padding: const EdgeInsets.only(left: 20, bottom: 2.5),
                           child: TextField(
+                            style: TextStyle(
+                              fontFamily: "ProductSans",
+                              color: Colors.black,
+                              fontSize: 18,
+                            ),
                             controller: _nameController,
                             decoration: InputDecoration(
                               hintText: "Name",
+                              hintStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 17,
+                                fontFamily: "ProductSans",
+                              ),
                               border: InputBorder.none,
                             ),
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
                       child: Container(
+                        height: 50,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(14),
+                          borderRadius: BorderRadius.circular(30),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 18.0),
+                          padding: const EdgeInsets.only(left: 20, bottom: 2.5),
                           child: TextField(
+                            style: TextStyle(
+                              fontFamily: "ProductSans",
+                              color: Colors.black,
+                              fontSize: 18,
+                            ),
                             controller: _emailController,
                             decoration: InputDecoration(
                               hintText: "Email",
+                              hintStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 17,
+                                fontFamily: "ProductSans",
+                              ),
                               border: InputBorder.none,
                             ),
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
                       child: Container(
+                        height: 50,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(14),
+                          borderRadius: BorderRadius.circular(30),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 18.0, right: 8.0), // Added right padding for the IconButton
+                          padding: const EdgeInsets.only(
+                              left: 20.0, right: 8.0, bottom: 2.5),
+                          // Added right padding for the IconButton
+
                           child: Row(
                             children: [
                               Expanded(
                                 child: TextField(
+                                  style: TextStyle(
+                                    fontFamily: "ProductSans",
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                  ),
                                   controller: _enterPasswordController,
                                   obscureText: !_isEnterPasswordVisible,
                                   decoration: InputDecoration(
                                     hintText: "Enter Password",
+                                    hintStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 17,
+                                      fontFamily: "ProductSans",
+                                    ),
                                     border: InputBorder.none,
                                   ),
                                 ),
                               ),
                               IconButton(
                                 icon: Icon(
-                                  _isEnterPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                                  _isEnterPasswordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
                                   color: Colors.grey,
                                 ),
                                 onPressed: _toggleEnterPasswordVisibility,
@@ -298,32 +357,47 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
                       child: Container(
+                        height: 50,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(14),
+                          borderRadius: BorderRadius.circular(30),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 18.0, right: 8.0), // Added right padding for the IconButton
+                          padding: const EdgeInsets.only(
+                              left: 20.0, right: 8.0, bottom: 2.5),
+                          // Added right padding for the IconButton
                           child: Row(
                             children: [
                               Expanded(
                                 child: TextField(
+                                  style: TextStyle(
+                                    fontFamily: "ProductSans",
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                  ),
                                   controller: _confirmPasswordController,
                                   obscureText: !_isConfirmPasswordVisible,
                                   decoration: InputDecoration(
                                     hintText: "Confirm Password",
+                                    hintStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 17,
+                                      fontFamily: "ProductSans",
+                                    ),
                                     border: InputBorder.none,
                                   ),
                                 ),
                               ),
                               IconButton(
                                 icon: Icon(
-                                  _isConfirmPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                                  _isConfirmPasswordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
                                   color: Colors.grey,
                                 ),
                                 onPressed: _toggleConfirmPasswordVisibility,
@@ -333,7 +407,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 30),
                     MyButton(onPressed: _signUp, text: "Register"),
                     SizedBox(height: 30),
                     Padding(
@@ -348,12 +422,12 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                           Padding(
                             padding:
-                            const EdgeInsets.symmetric(horizontal: 10.0),
+                                const EdgeInsets.symmetric(horizontal: 10.0),
                             child: Text(
                               "Or Continue With",
                               style: TextStyle(
                                 fontFamily: 'ProductSans',
-                                color: kPrimaryColor,
+                                color: kGreenColor,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -404,10 +478,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             // Sign in with apple
                           },
                         ),
-
                       ],
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 30),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -417,10 +490,11 @@ class _RegisterPageState extends State<RegisterPage> {
                             fontSize: 15,
                             fontFamily: "ProductSans",
                             fontWeight: FontWeight.w300,
+                            color: Colors.white,
                           ),
                         ),
                         GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             Navigator.pop(context);
                           },
                           child: Text(
@@ -428,7 +502,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             style: TextStyle(
                               fontFamily: "ProductSans",
                               fontSize: 16,
-                              color: Theme.of(context).primaryColor,
+                              color: kGreenColor,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -442,7 +516,6 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         ],
       ),
-
     );
   }
 }

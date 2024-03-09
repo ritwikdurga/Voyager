@@ -33,29 +33,34 @@ class _SplashPageState extends State<SplashPage> {
 
     await Future.delayed(Duration(milliseconds: 3000));
     if (!_isDisposed) {
-      if(!_seen){
+      if (!_seen) {
         await prefs.setBool('seen', true);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => IntroPage()),
         );
-      }else{
+      } else {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => MainPage()),
         );
       }
-
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Lottie.asset(
-          'assets/animations/splash.json',
-          fit: BoxFit.fill,
+      backgroundColor: Colors.black, // Set background color of the scaffold
+      body: Transform.scale(
+        scale: 0.5,
+        child: Center(
+          // Set background color of the container
+
+          child: Lottie.network(
+            fit: BoxFit.fill,
+            "https://lottie.host/d86d8b06-bb7f-438d-9613-0d0b6673fce0/jYPAfJIAKk.json",
+          ),
         ),
       ),
     );

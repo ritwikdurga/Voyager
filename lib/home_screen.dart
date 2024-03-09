@@ -10,8 +10,8 @@ class HomeScreen extends StatelessWidget {
     final user = FirebaseAuth.instance.currentUser;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home Screen'),
-        backgroundColor: kPrimaryColor,
+
+        backgroundColor: Colors.black,
         // logout button
         actions: [
           IconButton(
@@ -21,6 +21,7 @@ class HomeScreen extends StatelessWidget {
             icon: const Icon(Icons.logout),
           ),
         ],
+        title: const Text('Home Screen'),
       ),
       body: Center(
         child: Text(
