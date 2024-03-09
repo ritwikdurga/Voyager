@@ -1,8 +1,7 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
 import 'package:group9_auth/auth/login_or_register.dart';
-import 'package:group9_auth/pages/register_page.dart';
-
-import 'login_page.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -18,7 +17,8 @@ class IntroPage extends StatefulWidget {
   State<IntroPage> createState() => _IntroPageState();
 }
 
-class _IntroPageState extends State<IntroPage> with SingleTickerProviderStateMixin {
+class _IntroPageState extends State<IntroPage>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Alignment> _topAlignmentAnimation;
   late Animation<Alignment> _bottomAlignmentAnimation;
@@ -153,7 +153,10 @@ class _IntroPageState extends State<IntroPage> with SingleTickerProviderStateMix
                       width: 150, // Adjust the width as per your requirement
                       child: ElevatedButton(
                         onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => LoginOrRegister()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginOrRegister()));
 
                           // Navigate to the second screen using a named route.
                         },
@@ -161,8 +164,8 @@ class _IntroPageState extends State<IntroPage> with SingleTickerProviderStateMix
                           elevation: 5, // Add shadow elevation
                           padding: EdgeInsets.symmetric(vertical: 15),
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.circular(25), // Button border radius
+                            borderRadius: BorderRadius.circular(
+                                25), // Button border radius
                           ),
                         ),
                         child: Text(
@@ -179,15 +182,19 @@ class _IntroPageState extends State<IntroPage> with SingleTickerProviderStateMix
                       child: ElevatedButton(
                         onPressed: () {
                           // check if user is logged in or not
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => LoginOrRegister(Noreg: true)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      LoginOrRegister(noReg: true)));
                           // Navigate to the second screen using a named route.
                         },
                         style: ElevatedButton.styleFrom(
                           elevation: 5, // Add shadow elevation
                           padding: EdgeInsets.symmetric(vertical: 15),
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.circular(25), // Button border radius
+                            borderRadius: BorderRadius.circular(
+                                25), // Button border radius
                           ),
                         ),
                         child: Text(

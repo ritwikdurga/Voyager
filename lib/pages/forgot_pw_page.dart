@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:group9_auth/utils/constants.dart';
@@ -32,9 +34,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       await FirebaseAuth.instance
           .sendPasswordResetEmail(email: _emailController.text.trim());
       emailSent();
-      Navigator.pop(context);
+      if(mounted){
+        Navigator.pop(context);
+      }
     } on FirebaseAuthException catch (e) {
-      Navigator.pop(context);
+      if(mounted){
+        Navigator.pop(context);
+      }
       if (e.code == 'user-not-found') {
         userNotFound();
       }

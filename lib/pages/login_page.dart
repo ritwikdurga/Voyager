@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, avoid_print, prefer_const_literals_to_create_immutables
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -58,10 +58,14 @@ class _LoginPageState extends State<LoginPage> {
       );
 
       // Hide loading dialog
-      Navigator.pop(context);
+      if (mounted) {
+        Navigator.pop(context);
+      }
     } on FirebaseAuthException catch (e) {
       // Hide loading dialog
-      Navigator.pop(context);
+      if (mounted) {
+        Navigator.pop(context);
+      }
       if (e.code == 'user-not-found') {
         // give another method to show snackbar without the of(context)
         userNotFoundSnackBar();
@@ -347,6 +351,7 @@ class _LoginPageState extends State<LoginPage> {
                             },
                             onPressApple: () {
                               // Sign in with apple
+                              AuthService().signInWithApple();
                             },
                           ),
                         ),

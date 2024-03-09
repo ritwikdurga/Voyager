@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
 import 'package:group9_auth/utils/constants.dart';
 
@@ -24,19 +26,19 @@ class MyButton extends StatelessWidget {
       ),
       child: ElevatedButton(
         onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: kBlackColor,
+          padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+        ),
         child: Text(
           text,
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w600,
             color: kGreenColor,
-          ),
-        ),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: kBlackColor,
-          padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
           ),
         ),
       ),

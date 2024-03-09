@@ -1,7 +1,7 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
-
-import '../services/auth_service.dart';
 import '../utils/constants.dart';
 
 class SocialAuth extends StatelessWidget {

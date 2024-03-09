@@ -1,6 +1,7 @@
+// ignore_for_file: prefer_const_constructors_in_immutables
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:group9_auth/utils/constants.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);

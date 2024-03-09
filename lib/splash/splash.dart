@@ -1,3 +1,5 @@
+// ignore_for_file: no_leading_underscores_for_local_identifiers, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:group9_auth/pages/intro_page.dart';
 import 'package:lottie/lottie.dart';
@@ -35,15 +37,19 @@ class _SplashPageState extends State<SplashPage> {
     if (!_isDisposed) {
       if (!_seen) {
         await prefs.setBool('seen', true);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => IntroPage()),
-        );
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => IntroPage()),
+          );
+        }
       } else {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => MainPage()),
-        );
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => MainPage()),
+          );
+        }
       }
     }
   }
@@ -56,7 +62,6 @@ class _SplashPageState extends State<SplashPage> {
         scale: 0.5,
         child: Center(
           // Set background color of the container
-
           child: Lottie.network(
             fit: BoxFit.fill,
             "https://lottie.host/d86d8b06-bb7f-438d-9613-0d0b6673fce0/jYPAfJIAKk.json",

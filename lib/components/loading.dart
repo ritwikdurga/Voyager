@@ -16,7 +16,10 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this, duration: const Duration(seconds: 1),);
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
     _controller.repeat();
   }
 
@@ -32,21 +35,22 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
       color: Colors.transparent, // Set the background color to transparent
       child: Center(
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10), // Adjust blur intensity as needed
-            child: AnimatedBuilder(
-              animation: _controller,
-              builder: (context, child) {
-                return Transform.scale(
-                  scale: 0.5, // Adjust the scale factor as needed
-                  child: Lottie.asset(
-                    'assets/animations/loading2.json',
-                    fit: BoxFit.fill,
-                  ),
-                );
-              },
-            ),
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          // Adjust blur intensity as needed
+          child: AnimatedBuilder(
+            animation: _controller,
+            builder: (context, child) {
+              return Transform.scale(
+                scale: 0.5, // Adjust the scale factor as needed
+                child: Lottie.asset(
+                  'assets/animations/loading2.json',
+                  fit: BoxFit.fill,
+                ),
+              );
+            },
           ),
         ),
+      ),
     );
   }
 }

@@ -45,7 +45,7 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
-  void _signUp() async {
+  Future<void> _signUp() async {
     showDialog(
       context: context,
       builder: (context) => const Loading(),
@@ -72,9 +72,14 @@ class _RegisterPageState extends State<RegisterPage> {
         );
         successSnackBar();
         // Close the dialog
+        if (mounted) {
+          Navigator.pop(context);
+        }
         Navigator.pop(context);
       } on FirebaseAuthException catch (e) {
-        Navigator.pop(context);
+        if (mounted) {
+          Navigator.pop(context);
+        }
         if (e.code == 'weak-password') {
           weakPassword();
         } else if (e.code == 'email-already-in-use') {
@@ -89,7 +94,6 @@ class _RegisterPageState extends State<RegisterPage> {
   void successSnackBar() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: kRedColor,
         // Change the background color of the snackbar
 
         content: Center(
