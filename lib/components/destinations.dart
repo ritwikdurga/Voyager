@@ -7,11 +7,13 @@ class Destinations extends StatelessWidget {
     super.key,
     required this.screenWidth,
   });
+
   final double screenWidth;
+
   @override
   Widget build(BuildContext context) {
     return Card(
-      color:Colors.grey[800],
+      color: Colors.grey[800],
       clipBehavior: Clip.hardEdge,
       child: InkWell(
         splashColor: Colors.grey[800],
@@ -19,16 +21,18 @@ class Destinations extends StatelessWidget {
           //redirect to trip page
         },
         child: SizedBox(
-          width: screenWidth/3-10,
-          height: screenWidth*2/3,
+          width: screenWidth / 3 - 10,
+          height: screenWidth * 2 / 3,
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal:5,vertical:10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                 child: ConstrainedBox(
                     constraints: BoxConstraints(
-                        maxHeight: screenWidth/2,
-                        maxWidth: screenWidth/3-20,),
+                      maxHeight: screenWidth / 2,
+                      maxWidth: screenWidth / 3 - 20,
+                    ),
                     child: Image.asset(
                       'assets/images/a.png',
                     )),

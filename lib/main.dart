@@ -38,9 +38,10 @@ class MyApp extends StatelessWidget {
       title: '',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        scaffoldBackgroundColor: kBackgroundColor,
+        scaffoldBackgroundColor: Colors.black,
         textTheme: Theme.of(context).textTheme.apply(
-              bodyColor: kPrimaryColor,
+              // color of the text
+              bodyColor: Colors.white,
               fontFamily: 'ProductSans',
             ),
         useMaterial3: true,

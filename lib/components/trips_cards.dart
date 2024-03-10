@@ -7,7 +7,9 @@ class trips extends StatelessWidget {
     super.key,
     required this.screenWidth,
   });
-  final ShapeBorder shape=RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20)));
+
+  final ShapeBorder shape = RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(20)));
   final double screenWidth;
 
   @override
@@ -28,8 +30,7 @@ class trips extends StatelessWidget {
             color: Colors.grey[800],
             elevation: 0,
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: 5, vertical: 8),
+              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 8),
               child: Row(
                 children: [
                   ConstrainedBox(
@@ -43,8 +44,7 @@ class trips extends StatelessWidget {
                     width: screenWidth / 20,
                   ),
                   Column(
-                    crossAxisAlignment:
-                        CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
@@ -62,23 +62,21 @@ class trips extends StatelessWidget {
                       Text(
                         '31 Mar - 4 Apr',
                         style: TextStyle(
-                          fontWeight: FontWeight.w100,
-                          fontSize: 10,
+                          fontWeight: FontWeight.w200,
+                          fontSize: 14,
                           color: Colors.white,
                         ),
                       ),
                       SizedBox(height: 5),
                       ConstrainedBox(
-                        constraints: BoxConstraints(
-                            maxWidth: screenWidth / 2),
+                        constraints: BoxConstraints(maxWidth: screenWidth / 2),
                         child: Text(
                           overflow: TextOverflow.ellipsis,
                           softWrap: false,
                           maxLines: 2,
-                          'Planning with abc,xyz,ajhsjdfsdfgdfgdfgdsgfdfsgdfdsfdfsfdfsfd',
+                          'Planning with abc,xyz,def,ghi,jkl,mno,pqr,stu,vwx,yz,123,456,789,0',
                           style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w400),
+                              color: Colors.white, fontWeight: FontWeight.w400),
                         ),
                       )
                     ],

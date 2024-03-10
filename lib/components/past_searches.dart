@@ -7,12 +7,15 @@ class PastSearches extends StatelessWidget {
     super.key,
     required this.textData,
   });
+
   final textData;
+
   @override
   Widget build(BuildContext context) {
     return Card(
-      color:Colors.grey[800],
-      shape:RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+      color: Colors.grey[800],
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20))),
       clipBehavior: Clip.hardEdge,
       child: InkWell(
         splashColor: Colors.grey[800],
@@ -21,7 +24,7 @@ class PastSearches extends StatelessWidget {
           debugPrint(textData);
         },
         child: Padding(
-          padding: const EdgeInsets.all(5.0),
+          padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 12),
           child: Text(
             textData,
             style: TextStyle(

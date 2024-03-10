@@ -14,7 +14,7 @@ import '../utils/constants.dart';
 class RegisterPage extends StatefulWidget {
   final Function()? onTap;
 
-  const RegisterPage({Key? key, required this.onTap}) : super(key: key);
+  const RegisterPage({super.key, required this.onTap});
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -71,7 +71,7 @@ class _RegisterPageState extends State<RegisterPage> {
           email: _emailController.text,
           password: _enterPasswordController.text,
         );
-        successSnackBar();
+
         // Close the dialog
         if (mounted) {
           Navigator.pop(context);
@@ -90,25 +90,6 @@ class _RegisterPageState extends State<RegisterPage> {
     } else {
       passMismatch();
     }
-  }
-
-  void successSnackBar() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        // Change the background color of the snackbar
-
-        content: Center(
-          child: Text(
-            'Account created successfully!',
-            style: TextStyle(
-              fontSize: 16, // Change the font size as needed
-              fontFamily: 'ProductSans', // Change the font family as needed
-              color: Colors.white, // Change the font color as needed
-            ),
-          ),
-        ),
-      ),
-    );
   }
 
   void errorSnackBar() {
@@ -347,7 +328,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 20, bottom: 2.5, right: 8.0),
+                          padding: const EdgeInsets.only(
+                              left: 20, bottom: 2.5, right: 8.0),
                           // Added right padding for the IconButton
                           child: Row(
                             children: [
@@ -402,7 +384,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 20.0, right: 8.0, bottom: 2.5),
+                          padding: const EdgeInsets.only(
+                              left: 20.0, right: 8.0, bottom: 2.5),
                           // Added right padding for the IconButton
                           child: Row(
                             children: [
