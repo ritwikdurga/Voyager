@@ -43,6 +43,7 @@ dependencies:
   firebase_auth: ^4.17.7
   google_sign_in: ^6.2.1
   sign_in_with_apple: ^6.0.0
+  iconsax: ^0.0.8
 
 
 dev_dependencies:
@@ -69,6 +70,8 @@ flutter:
   assets:
     - assets/animations/
     - assets/images/
+    - assets/fonts/
+    - assets/svg/
 
   fonts:
     - family: ProductSans

@@ -8,6 +8,7 @@ import 'package:group9_auth/pages/booking_page.dart';
 import 'package:group9_auth/pages/explore_page.dart';
 import 'package:group9_auth/pages/profile_page.dart';
 import 'package:group9_auth/utils/constants.dart';
+import 'package:iconsax/iconsax.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -35,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
-          canvasColor: Colors.black, 
+          canvasColor: Colors.black,
         ),
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
@@ -48,28 +49,34 @@ class _HomeScreenState extends State<HomeScreen> {
           showUnselectedLabels: false,
           selectedItemColor: kGreenColor,
           unselectedItemColor: Colors.grey[600],
+          selectedLabelStyle: TextStyle(
+            fontFamily: 'ProductSans',
+            fontWeight: FontWeight.w600,
+          ),
           items: [
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.home,
+                Iconsax.home,
               ),
-              label:'Explore',
+              label: 'Explore',
+              // style the label
+
             ),
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.confirmation_num_outlined,
+                Iconsax.airplane_square,
               ),
               label:'Booking'
             ),
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.mode_of_travel_outlined,
+                Iconsax.route_square,
               ),
               label: 'Add trips',
             ),
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.account_circle_outlined,
+                Iconsax.user,
               ),
               label: 'Profile',
             ),

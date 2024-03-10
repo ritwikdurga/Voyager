@@ -265,10 +265,10 @@ class _RegisterPageState extends State<RegisterPage> {
                               fontSize: 18,
                             ),
                             controller: _nameController,
+                            keyboardType: TextInputType.name,
                             decoration: InputDecoration(
                               hintText: "Name",
                               hintStyle: TextStyle(
-                                color: Colors.black,
                                 fontSize: 17,
                                 fontFamily: "ProductSans",
                               ),
@@ -297,10 +297,10 @@ class _RegisterPageState extends State<RegisterPage> {
                               fontSize: 18,
                             ),
                             controller: _emailController,
+                            keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
                               hintText: "Email",
                               hintStyle: TextStyle(
-                                color: Colors.black,
                                 fontSize: 17,
                                 fontFamily: "ProductSans",
                               ),
@@ -335,11 +335,11 @@ class _RegisterPageState extends State<RegisterPage> {
                                     fontSize: 18,
                                   ),
                                   controller: _enterPasswordController,
+                                  keyboardType: TextInputType.visiblePassword,
                                   obscureText: !_isEnterPasswordVisible,
                                   decoration: InputDecoration(
                                     hintText: "Enter Password",
                                     hintStyle: TextStyle(
-                                      color: Colors.black,
                                       fontSize: 17,
                                       fontFamily: "ProductSans",
                                     ),
@@ -385,11 +385,11 @@ class _RegisterPageState extends State<RegisterPage> {
                                     fontSize: 18,
                                   ),
                                   controller: _confirmPasswordController,
+                                  keyboardType: TextInputType.visiblePassword,
                                   obscureText: !_isConfirmPasswordVisible,
                                   decoration: InputDecoration(
                                     hintText: "Confirm Password",
                                     hintStyle: TextStyle(
-                                      color: Colors.black,
                                       fontSize: 17,
                                       fontFamily: "ProductSans",
                                     ),

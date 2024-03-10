@@ -5,6 +5,20 @@ class AddTrips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('Add Trips');
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: SafeArea(
+        // text widget
+        child: Center(
+          child: Text('Add Trips',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 30,
+              )
+
+          ),
+        ),
+      ),
+    );
   }
 }

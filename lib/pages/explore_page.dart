@@ -9,6 +9,7 @@ class Explore extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: GestureDetector(
           onTap: () {
@@ -17,7 +18,12 @@ class Explore extends StatelessWidget {
           child: Column(
             children: [
               Search(),
-              Text('Hello'),       
+              Text("Explore",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                  )
+              ),
             ],
           ),
         ),

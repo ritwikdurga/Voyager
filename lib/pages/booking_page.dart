@@ -5,6 +5,20 @@ class Booking extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('Booking Page');
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: SafeArea(
+          // text widget
+          child: Center(
+            child: Text('Booking',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
+                )
+
+            ),
+          ),
+        ),
+    );
   }
 }

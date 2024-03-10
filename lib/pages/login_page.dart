@@ -209,6 +209,7 @@ class _LoginPageState extends State<LoginPage> {
                               left: 20.0, top: 10, bottom: 6),
                           child: TextField(
                             controller: _emailController,
+                            keyboardType: TextInputType.emailAddress,
                             style: TextStyle(
                               fontFamily: "ProductSans",
                               color: Colors.black,
@@ -226,7 +227,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 16),
+                    SizedBox(height: 12),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
                       child: Container(
@@ -245,6 +246,7 @@ class _LoginPageState extends State<LoginPage> {
                               Expanded(
                                 child: TextField(
                                   controller: _passwordController,
+                                  keyboardType: TextInputType.visiblePassword,
                                   obscureText: !_isPasswordVisible,
                                   style: TextStyle(
                                     fontFamily: "ProductSans",
