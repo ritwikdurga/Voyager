@@ -7,6 +7,7 @@ import 'package:group9_auth/components/loading.dart';
 import 'package:group9_auth/components/my_button.dart';
 import 'package:group9_auth/pages/register_page.dart';
 import 'package:group9_auth/services/auth_service.dart';
+import 'package:iconsax/iconsax.dart';
 import '../components/third_party.dart';
 import '../utils/constants.dart';
 import 'forgot_pw_page.dart';
@@ -195,8 +196,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     SizedBox(height: 50),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 25.0, vertical: 8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 8.0),
                       child: Container(
                         height: 60,
                         decoration: BoxDecoration(
@@ -205,24 +205,38 @@ class _LoginPageState extends State<LoginPage> {
                           borderRadius: BorderRadius.circular(25),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 20.0, top: 10, bottom: 6),
-                          child: TextField(
-                            controller: _emailController,
-                            keyboardType: TextInputType.emailAddress,
-                            style: TextStyle(
-                              fontFamily: "ProductSans",
-                              color: Colors.black,
-                              fontSize: 18,
-                            ),
-                            decoration: InputDecoration(
-                              hintText: "Email",
-                              hintStyle: TextStyle(
-                                fontSize: 18,
-                                fontFamily: "ProductSans",
+                          padding: const EdgeInsets.only(left: 20.0, top: 10, bottom: 6),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 6.5),
+                                child: Icon(
+                                  Iconsax.sms,
+                                  color: Colors.grey[700],
+                                  size: 20,
+                                ),
                               ),
-                              border: InputBorder.none,
-                            ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                child: TextField(
+                                  controller: _emailController,
+                                  keyboardType: TextInputType.emailAddress,
+                                  style: TextStyle(
+                                    fontFamily: "ProductSans",
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                  ),
+                                  decoration: InputDecoration(
+                                    hintText: "Email",
+                                    hintStyle: TextStyle(
+                                      fontSize: 18,
+                                      fontFamily: "ProductSans",
+                                    ),
+                                    border: InputBorder.none,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -238,11 +252,18 @@ class _LoginPageState extends State<LoginPage> {
                           borderRadius: BorderRadius.circular(25),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 20.0, top: 10, bottom: 6, right: 8),
+                          padding: const EdgeInsets.only(left: 20.0, top: 10, bottom: 6, right: 8),
                           child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 6.5),
+                                child: Icon(
+                                  Iconsax.lock_1,
+                                  color: Colors.grey[700],
+                                  size: 20,
+                                ),
+                              ),
+                              SizedBox(width: 10),
                               Expanded(
                                 child: TextField(
                                   controller: _passwordController,
@@ -265,12 +286,11 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 6),
-                                // Adjust top or bottom padding to move the eye icon up or down
                                 child: IconButton(
                                   icon: Icon(
                                     _isPasswordVisible
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
+                                        ? Iconsax.eye
+                                        : Iconsax.eye_slash,
                                     color: Colors.grey,
                                   ),
                                   onPressed: _togglePasswordVisibility,

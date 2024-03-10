@@ -6,6 +6,7 @@ import 'package:group9_auth/components/back_ground/animatedbck.dart';
 import 'package:group9_auth/components/my_button.dart';
 import 'package:group9_auth/components/third_party.dart';
 import 'package:group9_auth/services/auth_service.dart';
+import 'package:iconsax/iconsax.dart';
 
 import '../components/loading.dart';
 import '../utils/constants.dart';
@@ -258,26 +259,39 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.only(left: 20, bottom: 2.5),
-                          child: TextField(
-                            style: TextStyle(
-                              fontFamily: "ProductSans",
-                              color: Colors.black,
-                              fontSize: 18,
-                            ),
-                            controller: _nameController,
-                            keyboardType: TextInputType.name,
-                            decoration: InputDecoration(
-                              hintText: "Name",
-                              hintStyle: TextStyle(
-                                fontSize: 17,
-                                fontFamily: "ProductSans",
+                          child: Row(
+                            children: [
+                              Icon(
+                                Iconsax.user,
+                                color: Colors.grey[700],
+                                size: 20,
                               ),
-                              border: InputBorder.none,
-                            ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                child: TextField(
+                                  style: TextStyle(
+                                    fontFamily: "ProductSans",
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                  ),
+                                  controller: _nameController,
+                                  keyboardType: TextInputType.name,
+                                  decoration: InputDecoration(
+                                    hintText: "Name",
+                                    hintStyle: TextStyle(
+                                      fontSize: 17,
+                                      fontFamily: "ProductSans",
+                                    ),
+                                    border: InputBorder.none,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ),
+
                     SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -290,22 +304,34 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.only(left: 20, bottom: 2.5),
-                          child: TextField(
-                            style: TextStyle(
-                              fontFamily: "ProductSans",
-                              color: Colors.black,
-                              fontSize: 18,
-                            ),
-                            controller: _emailController,
-                            keyboardType: TextInputType.emailAddress,
-                            decoration: InputDecoration(
-                              hintText: "Email",
-                              hintStyle: TextStyle(
-                                fontSize: 17,
-                                fontFamily: "ProductSans",
+                          child: Row(
+                            children: [
+                              Icon(
+                                Iconsax.sms,
+                                color: Colors.grey[700],
+                                size: 20,
                               ),
-                              border: InputBorder.none,
-                            ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                child: TextField(
+                                  style: TextStyle(
+                                    fontFamily: "ProductSans",
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                  ),
+                                  controller: _emailController,
+                                  keyboardType: TextInputType.emailAddress,
+                                  decoration: InputDecoration(
+                                    hintText: "Email",
+                                    hintStyle: TextStyle(
+                                      fontSize: 17,
+                                      fontFamily: "ProductSans",
+                                    ),
+                                    border: InputBorder.none,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -321,12 +347,16 @@ class _RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 20.0, right: 8.0, bottom: 2.5),
+                          padding: const EdgeInsets.only(left: 20, bottom: 2.5, right: 8.0),
                           // Added right padding for the IconButton
-
                           child: Row(
                             children: [
+                              Icon(
+                                Iconsax.lock_1,
+                                color: Colors.grey[700],
+                                size: 20,
+                              ),
+                              SizedBox(width: 10),
                               Expanded(
                                 child: TextField(
                                   style: TextStyle(
@@ -350,8 +380,8 @@ class _RegisterPageState extends State<RegisterPage> {
                               IconButton(
                                 icon: Icon(
                                   _isEnterPasswordVisible
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
+                                      ? Iconsax.eye
+                                      : Iconsax.eye_slash,
                                   color: Colors.grey,
                                 ),
                                 onPressed: _toggleEnterPasswordVisibility,
@@ -372,11 +402,16 @@ class _RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 20.0, right: 8.0, bottom: 2.5),
+                          padding: const EdgeInsets.only(left: 20.0, right: 8.0, bottom: 2.5),
                           // Added right padding for the IconButton
                           child: Row(
                             children: [
+                              Icon(
+                                Iconsax.lock_1,
+                                color: Colors.grey[700],
+                                size: 20,
+                              ),
+                              SizedBox(width: 10),
                               Expanded(
                                 child: TextField(
                                   style: TextStyle(
@@ -400,8 +435,8 @@ class _RegisterPageState extends State<RegisterPage> {
                               IconButton(
                                 icon: Icon(
                                   _isConfirmPasswordVisible
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
+                                      ? Iconsax.eye
+                                      : Iconsax.eye_slash,
                                   color: Colors.grey,
                                 ),
                                 onPressed: _toggleConfirmPasswordVisibility,
