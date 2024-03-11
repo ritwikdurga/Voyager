@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
     // Determine the next screen based on some condition
     if (!_seeeeen) {
       return Future.value(
-          MainPage()); // Return the MainPage if condition is true
+          MainPage(isRegistered: false,)); // Return the MainPage if condition is true
     } else {
       return Future.value(
           IntroPage()); // Return an alternate page if condition is false

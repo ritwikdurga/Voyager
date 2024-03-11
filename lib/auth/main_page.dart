@@ -7,10 +7,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:group9_auth/auth/verify_email.dart';
+import 'package:group9_auth/home_screen.dart';
 import 'login_or_register.dart';
 
 class MainPage extends StatelessWidget {
-  const MainPage({super.key});
+  bool isRegistered = false;
+
+  MainPage({super.key, required this.isRegistered});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,10 @@ class MainPage extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         } else if (snapshot.hasData) {
-          return VerifyEmailPage();
+          if (isRegistered == true) {
+            return const VerifyEmailPage();
+          }
+          return HomeScreen();
         } else if (snapshot.hasError) {
           return const Center(
             child: Text('Something went wrong'),

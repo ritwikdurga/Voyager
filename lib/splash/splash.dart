@@ -47,7 +47,7 @@ class _SplashPageState extends State<SplashPage> {
         if (mounted) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => MainPage()),
+            MaterialPageRoute(builder: (context) => MainPage(isRegistered: false,)),
           );
         }
       }

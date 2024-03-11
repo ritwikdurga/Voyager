@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:group9_auth/auth/main_page.dart';
 import 'package:group9_auth/components/back_ground/animatedbck.dart';
 import 'package:group9_auth/components/my_button.dart';
 import 'package:group9_auth/components/third_party.dart';
@@ -76,7 +77,12 @@ class _RegisterPageState extends State<RegisterPage> {
         if (mounted) {
           Navigator.pop(context);
         }
-        Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MainPage(isRegistered: true)
+          ),
+        );
       } on FirebaseAuthException catch (e) {
         if (mounted) {
           Navigator.pop(context);
