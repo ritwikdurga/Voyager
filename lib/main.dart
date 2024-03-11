@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors, no_leading_underscores_for_local_identifiers
 
 import 'package:flutter/material.dart';
-import 'package:group9_auth/pages/intro_page.dart';
-import 'package:group9_auth/splash/splash.dart';
-import 'package:group9_auth/utils/constants.dart';
+import 'package:voyager/pages/intro_page.dart';
+import 'package:voyager/splash/splash.dart';
+import 'package:voyager/utils/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'auth/main_page.dart';

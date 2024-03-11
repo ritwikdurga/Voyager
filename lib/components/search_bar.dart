@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import "package:flutter/material.dart";
-import "package:group9_auth/utils/constants.dart";
+import "package:voyager/utils/constants.dart";
 
 class Search extends StatefulWidget {
   const Search({super.key});

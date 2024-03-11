@@ -2,11 +2,11 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:group9_auth/auth/main_page.dart';
-import 'package:group9_auth/components/back_ground/animatedbck.dart';
-import 'package:group9_auth/components/my_button.dart';
-import 'package:group9_auth/components/third_party.dart';
-import 'package:group9_auth/services/auth_service.dart';
+import 'package:voyager/auth/main_page.dart';
+import 'package:voyager/components/back_ground/animatedbck.dart';
+import 'package:voyager/components/my_button.dart';
+import 'package:voyager/components/third_party.dart';
+import 'package:voyager/services/auth_service.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../components/loading.dart';

@@ -1,11 +1,11 @@
 // ignore_for_file:  prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:group9_auth/components/destinations.dart';
-import 'package:group9_auth/components/past_searches.dart';
-import 'package:group9_auth/components/search_bar.dart';
-import 'package:group9_auth/components/trips_cards.dart';
-import 'package:group9_auth/utils/constants.dart';
+import 'package:voyager/components/destinations.dart';
+import 'package:voyager/components/past_searches.dart';
+import 'package:voyager/components/search_bar.dart';
+import 'package:voyager/components/trips_cards.dart';
+import 'package:voyager/utils/constants.dart';
 
 class Explore extends StatefulWidget {
   const Explore({super.key});

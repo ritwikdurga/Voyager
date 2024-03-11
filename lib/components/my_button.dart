@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:group9_auth/utils/constants.dart';
+import 'package:voyager/utils/constants.dart';
 
 class MyButton extends StatelessWidget {
   const MyButton({Key? key, required this.onPressed, required this.text})

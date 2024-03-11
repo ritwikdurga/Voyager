@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:group9_auth/auth/verify_email.dart';
-import 'package:group9_auth/home_screen.dart';
+import 'package:voyager/auth/verify_email.dart';
+import 'package:voyager/home_screen.dart';
 import 'login_or_register.dart';
 
 class MainPage extends StatelessWidget {

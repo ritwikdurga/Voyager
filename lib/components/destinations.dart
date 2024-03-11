@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, camel_case_types
 
 import "package:flutter/material.dart";
-import "package:group9_auth/utils/constants.dart";
+import "package:voyager/utils/constants.dart";
 
 class Destinations extends StatelessWidget {
   const Destinations({

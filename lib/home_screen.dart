@@ -3,11 +3,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:group9_auth/pages/add_trips_page.dart';
-import 'package:group9_auth/pages/booking_page.dart';
-import 'package:group9_auth/pages/explore_page.dart';
-import 'package:group9_auth/pages/profile_page.dart';
-import 'package:group9_auth/utils/constants.dart';
+import 'package:voyager/pages/add_trips_page.dart';
+import 'package:voyager/pages/booking_page.dart';
+import 'package:voyager/pages/explore_page.dart';
+import 'package:voyager/pages/profile_page.dart';
+import 'package:voyager/utils/constants.dart';
 import 'package:iconsax/iconsax.dart';
 
 class HomeScreen extends StatefulWidget {

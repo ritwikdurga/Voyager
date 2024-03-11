@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:group9_auth/auth/login_or_register.dart';
+import 'package:voyager/auth/login_or_register.dart';
 
 void main() {
   runApp(MaterialApp(

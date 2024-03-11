@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:group9_auth/utils/constants.dart';
+import 'package:voyager/utils/constants.dart';
 
 import '../home_screen.dart';
 
