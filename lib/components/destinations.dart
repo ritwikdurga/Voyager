@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, camel_case_types
 
 import "package:flutter/material.dart";
+import "package:group9_auth/utils/constants.dart";
 
 class Destinations extends StatelessWidget {
   const Destinations({
@@ -13,7 +14,9 @@ class Destinations extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.grey[800],
+      color: Colors.black,
+      shadowColor: kGreenColor,
+      elevation:10,
       clipBehavior: Clip.hardEdge,
       child: InkWell(
         splashColor: Colors.grey[800],

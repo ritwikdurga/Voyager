@@ -1,25 +1,30 @@
-// ignore_for_file: prefer_const_constructors, camel_case_types
-
 import "package:flutter/material.dart";
+import "package:group9_auth/utils/constants.dart";
 
 class trips extends StatelessWidget {
   trips({
-    super.key,
+    Key? key,
     required this.screenWidth,
-  });
+  }) : super(key: key);
 
   final ShapeBorder shape = RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(20)));
+    borderRadius: BorderRadius.all(Radius.circular(20)),
+  );
   final double screenWidth;
 
   @override
   Widget build(BuildContext context) {
     return Card(
+
       clipBehavior: Clip.hardEdge,
       shape: shape,
-      color: Colors.grey[800],
+      color: Colors.black,
+      elevation: 10,
+      shadowColor: kGreenColor,
+      // Set shadowColor to transparent to avoid duplicate shadows
+
       child: InkWell(
-        splashColor: Colors.grey[800],
+        splashColor: Colors.black,
         onTap: () {
           // redirect to planning page.
         },
@@ -27,19 +32,22 @@ class trips extends StatelessWidget {
           height: screenWidth / 3,
           width: screenWidth - 10,
           child: Card(
-            color: Colors.grey[800],
-            elevation: 0,
+            shape: shape,
+            color: Colors.black,
+            elevation: 9,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 5, vertical: 8),
               child: Row(
                 children: [
                   ConstrainedBox(
-                      constraints: BoxConstraints(
-                          maxHeight: (screenWidth / 3) - 16,
-                          maxWidth: screenWidth / 3),
-                      child: Image.asset(
-                        'assets/images/a.png',
-                      )),
+                    constraints: BoxConstraints(
+                      maxHeight: (screenWidth / 3) - 16,
+                      maxWidth: screenWidth / 3,
+                    ),
+                    child: Image.asset(
+                      'assets/images/a.png',
+                    ),
+                  ),
                   SizedBox(
                     width: screenWidth / 20,
                   ),
@@ -48,9 +56,6 @@ class trips extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: false,
-                        maxLines: 1,
                         'Paris Trip',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -69,14 +74,14 @@ class trips extends StatelessWidget {
                       ),
                       SizedBox(height: 5),
                       ConstrainedBox(
-                        constraints: BoxConstraints(maxWidth: screenWidth / 2),
+                        constraints:
+                            BoxConstraints(maxWidth: screenWidth / 2),
                         child: Text(
-                          overflow: TextOverflow.ellipsis,
-                          softWrap: false,
-                          maxLines: 2,
                           'Planning with abc,xyz,def,ghi,jkl,mno,pqr,stu,vwx,yz,123,456,789,0',
                           style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.w400),
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       )
                     ],
