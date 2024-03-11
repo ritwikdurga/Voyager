@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,7 +7,7 @@ import 'package:group9_auth/utils/constants.dart';
 import '../home_screen.dart';
 
 class VerifyEmailPage extends StatefulWidget {
-  const VerifyEmailPage({super.key});
+  const VerifyEmailPage({Key? key}) : super(key: key);
 
   @override
   State<VerifyEmailPage> createState() => _VerifyEmailPageState();
@@ -47,7 +45,30 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
         isEmailVerified = true;
       });
       successSnackBar();
+
+      // Create the user account after email verification
+      await createUserAccount();
+
+      // Navigate to home screen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
     }
+  }
+
+  Future<void> createUserAccount() async {
+    // Get user information
+    User? user = FirebaseAuth.instance.currentUser;
+
+    // Create the user account in your database or perform any other required tasks
+    // For example, you can create a user document in Firestore
+
+    // Example:
+    // await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+    //   'email': user.email,
+    //   // Add other user details if needed
+    // });
   }
 
   void successSnackBar() {
@@ -70,12 +91,6 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    timer?.cancel();
-  }
-
   Future<void> sendVerificationEmail() async {
     try {
       await FirebaseAuth.instance.currentUser!.sendEmailVerification();
@@ -92,112 +107,119 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   }
 
   @override
-  Widget build(BuildContext context) => isEmailVerified
-      ? HomeScreen()
-      : Scaffold(
-          backgroundColor: Colors.black,
-          appBar: AppBar(
-            backgroundColor: Colors.black,
-            title: const Text(
-              'Verify Email',
+  void dispose() {
+    super.dispose();
+    timer?.cancel();
+  }
+
+  @override
+  Widget build(BuildContext context) => PopScope(
+    canPop: false, // Disable back button
+    child: Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: const Text(
+          'Verify Email',
+          style: TextStyle(
+            color: kGreenColor,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'An email has been sent to your email address',
               style: TextStyle(
-                color: kGreenColor,
-                fontSize: 24,
+                color: Colors.white,
+                fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),
-          ),
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'An email has been sent to your email address',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const Text(
-                  'Please verify',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Container(
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5), // Shadow color
-                        spreadRadius: 3, // Spread radius
-                        blurRadius: 5, // Blur radius
-                        offset: Offset(0, 0), // Offset in x and y directions
-                      ),
-                    ],
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      await sendVerificationEmail();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      // You can customize the button's appearance here
-                      foregroundColor: kGreenColor,
-                      backgroundColor: Colors.white, // Text color
-                    ),
-                    child: const Text(
-                      'Resend email',
-                      style: TextStyle(
-                        color: kGreenColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-
-                // add a cancel button to cancel the verification go back to the login page
-                const SizedBox(height: 20),
-                Container(
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5), // Shadow color
-                        spreadRadius: 3, // Spread radius
-                        blurRadius: 5, // Blur radius
-                        offset: Offset(0, 0), // Offset in x and y directions
-                      ),
-                    ],
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      // delete that account if created
-                      await FirebaseAuth.instance.currentUser!.delete();
-                      // go back to the login page
-                      Navigator.of(context).pop();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      // You can customize the button's appearance here
-                      foregroundColor: kGreenColor,
-                      backgroundColor: Colors.white, // Text color
-                    ),
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(
-                        color: kGreenColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+            const Text(
+              'Please verify',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-        );
+            const SizedBox(height: 20),
+            Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5), // Shadow color
+                    spreadRadius: 3, // Spread radius
+                    blurRadius: 5, // Blur radius
+                    offset: Offset(0, 0), // Offset in x and y directions
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: ElevatedButton(
+                onPressed: () async {
+                  await sendVerificationEmail();
+                },
+                style: ElevatedButton.styleFrom(
+                  // You can customize the button's appearance here
+                  foregroundColor: kGreenColor,
+                  backgroundColor: Colors.white, // Text color
+                ),
+                child: const Text(
+                  'Resend email',
+                  style: TextStyle(
+                    color: kGreenColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+
+            // Add a cancel button to cancel the verification and go back to the login page
+            const SizedBox(height: 20),
+            Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5), // Shadow color
+                    spreadRadius: 3, // Spread radius
+                    blurRadius: 5, // Blur radius
+                    offset: Offset(0, 0), // Offset in x and y directions
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: ElevatedButton(
+                onPressed: () async {
+                  // Delete the user account if created
+                  await FirebaseAuth.instance.currentUser!.delete();
+                  // Go back to the login page
+                  Navigator.of(context).pop();
+                },
+                style: ElevatedButton.styleFrom(
+                  // You can customize the button's appearance here
+                  foregroundColor: kGreenColor,
+                  backgroundColor: Colors.white, // Text color
+                ),
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(
+                    color: kGreenColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }
