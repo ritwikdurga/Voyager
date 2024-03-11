@@ -17,7 +17,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   int myIndex=0;
   List<Widget> widgetList=[
     Explore(),
@@ -25,8 +25,31 @@ class _HomeScreenState extends State<HomeScreen> {
     AddTrips(),
     Profile(),
   ];
+  bool isKeyboardVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    final bottomInset = WidgetsBinding.instance?.window.viewInsets.bottom ?? 0.0;
+    setState(() {
+      isKeyboardVisible = bottomInset > 0.0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       body:Center(
         child: IndexedStack(
@@ -34,7 +57,9 @@ class _HomeScreenState extends State<HomeScreen> {
           children: widgetList,
         ),
       ),
-      bottomNavigationBar: Theme(
+      resizeToAvoidBottomInset:false,
+      bottomNavigationBar: !isKeyboardVisible
+      ? Theme(
         data: Theme.of(context).copyWith(
           canvasColor: Colors.black,
         ),
@@ -60,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               label: 'Explore',
               // style the label
-
+      
             ),
             BottomNavigationBarItem(
               icon: Icon(
@@ -82,7 +107,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-      ),
+      )
+      :null
     );
   }
 }
