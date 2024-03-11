@@ -30,7 +30,7 @@ class _ExploreState extends State<Explore> {
               children: [
                 Search(),
                 SizedBox(
-                  height: 10,
+                  height: 12,
                 ),
                 Row(
                   children: [
@@ -61,7 +61,7 @@ class _ExploreState extends State<Explore> {
                   ),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 12,
                 ),
                 Row(
                   children: [
@@ -97,7 +97,7 @@ class _ExploreState extends State<Explore> {
                       ],
                     )),
                 SizedBox(
-                  height: 10,
+                  height: 12,
                 ),
                 Row(
                   children: [
@@ -132,7 +132,7 @@ class _ExploreState extends State<Explore> {
                   ]),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 12,
                 ),
                 Row(
                   children: [

@@ -13,45 +13,48 @@ class Destinations extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.black,
-      shadowColor: kGreenColor,
-      elevation:10,
-      clipBehavior: Clip.hardEdge,
-      child: InkWell(
-        splashColor: Colors.grey[800],
-        onTap: () {
-          //redirect to trip page
-        },
-        child: SizedBox(
-          width: screenWidth / 3 - 10,
-          height: screenWidth * 2 / 3,
-          child: Column(
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxHeight: screenWidth / 2,
-                      maxWidth: screenWidth / 3 - 20,
-                    ),
-                    child: Image.asset(
-                      'assets/images/a.png',
-                    )),
-              ),
-              Text(
-                'Paris',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
+    return Container(
+      margin: EdgeInsets.all(3),
+      child: Card(
+        color: Colors.black,
+        shadowColor: Colors.white,
+        elevation:8,
+        clipBehavior: Clip.hardEdge,
+        child: InkWell(
+          splashColor: Colors.grey[800],
+          onTap: () {
+            //redirect to trip page
+          },
+          child: SizedBox(
+            width: screenWidth / 3 - 12,
+            height: screenWidth * 2 / 3,
+            child: Column(
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                  child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxHeight: screenWidth / 2,
+                        maxWidth: screenWidth / 3 - 20,
+                      ),
+                      child: Image.asset(
+                        'assets/images/a.png',
+                      )),
                 ),
-                overflow: TextOverflow.ellipsis,
-                softWrap: false,
-                maxLines: 1,
-              ),
-            ],
+                Text(
+                  'Paris',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  softWrap: false,
+                  maxLines: 1,
+                ),
+              ],
+            ),
           ),
         ),
       ),

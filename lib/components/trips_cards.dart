@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import "package:flutter/material.dart";
 import "package:group9_auth/utils/constants.dart";
 
@@ -19,8 +21,8 @@ class trips extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       shape: shape,
       color: Colors.black,
-      elevation: 10,
-      shadowColor: kGreenColor,
+      elevation: 8,
+      shadowColor: Colors.white,
       // Set shadowColor to transparent to avoid duplicate shadows
 
       child: InkWell(
@@ -62,6 +64,8 @@ class trips extends StatelessWidget {
                           color: Colors.white,
                           fontSize: 24,
                         ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
                       SizedBox(height: 0.25),
                       Text(
@@ -82,6 +86,8 @@ class trips extends StatelessWidget {
                             color: Colors.white,
                             fontWeight: FontWeight.w400,
                           ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
                         ),
                       )
                     ],

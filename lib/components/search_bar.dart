@@ -10,6 +10,16 @@ class Search extends StatefulWidget {
   State<Search> createState() => _SearchState();
 }
 
+class SelectedBorder extends RoundedRectangleBorder
+    implements MaterialStateOutlinedBorder {
+  const SelectedBorder();
+
+  @override
+  OutlinedBorder? resolve(Set<MaterialState> states) {
+    return const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15)));   
+  }
+}
+
 class _SearchState extends State<Search> {
   final SearchController controller = SearchController();
   @override
@@ -18,10 +28,12 @@ class _SearchState extends State<Search> {
       padding: const EdgeInsets.all(8.0),
       child: SearchAnchor(
         searchController: controller,
-        viewBackgroundColor: Colors.white,
-        viewSurfaceTintColor: Colors.white,
+        viewBackgroundColor: Colors.black,
+        viewSurfaceTintColor: Colors.black,
         isFullScreen: false,
         viewHintText: 'Where To?',
+        headerTextStyle: TextStyle(color: Colors.white,),
+        headerHintStyle: TextStyle(color:Colors.white),
         viewLeading: IconButton(
             onPressed: () {
               controller.clear();
@@ -30,9 +42,13 @@ class _SearchState extends State<Search> {
               FocusManager.instance.primaryFocus?.unfocus();
               
             },
-            icon: Icon(Icons.arrow_back_rounded)),
+            icon: Icon(Icons.arrow_back_rounded,color: Colors.white,)),
+        viewTrailing: [IconButton(onPressed: (){
+          controller.clear();
+                  }, icon: Icon(Icons.close,color: Colors.white,))],
         builder: (BuildContext context, SearchController controller) {
           return SearchBar(
+            shape:SelectedBorder(),
             controller: controller,
             focusNode: FocusNode(),
             padding: const MaterialStatePropertyAll<EdgeInsets>(
@@ -50,16 +66,19 @@ class _SearchState extends State<Search> {
               }
               FocusScope.of(context).unfocus();
             },
-            leading: const Icon(Icons.search),
+            leading: const Icon(Icons.search,color: Colors.white,),
             hintText: 'Where To?',
             backgroundColor:
-                MaterialStateColor.resolveWith((states) => Colors.white),
+                MaterialStateColor.resolveWith((states) => Colors.black),
+            shadowColor: MaterialStateColor.resolveWith((states) => Colors.white),
+            elevation: MaterialStateProperty.resolveWith((states) => 1),
             hintStyle: MaterialStateProperty.resolveWith(
               (states) => TextStyle(
-                color: Colors.black,
+                color: Colors.white,
                 fontFamily: 'ProductSans',
               ),
             ),
+            textStyle: MaterialStateProperty.resolveWith((states) => TextStyle(color: Colors.white,)),
           );
         },
         suggestionsBuilder:
@@ -67,14 +86,14 @@ class _SearchState extends State<Search> {
           return List<Widget>.generate(15, (int index) {
             final String item = 'item $index';
             return Container(
-              color: Colors.white,
+              color: Colors.black,
               child: Padding(
                 padding: const EdgeInsets.only(left: 18.0),
                 child: ListTile(
                   title: Text(
                     item,
                     style: TextStyle(
-                      color: Colors.black,
+                      color: Colors.white,
                       fontWeight: FontWeight.w400,
                       fontFamily: 'ProductSans',
                     ),
