@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:voyager/pages/intro_page.dart';
 import 'package:voyager/splash/splash.dart';
+import 'package:voyager/utils/colors.dart';
 import 'package:voyager/utils/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,16 +37,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: '',
+
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.black,
-        textTheme: Theme.of(context).textTheme.apply(
-              // color of the text
-              bodyColor: Colors.white,
-              fontFamily: 'ProductSans',
-            ),
-        useMaterial3: true,
-      ),
       home: SplashPage(), //main page as the main page
       // will check if the user is logged in or not
       // and return the home page or the login page

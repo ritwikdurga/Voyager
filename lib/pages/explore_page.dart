@@ -39,7 +39,7 @@ class _ExploreState extends State<Explore> {
                       child: Text(
                         'Continue Planning',
                         style: TextStyle(
-                          color: kGreenColor,
+                          color: Colors.blueAccent,
                           fontWeight: FontWeight.bold,
                           fontSize: 24,
                         ),
@@ -70,7 +70,7 @@ class _ExploreState extends State<Explore> {
                       child: Text(
                         'For You',
                         style: TextStyle(
-                          color: kGreenColor,
+                          color: Colors.blueAccent,
                           fontWeight: FontWeight.bold,
                           fontSize: 24,
                         ),
@@ -107,7 +107,7 @@ class _ExploreState extends State<Explore> {
                         'Your Searches',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: kGreenColor,
+                          color: Colors.blueAccent,
                           fontSize: 24,
                         ),
                       ),
@@ -141,7 +141,7 @@ class _ExploreState extends State<Explore> {
                       child: Text(
                         'Popular Destinations',
                         style: TextStyle(
-                          color: kGreenColor,
+                          color: Colors.blueAccent,
                           fontWeight: FontWeight.bold,
                           fontSize: 24,
                         ),

@@ -17,11 +17,9 @@ class Destinations extends StatelessWidget {
       margin: EdgeInsets.all(3),
       child: Card(
         color: Colors.black,
-        shadowColor: Colors.white,
-        elevation:8,
         clipBehavior: Clip.hardEdge,
         child: InkWell(
-          splashColor: Colors.grey[800],
+          splashColor: Colors.blueAccent,
           onTap: () {
             //redirect to trip page
           },

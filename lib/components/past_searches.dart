@@ -13,12 +13,12 @@ class PastSearches extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.grey[800],
+      color: Colors.black,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(20))),
       clipBehavior: Clip.hardEdge,
       child: InkWell(
-        splashColor: Colors.grey[800],
+        splashColor: Colors.blueAccent,
         onTap: () {
           //searchState.performSearch("Search Term");
           debugPrint(textData);
