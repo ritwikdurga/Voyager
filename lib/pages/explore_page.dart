@@ -1,13 +1,14 @@
 // ignore_for_file:  prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/components/destinations.dart';
 import 'package:voyager/components/past_searches.dart';
 import 'package:voyager/components/search_bar.dart';
 import 'package:voyager/components/trips_cards.dart';
+import 'package:voyager/pages/continue_planning_page.dart';
 import 'package:voyager/utils/constants.dart';
-
 import '../utils/colors.dart';
 
 class Explore extends StatefulWidget {
@@ -51,6 +52,37 @@ class _ExploreState extends State<Explore> {
                         ),
                       ),
                     ),
+                    Expanded(child: Container()),
+                    GestureDetector(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'View All',
+                              style: TextStyle(
+                                color: themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.black,
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: themeProvider.themeMode == ThemeMode.dark
+                                  ? Colors.white
+                                  : Colors.black,
+                              size: 12,
+                            ),
+                          ],
+                        ),
+                      ),
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(
+                              builder: (context) => ContPlanning()));
+                      },
+                    )
                   ],
                 ),
                 SizedBox(

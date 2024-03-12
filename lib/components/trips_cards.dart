@@ -25,7 +25,7 @@ class trips extends StatelessWidget {
           ? Colors.black
           : Colors.white,
       // Set shadowColor to transparent to avoid duplicate shadows
-
+    
       child: InkWell(
         splashColor: Colors.blueAccent,
         onTap: () {
@@ -35,7 +35,7 @@ class trips extends StatelessWidget {
           height: screenWidth / 3,
           width: screenWidth - 10,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+            padding: EdgeInsets.fromLTRB(18,8,0,8),
             child: Row(
               children: [
                 ConstrainedBox(

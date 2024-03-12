@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import "package:flutter/material.dart";
+import "package:iconsax/iconsax.dart";
 import "package:provider/provider.dart";
 import "package:voyager/utils/constants.dart";
 
@@ -40,7 +41,7 @@ class _SearchState extends State<Search> {
         viewSurfaceTintColor: themeProvider.themeMode == ThemeMode.dark
             ? Colors.black
             : Colors.white,
-        isFullScreen: false,
+        //isFullScreen: false,
         viewHintText: 'Where To?',
         headerTextStyle: TextStyle(
           color: themeProvider.themeMode == ThemeMode.dark
@@ -54,7 +55,7 @@ class _SearchState extends State<Search> {
         ),
         viewLeading: IconButton(
             onPressed: () {
-              controller.clear();
+              controller?.clear();
               Navigator.pop(context);
               FocusScope.of(context).unfocus();
               FocusManager.instance.primaryFocus?.unfocus();
@@ -150,6 +151,7 @@ class _SearchState extends State<Search> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 18.0),
                 child: ListTile(
+                  leading: Icon(Iconsax.location),
                   title: Text(
                     item,
                     style: TextStyle(
