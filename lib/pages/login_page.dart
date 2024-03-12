@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:voyager/components/back_ground/animatedbck.dart';
 import 'package:voyager/components/loading.dart';
 import 'package:voyager/components/my_button.dart';
@@ -166,6 +167,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -181,7 +183,9 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: themeProvider.themeMode == ThemeMode.dark
+                            ? Colors.white
+                            : Colors.black,
                         // color: Theme.of(context).primaryColor,
                       ),
                     ),
@@ -191,28 +195,37 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w300,
-                        color: Colors.white,
+                        color: themeProvider.themeMode == ThemeMode.dark
+                            ? Colors.white
+                            : Colors.black,
                       ),
                     ),
                     SizedBox(height: 50),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 8.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 25.0, vertical: 8.0),
                       child: Container(
                         height: 60,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: themeProvider.themeMode == ThemeMode.dark
+                              ? Colors.grey[800]
+                              : Colors.white,
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.circular(25),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 20.0, top: 10, bottom: 6),
+                          padding: const EdgeInsets.only(
+                              left: 20.0, top: 10, bottom: 6),
                           child: Row(
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 6.5),
                                 child: Icon(
                                   Iconsax.sms,
-                                  color: Colors.grey[700],
+                                  color:
+                                      themeProvider.themeMode == ThemeMode.dark
+                                          ? Colors.white
+                                          : Colors.black,
                                   size: 20,
                                 ),
                               ),
@@ -223,7 +236,10 @@ class _LoginPageState extends State<LoginPage> {
                                   keyboardType: TextInputType.emailAddress,
                                   style: TextStyle(
                                     fontFamily: "ProductSans",
-                                    color: Colors.black,
+                                    color: themeProvider.themeMode ==
+                                            ThemeMode.dark
+                                        ? Colors.white
+                                        : Colors.black,
                                     fontSize: 18,
                                   ),
                                   decoration: InputDecoration(
@@ -247,19 +263,25 @@ class _LoginPageState extends State<LoginPage> {
                       child: Container(
                         height: 60,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: themeProvider.themeMode == ThemeMode.dark
+                              ? Colors.grey[800]
+                              : Colors.white,
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.circular(25),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 20.0, top: 10, bottom: 6, right: 8),
+                          padding: const EdgeInsets.only(
+                              left: 20.0, top: 10, bottom: 6, right: 8),
                           child: Row(
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 6.5),
                                 child: Icon(
                                   Iconsax.lock_1,
-                                  color: Colors.grey[700],
+                                  color:
+                                      themeProvider.themeMode == ThemeMode.dark
+                                          ? Colors.white
+                                          : Colors.black,
                                   size: 20,
                                 ),
                               ),
@@ -271,7 +293,10 @@ class _LoginPageState extends State<LoginPage> {
                                   obscureText: !_isPasswordVisible,
                                   style: TextStyle(
                                     fontFamily: "ProductSans",
-                                    color: Colors.black,
+                                    color: themeProvider.themeMode ==
+                                            ThemeMode.dark
+                                        ? Colors.white
+                                        : Colors.black,
                                     fontSize: 18,
                                   ),
                                   decoration: InputDecoration(
@@ -319,7 +344,9 @@ class _LoginPageState extends State<LoginPage> {
                             child: Text(
                               "Forgot Password?",
                               style: TextStyle(
-                                color: kGreenColor,
+                                color: themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.black,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -347,7 +374,9 @@ class _LoginPageState extends State<LoginPage> {
                               "Or Continue With",
                               style: TextStyle(
                                 fontFamily: 'ProductSans',
-                                color: kGreenColor,
+                                color: themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.black,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -388,7 +417,9 @@ class _LoginPageState extends State<LoginPage> {
                         Text(
                           "Not a member? ",
                           style: TextStyle(
-                            color: Colors.white,
+                            color: themeProvider.themeMode == ThemeMode.dark
+                                ? Colors.white
+                                : Colors.black,
                             fontSize: 15,
                             fontFamily: "ProductSans",
                             fontWeight: FontWeight.w300,
@@ -409,7 +440,7 @@ class _LoginPageState extends State<LoginPage> {
                             style: TextStyle(
                               fontFamily: "ProductSans",
                               fontSize: 16,
-                              color: kGreenColor,
+                              color: Colors.blueAccent,
                               fontWeight: FontWeight.bold,
                             ),
                           ),

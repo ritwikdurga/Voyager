@@ -1,11 +1,14 @@
 // ignore_for_file:  prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:voyager/components/destinations.dart';
 import 'package:voyager/components/past_searches.dart';
 import 'package:voyager/components/search_bar.dart';
 import 'package:voyager/components/trips_cards.dart';
 import 'package:voyager/utils/constants.dart';
+
+import '../utils/colors.dart';
 
 class Explore extends StatefulWidget {
   const Explore({super.key});
@@ -17,9 +20,12 @@ class Explore extends StatefulWidget {
 class _ExploreState extends State<Explore> {
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: themeProvider.themeMode == ThemeMode.dark
+          ? darkColorScheme.background
+          : lightColorScheme.background,
       body: SingleChildScrollView(
         child: SafeArea(
           child: GestureDetector(

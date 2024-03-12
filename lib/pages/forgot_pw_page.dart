@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:voyager/utils/constants.dart';
 import '../components/back_ground/animatedbck.dart';
 import '../components/loading.dart';
@@ -34,11 +35,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       await FirebaseAuth.instance
           .sendPasswordResetEmail(email: _emailController.text.trim());
       emailSent();
-      if(mounted){
+      if (mounted) {
         Navigator.pop(context);
       }
     } on FirebaseAuthException catch (e) {
-      if(mounted){
+      if (mounted) {
         Navigator.pop(context);
       }
       if (e.code == 'user-not-found') {
@@ -119,6 +120,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -130,111 +132,110 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 Text(
                   'Forgot Password',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: themeProvider.themeMode == ThemeMode.dark
+                        ? Colors.white
+                        : Colors.black,
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 SizedBox(height: 20),
                 Text(
-                    "We'll send you an email with a link to reset your password",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ) ,
+                  "We'll send you an email with a link to reset your password",
+                  style: TextStyle(
+                    color: themeProvider.themeMode == ThemeMode.dark
+                        ? Colors.white
+                        : Colors.black,
+                  ),
                 ),
                 SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.all(18.0),
                   child: TextFormField(
                     style: TextStyle(
-                      color: Colors.white,
+                      color: themeProvider.themeMode == ThemeMode.dark
+                          ? Colors.white
+                          : Colors.black,
                     ),
                     controller: _emailController,
                     decoration: InputDecoration(
                       hintText: "Email",
                       hintStyle: TextStyle(
-                        color: Colors.white,
+                        color: themeProvider.themeMode == ThemeMode.dark
+                            ? Colors.white
+                            : Colors.black,
                       ),
                     ),
                   ),
                 ),
                 SizedBox(height: 20),
                 // add send email and then back button to the login page
-                SizedBox(
-                  width: 150, // Adjust the width as per your requirement
-                  child: Container(
-                    // add box shadow
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.white.withOpacity(0.7),
-                          spreadRadius: 4,
-                          blurRadius: 5,
-                          offset: Offset(0, 0), // changes position of shadow
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 150, // Adjust the width as per your requirement
+                      child: Container(
+                        // add box shadow
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
                         ),
-                      ],
-                    ),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        passwordReset();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: kGreenColor, backgroundColor: kBlackColor, // foreground
-                        elevation: 5, // Add shadow elevation
-                        padding: EdgeInsets.symmetric(vertical: 15),
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(25), // Button border radius
-                        ),
-                      ),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            passwordReset();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.blueAccent, // foreground
+                            padding: EdgeInsets.symmetric(vertical: 15),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  25), // Button border radius
+                            ),
+                          ),
 
-                      child: Text(
-                        'Send Email',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      // Space between text and arrow icon
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                SizedBox(
-                  width: 150, // Adjust the width as per your requirement
-                  child: Container(
-                    // add box shadow
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.white.withOpacity(0.7),
-                          spreadRadius: 4,
-                          blurRadius: 5,
-                          offset: Offset(0, 0), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: kGreenColor, backgroundColor: kBlackColor,
-                        elevation: 5, // Add shadow elevation
-                        padding: EdgeInsets.symmetric(vertical: 15),
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(25), // Button border radius
+                          child: Text(
+                            'Send Email',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          // Space between text and arrow icon
                         ),
                       ),
-
-                      child: Text(
-                        'Back',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      // Space between text and arrow icon
                     ),
-                  ),
+                    SizedBox(width: 20),
+                    SizedBox(
+                      width: 150, // Adjust the width as per your requirement
+                      child: Container(
+                        // add box shadow
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.blueAccent,
+                            elevation: 5,
+                            // Add shadow elevation
+                            padding: EdgeInsets.symmetric(vertical: 15),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  25), // Button border radius
+                            ),
+                          ),
+
+                          child: Text(
+                            'Back',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          // Space between text and arrow icon
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

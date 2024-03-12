@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, camel_case_types
 
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 import "package:voyager/utils/constants.dart";
 
 class Destinations extends StatelessWidget {
@@ -13,10 +14,13 @@ class Destinations extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Container(
       margin: EdgeInsets.all(3),
       child: Card(
-        color: Colors.black,
+        color: themeProvider.themeMode == ThemeMode.dark
+            ? Colors.black
+            : Colors.white,
         clipBehavior: Clip.hardEdge,
         child: InkWell(
           splashColor: Colors.blueAccent,
@@ -43,7 +47,9 @@ class Destinations extends StatelessWidget {
                 Text(
                   'Paris',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: themeProvider.themeMode == ThemeMode.dark
+                        ? Colors.white
+                        : Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 24,
                   ),

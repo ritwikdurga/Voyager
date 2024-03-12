@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:provider/provider.dart';
 import '../utils/constants.dart';
 
 class SocialAuth extends StatelessWidget {
@@ -16,6 +17,7 @@ class SocialAuth extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -23,10 +25,14 @@ class SocialAuth extends StatelessWidget {
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
-            color: Colors.white,
+            color: themeProvider.themeMode == ThemeMode.dark
+                ? Colors.white
+                : Colors.black,
             boxShadow: [
               BoxShadow(
-                color: Colors.white.withOpacity(0.7),
+                color: themeProvider.themeMode == ThemeMode.dark
+                    ? Colors.white.withOpacity(0.7)
+                    : Colors.black.withOpacity(0.7),
                 spreadRadius: 4,
                 blurRadius: 5,
                 offset: Offset(0, 0), // changes position of shadow
@@ -38,7 +44,7 @@ class SocialAuth extends StatelessWidget {
             icon: Icon(
               Ionicons.logo_google,
               size: 45,
-              color: kGreenColor,
+              color: Colors.blueAccent,
             ),
           ),
         ),
@@ -47,10 +53,14 @@ class SocialAuth extends StatelessWidget {
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
-            color: Colors.white,
+            color: themeProvider.themeMode == ThemeMode.dark
+                ? Colors.white
+                : Colors.black,
             boxShadow: [
               BoxShadow(
-                color: Colors.white.withOpacity(0.7),
+                color: themeProvider.themeMode == ThemeMode.dark
+                    ? Colors.white.withOpacity(0.7)
+                    : Colors.black.withOpacity(0.7),
                 spreadRadius: 4,
                 blurRadius: 5,
                 offset: Offset(0, 0), // changes position of shadow
@@ -62,7 +72,7 @@ class SocialAuth extends StatelessWidget {
             icon: Icon(
               Ionicons.logo_apple,
               size: 45,
-              color: kGreenColor,
+              color: Colors.blueAccent,
             ),
           ),
         ),

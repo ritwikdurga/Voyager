@@ -1,24 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:voyager/utils/colors.dart';
 
 import '../../components/trips_cards.dart';
+import '../../utils/constants.dart';
 
 class FavouritePage extends StatelessWidget {
   const FavouritePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: themeProvider.themeMode == ThemeMode.dark
+          ? darkColorScheme.background
+          : lightColorScheme.background,
       appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: const Text('Wishlist', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'ProductSans')),
+        backgroundColor: themeProvider.themeMode == ThemeMode.dark
+            ? darkColorScheme.background
+            : lightColorScheme.background,
+        title: Text('Wishlist',
+            style: TextStyle(
+                color: themeProvider.themeMode == ThemeMode.dark
+                    ? Colors.white
+                    : Colors.black,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'ProductSans')),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: themeProvider.themeMode == ThemeMode.dark
+                ? Colors.white
+                : Colors.black,
+            size: 20,
+          ),
           onPressed: () {
             Navigator.pop(context);
-            // Add functionality here to navigate back
-            // For example: Navigator.pop(context);
           },
         ),
       ),

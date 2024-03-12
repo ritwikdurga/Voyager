@@ -1,9 +1,12 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:voyager/pages/intro_page.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:voyager/utils/colors.dart';
+import 'package:voyager/utils/constants.dart';
 
 import '../auth/main_page.dart';
 
@@ -47,7 +50,10 @@ class _SplashPageState extends State<SplashPage> {
         if (mounted) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => MainPage(isRegistered: false,)),
+            MaterialPageRoute(
+                builder: (context) => MainPage(
+                      isRegistered: false,
+                    )),
           );
         }
       }
@@ -56,8 +62,11 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      backgroundColor: Colors.black, // Set background color of the scaffold
+      backgroundColor: themeProvider.themeMode == ThemeMode.dark
+          ? darkColorScheme.background
+          : lightColorScheme.background,
       body: Transform.scale(
         scale: 0.5,
         child: Center(

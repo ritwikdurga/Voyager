@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:voyager/utils/colors.dart';
 import 'package:voyager/utils/constants.dart';
 
 import '../home_screen.dart';
@@ -113,113 +115,114 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   }
 
   @override
-  Widget build(BuildContext context) => PopScope(
-    canPop: false, // Disable back button
-    child: Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: const Text(
-          'Verify Email',
-          style: TextStyle(
-            color: kGreenColor,
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
+  Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    return PopScope(
+      canPop: false, // Disable back button
+      child: Scaffold(
+        backgroundColor: themeProvider.themeMode == ThemeMode.dark
+            ? darkColorScheme.background
+            : lightColorScheme.background,
+        appBar: AppBar(
+          backgroundColor: themeProvider.themeMode == ThemeMode.dark
+              ? darkColorScheme.background
+              : lightColorScheme.background,
+          title: Text(
+            'Verify Email',
+            style: TextStyle(
+              color: themeProvider.themeMode == ThemeMode.dark
+                  ? Colors.white
+                  : Colors.black,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'An email has been sent to your email address',
+                style: TextStyle(
+                  color: themeProvider.themeMode == ThemeMode.dark
+                      ? Colors.white
+                      : Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                'Please verify',
+                style: TextStyle(
+                  color: themeProvider.themeMode == ThemeMode.dark
+                      ? Colors.white
+                      : Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    await sendVerificationEmail();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    // You can customize the button's appearance here
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.blueAccent, // Text color
+                  ),
+                  child: const Text(
+                    'Resend email',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+
+              // Add a cancel button to cancel the verification and go back to the login page
+              const SizedBox(height: 20),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    // Delete the user account if created
+                    await FirebaseAuth.instance.currentUser!.delete();
+                    // Go back to the login page
+                    Navigator.of(context).pop();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    // You can customize the button's appearance here
+                    foregroundColor: themeProvider.themeMode == ThemeMode.dark
+                        ? Colors.white
+                        : Colors.black,
+                    backgroundColor: Colors.blueAccent, // Text color
+                  ),
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(
+                      color: themeProvider.themeMode == ThemeMode.dark
+                          ? Colors.white
+                          : Colors.black,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'An email has been sent to your email address',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const Text(
-              'Please verify',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 20),
-            Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5), // Shadow color
-                    spreadRadius: 3, // Spread radius
-                    blurRadius: 5, // Blur radius
-                    offset: Offset(0, 0), // Offset in x and y directions
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: ElevatedButton(
-                onPressed: () async {
-                  await sendVerificationEmail();
-                },
-                style: ElevatedButton.styleFrom(
-                  // You can customize the button's appearance here
-                  foregroundColor: kGreenColor,
-                  backgroundColor: Colors.white, // Text color
-                ),
-                child: const Text(
-                  'Resend email',
-                  style: TextStyle(
-                    color: kGreenColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-
-            // Add a cancel button to cancel the verification and go back to the login page
-            const SizedBox(height: 20),
-            Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5), // Shadow color
-                    spreadRadius: 3, // Spread radius
-                    blurRadius: 5, // Blur radius
-                    offset: Offset(0, 0), // Offset in x and y directions
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: ElevatedButton(
-                onPressed: () async {
-                  // Delete the user account if created
-                  await FirebaseAuth.instance.currentUser!.delete();
-                  // Go back to the login page
-                  Navigator.of(context).pop();
-                },
-                style: ElevatedButton.styleFrom(
-                  // You can customize the button's appearance here
-                  foregroundColor: kGreenColor,
-                  backgroundColor: Colors.white, // Text color
-                ),
-                child: const Text(
-                  'Cancel',
-                  style: TextStyle(
-                    color: kGreenColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    ),
-  );
+    );
+  }
 }

@@ -114,7 +114,7 @@ class _IntroPageState extends State<IntroPage>
                       begin: _topAlignmentAnimation.value,
                       end: _bottomAlignmentAnimation.value,
                       colors: [
-                        Colors.greenAccent,
+                        Colors.blueAccent,
                         Colors.white60,
                         Colors.black45,
                       ],
@@ -161,7 +161,8 @@ class _IntroPageState extends State<IntroPage>
                           // Navigate to the second screen using a named route.
                         },
                         style: ElevatedButton.styleFrom(
-                          elevation: 5, // Add shadow elevation
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.blueAccent,
                           padding: EdgeInsets.symmetric(vertical: 15),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
@@ -190,7 +191,8 @@ class _IntroPageState extends State<IntroPage>
                           // Navigate to the second screen using a named route.
                         },
                         style: ElevatedButton.styleFrom(
-                          elevation: 5, // Add shadow elevation
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.blueAccent,
                           padding: EdgeInsets.symmetric(vertical: 15),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(

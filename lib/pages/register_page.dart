@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:voyager/auth/main_page.dart';
 import 'package:voyager/components/back_ground/animatedbck.dart';
 import 'package:voyager/components/my_button.dart';
@@ -79,9 +80,7 @@ class _RegisterPageState extends State<RegisterPage> {
         }
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => MainPage(isRegistered: true)
-          ),
+          MaterialPageRoute(builder: (context) => MainPage(isRegistered: true)),
         );
       } on FirebaseAuthException catch (e) {
         if (mounted) {
@@ -209,6 +208,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -224,7 +224,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: themeProvider.themeMode == ThemeMode.dark
+                            ? Colors.white
+                            : Colors.black,
                       ),
                     ),
                     SizedBox(height: 10),
@@ -232,7 +234,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w300,
-                          color: Colors.white,
+                          color: themeProvider.themeMode == ThemeMode.dark
+                              ? Colors.white
+                              : Colors.black,
                         )),
                     SizedBox(height: 60),
                     Padding(
@@ -240,7 +244,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: Container(
                         height: 50,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: themeProvider.themeMode == ThemeMode.dark
+                              ? Colors.grey[800]
+                              : Colors.white,
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.circular(30),
                         ),
@@ -250,7 +256,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             children: [
                               Icon(
                                 Iconsax.user,
-                                color: Colors.grey[700],
+                                color: themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.black,
                                 size: 20,
                               ),
                               SizedBox(width: 10),
@@ -258,7 +266,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                 child: TextField(
                                   style: TextStyle(
                                     fontFamily: "ProductSans",
-                                    color: Colors.black,
+                                    color: themeProvider.themeMode ==
+                                            ThemeMode.dark
+                                        ? Colors.white
+                                        : Colors.black,
                                     fontSize: 18,
                                   ),
                                   controller: _nameController,
@@ -285,7 +296,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: Container(
                         height: 50,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: themeProvider.themeMode == ThemeMode.dark
+                              ? Colors.grey[800]
+                              : Colors.white,
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.circular(30),
                         ),
@@ -295,7 +308,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             children: [
                               Icon(
                                 Iconsax.sms,
-                                color: Colors.grey[700],
+                                color: themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.black,
                                 size: 20,
                               ),
                               SizedBox(width: 10),
@@ -303,7 +318,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                 child: TextField(
                                   style: TextStyle(
                                     fontFamily: "ProductSans",
-                                    color: Colors.black,
+                                    color: themeProvider.themeMode ==
+                                            ThemeMode.dark
+                                        ? Colors.white
+                                        : Colors.black,
                                     fontSize: 18,
                                   ),
                                   controller: _emailController,
@@ -329,7 +347,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: Container(
                         height: 50,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: themeProvider.themeMode == ThemeMode.dark
+                              ? Colors.grey[800]
+                              : Colors.white,
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.circular(30),
                         ),
@@ -341,7 +361,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             children: [
                               Icon(
                                 Iconsax.lock_1,
-                                color: Colors.grey[700],
+                                color: themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.black,
                                 size: 20,
                               ),
                               SizedBox(width: 10),
@@ -349,7 +371,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                 child: TextField(
                                   style: TextStyle(
                                     fontFamily: "ProductSans",
-                                    color: Colors.black,
+                                    color: themeProvider.themeMode ==
+                                            ThemeMode.dark
+                                        ? Colors.white
+                                        : Colors.black,
                                     fontSize: 18,
                                   ),
                                   controller: _enterPasswordController,
@@ -385,7 +410,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: Container(
                         height: 50,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: themeProvider.themeMode == ThemeMode.dark
+                              ? Colors.grey[800]
+                              : Colors.white,
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.circular(30),
                         ),
@@ -397,7 +424,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             children: [
                               Icon(
                                 Iconsax.lock_1,
-                                color: Colors.grey[700],
+                                color: themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.black,
                                 size: 20,
                               ),
                               SizedBox(width: 10),
@@ -405,7 +434,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                 child: TextField(
                                   style: TextStyle(
                                     fontFamily: "ProductSans",
-                                    color: Colors.black,
+                                    color: themeProvider.themeMode ==
+                                            ThemeMode.dark
+                                        ? Colors.white
+                                        : Colors.black,
                                     fontSize: 18,
                                   ),
                                   controller: _confirmPasswordController,
@@ -455,7 +487,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               "Or Continue With",
                               style: TextStyle(
                                 fontFamily: 'ProductSans',
-                                color: kGreenColor,
+                                color: themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.black,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -518,7 +552,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             fontSize: 15,
                             fontFamily: "ProductSans",
                             fontWeight: FontWeight.w300,
-                            color: Colors.white,
+                            color: themeProvider.themeMode == ThemeMode.dark
+                                ? Colors.white
+                                : Colors.black,
                           ),
                         ),
                         GestureDetector(
@@ -530,7 +566,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             style: TextStyle(
                               fontFamily: "ProductSans",
                               fontSize: 16,
-                              color: kGreenColor,
+                              color: Colors.blueAccent,
                               fontWeight: FontWeight.bold,
                             ),
                           ),

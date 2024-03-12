@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:voyager/utils/colors.dart';
 import 'package:voyager/utils/constants.dart';
 
 class EditProfile extends StatefulWidget {
@@ -11,13 +13,30 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: themeProvider.themeMode == ThemeMode.dark
+          ? darkColorScheme.background
+          : lightColorScheme.background,
       appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: const Text('Edit Profile', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'ProductSans')),
+        backgroundColor: themeProvider.themeMode == ThemeMode.dark
+            ? darkColorScheme.background
+            : lightColorScheme.background,
+        title: Text('Edit Profile',
+            style: TextStyle(
+                color: themeProvider.themeMode == ThemeMode.dark
+                    ? Colors.white
+                    : Colors.black,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'ProductSans')),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: themeProvider.themeMode == ThemeMode.dark
+                ? Colors.white
+                : Colors.black,
+            size: 20,
+          ),
           onPressed: () {
             Navigator.pop(context);
             // Add functionality here to navigate back
@@ -32,26 +51,28 @@ class _EditProfileState extends State<EditProfile> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-
-
                 // Editable fields
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Container(
                     height: 50,
                     decoration: BoxDecoration(
-                      color: Colors.black,
+                      color: themeProvider.themeMode == ThemeMode.dark
+                          ? darkColorScheme.background
+                          : lightColorScheme.background,
                       border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: Padding(
                       padding:
-                      const EdgeInsets.only(left: 20, bottom: 1.5, top: 3),
+                          const EdgeInsets.only(left: 20, bottom: 1.5, top: 3),
                       child: Row(
                         children: [
                           Icon(
                             Icons.person,
-                            color: Colors.white,
+                            color: themeProvider.themeMode == ThemeMode.dark
+                                ? Colors.white
+                                : Colors.black,
                             size: 20,
                           ),
                           SizedBox(width: 10),
@@ -62,15 +83,18 @@ class _EditProfileState extends State<EditProfile> {
                                 // controller:
                                 // TextEditingController(text: "John Doe" ),
                                 // add a dummy text controller with white text
-                                controller: TextEditingController(
-                                    text: "John Doe"),
+                                controller:
+                                    TextEditingController(text: "John Doe"),
                                 // make the controller text color white
                                 readOnly: true,
                                 // Make the TextField non-editable
                                 style: TextStyle(
                                   fontFamily: "ProductSans",
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.white,
+                                  color:
+                                      themeProvider.themeMode == ThemeMode.dark
+                                          ? Colors.white
+                                          : Colors.black,
                                   fontSize: 18,
                                 ),
                                 decoration: InputDecoration(
@@ -80,7 +104,11 @@ class _EditProfileState extends State<EditProfile> {
                             ),
                           ),
                           IconButton(
-                            icon: Icon(Icons.edit, color: Colors.white),
+                            icon: Icon(Icons.edit,
+                                color: themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.black,
+                                size: 20),
                             onPressed: () {
                               // Add functionality to edit name
                             },
@@ -96,18 +124,22 @@ class _EditProfileState extends State<EditProfile> {
                   child: Container(
                     height: 50,
                     decoration: BoxDecoration(
-                      color: Colors.black,
+                      color: themeProvider.themeMode == ThemeMode.dark
+                          ? darkColorScheme.background
+                          : lightColorScheme.background,
                       border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: Padding(
                       padding:
-                      const EdgeInsets.only(left: 20, bottom: 1.5, top: 3),
+                          const EdgeInsets.only(left: 20, bottom: 1.5, top: 3),
                       child: Row(
                         children: [
                           Icon(
                             Icons.sms,
-                            color: Colors.white,
+                            color: themeProvider.themeMode == ThemeMode.dark
+                                ? Colors.white
+                                : Colors.black,
                             size: 20,
                           ),
                           SizedBox(width: 10),
@@ -122,7 +154,10 @@ class _EditProfileState extends State<EditProfile> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontFamily: "ProductSans",
-                                  color: Colors.white,
+                                  color:
+                                      themeProvider.themeMode == ThemeMode.dark
+                                          ? Colors.white
+                                          : Colors.black,
                                   fontSize: 18,
                                 ),
                                 decoration: InputDecoration(
@@ -142,6 +177,7 @@ class _EditProfileState extends State<EditProfile> {
                   children: [
                     SizedBox(
                       width: 170,
+                      height: 50,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blueAccent,
@@ -149,12 +185,18 @@ class _EditProfileState extends State<EditProfile> {
                         onPressed: () {
                           // Add functionality to add profile photo
                         },
-                        child: const Text('Update Email', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                        child: Text('Update Email',
+                            style: TextStyle(
+                                color: themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.white,
+                                fontWeight: FontWeight.bold)),
                       ),
                     ),
                     SizedBox(width: 20),
                     SizedBox(
                       width: 170,
+                      height: 50,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blueAccent,
@@ -162,7 +204,12 @@ class _EditProfileState extends State<EditProfile> {
                         onPressed: () {
                           // Add functionality to add profile photo
                         },
-                        child: const Text('Reset Password', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                        child: Text('Reset Password',
+                            style: TextStyle(
+                                color: themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.white,
+                                fontWeight: FontWeight.bold)),
                       ),
                     ),
                   ],

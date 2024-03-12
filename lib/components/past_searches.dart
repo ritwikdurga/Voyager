@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors, camel_case_types
 
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
+
+import "../utils/constants.dart";
 
 class PastSearches extends StatelessWidget {
   const PastSearches({
@@ -12,8 +15,11 @@ class PastSearches extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Card(
-      color: Colors.black,
+      color: themeProvider.themeMode == ThemeMode.dark
+          ? Colors.black
+          : Colors.white,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(20))),
       clipBehavior: Clip.hardEdge,
@@ -30,7 +36,9 @@ class PastSearches extends StatelessWidget {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.normal,
-              color: Colors.white,
+              color: themeProvider.themeMode == ThemeMode.dark
+                  ? Colors.white
+                  : Colors.black,
             ),
           ),
         ),

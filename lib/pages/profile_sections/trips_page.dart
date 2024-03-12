@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../components/trips_cards.dart';
+import '../../utils/colors.dart';
+import '../../utils/constants.dart';
 import '../profile_page.dart';
 
 class ProfileTrips extends StatelessWidget {
@@ -8,15 +11,32 @@ class ProfileTrips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     // take the screen width
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: themeProvider.themeMode == ThemeMode.dark
+          ? darkColorScheme.background
+          : lightColorScheme.background,
       appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: const Text(' My Trips', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'ProductSans')),
+        backgroundColor: themeProvider.themeMode == ThemeMode.dark
+            ? darkColorScheme.background
+            : lightColorScheme.background,
+        title: Text(' My Trips',
+            style: TextStyle(
+                color: themeProvider.themeMode == ThemeMode.dark
+                    ? Colors.white
+                    : Colors.black,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'ProductSans')),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: themeProvider.themeMode == ThemeMode.dark
+                ? Colors.white
+                : Colors.black,
+            size: 20,
+          ),
           onPressed: () {
             Navigator.pop(context);
             // Add functionality here to navigate back

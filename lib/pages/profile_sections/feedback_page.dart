@@ -1,27 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:voyager/utils/colors.dart';
+import 'package:voyager/utils/constants.dart';
 
 class FeedbackPage extends StatelessWidget {
   const FeedbackPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: themeProvider.themeMode == ThemeMode.dark
+          ? darkColorScheme.background
+          : lightColorScheme.background,
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
-            color: Colors.white,
+            color: themeProvider.themeMode == ThemeMode.dark
+                ? Colors.white
+                : Colors.black,
             size: 20,
           ),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        backgroundColor: Colors.black,
+        backgroundColor: themeProvider.themeMode == ThemeMode.dark
+            ? darkColorScheme.background
+            : lightColorScheme.background,
         title: Text('Feedback',
             style: TextStyle(
-                color: Colors.white,
+                color: themeProvider.themeMode == ThemeMode.dark
+                    ? Colors.white
+                    : Colors.black,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'ProductSans')),
       ),
@@ -30,10 +42,11 @@ class FeedbackPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-
             TextFormField(
               style: TextStyle(
-                  color: Colors.white,
+                  color: themeProvider.themeMode == ThemeMode.dark
+                      ? Colors.white
+                      : Colors.black,
                   fontFamily: 'ProductSans',
                   fontWeight: FontWeight.bold,
                   fontSize: 20),
@@ -53,7 +66,14 @@ class FeedbackPage extends StatelessWidget {
               onPressed: () {
                 // Submit feedback logic
               },
-              child: Text('Submit', style: TextStyle(fontSize:16,fontWeight: FontWeight.w600,color: Colors.white,fontFamily: 'ProductSans')),
+              child: Text('Submit',
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: themeProvider.themeMode == ThemeMode.dark
+                          ? Colors.white
+                          : Colors.white,
+                      fontFamily: 'ProductSans')),
             ),
           ],
         ),

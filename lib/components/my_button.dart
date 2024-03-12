@@ -14,20 +14,20 @@ class MyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.white,
-            blurRadius: 5,
-            spreadRadius: 3,
-            offset: Offset(0, 0),
-          ),
-        ],
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Colors.white,
+        //     blurRadius: 5,
+        //     spreadRadius: 3,
+        //     offset: Offset(0, 0),
+        //   ),
+        // ],
         borderRadius: BorderRadius.circular(24),
       ),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: kBlackColor,
+          backgroundColor: Colors.blueAccent,
           padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
@@ -38,7 +38,7 @@ class MyButton extends StatelessWidget {
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w600,
-            color: kGreenColor,
+            color: Colors.white,
           ),
         ),
       ),
