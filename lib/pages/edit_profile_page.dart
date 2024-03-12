@@ -17,7 +17,7 @@ class _EditProfileState extends State<EditProfile> {
         backgroundColor: Colors.black,
         title: const Text('Edit Profile', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'ProductSans')),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
             Navigator.pop(context);
             // Add functionality here to navigate back
@@ -143,20 +143,26 @@ class _EditProfileState extends State<EditProfile> {
                     SizedBox(
                       width: 170,
                       child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blueAccent,
+                        ),
                         onPressed: () {
                           // Add functionality to add profile photo
                         },
-                        child: const Text('Update Email', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                        child: const Text('Update Email', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                       ),
                     ),
                     SizedBox(width: 20),
                     SizedBox(
                       width: 170,
                       child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blueAccent,
+                        ),
                         onPressed: () {
                           // Add functionality to add profile photo
                         },
-                        child: const Text('Reset Password', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                        child: const Text('Reset Password', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                       ),
                     ),
                   ],

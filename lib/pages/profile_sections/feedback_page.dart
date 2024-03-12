@@ -30,16 +30,7 @@ class FeedbackPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              'Your Feedback',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'ProductSans',
-                color: Colors.white,
-              ),
-            ),
-            SizedBox(height: 20),
+
             TextFormField(
               style: TextStyle(
                   color: Colors.white,
@@ -56,10 +47,13 @@ class FeedbackPage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueAccent,
+              ),
               onPressed: () {
                 // Submit feedback logic
               },
-              child: Text('Submit'),
+              child: Text('Submit', style: TextStyle(fontSize:16,fontWeight: FontWeight.w600,color: Colors.white,fontFamily: 'ProductSans')),
             ),
           ],
         ),
