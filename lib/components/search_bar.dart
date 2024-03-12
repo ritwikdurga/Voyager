@@ -164,7 +164,7 @@ class _SearchState extends State<Search> {
                   ),
                   onTap: () {
                     setState(() {
-                      controller.closeView(item);
+                      controller.closeView(null);
                       FocusScope.of(context).unfocus();
                       FocusManager.instance.primaryFocus?.unfocus();
                     });

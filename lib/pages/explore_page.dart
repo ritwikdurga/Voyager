@@ -8,6 +8,8 @@ import 'package:voyager/components/past_searches.dart';
 import 'package:voyager/components/search_bar.dart';
 import 'package:voyager/components/trips_cards.dart';
 import 'package:voyager/pages/continue_planning_page.dart';
+import 'package:voyager/pages/for_you_expanded.dart';
+import 'package:voyager/pages/popular_destinations_expanded.dart';
 import 'package:voyager/utils/constants.dart';
 import '../utils/colors.dart';
 
@@ -78,9 +80,11 @@ class _ExploreState extends State<Explore> {
                           ],
                         ),
                       ),
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => ContPlanning()));
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ContPlanning()));
                       },
                     )
                   ],
@@ -114,6 +118,39 @@ class _ExploreState extends State<Explore> {
                         ),
                       ),
                     ),
+                    Expanded(child: Container()),
+                    GestureDetector(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'View All',
+                              style: TextStyle(
+                                color: themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.black,
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: themeProvider.themeMode == ThemeMode.dark
+                                  ? Colors.white
+                                  : Colors.black,
+                              size: 12,
+                            ),
+                          ],
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ForYouExp()));
+                      },
+                    )
                   ],
                 ),
                 SizedBox(
@@ -185,6 +222,39 @@ class _ExploreState extends State<Explore> {
                         ),
                       ),
                     ),
+                    Expanded(child: Container()),
+                    GestureDetector(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'View All',
+                              style: TextStyle(
+                                color: themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.black,
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: themeProvider.themeMode == ThemeMode.dark
+                                  ? Colors.white
+                                  : Colors.black,
+                              size: 12,
+                            ),
+                          ],
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PopDestExp()));
+                      },
+                    )
                   ],
                 ),
                 SizedBox(
