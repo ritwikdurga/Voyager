@@ -2,6 +2,7 @@
 
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
+import "package:voyager/pages/destination_description.dart";
 import "package:voyager/utils/constants.dart";
 
 class Destinations extends StatelessWidget {
@@ -26,6 +27,8 @@ class Destinations extends StatelessWidget {
           splashColor: Colors.blueAccent,
           onTap: () {
             //redirect to trip page
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => DestDesc()));
           },
           child: SizedBox(
             width: screenWidth / 3 - 12,

@@ -2,6 +2,7 @@
 
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
+import "package:voyager/pages/destination_description.dart";
 import "package:voyager/utils/constants.dart";
 
 class destExp extends StatelessWidget {
@@ -25,17 +26,18 @@ class destExp extends StatelessWidget {
           ? Colors.black
           : Colors.white,
       // Set shadowColor to transparent to avoid duplicate shadows
-    
+
       child: InkWell(
         splashColor: Colors.blueAccent,
         onTap: () {
-          // redirect to planning page.
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => DestDesc()));
         },
         child: SizedBox(
           height: screenWidth / 3,
           width: screenWidth - 10,
           child: Padding(
-            padding: EdgeInsets.fromLTRB(18,8,0,8),
+            padding: EdgeInsets.fromLTRB(18, 8, 0, 8),
             child: Row(
               children: [
                 ConstrainedBox(

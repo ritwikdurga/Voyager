@@ -23,8 +23,9 @@ class trips extends StatelessWidget {
     return Card(
       clipBehavior: Clip.hardEdge,
       shape: shape,
-      color: Colors.white,
-      // make the background color of the card
+      color: themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.black
+                                    : Colors.white,
 
       child: InkWell(
         splashColor: Colors.blueAccent,
