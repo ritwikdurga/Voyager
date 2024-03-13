@@ -2,6 +2,7 @@
 
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
+import "package:voyager/pages/destination_description.dart";
 
 import "../utils/constants.dart";
 
@@ -31,7 +32,8 @@ class PastSearches extends StatelessWidget {
         splashColor: Colors.blueAccent,
         onTap: () {
           //searchState.performSearch("Search Term");
-          debugPrint(textData);
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => DestDesc()));
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 12),

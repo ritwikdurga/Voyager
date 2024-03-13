@@ -1,8 +1,9 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_declarations
 
 import "package:flutter/material.dart";
 import "package:iconsax/iconsax.dart";
 import "package:provider/provider.dart";
+import "package:voyager/pages/destination_description.dart";
 import "package:voyager/utils/constants.dart";
 
 import "../utils/colors.dart";
@@ -148,7 +149,7 @@ class _SearchState extends State<Search> {
         suggestionsBuilder:
             (BuildContext context, SearchController controller) {
           return List<Widget>.generate(15, (int index) {
-            final String item = 'item $index';
+            final String item = 'Paris';
             return Container(
               color: themeProvider.themeMode == ThemeMode.dark
                   ? Colors.black
@@ -168,11 +169,9 @@ class _SearchState extends State<Search> {
                     ),
                   ),
                   onTap: () {
-                    setState(() {
-                      controller.closeView(null);
-                      FocusScope.of(context).unfocus();
-                      FocusManager.instance.primaryFocus?.unfocus();
-                    });
+                    controller.closeView(null);
+                    Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => DestDesc()));
                   },
                 ),
               ),

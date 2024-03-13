@@ -196,13 +196,13 @@ class _ExploreState extends State<Explore> {
                   height: 45,
                   child: ListView(scrollDirection: Axis.horizontal, children: [
                     PastSearches(
-                      textData: 'item 0',
+                      textData: 'Paris',
                     ),
                     PastSearches(
-                      textData: 'item 1',
+                      textData: 'Paris',
                     ),
                     PastSearches(
-                      textData: 'item 2',
+                      textData: 'Paris',
                     ),
                   ]),
                 ),
