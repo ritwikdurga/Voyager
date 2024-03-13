@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
+import 'package:voyager/pages/profile_sections/faq_page.dart';
 import 'package:voyager/pages/profile_sections/favourite_page.dart';
 import 'package:voyager/pages/profile_sections/feedback_page.dart';
 import 'package:voyager/pages/profile_sections/trips_page.dart';
@@ -208,6 +209,9 @@ class _ProfileState extends State<Profile> {
                     )),
                 onTap: () {
                   // Navigate to FAQ page
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return FAQPage();
+                  }));
                 },
                 trailing: Icon(
                   Icons.arrow_forward_ios,
