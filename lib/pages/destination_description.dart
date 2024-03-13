@@ -11,6 +11,7 @@ import "package:provider/provider.dart";
 import "package:voyager/components/category_icon.dart";
 import "package:voyager/components/category_icons_listview.dart";
 import "package:voyager/components/image_slider.dart";
+import "package:voyager/pages/see_all_for_categories.dart";
 import "package:voyager/utils/colors.dart";
 import "package:voyager/utils/constants.dart";
 
@@ -132,6 +133,14 @@ class _DestDescState extends State<DestDesc> {
                     ),
                     onTap: () {
                       // show a popup with all the categories listed.
+                      showModalBottomSheet<void>(
+                        context: context,
+                        useSafeArea: true,
+                        isScrollControlled: true,
+                        builder: (BuildContext context) {
+                          return bottomSheet();
+                        },
+                      );
                     },
                   ),
                 ],

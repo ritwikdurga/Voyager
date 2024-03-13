@@ -23,7 +23,6 @@ class CatIcon extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              //color: Colors.amber,
               height: 60,
               width: 60,
               decoration: BoxDecoration(
