@@ -7,9 +7,12 @@ import 'package:voyager/utils/colors.dart';
 import 'package:voyager/utils/constants.dart';
 
 import '../home_screen.dart';
+import '../pages/login_page.dart';
 
 class VerifyEmailPage extends StatefulWidget {
-  const VerifyEmailPage({Key? key}) : super(key: key);
+  final Function()? onTap;
+
+  const VerifyEmailPage({Key? key, this.onTap}) : super(key: key);
 
   @override
   State<VerifyEmailPage> createState() => _VerifyEmailPageState();
@@ -46,7 +49,6 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       setState(() {
         isEmailVerified = true;
       });
-      successSnackBar();
 
       // Create the user account after email verification
       await createUserAccount();
@@ -71,26 +73,6 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
     //   'email': user.email,
     //   // Add other user details if needed
     // });
-  }
-
-  void successSnackBar() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        // Change the background color of the snackbar
-        backgroundColor: Colors.green,
-        content: Center(
-          child: Text(
-            'Account created successfully!',
-            style: TextStyle(
-              fontSize: 16, // Change the font size as needed
-              fontFamily: 'ProductSans', // Change the font family as needed
-              color: Colors.white, // Change the font color as needed
-              fontWeight: FontWeight.w600, // Change the font weight as needed
-            ),
-          ),
-        ),
-      ),
-    );
   }
 
   Future<void> sendVerificationEmail() async {
@@ -195,10 +177,10 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                 ),
                 child: ElevatedButton(
                   onPressed: () async {
-                    // Delete the user account if created
-                    await FirebaseAuth.instance.currentUser!.delete();
-                    // Go back to the login page
-                    Navigator.of(context).pop();
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) => LoginPage(onTap: widget.onTap)),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     // You can customize the button's appearance here
@@ -210,9 +192,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                   child: Text(
                     'Cancel',
                     style: TextStyle(
-                      color: themeProvider.themeMode == ThemeMode.dark
-                          ? Colors.white
-                          : Colors.black,
+                      color: Colors.white,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),

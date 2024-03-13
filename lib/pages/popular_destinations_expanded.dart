@@ -22,6 +22,16 @@ class _PopDestExpState extends State<PopDestExp> {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios,
+              size: 20,
+              color: themeProvider.themeMode == ThemeMode.dark
+                  ? Colors.white
+                  : Colors.black),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         title: Text('Popular Destinations'),
         backgroundColor: themeProvider.themeMode == ThemeMode.dark
             ? darkColorScheme.background

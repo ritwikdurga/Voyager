@@ -26,9 +26,7 @@ class _ExploreState extends State<Explore> {
     final themeProvider = Provider.of<ThemeProvider>(context);
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: themeProvider.themeMode == ThemeMode.dark
-          ? darkColorScheme.background
-          : lightColorScheme.background,
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: SafeArea(
           child: GestureDetector(

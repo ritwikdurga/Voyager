@@ -162,7 +162,7 @@ class _IntroPageState extends State<IntroPage>
                         },
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
-                          backgroundColor: Colors.blueAccent,
+                          backgroundColor: Colors.black,
                           padding: EdgeInsets.symmetric(vertical: 15),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
@@ -192,7 +192,7 @@ class _IntroPageState extends State<IntroPage>
                         },
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
-                          backgroundColor: Colors.blueAccent,
+                          backgroundColor: Colors.black,
                           padding: EdgeInsets.symmetric(vertical: 15),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(

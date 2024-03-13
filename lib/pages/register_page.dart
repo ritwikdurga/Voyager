@@ -74,6 +74,7 @@ class _RegisterPageState extends State<RegisterPage> {
           password: _enterPasswordController.text,
         );
 
+        successSnackBar();
         // Close the dialog
         if (mounted) {
           Navigator.pop(context);
@@ -95,6 +96,26 @@ class _RegisterPageState extends State<RegisterPage> {
     } else {
       passMismatch();
     }
+  }
+
+  void successSnackBar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        // Change the background color of the snackbar
+        backgroundColor: Colors.green,
+        content: Center(
+          child: Text(
+            'Account created successfully!',
+            style: TextStyle(
+              fontSize: 16, // Change the font size as needed
+              fontFamily: 'ProductSans', // Change the font family as needed
+              color: Colors.white, // Change the font color as needed
+              fontWeight: FontWeight.w600, // Change the font weight as needed
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   void errorSnackBar() {

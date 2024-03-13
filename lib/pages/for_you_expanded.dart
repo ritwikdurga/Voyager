@@ -22,6 +22,14 @@ class _ForYouExpState extends State<ForYouExp> {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, size: 20, color: themeProvider.themeMode == ThemeMode.dark
+              ? Colors.white
+              : Colors.black,),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         title: Text('For You'),
         backgroundColor: themeProvider.themeMode == ThemeMode.dark
             ? darkColorScheme.background

@@ -4,6 +4,8 @@ import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 import "package:voyager/utils/constants.dart";
 
+import "../utils/colors.dart";
+
 class trips extends StatelessWidget {
   trips({
     super.key,
@@ -21,17 +23,16 @@ class trips extends StatelessWidget {
     return Card(
       clipBehavior: Clip.hardEdge,
       shape: shape,
-      color: themeProvider.themeMode == ThemeMode.dark
-          ? Colors.black
-          : Colors.white,
-      // Set shadowColor to transparent to avoid duplicate shadows
-    
+      color: Colors.white,
+      // make the background color of the card
+
       child: InkWell(
         splashColor: Colors.blueAccent,
         onTap: () {
           // redirect to planning page.
         },
         child: SizedBox(
+
           height: screenWidth / 3,
           width: screenWidth - 10,
           child: Padding(
