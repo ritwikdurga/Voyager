@@ -1,42 +1,35 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, must_be_immutable
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:voyager/pages/category_page.dart';
+import 'package:voyager/pages/travel_info_page.dart';
 import 'package:voyager/utils/constants.dart';
 
-class CatIcon extends StatelessWidget {
+class TravelInfoIcon extends StatelessWidget {
   late Icon icon;
   late String text;
-  CatIcon({super.key, required this.icon, required this.text});
+  TravelInfoIcon({super.key, required this.icon, required this.text});
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    double screenWidth = MediaQuery.of(context).size.width;
     return GestureDetector(
       child: SizedBox(
-        width: 90,
+        width: screenWidth/5-4,
         height: 105,
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                height: 60,
+              SizedBox(
+                height: screenWidth/5-4,
                 width: 60,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: themeProvider.themeMode == ThemeMode.dark
-                      ? Colors.grey[900]
-                      : Colors.grey[100],
-                ),
                 child: icon,
               ),
               SizedBox(
-                height: 5,
+                height: 2,
               ),
               Center(
                 child: Text(
@@ -45,7 +38,7 @@ class CatIcon extends StatelessWidget {
                   textAlign: TextAlign.center,
                   softWrap: true,
                   style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 12,
                       fontWeight: FontWeight.w500,
                       color: themeProvider.themeMode == ThemeMode.dark
                           ? Colors.white
@@ -60,7 +53,7 @@ class CatIcon extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => CategoryPage(heading: text)));
+                builder: (context) => TravelInfoPage(heading: text)));
       },
     );
   }

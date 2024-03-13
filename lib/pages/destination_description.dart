@@ -11,6 +11,7 @@ import "package:provider/provider.dart";
 import "package:voyager/components/category_icon.dart";
 import "package:voyager/components/category_icons_listview.dart";
 import "package:voyager/components/image_slider.dart";
+import "package:voyager/components/travel_info_list.dart";
 import "package:voyager/pages/see_all_for_categories.dart";
 import "package:voyager/utils/colors.dart";
 import "package:voyager/utils/constants.dart";
@@ -42,8 +43,22 @@ class _DestDescState extends State<DestDesc> {
             ? Colors.black
             : Colors.white,
         titleTextStyle: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 24,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+            color: themeProvider.themeMode == ThemeMode.dark
+                ? Colors.white
+                : Colors.black),
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: themeProvider.themeMode == ThemeMode.dark
+                ? Colors.white
+                : Colors.black,
+            size: 20,
+          ),
+          onPressed: (){
+            Navigator.pop(context);
+          },
         ),
       ),
       body: SafeArea(
@@ -97,7 +112,34 @@ class _DestDescState extends State<DestDesc> {
               Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text(
+                      'Travel information',
+                      style: TextStyle(
+                        color: Colors.blueAccent,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 105,
+                child: TravelInfoList(),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
+                child: Divider(
+                  thickness: 0.5,
+                  color: Colors.grey[400],
+                ),
+              ),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
                     child: Text(
                       'Categories',
                       style: TextStyle(
@@ -112,7 +154,7 @@ class _DestDescState extends State<DestDesc> {
                   ),
                   GestureDetector(
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(12.0),
                       child: Row(
                         children: [
                           Text(

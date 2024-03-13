@@ -3,7 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:voyager/components/category_page.dart';
+import 'package:voyager/pages/category_page.dart';
 import 'package:voyager/utils/constants.dart';
 
 class CatListTile extends StatelessWidget {
