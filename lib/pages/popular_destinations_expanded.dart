@@ -32,7 +32,12 @@ class _PopDestExpState extends State<PopDestExp> {
             Navigator.pop(context);
           },
         ),
-        title: Text('Popular Destinations'),
+        title: Text(
+          'Popular Destinations',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         backgroundColor: themeProvider.themeMode == ThemeMode.dark
             ? darkColorScheme.background
             : lightColorScheme.background,

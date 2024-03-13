@@ -24,20 +24,22 @@ class trips extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       shape: shape,
       color: themeProvider.themeMode == ThemeMode.dark
-                                    ? Colors.black
-                                    : Colors.white,
-
+          ? Colors.black
+          : Colors.white,
+      surfaceTintColor: themeProvider.themeMode == ThemeMode.dark
+          ? Colors.black
+          : Colors.white,
+      elevation: 0,
       child: InkWell(
         splashColor: Colors.blueAccent,
         onTap: () {
           // redirect to planning page.
         },
         child: SizedBox(
-
           height: screenWidth / 3,
           width: screenWidth - 10,
           child: Padding(
-            padding: EdgeInsets.fromLTRB(18,8,0,8),
+            padding: EdgeInsets.fromLTRB(18, 8, 0, 8),
             child: Row(
               children: [
                 ConstrainedBox(

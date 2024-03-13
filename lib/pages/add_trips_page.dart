@@ -14,7 +14,6 @@ class AddTrips extends StatelessWidget {
           ? darkColorScheme.background
           : lightColorScheme.background,
       body: SafeArea(
-        // text widget
         child: Center(
           child: Text('Add Trips',
               style: TextStyle(

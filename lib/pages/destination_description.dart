@@ -40,7 +40,12 @@ class _DestDescState extends State<DestDesc> {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Paris'),
+        title: Text(
+          'Paris',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         backgroundColor: themeProvider.themeMode == ThemeMode.dark
             ? Colors.black
             : Colors.white,

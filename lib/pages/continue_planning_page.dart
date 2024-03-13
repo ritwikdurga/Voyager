@@ -21,14 +21,23 @@ class _ContPlanningState extends State<ContPlanning> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, size: 20, color: themeProvider.themeMode == ThemeMode.dark
-              ? Colors.white
-              : Colors.black,),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            size: 20,
+            color: themeProvider.themeMode == ThemeMode.dark
+                ? Colors.white
+                : Colors.black,
+          ),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        title: Text('Continue Planning'),
+        title: Text(
+          'Continue Planning',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         backgroundColor: themeProvider.themeMode == ThemeMode.dark
             ? darkColorScheme.background
             : lightColorScheme.background,

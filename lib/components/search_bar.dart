@@ -110,6 +110,11 @@ class _SearchState extends State<Search> {
                       ? Colors.black
                       : Colors.white,
                 ),
+                surfaceTintColor: MaterialStateColor.resolveWith(
+                  (states) => themeProvider.themeMode == ThemeMode.dark
+                      ? Colors.black
+                      : Colors.white,
+                ),
                 // shadowColor: MaterialStateColor.resolveWith((states) => Colors.white),
                 elevation: MaterialStateProperty.resolveWith((states) => 1),
                 hintStyle: MaterialStateProperty.resolveWith(

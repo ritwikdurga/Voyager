@@ -20,6 +20,10 @@ class PastSearches extends StatelessWidget {
       color: themeProvider.themeMode == ThemeMode.dark
           ? Colors.black
           : Colors.white,
+      surfaceTintColor: themeProvider.themeMode == ThemeMode.dark
+          ? Colors.black
+          : Colors.white,
+      elevation: 0,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(20))),
       clipBehavior: Clip.hardEdge,

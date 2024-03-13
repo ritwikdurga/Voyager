@@ -14,10 +14,27 @@ class CategoryPage extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
         appBar: AppBar(
-          title: Text(heading),
+          title: Text(
+            heading,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           backgroundColor: themeProvider.themeMode == ThemeMode.dark
               ? Colors.black
               : Colors.white,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: themeProvider.themeMode == ThemeMode.dark
+                  ? Colors.white
+                  : Colors.black,
+              size: 20,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
         ),
         body: Center(
           child: Text('random.'),

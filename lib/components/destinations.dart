@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, camel_case_types
+// ignore_for_file: prefer_const_constructors, camel_case_types, prefer_const_literals_to_create_immutables
 
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
@@ -33,32 +33,34 @@ class Destinations extends StatelessWidget {
           child: SizedBox(
             width: screenWidth / 3 - 12,
             height: screenWidth * 2 / 3,
-            child: Column(
+            child: Stack(
               children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                  child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxHeight: screenWidth / 2,
-                        maxWidth: screenWidth / 3 - 20,
-                      ),
-                      child: Image.asset(
-                        'assets/images/a.png',
-                      )),
+                Image.asset(
+                  'assets/images/a.png',
+                  width: screenWidth / 3 - 12,
+                  height: screenWidth * 2 / 3,
+                  fit: BoxFit.cover,
                 ),
-                Text(
-                  'Paris',
-                  style: TextStyle(
-                    color: themeProvider.themeMode == ThemeMode.dark
-                        ? Colors.white
-                        : Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                  softWrap: false,
-                  maxLines: 1,
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Text(
+                          'Paris',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: false,
+                          maxLines: 1,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

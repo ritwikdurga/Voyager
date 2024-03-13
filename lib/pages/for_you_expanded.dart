@@ -10,7 +10,7 @@ import "package:voyager/utils/constants.dart";
 
 class ForYouExp extends StatefulWidget {
   late String heading;
-  ForYouExp( {super.key, required this.heading});
+  ForYouExp({super.key, required this.heading});
 
   @override
   State<ForYouExp> createState() => _ForYouExpState();
@@ -35,7 +35,12 @@ class _ForYouExpState extends State<ForYouExp> {
             Navigator.pop(context);
           },
         ),
-        title: Text(widget.heading),
+        title: Text(
+          widget.heading,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         backgroundColor: themeProvider.themeMode == ThemeMode.dark
             ? darkColorScheme.background
             : lightColorScheme.background,
