@@ -1,11 +1,15 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import "dart:ui";
+
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/painting.dart";
 import "package:flutter/rendering.dart";
 import "package:flutter/widgets.dart";
 import "package:provider/provider.dart";
+import "package:voyager/components/category_icon.dart";
+import "package:voyager/components/category_icons_listview.dart";
 import "package:voyager/components/image_slider.dart";
 import "package:voyager/utils/colors.dart";
 import "package:voyager/utils/constants.dart";
@@ -67,7 +71,7 @@ class _DestDescState extends State<DestDesc> {
                 height: 5,
               ),
               Padding(
-                padding: const EdgeInsets.all(5.0),
+                padding: const EdgeInsets.all(12.0),
                 child: Text(
                   'Paris, the cosmopolitan capital of France, is one of the largest agglomerations in Europe, with 2.2 million people living in the dense (105 km2) central city in 2022, 10 million people in the Métropole du Grand Paris (814 km2) and almost 13 million people living in the metropolitan area. Paris is amazing and lovely.',
                   style: TextStyle(
@@ -77,6 +81,67 @@ class _DestDescState extends State<DestDesc> {
                         : Colors.black,
                   ),
                 ),
+              ),
+              // SizedBox(
+              //   height: 5,
+              // ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
+                child: Divider(
+                  thickness: 0.5,
+                  color: Colors.grey[400],
+                ),
+              ),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Categories',
+                      style: TextStyle(
+                        color: Colors.blueAccent,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(),
+                  ),
+                  GestureDetector(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            'See All',
+                            style: TextStyle(
+                              color: themeProvider.themeMode == ThemeMode.dark
+                                  ? Colors.white
+                                  : Colors.black,
+                              fontSize: 14,
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 10,
+                          ),
+                        ],
+                      ),
+                    ),
+                    onTap: () {
+                      // show a popup with all the categories listed.
+                    },
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 3,
+              ),
+              SizedBox(
+                height: 105,
+                child: CatIconsListView(),
               ),
             ],
           ),
