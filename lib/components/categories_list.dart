@@ -3,24 +3,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:voyager/components/category_page.dart';
 import 'package:voyager/utils/constants.dart';
 
 class CatListTile extends StatelessWidget {
   late Icon icon;
   late String text;
-  CatListTile({super.key, required this.icon,required this.text});
+  CatListTile({super.key, required this.icon, required this.text});
 
   @override
   Widget build(BuildContext context) {
-   double screenWidth = MediaQuery.of(context).size.width;
+    double screenWidth = MediaQuery.of(context).size.width;
     final themeProvider = Provider.of<ThemeProvider>(context);
-    return SizedBox(
-      width: screenWidth,
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
+    return GestureDetector(
+      child: SizedBox(
+        width: screenWidth,
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
                 //color: Colors.amber,
                 height: 50,
                 width: 50,
@@ -32,11 +34,21 @@ class CatListTile extends StatelessWidget {
                 ),
                 child: icon,
               ),
-          ),
-          SizedBox(width:5),
-          Text(text,style:TextStyle(fontSize: 18,)),
-        ],
+            ),
+            SizedBox(width: 5),
+            Text(text,
+                style: TextStyle(
+                  fontSize: 18,
+                )),
+          ],
+        ),
       ),
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => CategoryPage(heading: text)));
+      },
     );
   }
 }
