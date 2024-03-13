@@ -215,7 +215,7 @@ class _DestDescState extends State<DestDesc> {
                       style: TextStyle(
                         color: Colors.blueAccent,
                         fontWeight: FontWeight.bold,
-                        fontSize: 24,
+                        fontSize: 22,
                       ),
                     ),
                   ),

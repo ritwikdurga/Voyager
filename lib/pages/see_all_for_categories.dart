@@ -76,6 +76,12 @@ class _bottomSheetState extends State<bottomSheet> {
                                   : Colors.black,
                             ),
                           ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: BorderSide(
+                              color: kGreenColor,
+                            ),
+                          ),
                         ),
                         onChanged:
                             searchCategories,

@@ -50,7 +50,7 @@ class _ExploreState extends State<Explore> {
                         style: TextStyle(
                           color: Colors.blueAccent,
                           fontWeight: FontWeight.bold,
-                          fontSize: 24,
+                          fontSize: 22,
                         ),
                       ),
                     ),
@@ -114,7 +114,7 @@ class _ExploreState extends State<Explore> {
                         style: TextStyle(
                           color: Colors.blueAccent,
                           fontWeight: FontWeight.bold,
-                          fontSize: 24,
+                          fontSize: 22,
                         ),
                       ),
                     ),
@@ -183,7 +183,7 @@ class _ExploreState extends State<Explore> {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.blueAccent,
-                          fontSize: 24,
+                          fontSize: 22,
                         ),
                       ),
                     ),
@@ -218,7 +218,7 @@ class _ExploreState extends State<Explore> {
                         style: TextStyle(
                           color: Colors.blueAccent,
                           fontWeight: FontWeight.bold,
-                          fontSize: 24,
+                          fontSize: 22,
                         ),
                       ),
                     ),
