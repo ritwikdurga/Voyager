@@ -10,8 +10,10 @@ import "package:flutter/widgets.dart";
 import "package:provider/provider.dart";
 import "package:voyager/components/category_icon.dart";
 import "package:voyager/components/category_icons_listview.dart";
+import "package:voyager/components/destinations.dart";
 import "package:voyager/components/image_slider.dart";
 import "package:voyager/components/travel_info_list.dart";
+import "package:voyager/pages/for_you_expanded.dart";
 import "package:voyager/pages/see_all_for_categories.dart";
 import "package:voyager/utils/colors.dart";
 import "package:voyager/utils/constants.dart";
@@ -56,7 +58,7 @@ class _DestDescState extends State<DestDesc> {
                 : Colors.black,
             size: 20,
           ),
-          onPressed: (){
+          onPressed: () {
             Navigator.pop(context);
           },
         ),
@@ -98,9 +100,6 @@ class _DestDescState extends State<DestDesc> {
                   ),
                 ),
               ),
-              // SizedBox(
-              //   height: 5,
-              // ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
@@ -194,6 +193,81 @@ class _DestDescState extends State<DestDesc> {
                 height: 105,
                 child: CatIconsListView(),
               ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
+                child: Divider(
+                  thickness: 0.5,
+                  color: Colors.grey[400],
+                ),
+              ),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(6, 0, 0, 0),
+                    child: Text(
+                      'Top Attractions',
+                      style: TextStyle(
+                        color: Colors.blueAccent,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                      ),
+                    ),
+                  ),
+                  Expanded(child: Container()),
+                  GestureDetector(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'View All',
+                            style: TextStyle(
+                              color: themeProvider.themeMode == ThemeMode.dark
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: themeProvider.themeMode == ThemeMode.dark
+                                ? Colors.white
+                                : Colors.black,
+                            size: 12,
+                          ),
+                        ],
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  ForYouExp(heading: 'Top Attractions')));
+                    },
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 6.5,
+              ),
+              SizedBox(
+                  height: 150,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      Destinations(screenWidth: screenWidth),
+                      Destinations(screenWidth: screenWidth),
+                      Destinations(screenWidth: screenWidth),
+                      Destinations(screenWidth: screenWidth),
+                      Destinations(screenWidth: screenWidth),
+                      Destinations(screenWidth: screenWidth),
+                      Destinations(screenWidth: screenWidth),
+                      Destinations(screenWidth: screenWidth),
+                    ],
+                  )),
             ],
           ),
         ),

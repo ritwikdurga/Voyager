@@ -148,7 +148,7 @@ class _ExploreState extends State<Explore> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ForYouExp()));
+                                builder: (context) => ForYouExp(heading: 'For You',)));
                       },
                     )
                   ],

@@ -9,7 +9,8 @@ import "package:voyager/utils/colors.dart";
 import "package:voyager/utils/constants.dart";
 
 class ForYouExp extends StatefulWidget {
-  const ForYouExp({super.key});
+  late String heading;
+  ForYouExp( {super.key, required this.heading});
 
   @override
   State<ForYouExp> createState() => _ForYouExpState();
@@ -23,14 +24,18 @@ class _ForYouExpState extends State<ForYouExp> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, size: 20, color: themeProvider.themeMode == ThemeMode.dark
-              ? Colors.white
-              : Colors.black,),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            size: 20,
+            color: themeProvider.themeMode == ThemeMode.dark
+                ? Colors.white
+                : Colors.black,
+          ),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        title: Text('For You'),
+        title: Text(widget.heading),
         backgroundColor: themeProvider.themeMode == ThemeMode.dark
             ? darkColorScheme.background
             : lightColorScheme.background,
