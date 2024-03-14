@@ -25,8 +25,10 @@ class destExp extends StatelessWidget {
       color: themeProvider.themeMode == ThemeMode.dark
           ? Colors.black
           : Colors.white,
-      // Set shadowColor to transparent to avoid duplicate shadows
-
+      surfaceTintColor: themeProvider.themeMode == ThemeMode.dark
+          ? Colors.black
+          : Colors.white,
+          elevation: 0,
       child: InkWell(
         splashColor: Colors.blueAccent,
         onTap: () {

@@ -148,8 +148,20 @@ class _SearchState extends State<Search> {
         },
         suggestionsBuilder:
             (BuildContext context, SearchController controller) {
-          return List<Widget>.generate(15, (int index) {
-            final String item = 'Paris';
+          final List<String> items = [
+            'Paris',
+            'London',
+            'New York',
+            'Tokyo',
+            'Rome',
+            'Berlin'
+          ]; // Example list of items
+          final List<String> filteredItems = items
+              .where((item) =>
+                  item.toLowerCase().contains(controller.text.toLowerCase()))
+              .toList();
+
+          return filteredItems.map((item) {
             return Container(
               color: themeProvider.themeMode == ThemeMode.dark
                   ? Colors.black
@@ -169,14 +181,15 @@ class _SearchState extends State<Search> {
                     ),
                   ),
                   onTap: () {
+                    controller.clear();
                     controller.closeView(null);
                     Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => DestDesc()));
+                        MaterialPageRoute(builder: (context) => DestDesc()));
                   },
                 ),
               ),
             );
-          });
+          }).toList();
         },
       ),
     );
