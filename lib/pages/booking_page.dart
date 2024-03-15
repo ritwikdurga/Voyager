@@ -17,7 +17,7 @@ class Booking extends StatefulWidget {
   State<Booking> createState() => _BookingState();
 }
 
-class _BookingState extends State<Booking> with SingleTickerProviderStateMixin {
+class _BookingState extends State<Booking> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     TabController _tabController = TabController(length: 2, vsync: this);

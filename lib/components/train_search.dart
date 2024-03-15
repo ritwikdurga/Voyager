@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, must_be_immutable, prefer_const_constructors_in_immutables
+// ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +20,7 @@ class _TrainSearchState extends State<TrainSearch> {
 
   TextEditingController toStationcontroller = TextEditingController();
 
-  DateTime? selectedDate = null;
+  DateTime? selectedDate = DateTime.now();
   List<String> selectedStrings = [];
 
   void toggleSelection(String string) {
@@ -50,9 +50,18 @@ class _TrainSearchState extends State<TrainSearch> {
             actions: <Widget>[
               TextButton(
                 onPressed: () {
+                  Navigator.of(context).pop();
+                  setState(() {
+                    selectedDate = null;
+                  });
+                },
+                child: Text('Clear'),
+              ),
+              TextButton(
+                onPressed: () {
                   Navigator.of(context).pop(); // Close the dialog
                 },
-                child: Text('Close'),
+                child: Text('Select'),
               ),
             ],
             content: DatePicker(
@@ -70,204 +79,309 @@ class _TrainSearchState extends State<TrainSearch> {
   }
 
   List<String> stringList = ["1A", "2A", "3A", "3E", "CC", "SL", "2S"];
+  bool isListViewVisibleForDeparture = false;
+  bool isListViewVisibleForArrival = false;
+
+  List<Map<String, String>> getFilteredStations(String searchText) {
+    return Stations.where((station) {
+      final String code = station['code'] ?? '';
+      final String name = station['name'] ?? '';
+      return code.toLowerCase().contains(searchText.toLowerCase()) ||
+          name.toLowerCase().contains(searchText.toLowerCase());
+    }).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(6, 20, 0, 0),
-            child: Text(
-              'Search Trains',
-              style: TextStyle(
-                color: Colors.blueAccent,
-                fontWeight: FontWeight.bold,
-                fontSize: 22,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(6, 20, 0, 80),
+              child: Text(
+                'Search Trains',
+                style: TextStyle(
+                  color: Colors.blueAccent,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 26,
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 12, 0, 6),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 5),
-                //   child: Icon(
-                //     Icons.near_me,
-                //   ),
-                // ),
-                // Spacer(),
-                SizedBox(
-                  width: 0.95 * screenWidth,
-                  child: TextField(
-                    controller: fromStationcontroller,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.near_me,
-                      ),
-                      hintText: 'From',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide(
-                          color: themeProvider.themeMode == ThemeMode.dark
-                              ? Colors.white
-                              : Colors.black,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 12, 0, 6),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 0.95 * screenWidth,
+                        child: TextField(
+                          controller: fromStationcontroller,
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(
+                              Icons.near_me,
+                            ),
+                            hintText: 'From',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(
+                                color: themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.black,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(
+                                color: kGreenColor,
+                              ),
+                            ),
+                          ),
+                          onTap: () {
+                            setState(() {
+                              isListViewVisibleForDeparture = true;
+                            });
+                          },
+                          onChanged: (value) {
+                            setState(() {});
+                          },
                         ),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide(
-                          color: kGreenColor,
-                        ),
+                    ],
+                  ),
+                  if (isListViewVisibleForDeparture)
+                    SizedBox(
+                      height: 200,
+                      child: Stack(
+                        children: [
+                          ListView.builder(
+                            itemCount:
+                                getFilteredStations(fromStationcontroller.text)
+                                    .length,
+                            itemBuilder: (context, index) {
+                              final station = getFilteredStations(
+                                  fromStationcontroller.text)[index];
+                              return ListTile(
+                                title: Row(
+                                  children: [
+                                    Text('${station['code']}'),
+                                    SizedBox(width: 5),
+                                    Text('${station['name']}')
+                                  ],
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    fromStationcontroller.text =
+                                        station['name'] ?? '';
+                                    isListViewVisibleForDeparture = false;
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
+                                  });
+                                },
+                              );
+                            },
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 12, 0, 6),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 5),
-                //   child: Icon(
-                //     Icons.location_on,
-                //   ),
-                // ),
-                // Spacer(),
-                SizedBox(
-                  width: 0.95 * screenWidth,
-                  child: TextField(
-                    controller: toStationcontroller,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.location_on,
-                      ),
-                      hintText: 'To',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide(
-                          color: themeProvider.themeMode == ThemeMode.dark
-                              ? Colors.white
-                              : Colors.black,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 12, 0, 6),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 0.95 * screenWidth,
+                        child: TextField(
+                          controller: toStationcontroller,
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(
+                              Icons.location_on,
+                            ),
+                            hintText: 'To',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(
+                                color: themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.black,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(
+                                color: kGreenColor,
+                              ),
+                            ),
+                          ),
+                          onTap: () {
+                            setState(() {
+                              isListViewVisibleForArrival = true;
+                            });
+                          },
+                          onChanged: (value) {
+                            setState(() {});
+                          },
                         ),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide(
-                          color: kGreenColor,
-                        ),
+                    ],
+                  ),
+                  if (isListViewVisibleForArrival)
+                    SizedBox(
+                      height: 200,
+                      child: Stack(
+                        children: [
+                          ListView.builder(
+                            itemCount:
+                                getFilteredStations(toStationcontroller.text)
+                                    .length,
+                            itemBuilder: (context, index) {
+                              final station = getFilteredStations(
+                                  toStationcontroller.text)[index];
+                              return ListTile(
+                                title: Row(
+                                  children: [
+                                    Text('${station['code']}'),
+                                    SizedBox(width: 5),
+                                    Text('${station['name']}')
+                                  ],
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    toStationcontroller.text =
+                                        station['name'] ?? '';
+                                    isListViewVisibleForArrival = false;
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
+                                  });
+                                },
+                              );
+                            },
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(8, 20, 10, 0),
-            child: Row(
-              children: [
-                Text(
-                  'Trip Date',
-                  style: TextStyle(
-                    color: Colors.blueAccent,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8, 20, 10, 0),
+              child: Row(
+                children: [
+                  Text(
+                    'Trip Date',
+                    style: TextStyle(
+                      color: Colors.blueAccent,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      fontFamily: 'ProductSans',
+                    ),
                   ),
-                ),
-                Spacer(),
-                if (selectedDate != null)
-                  DateDisplayer(
-                      Date: selectedDate!.day.toString(),
-                      Day: selectedDate!.weekday,
-                      month: selectedDate!.month,
-                      Year: selectedDate!.year.toString(),
-                      valid: true)
-                else
-                  DateDisplayer(
-                      Date: 'Month', Day: 0, month: 0, Year: '', valid: false),
-                IconButton(
-                  icon: Icon(Icons.calendar_month),
-                  onPressed: () {
-                    _showDatePickerDialog(context);
-                  },
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(8, 20, 10, 20),
-            child: Row(
-              children: [
-                Text(
-                  'Passengers',
-                  style: TextStyle(
-                    color: Colors.blueAccent,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                  Spacer(),
+                  if (selectedDate != null)
+                    DateDisplayer(
+                        Date: selectedDate!.day.toString(),
+                        Day: selectedDate!.weekday,
+                        month: selectedDate!.month,
+                        Year: selectedDate!.year.toString(),
+                        valid: true)
+                  else
+                    DateDisplayer(
+                        Date: 'Month',
+                        Day: 0,
+                        month: 0,
+                        Year: '',
+                        valid: false),
+                  IconButton(
+                    icon: Icon(Icons.calendar_month),
+                    onPressed: () {
+                      _showDatePickerDialog(context);
+                    },
                   ),
-                ),
-                Spacer(),
-                customCounter(),
-              ],
+                ],
+              ),
             ),
-          ),
-          SizedBox(
-            height: 60,
-            width: screenWidth,
-            child: ListView.builder(
-              itemCount: stringList.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (BuildContext context, int index) {
-                bool isSelected = selectedStrings.contains(stringList[index]);
-                return GestureDetector(
-                  onTap: () {
-                    toggleSelection(stringList[index]);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 8),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: isSelected ? kGreenColor : Colors.grey[800],
-                        borderRadius: BorderRadius.all(Radius.circular(25)),
-                      ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8, 20, 10, 20),
+              child: Row(
+                children: [
+                  Text(
+                    'Passengers',
+                    style: TextStyle(
+                      color: Colors.blueAccent,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      fontFamily: 'ProductSans',
+                    ),
+                  ),
+                  Spacer(),
+                  customCounter(),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 60,
+              width: screenWidth,
+              child: ListView.builder(
+                itemCount: stringList.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (BuildContext context, int index) {
+                  bool isSelected = selectedStrings.contains(stringList[index]);
+                  return SizedBox(
+                    width: screenWidth / 7,
+                    child: GestureDetector(
+                      onTap: () {
+                        toggleSelection(stringList[index]);
+                      },
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          stringList[index],
-                          style: TextStyle(
-                            fontSize: 18,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 8),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: isSelected ? kGreenColor : Colors.grey[800],
+                            borderRadius: BorderRadius.all(Radius.circular(25)),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              stringList[index],
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: 'ProductSans',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
-          ),
-          SizedBox(height: 50),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return SearchTrains();
-                  }),
-                );
-              },
-              child: Text('Search')),
-        ],
+            SizedBox(height: 50),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return SearchTrains();
+                    }),
+                  );
+                },
+                child: Text('Search')),
+          ],
+        ),
       ),
     );
   }

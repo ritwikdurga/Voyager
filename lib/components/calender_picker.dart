@@ -77,6 +77,9 @@ class _DatePickerState extends State<DatePicker> {
         color: Colors.grey,
       ),
       calendarType: CalendarDatePicker2Type.single,
+      selectableDayPredicate: (day) => !day
+        .difference(DateTime.now().subtract(const Duration(days: 1)))
+        .isNegative,
     );
     return Container(
       color: themeProvider.themeMode == ThemeMode.dark

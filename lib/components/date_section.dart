@@ -1,6 +1,8 @@
 // ignore_for_file: non_constant_identifier_names, must_be_immutable, unnecessary_string_interpolations
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:voyager/utils/constants.dart';
 
 class DateDisplayer extends StatelessWidget {
   late String Date;
@@ -46,12 +48,17 @@ class DateDisplayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Column(
       children: [
         Text(
           '$Date ${months[month]}',
           style: TextStyle(
-            color: valid ? Colors.blueAccent : Colors.grey[800],
+            color: valid
+                ? themeProvider.themeMode == ThemeMode.dark
+                    ? Colors.white
+                    : Colors.black
+                : Colors.grey[800],
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
@@ -59,7 +66,11 @@ class DateDisplayer extends StatelessWidget {
         Text(
           '${days[Day]} $Year',
           style: TextStyle(
-            color: valid ? Colors.blueAccent : Colors.grey[800],
+            color: valid
+                ? themeProvider.themeMode == ThemeMode.dark
+                    ? Colors.white
+                    : Colors.black
+                : Colors.grey[800],
             fontSize: 12,
             fontWeight: FontWeight.bold,
           ),
