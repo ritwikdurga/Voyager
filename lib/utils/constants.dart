@@ -8382,256 +8382,802 @@ final List<Map<String, String>> Stations = [
 ];
 
 final List<Map<String, String>> Airports = [
-  {'place': 'Agra', 'code': 'AGR', 'name': 'Agra Airport'},
-  {'place': 'Agatti Island', 'code': 'AGX', 'name': 'Agatti Airport'},
-  {'place': 'Jalandhar', 'code': 'AIP', 'name': 'Adampur Airport'},
-  {'place': 'Akola', 'code': 'AKD', 'name': 'Akola Airport'},
   {
-    'place': 'Ahmedabad',
-    'code': 'AMD',
-    'name': 'Sardar Vallabhbhai Patel International Airport'
+    "place": "Agra",
+    "code": "AGR",
+    "name": "Agra Airport",
+    "entity_id":
+        "eyJlIjoiOTU2NzM0NjMiLCJzIjoiQUdSIiwiaCI6IjI3NTM2NDk2IiwidCI6IkFJUlBPUlQifQ=="
   },
   {
-    'place': 'Amritsar',
-    'code': 'ATQ',
-    'name': 'Sri Guru Ram Dass Jee International Airport'
+    "place": "Agatti Island",
+    "code": "AGX",
+    "name": "Agatti Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4NDcxIiwicyI6IkFHWCIsImgiOiI4MTk3NTUzMiIsInQiOiJBSVJQT1JUIn0="
   },
   {
-    'place': 'Ayodhya',
-    'code': 'AYJ',
-    'name': 'Maharishi Valmiki International Airport'
+    "place": "Ahmedabad",
+    "code": "AMD",
+    "name": "Sardar Vallabhbhai Patel International Airport",
+    "entity_id":
+        "eyJlIjoiOTU2NzMzNjYiLCJzIjoiQU1EIiwiaCI6IjI3NTM2NTU0IiwidCI6IkFJUlBPUlQifQ=="
   },
   {
-    'place': 'Bhubaneswar',
-    'code': 'BBI',
-    'name': 'Biju Patnaik International Airport'
-  },
-  {'place': 'Vadodara', 'code': 'BDQ', 'name': 'Vadodara Airport'},
-  {'place': 'Bareilly', 'code': 'BEK', 'name': 'Bareilly Airport'},
-  {'place': 'Bhuj', 'code': 'BHJ', 'name': 'Bhuj Airport'},
-  {'place': 'Bhopal', 'code': 'BHO', 'name': 'Raja Bhoj Airport'},
-  {'place': 'Bhavnagar', 'code': 'BHU', 'name': 'Bhavnagar Airport'},
-  {'place': 'Bikaner', 'code': 'BKB', 'name': 'Bikaner Airport'},
-  {
-    'place': 'Bengaluru',
-    'code': 'BLR',
-    'name': 'Kempegowda International Airport'
+    "place": "Amritsar",
+    "code": "ATQ",
+    "name": "Sri Guru Ram Dass Jee International Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4NDY2IiwicyI6IkFUUSIsImgiOiIyNzU0ODE3OSIsInQiOiJBSVJQT1JUIn0="
   },
   {
-    'place': 'Mumbai',
-    'code': 'BOM',
-    'name': 'Chhatrapati Shivaji Maharaj International Airport'
-  },
-  {'place': 'Hyderabad', 'code': 'BPM', 'name': 'Begumpet Airport'},
-  {'place': 'Bathinda', 'code': 'BUP', 'name': 'Bathinda Airport'},
-  {
-    'place': 'Kozhikode',
-    'code': 'CCJ',
-    'name': 'Kozhikode International Airport'
+    "place": "Ayodhya",
+    "code": "AYJ",
+    "name": "Maharishi Valmiki International Airport",
+    "entity_id":
+        "eyJlIjoiMjE3MDk3OTA3IiwicyI6IkFZSiIsImgiOiIyMTcwOTc5MDYiLCJ0IjoiQUlSUE9SVCJ9"
   },
   {
-    'place': 'Kolkata',
-    'code': 'CCU',
-    'name': 'Netaji Subhas Chandra Bose International Airport'
-  },
-  {'place': 'Kadapa', 'code': 'CDP', 'name': 'Kadapa Airport'},
-  {
-    'place': 'Coimbatore',
-    'code': 'CJB',
-    'name': 'Coimbatore International Airport'
-  },
-  {'place': 'Kannur', 'code': 'CNN', 'name': 'Kannur International Airport'},
-  {'place': 'Cooch Behar', 'code': 'COH', 'name': 'Cooch Behar Airport'},
-  {'place': 'Kochi', 'code': 'COK', 'name': 'Cochin International Airport'},
-  {'place': 'Darbhanga', 'code': 'DBR', 'name': 'Darbhanga Airport'},
-  {'place': 'Dehradun', 'code': 'DED', 'name': 'Dehradun Airport'},
-  {
-    'place': 'Delhi NCR',
-    'code': 'DEL',
-    'name': 'Indira Gandhi International Airport'
-  },
-  {'place': 'Deoghar', 'code': 'DGH', 'name': 'Deoghar Airport'},
-  {'place': 'Kangra', 'code': 'DHM', 'name': 'Kangra Airport'},
-  {'place': 'Dibrugarh', 'code': 'DIB', 'name': 'Dibrugarh Airport'},
-  {'place': 'Diu', 'code': 'DIU', 'name': 'Diu Airport'},
-  {'place': 'Dimapur', 'code': 'DMU', 'name': 'Dimapur Airport'},
-  {
-    'place': 'Guwahati',
-    'code': 'GAU',
-    'name': 'Lokpriya Gopinath Bordoloi International Airport'
-  },
-  {'place': 'Gaya', 'code': 'GAY', 'name': 'Gaya Airport'},
-  {'place': 'Kalaburagi', 'code': 'GBI', 'name': 'Kalaburagi Airport'},
-  {'place': 'Gondia', 'code': 'GDB', 'name': 'Gondia Airport'},
-  {'place': 'Dabolim', 'code': 'GOI', 'name': 'Dabolim Airport'},
-  {'place': 'Gorakhpur', 'code': 'GOP', 'name': 'Gorakhpur Airport'},
-  {'place': 'Mopa', 'code': 'GOX', 'name': 'Manohar International Airport'},
-  {
-    'place': 'Gwalior',
-    'code': 'GWL',
-    'name': 'Rajmata Vijaya Raje Scindia Airport'
-  },
-  {'place': 'Hubli', 'code': 'HBX', 'name': 'Hubli Airport'},
-  {'place': 'Ghaziabad', 'code': 'HDO', 'name': 'Hindon Airport'},
-  {'place': 'Itanagar', 'code': 'HGI', 'name': 'Donyi Polo Airport'},
-  {'place': 'Khajuraho', 'code': 'HJR', 'name': 'Khajuraho Airport'},
-  {'place': 'Rajkot', 'code': 'HSR', 'name': 'Rajkot International Airport'},
-  {'place': 'Hisar', 'code': 'HSS', 'name': 'Hisar Airport'},
-  {
-    'place': 'Hyderabad',
-    'code': 'HYD',
-    'name': 'Rajiv Gandhi International Airport'
-  },
-  {'place': 'Indore', 'code': 'IDR', 'name': 'Devi Ahilya Bai Holkar Airport'},
-  {'place': 'Imphal', 'code': 'IMF', 'name': 'Imphal International Airport'},
-  {'place': 'Nashik', 'code': 'ISK', 'name': 'Nashik Airport'},
-  {'place': 'Agartala', 'code': 'IXA', 'name': 'Maharaja Bir Bikram Airport'},
-  {
-    'place': 'Siliguri',
-    'code': 'IXB',
-    'name': 'Bagdogra International Airport'
+    "place": "Bhubaneswar",
+    "code": "BBI",
+    "name": "Biju Patnaik International Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4MDM5IiwicyI6IkJCSSIsImgiOiIyNzU0ODI1OSIsInQiOiJBSVJQT1JUIn0="
   },
   {
-    'place': 'Chandigarh',
-    'code': 'IXC',
-    'name': 'Shaheed Bhagat Singh International Airport'
-  },
-  {'place': 'Prayagraj', 'code': 'IXD', 'name': 'Prayagraj Airport'},
-  {
-    'place': 'Mangaluru',
-    'code': 'IXE',
-    'name': 'Mangalore International Airport'
-  },
-  {'place': 'Belgavi', 'code': 'IXG', 'name': 'Belgavi Airport'},
-  {'place': 'North Lakhimpur', 'code': 'IXI', 'name': 'Lilabari Airport'},
-  {'place': 'Jammu', 'code': 'IXJ', 'name': 'Jammu Airport'},
-  {'place': 'Junagadh', 'code': 'IXK', 'name': 'Keshod Airport'},
-  {'place': 'Leh', 'code': 'IXL', 'name': 'Kushok Bakula Rimpochee Airport'},
-  {'place': 'Madurai', 'code': 'IXM', 'name': 'Madurai Airport'},
-  {'place': 'Pathankot', 'code': 'IXP', 'name': 'Pathankot Airport'},
-  {'place': 'Ranchi', 'code': 'IXR', 'name': 'Birsa Munda Airport'},
-  {'place': 'Silchar', 'code': 'IXS', 'name': 'Silchar Airport'},
-  {'place': 'Pasighat', 'code': 'IXT', 'name': 'Pasighat Airport'},
-  {'place': 'Aurangabad', 'code': 'IXU', 'name': 'Aurangabad Airport'},
-  {'place': 'Jamshedpur', 'code': 'IXW', 'name': 'Sonari Airport'},
-  {'place': 'Bidar', 'code': 'IXX', 'name': 'Bidar Airport'},
-  {'place': 'Kandla', 'code': 'IXY', 'name': 'Kandla Airport'},
-  {
-    'place': 'Port Blair',
-    'code': 'IXZ',
-    'name': 'Veer Savarkar International Airport'
-  },
-  {'place': 'Jaipur', 'code': 'JAI', 'name': 'Jaipur International Airport'},
-  {'place': 'Jodhpur', 'code': 'JDH', 'name': 'Jodhpur Airport'},
-  {'place': 'Jamnagar', 'code': 'JGA', 'name': 'Jamnagar Airport'},
-  {'place': 'Jagdalpur', 'code': 'JGB', 'name': 'Jagdalpur Airport'},
-  {'place': 'Jalgaon', 'code': 'JLG', 'name': 'Jalgaon Airport'},
-  {'place': 'Jabalpur', 'code': 'JLR', 'name': 'Jabalpur Airport'},
-  {'place': 'Jharsuguda', 'code': 'JRG', 'name': 'Veer Surendra Sai Airport'},
-  {'place': 'Jorhat', 'code': 'JRH', 'name': 'Jorhat Airport'},
-  {'place': 'Jaisalmer', 'code': 'JSA', 'name': 'Jaisalmer Airport'},
-  {
-    'place': 'Kushinagar',
-    'code': 'KBK',
-    'name': 'Kushinagar International Airport'
-  },
-  {'place': 'Kurnool', 'code': 'KJB', 'name': 'Kurnool Airport'},
-  {'place': 'Kolhapur', 'code': 'KLH', 'name': 'Kolhapur Airport'},
-  {'place': 'Kanpur', 'code': 'KNU', 'name': 'Kanpur Airport'},
-  {'place': 'Ajmer', 'code': 'KQH', 'name': 'Kishangarh Airport'},
-  {'place': 'Kota', 'code': 'KTU', 'name': 'Kota Airport'},
-  {'place': 'Kullu-Manali', 'code': 'KUU', 'name': 'KulluñManali Airport'},
-  {
-    'place': 'Lucknow',
-    'code': 'LKO',
-    'name': 'Chaudhary Charan Singh International Airport'
-  },
-  {'place': 'Latur', 'code': 'LTU', 'name': 'Latur Airport'},
-  {'place': 'Ludhiana', 'code': 'LUH', 'name': 'Ludhiana Airport'},
-  {'place': 'Chennai', 'code': 'MAA', 'name': 'Chennai International Airport'},
-  {'place': 'Mysuru', 'code': 'MYQ', 'name': 'Mysore Airport'},
-  {
-    'place': 'Nagpur',
-    'code': 'NAG',
-    'name': 'Dr. Babasaheb Ambedkar International Airport'
+    "place": "Vadodara",
+    "code": "BDQ",
+    "name": "Vadodara Airport",
+    "entity_id":
+        "eyJlIjoiOTU2NzMzNjciLCJzIjoiQkRRIiwiaCI6IjI3NTM4NzEyIiwidCI6IkFJUlBPUlQifQ=="
   },
   {
-    'place': 'Nanded',
-    'code': 'NDC',
-    'name': 'Shri Guru Gobind Singh Ji Airport'
-  },
-  {'place': 'Pithoragarh', 'code': 'NNS', 'name': 'Pithoragarh Airport'},
-  {'place': 'Neyveli', 'code': 'NVY', 'name': 'Neyveli Airport'},
-  {'place': 'Osmanabad', 'code': 'OMN', 'name': 'Osmanabad Airport'},
-  {'place': 'Bilaspur', 'code': 'PAB', 'name': 'Bilaspur Airport'},
-  {'place': 'Patna', 'code': 'PAT', 'name': 'Jay Prakash Narayan Airport'},
-  {'place': 'Porbandar', 'code': 'PBD', 'name': 'Porbandar Airport'},
-  {'place': 'Pantnagar', 'code': 'PGH', 'name': 'Pantnagar Airport'},
-  {'place': 'Pune', 'code': 'PNQ', 'name': 'Pune Airport'},
-  {'place': 'Puducherry', 'code': 'PNY', 'name': 'Puducherry Airport'},
-  {'place': 'Puttaparthi', 'code': 'PUT', 'name': 'Sri Sathya Sai Airport'},
-  {'place': 'Jeypore', 'code': 'PYB', 'name': 'Jeypore Airport'},
-  {'place': 'Gangtok', 'code': 'PYG', 'name': 'Pakyong Airport'},
-  {'place': 'Berhampur', 'code': 'QBM', 'name': 'Rangeilunda Airport'},
-  {'place': 'Rajkot', 'code': 'RAJ', 'name': 'Rajkot Airport'},
-  {'place': 'Durgapur', 'code': 'RDP', 'name': 'Kazi Nazrul Islam Airport'},
-  {'place': 'Rajahmundry', 'code': 'RJA', 'name': 'Rajahmundry Airport'},
-  {'place': 'Raipur', 'code': 'RPR', 'name': 'Swami Vivekananda Airport'},
-  {'place': 'Shivamogga', 'code': 'RQY', 'name': 'Kuvempu Airport'},
-  {'place': 'Rourkela', 'code': 'RRK', 'name': 'Rourkela Airport'},
-  {'place': 'Dhubri', 'code': 'RUP', 'name': 'Rupsi Airport'},
-  {'place': 'Shirdi', 'code': 'SAG', 'name': 'Shirdi Airport'},
-  {'place': 'Sindhudurg', 'code': 'SDW', 'name': 'Sindhudurg Airport'},
-  {'place': 'Shillong', 'code': 'SHL', 'name': 'Shillong Airport'},
-  {'place': 'Shimla', 'code': 'SLV', 'name': 'Shimla Airport'},
-  {'place': 'Solapur', 'code': 'SSE', 'name': 'Solapur Airport'},
-  {'place': 'Surat', 'code': 'STV', 'name': 'Surat International Airport[8]'},
-  {
-    'place': 'Srinagar',
-    'code': 'SXR',
-    'name': 'Srinagar International Airport'
-  },
-  {'place': 'Salem', 'code': 'SXV', 'name': 'Salem Airport'},
-  {'place': 'Thoothukkudi', 'code': 'TCR', 'name': 'Tuticorin Airport'},
-  {'place': 'Tezu', 'code': 'TEI', 'name': 'Tezu Airport'},
-  {'place': 'Tezpur', 'code': 'TEZ', 'name': 'Tezpur Airport'},
-  {
-    'place': 'Tirupati',
-    'code': 'TIR',
-    'name': 'Tirupati International Airport'
+    "place": "Bareilly",
+    "code": "BEK",
+    "name": "Bareilly Airport",
+    "entity_id":
+        "eyJlIjoiMTI5MDUzMjA4IiwicyI6IkJFSyIsImgiOiIyNzUzODcyMyIsInQiOiJBSVJQT1JUIn0="
   },
   {
-    'place': 'Thiruvananthapuram',
-    'code': 'TRV',
-    'name': 'Thiruvananthapuram International Airport'
+    "place": "Bhuj",
+    "code": "BHJ",
+    "name": "Bhuj Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4MzAyIiwicyI6IkJISiIsImgiOiIyNzUzODc3NiIsInQiOiJBSVJQT1JUIn0="
   },
   {
-    'place': 'Tiruchirappalli',
-    'code': 'TRZ',
-    'name': 'Tiruchirappalli International Airport'
-  },
-  {'place': 'Udaipur', 'code': 'UDR', 'name': 'Maharana Pratap Airport'},
-  {'place': 'Utkela', 'code': 'UKE', 'name': 'Utkela Airport'},
-  {'place': 'Ballari', 'code': 'VDY', 'name': 'Jindal Vijaynagar Airport'},
-  {
-    'place': 'Vijayawada',
-    'code': 'VGA',
-    'name': 'Vijayawada International Airport'
+    "place": "Bhopal",
+    "code": "BHO",
+    "name": "Raja Bhoj Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4MDM3IiwicyI6IkJITyIsImgiOiIyNzUzODc3OSIsInQiOiJBSVJQT1JUIn0="
   },
   {
-    'place': 'Varanasi',
-    'code': 'VNS',
-    'name': 'Lal Bahadur Shastri International Airport'
+    "place": "Bhavnagar",
+    "code": "BHU",
+    "name": "Bhavnagar Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4MTE1IiwicyI6IkJIVSIsImgiOiIyNzUzODc4NCIsInQiOiJBSVJQT1JUIn0="
   },
   {
-    'place': 'Visakhapatnam',
-    'code': 'VTZ',
-    'name': 'Visakhapatnam International Airport'
+    "place": "Bikaner",
+    "code": "BKB",
+    "name": "Bikaner Airport",
+    "entity_id":
+        "eyJlIjoiMTI5MDUyMzc4IiwicyI6IkJLQiIsImgiOiIyNzUzOTQzOSIsInQiOiJBSVJQT1JUIn0="
   },
   {
-    'place': 'Yavatmal',
-    'code': 'YTL',
-    'name': 'Sant Gadge Baba Yavatmal Airport'
+    "place": "Bengaluru",
+    "code": "BLR",
+    "name": "Kempegowda International Airport",
+    "entity_id":
+        "eyJlIjoiOTU2NzMzNTEiLCJzIjoiQkxSIiwiaCI6IjI3NTM5NDcxIiwidCI6IkFJUlBPUlQifQ=="
   },
-  {'place': 'Ziro', 'code': 'ZER', 'name': 'Ziro Airport'},
+  {
+    "place": "Mumbai",
+    "code": "BOM",
+    "name": "Chhatrapati Shivaji Maharaj International Airport",
+    "entity_id":
+        "eyJlIjoiOTU2NzMzMjAiLCJzIjoiQk9NIiwiaCI6IjI3NTM5NTIwIiwidCI6IkFJUlBPUlQifQ=="
+  },
+  {
+    "place": "Hyderabad",
+    "code": "BPM",
+    "name": "Begumpet Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4MDczIiwicyI6IkhZRCIsImgiOiIyNzU0Mjc2NCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Kozhikode",
+    "code": "CCJ",
+    "name": "Kozhikode International Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4MzY1IiwicyI6IkNDSiIsImgiOiIyNzUzOTcxOCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Kolkata",
+    "code": "CCU",
+    "name": "Netaji Subhas Chandra Bose International Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4MzY2IiwicyI6IkNDVSIsImgiOiIyNzUzOTcyNiIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Kadapa",
+    "code": "CDP",
+    "name": "Kadapa Airport",
+    "entity_id":
+        "eyJlIjoiMTI5MDU1NDg4IiwicyI6IkNEUCIsImgiOiIyNzUzOTczOCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Coimbatore",
+    "code": "CJB",
+    "name": "Coimbatore International Airport",
+    "entity_id":
+        "eyJlIjoiOTU2NzM1NDkiLCJzIjoiQ0pCIiwiaCI6IjI3NTM5ODA4IiwidCI6IkFJUlBPUlQifQ=="
+  },
+  {
+    "place": "Kannur",
+    "code": "CNN",
+    "name": "Kannur International Airport",
+    "entity_id":
+        "eyJlIjoiMTkyNDY1NzE0IiwicyI6IkNOTiIsImgiOiI0NTI5NDE3NCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Cooch Behar",
+    "code": "COH",
+    "name": "Cooch Behar Airport",
+    "entity_id":
+        "eyJlIjoiMTI5MDU1ODQ4IiwicyI6IkNPSCIsImgiOiIyNzUzOTg4MCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Kochi",
+    "code": "COK",
+    "name": "Cochin International Airport",
+    "entity_id":
+        "eyJlIjoiOTU2NzM1NTAiLCJzIjoiQ09LIiwiaCI6IjI3NTM5ODgzIiwidCI6IkFJUlBPUlQifQ=="
+  },
+  {
+    "place": "Darbhanga",
+    "code": "DBR",
+    "name": "Darbhanga Airport",
+    "entity_id":
+        "eyJlIjoiMjA0NDgxNDM5IiwicyI6IkRCUiIsImgiOiI0NTI5MzA4MiIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Dehradun",
+    "code": "DED",
+    "name": "Dehradun Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY3MzAxIiwicyI6IkRFRCIsImgiOiI0NTI5Mjk0MyIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Delhi NCR",
+    "code": "DEL",
+    "name": "Indira Gandhi International Airport",
+    "entity_id":
+        "eyJlIjoiOTU2NzQyMzEiLCJzIjoiQlJDIiwiaCI6IjI3NTM5NTUzIiwidCI6IkFJUlBPUlQifQ=="
+  },
+  {
+    "place": "Deoghar",
+    "code": "DGH",
+    "name": "Deoghar Airport",
+    "entity_id":
+        "eyJlIjoiMjEyNjc2NjQ3IiwicyI6IkRHSCIsImgiOiI0NTI5Mjg5MCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Kangra",
+    "code": "DHM",
+    "name": "Kangra Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY3Mjg1IiwicyI6IkRITSIsImgiOiIyNzU0MDcyMSIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Dibrugarh",
+    "code": "DIB",
+    "name": "Dibrugarh Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4NDA2IiwicyI6IkRJQiIsImgiOiIyNzU0MDcyNiIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Diu",
+    "code": "DIU",
+    "name": "Diu Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY3NTE5IiwicyI6IkRJVSIsImgiOiIyNzU0MDczNSIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Dimapur",
+    "code": "DMU",
+    "name": "Dimapur Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4MzM3IiwicyI6IkRNVSIsImgiOiIyNzU0MDc2NyIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Guwahati",
+    "code": "GAU",
+    "name": "Lokpriya Gopinath Bordoloi International Airport",
+    "entity_id":
+        "eyJlIjoiOTU2NzM1NzAiLCJzIjoiR0FVIiwiaCI6IjI3NTQxNzYxIiwidCI6IkFJUlBPUlQifQ=="
+  },
+  {
+    "place": "Gaya",
+    "code": "GAY",
+    "name": "Gaya Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4MDg1IiwicyI6IkdBWSIsImgiOiIyNzU0MTc2MyIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Kalaburagi",
+    "code": "GBI",
+    "name": "Kalaburagi Airport",
+    "entity_id":
+        "eyJlIjoiMjA1MDQ4MDE5IiwicyI6IkdCSSIsImgiOiI0NTI5MTA3OSIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Gondia",
+    "code": "GDB",
+    "name": "Gondia Airport",
+    "entity_id":
+        "eyJlIjoiMjE3MDc4Njg0IiwicyI6IkdEQiIsImgiOiI0NTI5MTI1MCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Gorakhpur",
+    "code": "GOP",
+    "name": "Gorakhpur Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4NjA2IiwicyI6IkdPUCIsImgiOiIyNzU0MTg5NiIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Mopa",
+    "code": "GOX",
+    "name": "Manohar International Airport",
+    "entity_id":
+        "eyJlIjoiMjEzMjYwOTczIiwicyI6IkdPWCIsImgiOiI0NTI4NTEyNyIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Gwalior",
+    "code": "GWL",
+    "name": "Rajmata Vijaya Raje Scindia Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4MDgwIiwicyI6IkdXTCIsImgiOiIyNzU0MTk2NSIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Hubli",
+    "code": "HBX",
+    "name": "Hubli Airport",
+    "entity_id":
+        "eyJlIjoiOTU2NzM1ODciLCJzIjoiSEJYIiwiaCI6IjI3NTQyMDA5IiwidCI6IkFJUlBPUlQifQ=="
+  },
+  {
+    "place": "Ghaziabad",
+    "code": "HDO",
+    "name": "Hindon Airport",
+    "entity_id":
+        "eyJlIjoiMjE4Mzc4NTc1IiwicyI6IkhETyIsImgiOiIzMjU4NzE3NCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Itanagar",
+    "code": "HGI",
+    "name": "Donyi Polo Airport",
+    "entity_id":
+        "eyJlIjoiMjEzMzA4NDQ2IiwicyI6IkhHSSIsImgiOiI0NTI5MDI2OCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Khajuraho",
+    "code": "HJR",
+    "name": "Khajuraho Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4MDc3IiwicyI6IkhKUiIsImgiOiIyNzU0MjA2MiIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Rajkot",
+    "code": "HSR",
+    "name": "Rajkot International Airport",
+    "entity_id":
+        "eyJlIjoiMjE2NzMzNzk3IiwicyI6IkhTUiIsImgiOiIyMTY2ODMyMjAiLCJ0IjoiQUlSUE9SVCJ9"
+  },
+  {
+    "place": "Hyderabad",
+    "code": "HYD",
+    "name": "Rajiv Gandhi International Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4MDczIiwicyI6IkhZRCIsImgiOiIyNzU0Mjc2NCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Indore",
+    "code": "IDR",
+    "name": "Devi Ahilya Bai Holkar Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY3NTA0IiwicyI6IklEUiIsImgiOiIyNzU0MjgwMSIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Imphal",
+    "code": "IMF",
+    "name": "Imphal International Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4NjUzIiwicyI6IklNRiIsImgiOiIyNzU0Mjg0OSIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Nashik",
+    "code": "ISK",
+    "name": "Nashik Airport",
+    "entity_id":
+        "eyJlIjoiMTI5MDU1NjU5IiwicyI6IklTSyIsImgiOiIyNzU0Mjg5OCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Agartala",
+    "code": "IXA",
+    "name": "Maharaja Bir Bikram Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY3OTMwIiwicyI6IklYQSIsImgiOiIzMjYwNjY5MCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Chandigarh",
+    "code": "IXC",
+    "name": "Shaheed Bhagat Singh International Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY3MjU1IiwicyI6IklYQyIsImgiOiIyNzU0MjkyMiIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Prayagraj",
+    "code": "IXD",
+    "name": "Prayagraj Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4Njk2IiwicyI6IklYRCIsImgiOiIyNzU0MjkyMyIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Mangaluru",
+    "code": "IXE",
+    "name": "Mangalore International Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4NTYzIiwicyI6IklYRSIsImgiOiIyNzU0MjkyNCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "North Lakhimpur",
+    "code": "IXI",
+    "name": "Lilabari Airport",
+    "entity_id":
+        "eyJlIjoiOTU2NzMzMDIiLCJzIjoiVEZOIiwiaCI6IjI3NTQ3MTY1IiwidCI6IkFJUlBPUlQifQ=="
+  },
+  {
+    "place": "Jammu",
+    "code": "IXJ",
+    "name": "Jammu Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY3ODExIiwicyI6IklYSiIsImgiOiIyNzU0MjkyNyIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Junagadh",
+    "code": "IXK",
+    "name": "Keshod Airport",
+    "entity_id":
+        "eyJlIjoiMTI5MDU2MjgxIiwicyI6IklYSyIsImgiOiIyNzU0MjkyOCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Leh",
+    "code": "IXL",
+    "name": "Kushok Bakula Rimpochee Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4MzgwIiwicyI6IklYTCIsImgiOiIyNzU0MjkyOSIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Madurai",
+    "code": "IXM",
+    "name": "Madurai Airport",
+    "entity_id":
+        "eyJlIjoiOTU2NzM1NjYiLCJzIjoiSVhNIiwiaCI6IjI3NTQyOTMwIiwidCI6IkFJUlBPUlQifQ=="
+  },
+  {
+    "place": "Ranchi",
+    "code": "IXR",
+    "name": "Birsa Munda Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4Njk4IiwicyI6IklYUiIsImgiOiIyNzU0MjkzMiIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Silchar",
+    "code": "IXS",
+    "name": "Silchar Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4MDY3IiwicyI6IklYUyIsImgiOiIyNzU0MjkzMyIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Pasighat",
+    "code": "IXT",
+    "name": "Pasighat Airport",
+    "entity_id":
+        "eyJlIjoiMTI5MDU0NTU1IiwicyI6IklYVCIsImgiOiIyNzU0MjkzNCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Aurangabad",
+    "code": "IXU",
+    "name": "Aurangabad Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4Njk5IiwicyI6IklYVSIsImgiOiIyNzU0MjkzNSIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Jamshedpur",
+    "code": "IXW",
+    "name": "Sonari Airport",
+    "entity_id":
+        "eyJlIjoiMTI5MDU3NzY5IiwicyI6IklYVyIsImgiOiIyNzU0MjkzNyIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Bidar",
+    "code": "IXX",
+    "name": "Bidar Airport",
+    "entity_id":
+        "eyJlIjoiMjE2MjE1MjkxIiwicyI6IklYWCIsImgiOiI0NTI5NDcwOSIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Kandla",
+    "code": "IXY",
+    "name": "Kandla Airport",
+    "entity_id":
+        "eyJlIjoiMTI5MDU0MDc0IiwicyI6IklYWSIsImgiOiIyNzU0MjkzOCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Port Blair",
+    "code": "IXZ",
+    "name": "Veer Savarkar International Airport",
+    "entity_id":
+        "eyJlIjoiMTA0MTIwMjUzIiwicyI6IklYWiIsImgiOiIyNzU1MTE0NiIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Jaipur",
+    "code": "JAI",
+    "name": "Jaipur International Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4NTY1IiwicyI6IkpBSSIsImgiOiIyNzU0Mjk0NyIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Jodhpur",
+    "code": "JDH",
+    "name": "Jodhpur Airport",
+    "entity_id":
+        "eyJlIjoiOTU2NzM1NjQiLCJzIjoiSkRIIiwiaCI6IjI3NTQyOTYwIiwidCI6IkFJUlBPUlQifQ=="
+  },
+  {
+    "place": "Jamnagar",
+    "code": "JGA",
+    "name": "Jamnagar Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4NzAzIiwicyI6IkpHQSIsImgiOiIyNzU0Mjk3MCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Jagdalpur",
+    "code": "JGB",
+    "name": "Jagdalpur Airport",
+    "entity_id":
+        "eyJlIjoiMTI5MDU1MTkwIiwicyI6IkpHQiIsImgiOiIyNzUzODY2NyIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Jabalpur",
+    "code": "JLR",
+    "name": "Jabalpur Airport",
+    "entity_id":
+        "eyJlIjoiOTU2NzM1MjciLCJzIjoiSkxSIiwiaCI6IjI3NTQyOTk4IiwidCI6IkFJUlBPUlQifQ=="
+  },
+  {
+    "place": "Jharsuguda",
+    "code": "JRG",
+    "name": "Veer Surendra Sai Airport",
+    "entity_id":
+        "eyJlIjoiMjAwNTQ4NjI5IiwicyI6IkpSRyIsImgiOiI0NTI4OTc0NyIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Jorhat",
+    "code": "JRH",
+    "name": "Jorhat Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4NzEwIiwicyI6IkpSSCIsImgiOiIyNzU0MzAyMSIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Jaisalmer",
+    "code": "JSA",
+    "name": "Jaisalmer Airport",
+    "entity_id":
+        "eyJlIjoiMTI5MDUyNjU5IiwicyI6IkpTQSIsImgiOiIyNzU0MzAyMyIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Kushinagar",
+    "code": "KBK",
+    "name": "Kushinagar International Airport",
+    "entity_id":
+        "eyJlIjoiMjA1NjMwMjQ3IiwicyI6IktCSyIsImgiOiI4MTk3NzM5NiIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Kurnool",
+    "code": "KJB",
+    "name": "Kurnool Airport",
+    "entity_id":
+        "eyJlIjoiMjA1MDQ4MDE4IiwicyI6IktKQiIsImgiOiI0NTI4NzExNSIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Kolhapur",
+    "code": "KLH",
+    "name": "Kolhapur Airport",
+    "entity_id":
+        "eyJlIjoiMTI5MDU0MDUxIiwicyI6IktMSCIsImgiOiIyNzU0Mzg4OCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Kanpur",
+    "code": "KNU",
+    "name": "Kanpur Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY3MTIzIiwicyI6IktOVSIsImgiOiIyNzU0MzA5NiIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Ajmer",
+    "code": "KQH",
+    "name": "Kishangarh Airport",
+    "entity_id":
+        "eyJlIjoiMTk5Nzc1MjM5IiwicyI6IktRSCIsImgiOiI0NTI4Nzg4MiIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Kota",
+    "code": "KTU",
+    "name": "Kota Airport",
+    "entity_id":
+        "eyJlIjoiOTU2NzM3NzciLCJzIjoiQktJIiwiaCI6IjI3NTM5NDQ0IiwidCI6IkFJUlBPUlQifQ=="
+  },
+  {
+    "place": "Kullu-Manali",
+    "code": "KUU",
+    "name": "Kullu\u0096Manali Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4NzU3IiwicyI6IktVVSIsImgiOiIyNzU0MzkzMCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Lucknow",
+    "code": "LKO",
+    "name": "Chaudhary Charan Singh International Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4Nzk0IiwicyI6IkxLTyIsImgiOiIyNzU0NDA4MiIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Chennai",
+    "code": "MAA",
+    "name": "Chennai International Airport",
+    "entity_id":
+        "eyJlIjoiOTU2NzMzNjEiLCJzIjoiTUFBIiwiaCI6IjMyNTc1OTU0IiwidCI6IkFJUlBPUlQifQ=="
+  },
+  {
+    "place": "Mysuru",
+    "code": "MYQ",
+    "name": "Mysore Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4ODYzIiwicyI6Ik1ZUSIsImgiOiIyNzU0NzMzNiIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Nagpur",
+    "code": "NAG",
+    "name": "Dr. Babasaheb Ambedkar International Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4ODY3IiwicyI6Ik5BRyIsImgiOiIyNzU0NTA4MSIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Nanded",
+    "code": "NDC",
+    "name": "Shri Guru Gobind Singh Ji Airport",
+    "entity_id":
+        "eyJlIjoiOTU2NzM2MTUiLCJzIjoiREFEIiwiaCI6IjI3NTQwNjY5IiwidCI6IkFJUlBPUlQifQ=="
+  },
+  {
+    "place": "Bilaspur",
+    "code": "PAB",
+    "name": "Bilaspur Airport",
+    "entity_id":
+        "eyJlIjoiMTI5MDU0Mjg2IiwicyI6IlBBQiIsImgiOiI0NTI5NDYyOCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Patna",
+    "code": "PAT",
+    "name": "Jay Prakash Narayan Airport",
+    "entity_id":
+        "eyJlIjoiOTU2NzM0NDEiLCJzIjoiUEFUIiwiaCI6IjI3NTQ1Mjk1IiwidCI6IkFJUlBPUlQifQ=="
+  },
+  {
+    "place": "Porbandar",
+    "code": "PBD",
+    "name": "Porbandar Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4OTE4IiwicyI6IlBCRCIsImgiOiIyNzU1MDA2MyIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Pantnagar",
+    "code": "PGH",
+    "name": "Pantnagar Airport",
+    "entity_id":
+        "eyJlIjoiMTI5MDUzNjQzIiwicyI6IlBHSCIsImgiOiIyNzU1MDA4NyIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Pune",
+    "code": "PNQ",
+    "name": "Pune Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4OTQxIiwicyI6IlBOUSIsImgiOiI4MTk3NzM3MiIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Puducherry",
+    "code": "PNY",
+    "name": "Puducherry Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4OTQyIiwicyI6IlBOWSIsImgiOiIyNzU0NjAwMyIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Jeypore",
+    "code": "PYB",
+    "name": "Jeypore Airport",
+    "entity_id":
+        "eyJlIjoiMTI5MDUyNTkyIiwicyI6IlBZQiIsImgiOiIyNzU1MDE1MSIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Gangtok",
+    "code": "PYG",
+    "name": "Pakyong Airport",
+    "entity_id":
+        "eyJlIjoiMTkwNTgxNTU1IiwicyI6IlBZRyIsImgiOiIzMjYxMTM3NCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Rajkot",
+    "code": "RAJ",
+    "name": "Rajkot Airport",
+    "entity_id":
+        "eyJlIjoiMjE2NzMzNzk3IiwicyI6IkhTUiIsImgiOiIyMTY2ODMyMjAiLCJ0IjoiQUlSUE9SVCJ9"
+  },
+  {
+    "place": "Durgapur",
+    "code": "RDP",
+    "name": "Kazi Nazrul Islam Airport",
+    "entity_id":
+        "eyJlIjoiMTM3NTQxOTU3IiwicyI6IlJEUCIsImgiOiIzMjYwNDU4OSIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Rajahmundry",
+    "code": "RJA",
+    "name": "Rajahmundry Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY3NzQ4IiwicyI6IlJKQSIsImgiOiIyNzU1MDkwOCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Raipur",
+    "code": "RPR",
+    "name": "Swami Vivekananda Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY3NDYwIiwicyI6IlJQUiIsImgiOiIyNzU0NjIxMCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Shivamogga",
+    "code": "RQY",
+    "name": "Kuvempu Airport",
+    "entity_id":
+        "eyJlIjoiMjE2NzY2MTY4IiwicyI6IlJRWSIsImgiOiIyMTY3NjYxNjciLCJ0IjoiQUlSUE9SVCJ9"
+  },
+  {
+    "place": "Rourkela",
+    "code": "RRK",
+    "name": "Rourkela Airport",
+    "entity_id":
+        "eyJlIjoiMTI5MDU3NjU1IiwicyI6IlJSSyIsImgiOiIyNzU0NjIxMiIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Shirdi",
+    "code": "SAG",
+    "name": "Shirdi Airport",
+    "entity_id":
+        "eyJlIjoiMTYwMTA4NzExIiwicyI6IlNBRyIsImgiOiIzMjYyMjAzNyIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Shillong",
+    "code": "SHL",
+    "name": "Shillong Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY3ODYzIiwicyI6IlNITCIsImgiOiIyNzU0NjM0MSIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Shimla",
+    "code": "SLV",
+    "name": "Shimla Airport",
+    "entity_id":
+        "eyJlIjoiMTI5MDUxOTM4IiwicyI6IlNMViIsImgiOiIyNzU0NzAxNiIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Surat",
+    "code": "STV",
+    "name": "Surat International Airport[8]",
+    "entity_id":
+        "eyJlIjoiMTI4NjY3MDYwIiwicyI6IlNUViIsImgiOiIyNzU0NjI5NSIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Srinagar",
+    "code": "SXR",
+    "name": "Srinagar International Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY5MDM2IiwicyI6IlNYUiIsImgiOiIyNzU0NzA5NCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Salem",
+    "code": "SXV",
+    "name": "Salem Airport",
+    "entity_id":
+        "eyJlIjoiMTI5MDU3NjM4IiwicyI6IlNMRSIsImgiOiIyNzU0NjM4MyIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Tezu",
+    "code": "TEI",
+    "name": "Tezu Airport",
+    "entity_id":
+        "eyJlIjoiMTI5MDUzOTA5IiwicyI6IlRFSSIsImgiOiIyNzU0MDU4MiIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Tezpur",
+    "code": "TEZ",
+    "name": "Tezpur Airport",
+    "entity_id":
+        "eyJlIjoiMTI5MDUyNTIxIiwicyI6IlRFWiIsImgiOiIyNzU0NzE2NCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Tirupati",
+    "code": "TIR",
+    "name": "Tirupati International Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY3NjQzIiwicyI6IlRJUiIsImgiOiIyNzU0NzE4NiIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Thiruvananthapuram",
+    "code": "TRV",
+    "name": "Thiruvananthapuram International Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY5MDc3IiwicyI6IlRSViIsImgiOiIyNzU0NzI1MiIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Tiruchirappalli",
+    "code": "TRZ",
+    "name": "Tiruchirappalli International Airport",
+    "entity_id":
+        "eyJlIjoiOTU2NzM1NjciLCJzIjoiVFJaIiwiaCI6IjMyNjYwNTQ4IiwidCI6IkFJUlBPUlQifQ=="
+  },
+  {
+    "place": "Udaipur",
+    "code": "UDR",
+    "name": "Maharana Pratap Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY5MDkwIiwicyI6IlVEUiIsImgiOiIyNzU0NzMxMCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Utkela",
+    "code": "UKE",
+    "name": "Utkela Airport",
+    "entity_id":
+        "eyJlIjoiMjE3OTQ2NjU2IiwicyI6IlVLRSIsImgiOiI0NTI3ODI0NyIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Ballari",
+    "code": "VDY",
+    "name": "Jindal Vijaynagar Airport",
+    "entity_id":
+        "eyJlIjoiMTI5MDUyNDkyIiwicyI6IlZEWSIsImgiOiI0NTI4MTA1MSIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Vijayawada",
+    "code": "VGA",
+    "name": "Vijayawada International Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY3MTYxIiwicyI6IlZHQSIsImgiOiIyNzU1MDkxNCIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Varanasi",
+    "code": "VNS",
+    "name": "Lal Bahadur Shastri International Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY3NzE2IiwicyI6IlZOUyIsImgiOiIyNzU0NzQxNSIsInQiOiJBSVJQT1JUIn0="
+  },
+  {
+    "place": "Visakhapatnam",
+    "code": "VTZ",
+    "name": "Visakhapatnam International Airport",
+    "entity_id":
+        "eyJlIjoiMTI4NjY4NTAxIiwicyI6IlZUWiIsImgiOiIyNzU0NzQzOSIsInQiOiJBSVJQT1JUIn0="
+  },
 ];
