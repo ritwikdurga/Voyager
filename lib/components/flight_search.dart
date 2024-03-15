@@ -94,8 +94,10 @@ class _FlightSearchState extends State<FlightSearch> {
     return Airports.where((airport) {
       final String code = airport['code'] ?? '';
       final String name = airport['name'] ?? '';
+      final String place = airport['place'] ?? '';
       return code.toLowerCase().contains(searchText.toLowerCase()) ||
-          name.toLowerCase().contains(searchText.toLowerCase());
+          name.toLowerCase().contains(searchText.toLowerCase()) ||
+          place.toLowerCase().contains(searchText.toLowerCase());
     }).toList();
   }
 
@@ -259,6 +261,8 @@ class _FlightSearchState extends State<FlightSearch> {
                               return ListTile(
                                 title: Row(
                                   children: [
+                                    Text('${airport['place']}'),
+                                    SizedBox(width: 5),
                                     Text('${airport['code']}'),
                                     SizedBox(width: 5),
                                     Text('${airport['name']}')
