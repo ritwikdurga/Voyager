@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/date_symbol_data_local.dart'; // Import date symbol data
 import 'package:intl/intl.dart';
@@ -8,7 +11,19 @@ import '../components/ticket_widget.dart';
 import '../utils/constants.dart';
 
 class SearchFlights extends StatefulWidget {
-  const SearchFlights({super.key});
+  SearchFlights(
+      {super.key,
+      required this.selectedFromAirport,
+      required this.selectedToAirport,
+      required this.DepartureDate,
+      required this.Class,
+      required this.PassengerCount});
+
+  Map<String, String>? selectedFromAirport;
+  Map<String, String>? selectedToAirport;
+  String? Class;
+  int PassengerCount;
+  DateTime? DepartureDate;
 
   @override
   State<SearchFlights> createState() => _SearchFlightsState();
@@ -21,6 +36,41 @@ class _SearchFlightsState extends State<SearchFlights> {
   void initState() {
     super.initState();
     _selectedDate = DateTime.now();
+    print(widget.selectedFromAirport.toString());
+    print(widget.selectedToAirport.toString());
+    print(widget.DepartureDate.toString());
+    print(widget.PassengerCount);
+    getFlights();
+  }
+
+  // call the api to get the flights
+  Future<void> getFlights() async {
+    var url =
+        Uri.parse('https://sky-scanner3.p.rapidapi.com/flights/search-one-way');
+
+    var headers = {
+      'X-RapidAPI-Key': 'befb2e3d3amsh91f7217f2b2de4cp170455jsn501d2baf90f7',
+      'X-RapidAPI-Host': 'sky-scanner3.p.rapidapi.com'
+    };
+
+    var params = {
+      'fromEntityId': widget.selectedFromAirport?['entity_id'],
+      'toEntityId': widget.selectedToAirport?['entity_id'],
+      'departDate': DateFormat('yyyy-MM-dd').format(widget.DepartureDate!),
+      if (widget.Class != null) 'cabinClass': widget.Class,
+    };
+
+    var response =
+        await http.get(url.replace(queryParameters: params), headers: headers);
+
+    if (response.statusCode == 200) {
+      var responseBody = json.decode(response.body);
+      var itineraries = responseBody['data']['itineraries'];
+      print(itineraries);
+      //print(response.body.itineraries.toString());
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
   }
 
   @override
@@ -63,9 +113,9 @@ class _SearchFlightsState extends State<SearchFlights> {
               },
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'Flights on ${DateFormat.yMMMd().format(_selectedDate)}',
@@ -74,28 +124,6 @@ class _SearchFlightsState extends State<SearchFlights> {
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
                     ),
-                  ),
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          Iconsax.sort,
-                          size: 20,
-                        ),
-                        onPressed: () {
-                          // Add your sort functionality here
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          Iconsax.filter,
-                          size: 20,
-                        ),
-                        onPressed: () {
-                          // Add your filter functionality here
-                        },
-                      ),
-                    ],
                   ),
                 ],
               ),

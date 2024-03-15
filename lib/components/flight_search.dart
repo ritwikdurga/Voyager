@@ -1,10 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, must_be_immutable, prefer_const_constructors_in_immutables
 
+import 'package:customizable_counter/customizable_counter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/components/calender_picker.dart';
-import 'package:voyager/components/custom_counter.dart';
 import 'package:voyager/components/date_section.dart';
 import 'package:voyager/pages/search_flights.dart';
 import 'package:voyager/utils/constants.dart';
@@ -20,17 +21,21 @@ class _FlightSearchState extends State<FlightSearch> {
   TextEditingController fromAirportcontroller = TextEditingController();
 
   TextEditingController toAirportcontroller = TextEditingController();
+  Map<String, String>? selectedFromAirport;
+  Map<String, String>? selectedToAirport;
 
   DateTime? selectedDepartureDate = DateTime.now();
   DateTime? selectedArrivalDate = null;
   List<String> selectedStrings = [];
 
-  void toggleSelection(String string) {
+  void toggleSelection(String selectedItem) {
     setState(() {
-      if (selectedStrings.contains(string)) {
-        selectedStrings.remove(string);
+      if (selectedStrings.contains(selectedItem)) {
+        selectedStrings
+            .remove(selectedItem); // If already selected, deselect it
       } else {
-        selectedStrings.add(string);
+        selectedStrings.clear(); // Clear previously selected items
+        selectedStrings.add(selectedItem); // Select the new item
       }
     });
   }
@@ -102,6 +107,9 @@ class _FlightSearchState extends State<FlightSearch> {
   }
 
   List<String> stringList = ["ECONOMY", "BUSSINESS", "FIRST CLASS"];
+
+  double counterCount = 1;
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -177,23 +185,37 @@ class _FlightSearchState extends State<FlightSearch> {
                             itemBuilder: (context, index) {
                               final airport = getFilteredAirports(
                                   fromAirportcontroller.text)[index];
-                              return ListTile(
-                                title: Row(
-                                  children: [
-                                    Text('${airport['code']}'),
-                                    SizedBox(width: 5),
-                                    Text('${airport['name']}')
-                                  ],
+                              return ConstrainedBox(
+                                constraints: BoxConstraints(
+                                    maxWidth: 0.95 * screenWidth),
+                                child: ListTile(
+                                  title: SizedBox(
+                                    width: 0.95 * screenWidth,
+                                    child: Row(
+                                      children: [
+                                        Text('${airport['code']}'),
+                                        SizedBox(width: 5),
+                                        ConstrainedBox(
+                                            constraints: BoxConstraints(
+                                                maxWidth: 0.75 * screenWidth),
+                                            child: Text(
+                                              '${airport['name']}',
+                                              overflow: TextOverflow.ellipsis,
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    setState(() {
+                                      fromAirportcontroller.text =
+                                          airport['name'] ?? '';
+                                      isListViewVisibleForDeparture = false;
+                                      selectedFromAirport = airport;
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                    });
+                                  },
                                 ),
-                                onTap: () {
-                                  setState(() {
-                                    fromAirportcontroller.text =
-                                        airport['name'] ?? '';
-                                    isListViewVisibleForDeparture = false;
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                  });
-                                },
                               );
                             },
                           ),
@@ -258,25 +280,35 @@ class _FlightSearchState extends State<FlightSearch> {
                             itemBuilder: (context, index) {
                               final airport = getFilteredAirports(
                                   toAirportcontroller.text)[index];
-                              return ListTile(
-                                title: Row(
-                                  children: [
-                                    Text('${airport['place']}'),
-                                    SizedBox(width: 5),
-                                    Text('${airport['code']}'),
-                                    SizedBox(width: 5),
-                                    Text('${airport['name']}')
-                                  ],
+                              return ConstrainedBox(
+                                constraints: BoxConstraints(
+                                    maxWidth: 0.95 * screenWidth),
+                                child: ListTile(
+                                  title: Row(
+                                    children: [
+                                      Text('${airport['code']}'),
+                                      SizedBox(width: 5),
+                                      ConstrainedBox(
+                                          constraints: BoxConstraints(
+                                              maxWidth: 0.75 * screenWidth),
+                                          child: Text(
+                                            '${airport['name']}',
+                                            overflow: TextOverflow.ellipsis,
+                                          ))
+                                    ],
+                                  ),
+                                  onTap: () {
+                                    setState(() {
+                                      toAirportcontroller.text =
+                                          airport['name'] ?? '';
+                                      selectedToAirport = airport;
+                                      // print(selectedToAirport.toString());
+                                      isListViewVisibleForArrival = false;
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                    });
+                                  },
                                 ),
-                                onTap: () {
-                                  setState(() {
-                                    toAirportcontroller.text =
-                                        airport['name'] ?? '';
-                                    isListViewVisibleForArrival = false;
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                  });
-                                },
                               );
                             },
                           ),
@@ -391,7 +423,33 @@ class _FlightSearchState extends State<FlightSearch> {
                     ),
                   ),
                   Spacer(),
-                  customCounter(),
+                  CustomizableCounter(
+                    borderWidth: 1,
+                    showButtonText: false,
+                    count: 1,
+                    step: 1,
+                    minCount: 1,
+                    incrementIcon: Icon(
+                      Icons.add,
+                      color: themeProvider.themeMode == ThemeMode.dark
+                          ? Colors.white
+                          : Colors.black,
+                    ),
+                    decrementIcon: Icon(
+                      Icons.remove,
+                      color: themeProvider.themeMode == ThemeMode.dark
+                          ? Colors.white
+                          : Colors.black,
+                    ),
+                    onCountChange: (count) {
+                      setState(() {
+                        counterCount = count;
+                      });
+                      //counterCount=count;
+                    },
+                    onIncrement: (count) {},
+                    onDecrement: (count) {},
+                  ),
                 ],
               ),
             ),
@@ -440,7 +498,7 @@ class _FlightSearchState extends State<FlightSearch> {
             ElevatedButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SearchFlights()));
+                      MaterialPageRoute(builder: (context) => SearchFlights(selectedFromAirport: selectedFromAirport,selectedToAirport: selectedToAirport,DepartureDate: selectedDepartureDate,Class: selectedStrings.isNotEmpty ? selectedStrings[0] : null,PassengerCount: counterCount.toInt(),)));
                 },
                 child: Text('Search')),
           ],

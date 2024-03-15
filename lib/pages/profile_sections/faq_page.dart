@@ -98,6 +98,8 @@ class FAQPage extends StatelessWidget {
           return ExpansionTile(
             title: Text(item.title,
                 style: TextStyle(
+                  fontFamily: 'ProductSans',
+                  fontSize: 16.0,
                   color: themeProvider.themeMode == ThemeMode.dark
                       ? Colors.white
                       : Colors.black,
@@ -108,6 +110,7 @@ class FAQPage extends StatelessWidget {
                 padding: EdgeInsets.all(12.0),
                 child: Text(item.answer,
                     style: TextStyle(
+                      fontSize: 14.0,
                       color: themeProvider.themeMode == ThemeMode.dark
                           ? Colors.white
                           : Colors.black,
