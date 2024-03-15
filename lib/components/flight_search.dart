@@ -1,25 +1,27 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, must_be_immutable, prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/components/calender_picker.dart';
 import 'package:voyager/components/custom_counter.dart';
 import 'package:voyager/components/date_section.dart';
 import 'package:voyager/utils/constants.dart';
 
-class TrainSearch extends StatefulWidget {
-  TrainSearch({super.key});
+class FlightSearch extends StatefulWidget {
+  FlightSearch({super.key});
 
   @override
-  State<TrainSearch> createState() => _TrainSearchState();
+  State<FlightSearch> createState() => _FlightSearchState();
 }
 
-class _TrainSearchState extends State<TrainSearch> {
-  TextEditingController fromStationcontroller = TextEditingController();
+class _FlightSearchState extends State<FlightSearch> {
+  TextEditingController fromAirportcontroller = TextEditingController();
 
-  TextEditingController toStationcontroller = TextEditingController();
+  TextEditingController toAirportcontroller = TextEditingController();
 
-  DateTime? selectedDate = null;
+  DateTime? selectedDepartureDate = null;
+  DateTime? selectedArrivalDate = null;
   List<String> selectedStrings = [];
 
   void toggleSelection(String string) {
@@ -32,7 +34,7 @@ class _TrainSearchState extends State<TrainSearch> {
     });
   }
 
-  void _showDatePickerDialog(BuildContext context) {
+  void _showDatePickerDialog(BuildContext context, bool Arrival) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -49,7 +51,7 @@ class _TrainSearchState extends State<TrainSearch> {
             actions: <Widget>[
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
+                  Navigator.of(context).pop();
                 },
                 child: Text('Close'),
               ),
@@ -57,8 +59,13 @@ class _TrainSearchState extends State<TrainSearch> {
             content: DatePicker(
               onDateSelected: (date) {
                 setState(() {
-                  selectedDate = date;
-                  print(selectedDate.toString());
+                  if(Arrival){
+                    selectedArrivalDate = date;
+                    print(selectedArrivalDate.toString());
+                  }else{
+                    selectedDepartureDate = date;
+                    print(selectedDepartureDate.toString());
+                  }
                 });
               },
             ),
@@ -68,7 +75,7 @@ class _TrainSearchState extends State<TrainSearch> {
     );
   }
 
-  List<String> stringList = ["1A", "2A", "3A", "3E", "CC", "SL", "2S"];
+  List<String> stringList = ["ECONOMY", "BUSSINESS", "FIRST CLASS"];
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -80,7 +87,7 @@ class _TrainSearchState extends State<TrainSearch> {
           Padding(
             padding: const EdgeInsets.fromLTRB(6, 20, 0, 0),
             child: Text(
-              'Search Trains',
+              'Search Flights',
               style: TextStyle(
                 color: Colors.blueAccent,
                 fontWeight: FontWeight.bold,
@@ -103,7 +110,7 @@ class _TrainSearchState extends State<TrainSearch> {
                 SizedBox(
                   width: 0.95 * screenWidth,
                   child: TextField(
-                    controller: fromStationcontroller,
+                    controller: fromAirportcontroller,
                     decoration: InputDecoration(
                       prefixIcon: Icon(
                         Icons.near_me,
@@ -134,17 +141,10 @@ class _TrainSearchState extends State<TrainSearch> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 5),
-                //   child: Icon(
-                //     Icons.location_on,
-                //   ),
-                // ),
-                // Spacer(),
                 SizedBox(
                   width: 0.95 * screenWidth,
                   child: TextField(
-                    controller: toStationcontroller,
+                    controller: toAirportcontroller,
                     decoration: InputDecoration(
                       prefixIcon: Icon(
                         Icons.location_on,
@@ -182,22 +182,88 @@ class _TrainSearchState extends State<TrainSearch> {
                     fontSize: 18,
                   ),
                 ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Departure',
+                      textAlign: TextAlign.center,
+                      style:TextStyle(
+                        fontWeight: FontWeight.w800,
+                        color:Colors.blueAccent,
+                        fontSize:14,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        if (selectedDepartureDate != null)
+                          DateDisplayer(
+                              Date: selectedDepartureDate!.day.toString(),
+                              Day: selectedDepartureDate!.weekday,
+                              month: selectedDepartureDate!.month,
+                              Year: selectedDepartureDate!.year.toString(),
+                              valid: true)
+                        else
+                          DateDisplayer(
+                              Date: 'Month',
+                              Day: 0,
+                              month: 0,
+                              Year: '',
+                              valid: false),
+                        IconButton(
+                          icon: Icon(Icons.calendar_month),
+                          onPressed: () {
+                            _showDatePickerDialog(context, false);
+                          },
+                        )
+                      ],
+                    ),
+                  ],
+                ),
                 Spacer(),
-                if (selectedDate != null)
-                  DateDisplayer(
-                      Date: selectedDate!.day.toString(),
-                      Day: selectedDate!.weekday,
-                      month: selectedDate!.month,
-                      Year: selectedDate!.year.toString(),
-                      valid: true)
-                else
-                  DateDisplayer(
-                      Date: 'Month', Day: 0, month: 0, Year: '', valid: false),
-                IconButton(
-                  icon: Icon(Icons.calendar_month),
-                  onPressed: () {
-                    _showDatePickerDialog(context);
-                  },
+                Column(
+                  children: [
+                    Text(
+                      'Arrival',
+                      textAlign: TextAlign.center,
+                      style:TextStyle(
+                        fontWeight: FontWeight.w800,
+                        color:Colors.blueAccent,
+                        fontSize:14,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        if (selectedArrivalDate != null)
+                          DateDisplayer(
+                              Date: selectedArrivalDate!.day.toString(),
+                              Day: selectedArrivalDate!.weekday,
+                              month: selectedArrivalDate!.month,
+                              Year: selectedArrivalDate!.year.toString(),
+                              valid: true)
+                        else
+                          DateDisplayer(
+                              Date: 'Month',
+                              Day: 0,
+                              month: 0,
+                              Year: '',
+                              valid: false),
+                        IconButton(
+                          icon: Icon(Icons.calendar_month),
+                          onPressed: () {
+                            _showDatePickerDialog(context, true);
+                          },
+                        )
+                      ],
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -233,7 +299,7 @@ class _TrainSearchState extends State<TrainSearch> {
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 8),
+                        vertical: 10.0, horizontal: 5.51),
                     child: Container(
                       decoration: BoxDecoration(
                         color: isSelected ? kGreenColor : Colors.grey[800],
@@ -254,7 +320,7 @@ class _TrainSearchState extends State<TrainSearch> {
               },
             ),
           ),
-          SizedBox(height: 50),
+          SizedBox(height: 30),
           ElevatedButton(onPressed: () {}, child: Text('Search')),
         ],
       ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/components/circle_tab_indicator.dart';
+import 'package:voyager/components/flight_search.dart';
 import 'package:voyager/components/tab_view_icons.dart';
 import 'package:voyager/components/train_search.dart';
 import 'package:voyager/utils/colors.dart';
@@ -59,7 +60,7 @@ class _BookingState extends State<Booking> with SingleTickerProviderStateMixin {
                 controller: _tabController,
                 children: [
                   TrainSearch(),
-                  Center(child: Text('flights'))
+                  FlightSearch()
                 ],
               ),
             ),
