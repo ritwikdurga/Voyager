@@ -50,6 +50,8 @@ dependencies:
   provider: ^6.0.1
   calendar_date_picker2: ^0.5.5
   horizontal_calendar: ^1.1.2
+  http: ^1.2.1
+  intl: ^0.18.1
   flutter_localizations:
     sdk: flutter
 

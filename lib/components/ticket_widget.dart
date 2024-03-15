@@ -4,17 +4,27 @@ import 'package:provider/provider.dart';
 import '../utils/constants.dart';
 
 class TicketWid extends StatefulWidget {
-  const TicketWid({
+  TicketWid({
     Key? key,
     required this.width,
     required this.height,
     required this.topText,
     required this.bottomText,
+    required this.fromStationName,
+    required this.toStationName,
+    required this.fromDate,
+    required this.toDate,
+    required this.fromTime,
+    required this.toTime,
+    required this.duration,
     required this.name,
     required this.number,
+    required this.passengersCount,
     required this.symbol,
+    required this.fareData,
     this.padding,
     this.margin,
+    required this.classes,
     this.color = Colors.transparent,
     this.isCornerRounded = false,
     this.shadow,
@@ -24,23 +34,38 @@ class TicketWid extends StatefulWidget {
   final double height;
   final String topText;
   final String bottomText;
+  final String fromStationName;
+  final String toStationName;
+  final String fromDate;
+  final String toDate;
+  final String fromTime;
+  final String toTime;
+  final String duration;
   final String name;
   final String number;
+  final int passengersCount;
+
+  final Map<String, int> fareData;
   final IconData symbol;
   final Color color;
   final bool isCornerRounded;
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
   final List<BoxShadow>? shadow;
+  final List<String> classes;
 
   @override
   _TicketWidState createState() => _TicketWidState();
 }
 
 class _TicketWidState extends State<TicketWid> {
+  String? _selectedClass;
+  bool _isClassSelected = false;
+
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+
     return ClipPath(
       clipper: TicketClipper(),
       child: Stack(
@@ -107,7 +132,7 @@ class _TicketWidState extends State<TicketWid> {
                             child: SizedBox(
                               height: 20,
                               child: Text(
-                                'Kashi Vishwanath Temple',
+                                widget.fromStationName,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 13,
@@ -136,7 +161,7 @@ class _TicketWidState extends State<TicketWid> {
                           ),
                           // date of travel
                           Text(
-                            '15 MAR',
+                            widget.fromDate,
                             style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w300,
@@ -147,7 +172,7 @@ class _TicketWidState extends State<TicketWid> {
                           ),
                           // time of arrival
                           Text(
-                            '10:00 AM',
+                            widget.fromTime,
                             style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w300,
@@ -174,7 +199,7 @@ class _TicketWidState extends State<TicketWid> {
                         SizedBox(height: 5),
                         // time of travel
                         Text(
-                          '2H 45M',
+                          widget.duration,
                           style: TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w400,
@@ -194,7 +219,7 @@ class _TicketWidState extends State<TicketWid> {
                             child: SizedBox(
                               height: 20,
                               child: Text(
-                                'Bharatpur Junction',
+                                widget.toStationName,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 13,
@@ -222,7 +247,7 @@ class _TicketWidState extends State<TicketWid> {
                           ),
                           // date of travel
                           Text(
-                            '15 MAR',
+                            widget.toDate,
                             style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w300,
@@ -233,7 +258,7 @@ class _TicketWidState extends State<TicketWid> {
                           ),
                           // time of arrival
                           Text(
-                            '12:45 PM',
+                            widget.toTime,
                             style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w300,
@@ -280,62 +305,106 @@ class _TicketWidState extends State<TicketWid> {
                       ),
                     ),
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            '₹ 200',
-                            style: TextStyle(
-                              color: themeProvider.themeMode == ThemeMode.dark
-                                  ? Colors.black
-                                  : Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+
+                  // dropdown to select the class of travel
+                  DropdownButton<String>(
+                    value: _selectedClass,
+                    items: widget.classes.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: TextStyle(
+                            color: themeProvider.themeMode == ThemeMode.dark
+                                ? Colors.black
+                                : Colors.white,
                           ),
-                          // "/ person" text
-                          Text(
-                            '/ person',
-                            style: TextStyle(
-                              color: themeProvider.themeMode == ThemeMode.dark
-                                  ? Colors.black
-                                  : Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                        ],
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (String? selectedValue) {
+                      // Handle the selection here
+                      setState(() {
+                        _selectedClass = selectedValue;
+                        _isClassSelected = true;
+                      });
+                      print("Selected value: $selectedValue");
+                    },
+                    hint: Text(
+                      'Classes',
+                      style: TextStyle(
+                        color: themeProvider.themeMode == ThemeMode.dark
+                            ? Colors.black
+                            : Colors.white,
                       ),
-                      // now if user enters the number of persons then the total price will be calculated
-                      // and displayed here
-                      Row(
-                        children: [
-                          Text(
-                            'Total: ',
-                            style: TextStyle(
-                              color: themeProvider.themeMode == ThemeMode.dark
-                                  ? Colors.black
-                                  : Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                          Text(
-                            '₹ 400',
-                            style: TextStyle(
-                              color: themeProvider.themeMode == ThemeMode.dark
-                                  ? Colors.black
-                                  : Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
+                    ),
+                    dropdownColor: themeProvider.themeMode == ThemeMode.dark
+                        ? Colors.white
+                        : Colors.black,
+                    icon: Icon(
+                      Icons.arrow_drop_down,
+                      color: themeProvider.themeMode == ThemeMode.dark
+                          ? Colors.black
+                          : Colors.white,
+                    ),
                   ),
+                  if (_isClassSelected)
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              '₹ ${widget.fareData[_selectedClass!]}',
+                              style: TextStyle(
+                                color: themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.black
+                                    : Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            // "/ person" text
+                            Text(
+                              '/ person',
+                              style: TextStyle(
+                                color: themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.black
+                                    : Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                          ],
+                        ),
+                        // now if user enters the number of persons then the total price will be calculated
+                        // and displayed here
+                        Row(
+                          children: [
+                            Text(
+                              'Total: ',
+                              style: TextStyle(
+                                color: themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.black
+                                    : Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                            Text(
+                              '₹ ${(widget.fareData[_selectedClass] ?? 1) * widget.passengersCount} ',
+                              style: TextStyle(
+                                color: themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.black
+                                    : Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                 ],
               ),
             ),

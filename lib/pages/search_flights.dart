@@ -105,70 +105,70 @@ class _SearchFlightsState extends State<SearchFlights> {
                 padding: const EdgeInsets.all(8.0),
                 child: ListView(
                   children: [
-                    TicketWid(
-                      name: 'Air India',
-                      number: 'AI-202',
-                      symbol: Icons.flight,
-                      width: width,
-                      height: 200,
-                      color: themeProvider.themeMode == ThemeMode.dark
-                          ? Colors.white
-                          : Colors.black,
-                      topText: "TIC",
-                      bottomText: "TIC",
-                    ),
-                    SizedBox(height: 12),
-                    TicketWid(
-                      name: 'Air India',
-                      number: 'AI-202',
-                      symbol: Icons.flight,
-                      width: width,
-                      height: 200,
-                      color: themeProvider.themeMode == ThemeMode.dark
-                          ? Colors.white
-                          : Colors.black,
-                      topText: "TIC",
-                      bottomText: "TIC",
-                    ),
-                    SizedBox(height: 12),
-                    TicketWid(
-                      name: 'Air India',
-                      number: 'AI-202',
-                      symbol: Icons.flight,
-                      width: width,
-                      height: 200,
-                      color: themeProvider.themeMode == ThemeMode.dark
-                          ? Colors.white
-                          : Colors.black,
-                      topText: "TIC",
-                      bottomText: "TIC",
-                    ),
-                    SizedBox(height: 12),
-                    TicketWid(
-                      name: 'Air India',
-                      number: 'AI-202',
-                      symbol: Icons.flight,
-                      width: width,
-                      height: 200,
-                      color: themeProvider.themeMode == ThemeMode.dark
-                          ? Colors.white
-                          : Colors.black,
-                      topText: "TIC",
-                      bottomText: "TIC",
-                    ),
-                    SizedBox(height: 12),
-                    TicketWid(
-                      name: 'Air India',
-                      number: 'AI-202',
-                      symbol: Icons.flight,
-                      width: width,
-                      height: 200,
-                      color: themeProvider.themeMode == ThemeMode.dark
-                          ? Colors.white
-                          : Colors.black,
-                      topText: "TIC",
-                      bottomText: "TIC",
-                    ),
+                    // TicketWid(
+                    //   name: 'Air India',
+                    //   number: 'AI-202',
+                    //   symbol: Icons.flight,
+                    //   width: width,
+                    //   height: 200,
+                    //   color: themeProvider.themeMode == ThemeMode.dark
+                    //       ? Colors.white
+                    //       : Colors.black,
+                    //   topText: "TIC",
+                    //   bottomText: "TIC",
+                    // ),
+                    // SizedBox(height: 12),
+                    // TicketWid(
+                    //   name: 'Air India',
+                    //   number: 'AI-202',
+                    //   symbol: Icons.flight,
+                    //   width: width,
+                    //   height: 200,
+                    //   color: themeProvider.themeMode == ThemeMode.dark
+                    //       ? Colors.white
+                    //       : Colors.black,
+                    //   topText: "TIC",
+                    //   bottomText: "TIC",
+                    // ),
+                    // SizedBox(height: 12),
+                    // TicketWid(
+                    //   name: 'Air India',
+                    //   number: 'AI-202',
+                    //   symbol: Icons.flight,
+                    //   width: width,
+                    //   height: 200,
+                    //   color: themeProvider.themeMode == ThemeMode.dark
+                    //       ? Colors.white
+                    //       : Colors.black,
+                    //   topText: "TIC",
+                    //   bottomText: "TIC",
+                    // ),
+                    // SizedBox(height: 12),
+                    // TicketWid(
+                    //   name: 'Air India',
+                    //   number: 'AI-202',
+                    //   symbol: Icons.flight,
+                    //   width: width,
+                    //   height: 200,
+                    //   color: themeProvider.themeMode == ThemeMode.dark
+                    //       ? Colors.white
+                    //       : Colors.black,
+                    //   topText: "TIC",
+                    //   bottomText: "TIC",
+                    // ),
+                    // SizedBox(height: 12),
+                    // TicketWid(
+                    //   name: 'Air India',
+                    //   number: 'AI-202',
+                    //   symbol: Icons.flight,
+                    //   width: width,
+                    //   height: 200,
+                    //   color: themeProvider.themeMode == ThemeMode.dark
+                    //       ? Colors.white
+                    //       : Colors.black,
+                    //   topText: "TIC",
+                    //   bottomText: "TIC",
+                    // ),
                   ],
                 ),
               ),

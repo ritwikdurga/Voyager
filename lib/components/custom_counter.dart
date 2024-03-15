@@ -19,9 +19,9 @@ class _customCounterState extends State<customCounter> {
     return CustomizableCounter(
       borderWidth: 1,
       showButtonText: false,
-      count: 0,
+      count: 1,
       step: 1,
-      minCount: 0,
+      minCount: 1,
       incrementIcon: Icon(
         Icons.add,
         color: themeProvider.themeMode == ThemeMode.dark

@@ -1,14 +1,30 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:iconsax/iconsax.dart';
-import 'package:intl/date_symbol_data_local.dart'; // Import date symbol data
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 import '../components/horizontal_cal.dart';
 import '../components/ticket_widget.dart';
 import '../utils/constants.dart';
 
 class SearchTrains extends StatefulWidget {
-  const SearchTrains({super.key});
+  final String? fromStation;
+  final String? toStation;
+  final String fromStationName;
+  final String toStationName;
+  late String date;
+  final int passengers;
+
+  SearchTrains({
+    Key? key,
+    required this.fromStation,
+    required this.toStation,
+    required this.fromStationName,
+    required this.toStationName,
+    required this.date,
+    required this.passengers,
+  }) : super(key: key);
 
   @override
   State<SearchTrains> createState() => _SearchTrainsState();
@@ -16,15 +32,82 @@ class SearchTrains extends StatefulWidget {
 
 class _SearchTrainsState extends State<SearchTrains> {
   late DateTime _selectedDate;
+  late Future<List<dynamic>> trainDataFuture;
 
   @override
   void initState() {
     super.initState();
-    _selectedDate = DateTime.now();
+    _selectedDate = DateFormat('yyyy-MM-dd').parse(widget.date);
+    debugPrint('Date: ${widget.date}');
+    debugPrint('From: ${widget.fromStation}');
+    debugPrint('To: ${widget.toStation}');
+  }
+
+  Future<Map<String, int>> getTrainFare(String trainNumber) async {
+    var url = Uri.parse(
+        'https://irctc1.p.rapidapi.com/api/v2/getFare?trainNo=${trainNumber}&fromStationCode=${widget.fromStation}&toStationCode=${widget.toStation}');
+    var headers = {
+      'X-RapidAPI-Key': '<YOUR API KEY HERE>',
+      'X-RapidAPI-Host': 'irctc1.p.rapidapi.com'
+    };
+
+    try {
+      var response = await http.get(url, headers: headers);
+      if (response.statusCode == 200) {
+        // Decode JSON here
+        var jsonResponse = json.decode(response.body);
+        var generalData = jsonResponse['data']['general'];
+        Map<String, int> fareData = {};
+        generalData.forEach((data) {
+          fareData[data['classType']] = data['fare'];
+        });
+        return fareData;
+      } else {
+        print('Request failed with status: ${response.statusCode}');
+        return {}; // Return an empty map here or handle the error accordingly
+      }
+    } catch (error) {
+      print('Error: $error');
+      return {}; // Return an empty map here or handle the error accordingly
+    }
+  }
+
+  Future<List<dynamic>> getTrains() async {
+    var url = Uri.parse(
+        'https://irctc1.p.rapidapi.com/api/v3/trainBetweenStations?fromStationCode=${widget.fromStation}&toStationCode=${widget.toStation}&dateOfJourney=${widget.date}');
+    var headers = {
+      'X-RapidAPI-Key': '<YOUR API KEY HERE>',
+      'X-RapidAPI-Host': 'irctc1.p.rapidapi.com'
+    };
+
+    try {
+      var response = await http.get(url, headers: headers);
+      if (response.statusCode == 200) {
+        // Decode JSON here
+        var jsonResponse = json.decode(response.body);
+        return jsonResponse['data'];
+      } else {
+        print('Request failed with status: ${response.statusCode}');
+        return [];
+      }
+    } catch (error) {
+      print('Error: $error');
+      return [];
+    }
+  }
+
+  String formatDuration(String duration) {
+    List<String> parts = duration.split(':');
+    int hours = int.parse(parts[0]);
+    int minutes = int.parse(parts[1]);
+
+    String formattedDuration = '${hours}H ${minutes}M';
+    return formattedDuration;
   }
 
   @override
   Widget build(BuildContext context) {
+    trainDataFuture = getTrains();
     final double width = MediaQuery.of(context).size.width;
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
@@ -45,7 +128,9 @@ class _SearchTrainsState extends State<SearchTrains> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             HorizontalCalendarCustom(
-              date: DateTime.now(),
+              date: widget.date.isEmpty
+                  ? DateTime.now()
+                  : DateFormat('yyyy-MM-dd').parse(widget.date),
               initialDate: DateTime.now(),
               textColor: themeProvider.themeMode == ThemeMode.dark
                   ? Colors.white
@@ -59,13 +144,14 @@ class _SearchTrainsState extends State<SearchTrains> {
               onDateSelected: (date) {
                 setState(() {
                   _selectedDate = date;
+                  widget.date = DateFormat('yyyy-MM-dd').format(date);
                 });
               },
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.all(12.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'Trains on ${DateFormat.yMMMd().format(_selectedDate)}',
@@ -75,102 +161,97 @@ class _SearchTrainsState extends State<SearchTrains> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          Iconsax.sort,
-                          size: 20,
-                        ),
-                        onPressed: () {
-                          // Add your sort functionality here
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          Iconsax.filter,
-                          size: 20,
-                        ),
-                        onPressed: () {
-                          // Add your filter functionality here
-                        },
-                      ),
-                    ],
-                  ),
                 ],
               ),
             ),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListView(
-                  children: [
-                    TicketWid(
-                      name: 'Ajmeer Bangalore Express',
-                      number: '12345',
-                      symbol: Icons.train,
-                      width: width,
-                      height: 200,
-                      color: themeProvider.themeMode == ThemeMode.dark
-                          ? Colors.white
-                          : Colors.black,
-                      topText: "TIC",
-                      bottomText: "TIC",
-                    ),
-                    SizedBox(height: 12),
-                    TicketWid(
-                      name: 'Ajmeer Bangalore Express',
-                      number: '12345',
-                      symbol: Icons.train,
-                      width: width,
-                      height: 200,
-                      color: themeProvider.themeMode == ThemeMode.dark
-                          ? Colors.white
-                          : Colors.black,
-                      topText: "TIC",
-                      bottomText: "TIC",
-                    ),
-                    SizedBox(height: 12),
-                    TicketWid(
-                      name: 'Ajmeer Bangalore Express',
-                      number: '12345',
-                      symbol: Icons.train,
-                      width: width,
-                      height: 200,
-                      color: themeProvider.themeMode == ThemeMode.dark
-                          ? Colors.white
-                          : Colors.black,
-                      topText: "TIC",
-                      bottomText: "TIC",
-                    ),
-                    SizedBox(height: 12),
-                    TicketWid(
-                      name: 'Ajmeer Bangalore Express',
-                      number: '12345',
-                      symbol: Icons.train,
-                      width: width,
-                      height: 200,
-                      color: themeProvider.themeMode == ThemeMode.dark
-                          ? Colors.white
-                          : Colors.black,
-                      topText: "TIC",
-                      bottomText: "TIC",
-                    ),
-                    SizedBox(height: 12),
-                    TicketWid(
-                      name: 'Ajmeer Bangalore Express',
-                      number: '12345',
-                      symbol: Icons.train,
-                      width: width,
-                      height: 200,
-                      color: themeProvider.themeMode == ThemeMode.dark
-                          ? Colors.white
-                          : Colors.black,
-                      topText: "TIC",
-                      bottomText: "TIC",
-                    ),
-                  ],
-                ),
+              child: FutureBuilder<List<dynamic>>(
+                future: trainDataFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  } else {
+                    List<dynamic> trainData = snapshot.data ?? [];
+                    return ListView.builder(
+                      itemCount: trainData.length,
+                      itemBuilder: (context, index) {
+                        var train = trainData[index];
+                        List<String> classTypes = [];
+                        Map<String, int>? fareData;
+
+                        return FutureBuilder<Map<String, int>>(
+                          future:
+                              getTrainFare(train['train_number'].toString()),
+                          builder: (context, fareSnapshot) {
+                            if (fareSnapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return CircularProgressIndicator();
+                            } else if (fareSnapshot.hasError) {
+                              return Text('Error: ${fareSnapshot.error}');
+                            } else {
+                              fareData = fareSnapshot.data;
+                              train['class_type'].forEach((classType) {
+                                classTypes.add(classType.toString());
+                              });
+                              debugPrint(classTypes.toString());
+                              debugPrint(fareData.toString());
+                              return Column(
+                                children: [
+                                  TicketWid(
+                                    name: train['train_name'],
+                                    number: train['train_number'],
+                                    fromStationName: widget.fromStationName,
+                                    toStationName: widget.toStationName,
+                                    fromDate: DateFormat('dd MMM').format(
+                                        DateFormat('dd-MM-yyyy')
+                                            .parse(train['train_date'])),
+                                    toDate: DateFormat('dd MMM').format(
+                                        DateFormat('dd-MM-yyyy')
+                                            .parse(train['train_date'])
+                                            .add(
+                                                Duration(days: train['to_day']))
+                                            .subtract(Duration(
+                                                days: train['from_day']))),
+                                    fromTime: DateFormat("h:mm a").format(
+                                        DateFormat("HH:mm")
+                                            .parse(train['from_sta'])),
+                                    toTime: DateFormat("h:mm a").format(
+                                        DateFormat("HH:mm")
+                                            .parse(train['to_sta'])),
+                                    duration: formatDuration(train['duration']),
+                                    fareData: fareData ?? {},
+                                    // Use default if fareData is null
+                                    classes: classTypes,
+                                    symbol: Icons.train,
+                                    width: width,
+                                    height: 200,
+                                    passengersCount: widget.passengers,
+                                    color: themeProvider.themeMode ==
+                                            ThemeMode.dark
+                                        ? Colors.white
+                                        : Colors.black,
+                                    topText: widget.fromStation!,
+                                    bottomText: widget.toStation!,
+                                  ),
+                                  if (index != trainData.length - 1)
+                                    SizedBox(
+                                      height: 12,
+                                    )
+                                ],
+                              );
+                            }
+                          },
+                        );
+                      },
+                    );
+                  }
+                },
               ),
             ),
           ],

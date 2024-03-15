@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:customizable_counter/customizable_counter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/components/calender_picker.dart';
@@ -78,9 +79,10 @@ class _TrainSearchState extends State<TrainSearch> {
     );
   }
 
-  List<String> stringList = ["1A", "2A", "3A", "3E", "CC", "SL", "2S"];
   bool isListViewVisibleForDeparture = false;
   bool isListViewVisibleForArrival = false;
+  String? selectedFromStation = null;
+  String? selectedToStation = null;
 
   List<Map<String, String>> getFilteredStations(String searchText) {
     return Stations.where((station) {
@@ -90,6 +92,8 @@ class _TrainSearchState extends State<TrainSearch> {
           name.toLowerCase().contains(searchText.toLowerCase());
     }).toList();
   }
+
+  double counterCount = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -178,6 +182,7 @@ class _TrainSearchState extends State<TrainSearch> {
                                   setState(() {
                                     fromStationcontroller.text =
                                         station['name'] ?? '';
+                                    selectedFromStation = station['code'];
                                     isListViewVisibleForDeparture = false;
                                     FocusManager.instance.primaryFocus
                                         ?.unfocus();
@@ -259,6 +264,7 @@ class _TrainSearchState extends State<TrainSearch> {
                                   setState(() {
                                     toStationcontroller.text =
                                         station['name'] ?? '';
+                                    selectedToStation = station['code'];
                                     isListViewVisibleForArrival = false;
                                     FocusManager.instance.primaryFocus
                                         ?.unfocus();
@@ -324,60 +330,64 @@ class _TrainSearchState extends State<TrainSearch> {
                     ),
                   ),
                   Spacer(),
-                  customCounter(),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 60,
-              width: screenWidth,
-              child: ListView.builder(
-                itemCount: stringList.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) {
-                  bool isSelected = selectedStrings.contains(stringList[index]);
-                  return SizedBox(
-                    width: screenWidth / 7,
-                    child: GestureDetector(
-                      onTap: () {
-                        toggleSelection(stringList[index]);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 8),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: isSelected ? kGreenColor : Colors.grey[800],
-                            borderRadius: BorderRadius.all(Radius.circular(25)),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              stringList[index],
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontFamily: 'ProductSans',
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                  CustomizableCounter(
+                    borderWidth: 1,
+                    showButtonText: false,
+                    count: 1,
+                    step: 1,
+                    minCount: 1,
+                    incrementIcon: Icon(
+                      Icons.add,
+                      color: themeProvider.themeMode == ThemeMode.dark
+                          ? Colors.white
+                          : Colors.black,
                     ),
-                  );
-                },
+                    decrementIcon: Icon(
+                      Icons.remove,
+                      color: themeProvider.themeMode == ThemeMode.dark
+                          ? Colors.white
+                          : Colors.black,
+                    ),
+                    onCountChange: (count) {
+                      setState(() {
+                        counterCount = count;
+                      });
+                      //counterCount=count;
+                    },
+                    onIncrement: (count) {},
+                    onDecrement: (count) {},
+                  ),
+                ],
               ),
             ),
             SizedBox(height: 50),
             ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) {
-                      return SearchTrains();
-                    }),
-                  );
+                  //debugPrint(counterCount.toString());
+                  if (selectedFromStation != null &&
+                      selectedToStation != null &&
+                      selectedDate != null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return SearchTrains(
+                          fromStation: selectedFromStation,
+                          toStation: selectedToStation,
+                          fromStationName: fromStationcontroller.text,
+                          toStationName: toStationcontroller.text,
+                          date:
+                              '${selectedDate?.year}-${selectedDate?.month.toString().padLeft(2, '0')}-${selectedDate!.day.toString().padLeft(2, '0')}',
+                          passengers: counterCount.toInt(),
+                        );
+                      }),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Please fill all the fields'),
+                      ),
+                    );
+                  }
                 },
                 child: Text('Search')),
           ],

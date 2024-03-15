@@ -141,7 +141,7 @@ class CalendarItems extends StatelessWidget {
   Widget build(BuildContext context) {
     DateTime currentDate = startDate.add(Duration(days: index));
     bool isSelected = currentDate == selectedDate;
-    bool isDisabled = currentDate.isBefore(initialDate!);
+    bool isDisabled = currentDate.isBefore(DateTime.now());
     String day = DateFormat('EEE', locale.toString()).format(currentDate);
 
     return GestureDetector(
