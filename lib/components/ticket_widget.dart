@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../utils/constants.dart';
 
 class TicketWid extends StatefulWidget {
   const TicketWid({
@@ -31,6 +34,7 @@ class TicketWid extends StatefulWidget {
 class _TicketWidState extends State<TicketWid> {
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return ClipPath(
       clipper: TicketClipper(),
       child: Stack(
@@ -64,9 +68,12 @@ class _TicketWidState extends State<TicketWid> {
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Text(
                         'Achhnera Kasganj Express Special',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
+                          color: themeProvider.themeMode == ThemeMode.dark
+                              ? Colors.black
+                              : Colors.white,
                         ),
                       ),
                     ),
@@ -74,9 +81,12 @@ class _TicketWidState extends State<TicketWid> {
                 ),
                 Text(
                   '18181',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w200,
+                    color: themeProvider.themeMode == ThemeMode.dark
+                        ? Colors.black
+                        : Colors.white,
                   ),
                 ),
                 SizedBox(height: 4),
@@ -93,9 +103,13 @@ class _TicketWidState extends State<TicketWid> {
                               child: Text(
                                 'Kashi Vishwanath Temple',
                                 textAlign: TextAlign.center,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w200,
+                                  color:
+                                      themeProvider.themeMode == ThemeMode.dark
+                                          ? Colors.black
+                                          : Colors.white,
                                 ),
                                 overflow: TextOverflow
                                     .ellipsis, // Show ellipsis if overflow occurs
@@ -106,17 +120,34 @@ class _TicketWidState extends State<TicketWid> {
                           Text(
                             widget.topText,
                             textAlign: TextAlign.center,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
+                              color: themeProvider.themeMode == ThemeMode.dark
+                                  ? Colors.black
+                                  : Colors.white,
+                            ),
+                          ),
+                          // date of travel
+                          Text(
+                            '15 MAR',
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w300,
+                              color: themeProvider.themeMode == ThemeMode.dark
+                                  ? Colors.black
+                                  : Colors.white,
                             ),
                           ),
                           // time of arrival
                           Text(
                             '10:00 AM',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w300,
+                              color: themeProvider.themeMode == ThemeMode.dark
+                                  ? Colors.black
+                                  : Colors.white,
                             ),
                           ),
                         ],
@@ -126,15 +157,24 @@ class _TicketWidState extends State<TicketWid> {
                       children: [
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 15),
-                          child: Icon(Icons.train, size: 20),
+                          child: Icon(
+                            Icons.train,
+                            size: 20,
+                            color: themeProvider.themeMode == ThemeMode.dark
+                                ? Colors.black
+                                : Colors.white,
+                          ),
                         ),
                         SizedBox(height: 5),
                         // time of travel
                         Text(
                           '2H 45M',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w400,
+                            color: themeProvider.themeMode == ThemeMode.dark
+                                ? Colors.black
+                                : Colors.white,
                           ),
                         ),
                       ],
@@ -150,9 +190,13 @@ class _TicketWidState extends State<TicketWid> {
                               child: Text(
                                 'Bharatpur Junction',
                                 textAlign: TextAlign.center,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w200,
+                                  color:
+                                      themeProvider.themeMode == ThemeMode.dark
+                                          ? Colors.black
+                                          : Colors.white,
                                 ),
                                 overflow: TextOverflow
                                     .ellipsis, // Show ellipsis if overflow occurs
@@ -162,17 +206,34 @@ class _TicketWidState extends State<TicketWid> {
                           Text(
                             widget.bottomText,
                             textAlign: TextAlign.center,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
+                              color: themeProvider.themeMode == ThemeMode.dark
+                                  ? Colors.black
+                                  : Colors.white,
+                            ),
+                          ),
+                          // date of travel
+                          Text(
+                            '15 MAR',
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w300,
+                              color: themeProvider.themeMode == ThemeMode.dark
+                                  ? Colors.black
+                                  : Colors.white,
                             ),
                           ),
                           // time of arrival
                           Text(
                             '12:45 PM',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w300,
+                              color: themeProvider.themeMode == ThemeMode.dark
+                                  ? Colors.black
+                                  : Colors.white,
                             ),
                           ),
                         ],
@@ -191,16 +252,22 @@ class _TicketWidState extends State<TicketWid> {
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
               height: widget.height * 0.3,
-              color: Colors.white,
+              color: themeProvider.themeMode == ThemeMode.dark
+                  ? Colors.white
+                  : Colors.black,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ElevatedButton(
                     onPressed: () {},
-                    child: const Text('Add to Trip'),
+                    child: Text('Add to Trip',
+                        style: TextStyle(
+                          color: themeProvider.themeMode == ThemeMode.dark
+                              ? Colors.black
+                              : Colors.white,
+                        )),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
-                      foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 20,
                         vertical: 10,
@@ -214,8 +281,10 @@ class _TicketWidState extends State<TicketWid> {
                         children: [
                           Text(
                             '₹ 200',
-                            style: const TextStyle(
-                              color: Colors.black,
+                            style: TextStyle(
+                              color: themeProvider.themeMode == ThemeMode.dark
+                                  ? Colors.black
+                                  : Colors.white,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
@@ -223,8 +292,10 @@ class _TicketWidState extends State<TicketWid> {
                           // "/ person" text
                           Text(
                             '/ person',
-                            style: const TextStyle(
-                              color: Colors.black,
+                            style: TextStyle(
+                              color: themeProvider.themeMode == ThemeMode.dark
+                                  ? Colors.black
+                                  : Colors.white,
                               fontSize: 12,
                               fontWeight: FontWeight.w300,
                             ),
@@ -237,16 +308,20 @@ class _TicketWidState extends State<TicketWid> {
                         children: [
                           Text(
                             'Total: ',
-                            style: const TextStyle(
-                              color: Colors.black,
+                            style: TextStyle(
+                              color: themeProvider.themeMode == ThemeMode.dark
+                                  ? Colors.black
+                                  : Colors.white,
                               fontSize: 12,
                               fontWeight: FontWeight.w300,
                             ),
                           ),
                           Text(
                             '₹ 400',
-                            style: const TextStyle(
-                              color: Colors.black,
+                            style: TextStyle(
+                              color: themeProvider.themeMode == ThemeMode.dark
+                                  ? Colors.black
+                                  : Colors.white,
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
                             ),
@@ -265,7 +340,9 @@ class _TicketWidState extends State<TicketWid> {
             left: 0,
             right: 0,
             child: CustomPaint(
-              painter: DashedLinePainter(),
+              painter: DashedLinePainter(
+                themeProvider: themeProvider,
+              ),
             ),
           ),
         ],
@@ -295,10 +372,16 @@ class TicketClipper extends CustomClipper<Path> {
 }
 
 class DashedLinePainter extends CustomPainter {
+  final ThemeProvider themeProvider; // Assuming you have a ThemeProvider class
+
+  DashedLinePainter({required this.themeProvider});
+
   @override
   void paint(Canvas canvas, Size size) {
     final Paint paint = Paint()
-      ..color = Colors.black // Set the color of the dashed line
+      ..color = themeProvider.themeMode == ThemeMode.dark
+          ? Colors.black
+          : Colors.white // Set the color of the dashed line based on theme mode
       ..strokeWidth = 2
       ..strokeCap = StrokeCap.round;
 
@@ -315,59 +398,3 @@ class DashedLinePainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
-
-
-// usage of this ticket widget
-// we can use ticket data class to display the data in the ticket
-
-//
-// import 'package:flutter/material.dart';
-// import 'package:rive_animation/ticket_wid.dart';
-// // import 'package:ticket_widget/ticket_widget.dart';
-// // import '';
-// void main() {
-//   runApp(const MyApp());
-// }
-//
-// class MyApp extends StatelessWidget {
-//   const MyApp({Key? key}) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: MyTicketView(),
-//     );
-//   }
-// }
-//
-// class MyTicketView extends StatelessWidget {
-//   const MyTicketView({Key? key}) : super(key: key);
-//   // screen width
-//   @override
-//   Widget build(BuildContext context) {
-//     final double width = MediaQuery.of(context).size.width;
-//     return Scaffold(
-//       backgroundColor: Colors.blueGrey,
-//       body: Center(
-//         child: Padding(
-//           padding: const EdgeInsets.all(18.0),
-//           child: SizedBox(
-//             width: width,
-//             height: 200.0,
-//             child: TicketWid(
-//               width: width,
-//               height: 200.0,
-//               color: Colors.white,
-//               isCornerRounded: true,
-//               topText: 'TIC',
-//               bottomText: 'TIC',
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-//
-

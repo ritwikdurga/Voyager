@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:voyager/components/calender_picker.dart';
 import 'package:voyager/components/custom_counter.dart';
 import 'package:voyager/components/date_section.dart';
+import 'package:voyager/pages/search_trains.dart';
 import 'package:voyager/utils/constants.dart';
 
 class TrainSearch extends StatefulWidget {
@@ -69,6 +70,7 @@ class _TrainSearchState extends State<TrainSearch> {
   }
 
   List<String> stringList = ["1A", "2A", "3A", "3E", "CC", "SL", "2S"];
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -255,7 +257,16 @@ class _TrainSearchState extends State<TrainSearch> {
             ),
           ),
           SizedBox(height: 50),
-          ElevatedButton(onPressed: () {}, child: Text('Search')),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return SearchTrains();
+                  }),
+                );
+              },
+              child: Text('Search')),
         ],
       ),
     );
