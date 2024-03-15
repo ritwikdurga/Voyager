@@ -10,6 +10,9 @@ class TicketWid extends StatefulWidget {
     required this.height,
     required this.topText,
     required this.bottomText,
+    required this.name,
+    required this.number,
+    required this.symbol,
     this.padding,
     this.margin,
     this.color = Colors.transparent,
@@ -21,6 +24,9 @@ class TicketWid extends StatefulWidget {
   final double height;
   final String topText;
   final String bottomText;
+  final String name;
+  final String number;
+  final IconData symbol;
   final Color color;
   final bool isCornerRounded;
   final EdgeInsetsGeometry? padding;
@@ -67,7 +73,7 @@ class _TicketWidState extends State<TicketWid> {
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Text(
-                        'Achhnera Kasganj Express Special',
+                        widget.name,
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
@@ -80,7 +86,7 @@ class _TicketWidState extends State<TicketWid> {
                   ],
                 ),
                 Text(
-                  '18181',
+                  widget.number,
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w200,
@@ -158,7 +164,7 @@ class _TicketWidState extends State<TicketWid> {
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 15),
                           child: Icon(
-                            Icons.train,
+                            widget.symbol,
                             size: 20,
                             color: themeProvider.themeMode == ThemeMode.dark
                                 ? Colors.black

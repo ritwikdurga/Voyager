@@ -7,14 +7,14 @@ import '../components/horizontal_cal.dart';
 import '../components/ticket_widget.dart';
 import '../utils/constants.dart';
 
-class SearchTrains extends StatefulWidget {
-  const SearchTrains({super.key});
+class SearchFlights extends StatefulWidget {
+  const SearchFlights({super.key});
 
   @override
-  State<SearchTrains> createState() => _SearchTrainsState();
+  State<SearchFlights> createState() => _SearchFlightsState();
 }
 
-class _SearchTrainsState extends State<SearchTrains> {
+class _SearchFlightsState extends State<SearchFlights> {
   late DateTime _selectedDate;
 
   @override
@@ -38,7 +38,7 @@ class _SearchTrainsState extends State<SearchTrains> {
             Navigator.pop(context);
           },
         ),
-        title: Text('Search Trains'),
+        title: Text('Search Flights'),
       ),
       body: SafeArea(
         child: Column(
@@ -68,7 +68,7 @@ class _SearchTrainsState extends State<SearchTrains> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Trains on ${DateFormat.yMMMd().format(_selectedDate)}',
+                    'Flights on ${DateFormat.yMMMd().format(_selectedDate)}',
                     style: TextStyle(
                       fontFamily: 'ProductSans',
                       fontSize: 18.0,
@@ -106,9 +106,9 @@ class _SearchTrainsState extends State<SearchTrains> {
                 child: ListView(
                   children: [
                     TicketWid(
-                      name: 'Ajmeer Bangalore Express',
-                      number: '12345',
-                      symbol: Icons.train,
+                      name: 'Air India',
+                      number: 'AI-202',
+                      symbol: Icons.flight,
                       width: width,
                       height: 200,
                       color: themeProvider.themeMode == ThemeMode.dark
@@ -119,9 +119,9 @@ class _SearchTrainsState extends State<SearchTrains> {
                     ),
                     SizedBox(height: 12),
                     TicketWid(
-                      name: 'Ajmeer Bangalore Express',
-                      number: '12345',
-                      symbol: Icons.train,
+                      name: 'Air India',
+                      number: 'AI-202',
+                      symbol: Icons.flight,
                       width: width,
                       height: 200,
                       color: themeProvider.themeMode == ThemeMode.dark
@@ -132,9 +132,9 @@ class _SearchTrainsState extends State<SearchTrains> {
                     ),
                     SizedBox(height: 12),
                     TicketWid(
-                      name: 'Ajmeer Bangalore Express',
-                      number: '12345',
-                      symbol: Icons.train,
+                      name: 'Air India',
+                      number: 'AI-202',
+                      symbol: Icons.flight,
                       width: width,
                       height: 200,
                       color: themeProvider.themeMode == ThemeMode.dark
@@ -145,9 +145,9 @@ class _SearchTrainsState extends State<SearchTrains> {
                     ),
                     SizedBox(height: 12),
                     TicketWid(
-                      name: 'Ajmeer Bangalore Express',
-                      number: '12345',
-                      symbol: Icons.train,
+                      name: 'Air India',
+                      number: 'AI-202',
+                      symbol: Icons.flight,
                       width: width,
                       height: 200,
                       color: themeProvider.themeMode == ThemeMode.dark
@@ -158,9 +158,9 @@ class _SearchTrainsState extends State<SearchTrains> {
                     ),
                     SizedBox(height: 12),
                     TicketWid(
-                      name: 'Ajmeer Bangalore Express',
-                      number: '12345',
-                      symbol: Icons.train,
+                      name: 'Air India',
+                      number: 'AI-202',
+                      symbol: Icons.flight,
                       width: width,
                       height: 200,
                       color: themeProvider.themeMode == ThemeMode.dark

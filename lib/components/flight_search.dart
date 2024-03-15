@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:voyager/components/calender_picker.dart';
 import 'package:voyager/components/custom_counter.dart';
 import 'package:voyager/components/date_section.dart';
+import 'package:voyager/pages/search_flights.dart';
 import 'package:voyager/utils/constants.dart';
 
 class FlightSearch extends StatefulWidget {
@@ -321,7 +322,9 @@ class _FlightSearchState extends State<FlightSearch> {
             ),
           ),
           SizedBox(height: 30),
-          ElevatedButton(onPressed: () {}, child: Text('Search')),
+          ElevatedButton(onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => SearchFlights()));
+          }, child: Text('Search')),
         ],
       ),
     );
