@@ -1,34 +1,74 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
-class MultipleTicketsWidget extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+class MultipleTicketsWidget extends StatefulWidget {
+  final List<Map<String, dynamic>> ticketsData;
+  final int passengerCount;
+  const MultipleTicketsWidget(
+      {Key? key, required this.ticketsData, required this.passengerCount})
+      : super(key: key);
+  @override
+  State<MultipleTicketsWidget> createState() => _MultipleTicketsWidgetState();
+}
+
+class _MultipleTicketsWidgetState extends State<MultipleTicketsWidget> {
+  String formatDuration(int durationInMinutes) {
+    int hours = durationInMinutes ~/ 60;
+    int minutes = durationInMinutes % 60;
+    return '${hours}H ${minutes}M';
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Search Flights'),
-      ),
-      body: ListView.builder(
-        itemCount: 3,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: TicketWid(
-              width: MediaQuery.of(context).size.width,
-              height: 250,
-              // Adjust height as needed
-              topText: 'Top Text $index',
-              bottomText: 'Bottom Text $index',
-              isLastItem: index == 2,
-            ),
-          );
-        },
-      ),
+    //print(widget.ticketsData.toString());
+    //print(widget.ticketsData[0]['legs'][0]['stopCount'].toInt());
+    //print(widget.ticketsData[0]['legs'][0]['segments'][0]['origin']['displayCode']);
+    // print(widget.ticketsData[0]['legs'][0]['segments'][0]['flightNumber'].toInt());
+    return ListView.builder(
+      itemCount: widget.ticketsData[0]['legs'][0]['stopCount'].toInt() + 1,
+      shrinkWrap: true,
+      physics: ClampingScrollPhysics(),
+      itemBuilder: (context, index) {
+        //print(widget.ticketsData[0]['legs'][0]['segments'][0]['arrival'].toString());
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: TicketWidget(
+            width: MediaQuery.of(context).size.width,
+            height: 250,
+            fromAirport: widget.ticketsData[0]['legs'][0]['segments'][index]
+                ['origin']['name'],
+            toAirport: widget.ticketsData[0]['legs'][0]['segments'][index]
+                ['destination']['name'],
+            topText: widget.ticketsData[0]['legs'][0]['segments'][index]
+                ['origin']['displayCode'],
+            bottomText: widget.ticketsData[0]['legs'][0]['segments'][index]
+                ['destination']['displayCode'],
+            price: int.parse(widget.ticketsData[0]['price']['formatted']
+                    .replaceAll(RegExp(r'[^\d]'), '')) *
+                83,
+            isLastItem:
+                index == widget.ticketsData[0]['legs'][0]['stopCount'].toInt(),
+            passengers: widget.passengerCount,
+            duration: formatDuration(widget.ticketsData[0]['legs'][0]['segments'][index]
+                    ['durationInMinutes']
+                .toInt()),
+            flightNumber: widget.ticketsData[0]['legs'][0]['segments'][index]['flightNumber'],
+            flightOperator: widget.ticketsData[0]['legs'][0]['segments'][index]['operatingCarrier']['name'],
+            fromDate: DateFormat('dd MMM').format(DateTime.parse(widget.ticketsData[0]['legs'][0]['segments'][index]['departure'])),
+            toDate:  DateFormat('dd MMM').format(DateTime.parse(widget.ticketsData[0]['legs'][0]['segments'][index]['arrival'])),
+            fromTime: DateFormat('hh:mm a').format(DateTime.parse(widget.ticketsData[0]['legs'][0]['segments'][index]['departure'])),
+            toTime:DateFormat('hh:mm a').format(DateTime.parse(widget.ticketsData[0]['legs'][0]['segments'][index]['arrival'])),
+          ),
+        );
+      },
     );
   }
 }
 
-class TicketWid extends StatefulWidget {
-  const TicketWid({
+class TicketWidget extends StatefulWidget {
+  const TicketWidget({
     Key? key,
     required this.width,
     required this.height,
@@ -40,24 +80,46 @@ class TicketWid extends StatefulWidget {
     this.color = Colors.transparent,
     this.isCornerRounded = false,
     this.shadow,
+    required this.price,
+    required this.passengers,
+    required this.fromAirport,
+    required this.toAirport,
+    required this.duration,
+    required this.flightNumber,
+    required this.flightOperator,
+    required this.fromDate,
+    required this.toDate,
+    required this.fromTime,
+    required this.toTime,
   }) : super(key: key);
 
   final double width;
   final double height;
   final String topText;
   final String bottomText;
-  final bool isLastItem; // Declare isLastItem parameter
+  final bool isLastItem; 
   final Color color;
   final bool isCornerRounded;
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
   final List<BoxShadow>? shadow;
+  final int price;
+  final int passengers;
+  final String fromAirport;
+  final String toAirport;
+  final String duration;
+  final String flightNumber;
+  final String flightOperator;
+  final String fromDate;
+  final String toDate;
+  final String fromTime;
+  final String toTime;
 
   @override
-  _TicketWidState createState() => _TicketWidState();
+  _TicketWidgetState createState() => _TicketWidgetState();
 }
 
-class _TicketWidState extends State<TicketWid> {
+class _TicketWidgetState extends State<TicketWidget> {
   @override
   Widget build(BuildContext context) {
     return ClipPath(
@@ -92,7 +154,7 @@ class _TicketWidState extends State<TicketWid> {
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Text(
-                        'Air India',
+                        '${widget.flightOperator}',
                         style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
@@ -102,7 +164,7 @@ class _TicketWidState extends State<TicketWid> {
                   ],
                 ),
                 Text(
-                  'AI-181',
+                  '${widget.flightNumber}',
                   style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w200,
@@ -120,7 +182,7 @@ class _TicketWidState extends State<TicketWid> {
                             child: SizedBox(
                               height: 60,
                               child: Text(
-                                'Netaji Subhash Chandra Bose International Airport',
+                                '${widget.fromAirport} Airport',
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   fontSize: 13,
@@ -142,7 +204,7 @@ class _TicketWidState extends State<TicketWid> {
                           ),
                           // date of arrival
                           Text(
-                            '15 MAR',
+                            '${widget.fromDate}',
                             style: const TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w300,
@@ -150,7 +212,7 @@ class _TicketWidState extends State<TicketWid> {
                           ),
                           // time of arrival
                           Text(
-                            '10:00 AM',
+                            '${widget.fromTime}',
                             style: const TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w300,
@@ -168,7 +230,7 @@ class _TicketWidState extends State<TicketWid> {
                         SizedBox(height: 5),
                         // time of travel
                         Text(
-                          '2H 45M',
+                          widget.duration,
                           style: const TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w400,
@@ -185,7 +247,7 @@ class _TicketWidState extends State<TicketWid> {
                             child: SizedBox(
                               height: 60,
                               child: Text(
-                                'Chatrapati Shivaji Maharaj International Airport',
+                                '${widget.toAirport} Airport',
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   fontSize: 13,
@@ -206,7 +268,7 @@ class _TicketWidState extends State<TicketWid> {
                           ),
                           // date of arrival
                           Text(
-                            '15 MAR',
+                            '${widget.toDate}',
                             style: const TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w300,
@@ -214,7 +276,7 @@ class _TicketWidState extends State<TicketWid> {
                           ),
                           // time of arrival
                           Text(
-                            '12:45 PM',
+                            '${widget.toTime}',
                             style: const TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w300,
@@ -259,7 +321,7 @@ class _TicketWidState extends State<TicketWid> {
                         Row(
                           children: [
                             Text(
-                              '₹ 200',
+                              '₹ ${widget.price}',
                               style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 18,
@@ -290,7 +352,7 @@ class _TicketWidState extends State<TicketWid> {
                               ),
                             ),
                             Text(
-                              '₹ 400',
+                              '₹ ${widget.price * widget.passengers}',
                               style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 14,

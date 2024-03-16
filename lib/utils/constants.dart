@@ -8551,11 +8551,11 @@ final List<Map<String, String>> Airports = [
         "eyJlIjoiMTI4NjY3MzAxIiwicyI6IkRFRCIsImgiOiI0NTI5Mjk0MyIsInQiOiJBSVJQT1JUIn0="
   },
   {
-    "place": "Delhi NCR",
+    "place": "Delhi",
     "code": "DEL",
     "name": "Indira Gandhi International Airport",
     "entity_id":
-        "eyJlIjoiOTU2NzQyMzEiLCJzIjoiQlJDIiwiaCI6IjI3NTM5NTUzIiwidCI6IkFJUlBPUlQifQ=="
+        "eyJlIjoiOTU2NzM0OTgiLCJzIjoiREVMIiwiaCI6IjI3NTQwNzA2IiwidCI6IkFJUlBPUlQifQ=="
   },
   {
     "place": "Deoghar",

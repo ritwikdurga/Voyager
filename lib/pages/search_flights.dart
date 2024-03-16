@@ -1,11 +1,15 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/date_symbol_data_local.dart'; // Import date symbol data
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:voyager/components/flight_ticket_widget.dart';
 import '../components/horizontal_cal.dart';
 import '../components/ticket_widget.dart';
 import '../utils/constants.dart';
@@ -23,41 +27,38 @@ class SearchFlights extends StatefulWidget {
   Map<String, String>? selectedToAirport;
   String? Class;
   int PassengerCount;
-  DateTime? DepartureDate;
+  String DepartureDate;
 
   @override
   State<SearchFlights> createState() => _SearchFlightsState();
 }
 
 class _SearchFlightsState extends State<SearchFlights> {
-  late DateTime _selectedDate;
-
   @override
   void initState() {
+    _selectedDate = DateTime.parse(widget.DepartureDate);
     super.initState();
-    _selectedDate = DateTime.now();
-    print(widget.selectedFromAirport.toString());
-    print(widget.selectedToAirport.toString());
-    print(widget.DepartureDate.toString());
-    print(widget.PassengerCount);
     getFlights();
   }
 
+  late DateTime _selectedDate;
+  var itineraries;
   // call the api to get the flights
+
   Future<void> getFlights() async {
     var url =
         Uri.parse('https://sky-scanner3.p.rapidapi.com/flights/search-one-way');
 
     var headers = {
-      'X-RapidAPI-Key': 'befb2e3d3amsh91f7217f2b2de4cp170455jsn501d2baf90f7',
+      'X-RapidAPI-Key': 'b2aab9152bmsh7f208feb5f2b581p1c5e70jsnd0a5652a8b5a',
       'X-RapidAPI-Host': 'sky-scanner3.p.rapidapi.com'
     };
 
     var params = {
       'fromEntityId': widget.selectedFromAirport?['entity_id'],
       'toEntityId': widget.selectedToAirport?['entity_id'],
-      'departDate': DateFormat('yyyy-MM-dd').format(widget.DepartureDate!),
-      if (widget.Class != null) 'cabinClass': widget.Class,
+      'departDate': widget.DepartureDate,
+      if (widget.Class != null) 'cabinClass': widget.Class!.toLowerCase(),
     };
 
     var response =
@@ -65,7 +66,9 @@ class _SearchFlightsState extends State<SearchFlights> {
 
     if (response.statusCode == 200) {
       var responseBody = json.decode(response.body);
-      var itineraries = responseBody['data']['itineraries'];
+      setState(() {
+        itineraries = responseBody['data']['itineraries'];
+      });
       print(itineraries);
       //print(response.body.itineraries.toString());
     } else {
@@ -91,11 +94,14 @@ class _SearchFlightsState extends State<SearchFlights> {
         title: Text('Search Flights'),
       ),
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: ListView(
+          //crossAxisAlignment: CrossAxisAlignment.stretch,
+          scrollDirection: Axis.vertical,
           children: [
             HorizontalCalendarCustom(
-              date: DateTime.now(),
+              date: widget.DepartureDate.isEmpty
+                  ? DateTime.now()
+                  : DateFormat('yyyy-MM-dd').parse(widget.DepartureDate),
               initialDate: DateTime.now(),
               textColor: themeProvider.themeMode == ThemeMode.dark
                   ? Colors.white
@@ -109,7 +115,10 @@ class _SearchFlightsState extends State<SearchFlights> {
               onDateSelected: (date) {
                 setState(() {
                   _selectedDate = date;
+                  widget.DepartureDate = DateFormat('yyyy-MM-dd').format(date);
+                  itineraries = null;
                 });
+                getFlights();
               },
             ),
             Padding(
@@ -128,82 +137,31 @@ class _SearchFlightsState extends State<SearchFlights> {
                 ],
               ),
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListView(
-                  children: [
-                    // TicketWid(
-                    //   name: 'Air India',
-                    //   number: 'AI-202',
-                    //   symbol: Icons.flight,
-                    //   width: width,
-                    //   height: 200,
-                    //   color: themeProvider.themeMode == ThemeMode.dark
-                    //       ? Colors.white
-                    //       : Colors.black,
-                    //   topText: "TIC",
-                    //   bottomText: "TIC",
-                    // ),
-                    // SizedBox(height: 12),
-                    // TicketWid(
-                    //   name: 'Air India',
-                    //   number: 'AI-202',
-                    //   symbol: Icons.flight,
-                    //   width: width,
-                    //   height: 200,
-                    //   color: themeProvider.themeMode == ThemeMode.dark
-                    //       ? Colors.white
-                    //       : Colors.black,
-                    //   topText: "TIC",
-                    //   bottomText: "TIC",
-                    // ),
-                    // SizedBox(height: 12),
-                    // TicketWid(
-                    //   name: 'Air India',
-                    //   number: 'AI-202',
-                    //   symbol: Icons.flight,
-                    //   width: width,
-                    //   height: 200,
-                    //   color: themeProvider.themeMode == ThemeMode.dark
-                    //       ? Colors.white
-                    //       : Colors.black,
-                    //   topText: "TIC",
-                    //   bottomText: "TIC",
-                    // ),
-                    // SizedBox(height: 12),
-                    // TicketWid(
-                    //   name: 'Air India',
-                    //   number: 'AI-202',
-                    //   symbol: Icons.flight,
-                    //   width: width,
-                    //   height: 200,
-                    //   color: themeProvider.themeMode == ThemeMode.dark
-                    //       ? Colors.white
-                    //       : Colors.black,
-                    //   topText: "TIC",
-                    //   bottomText: "TIC",
-                    // ),
-                    // SizedBox(height: 12),
-                    // TicketWid(
-                    //   name: 'Air India',
-                    //   number: 'AI-202',
-                    //   symbol: Icons.flight,
-                    //   width: width,
-                    //   height: 200,
-                    //   color: themeProvider.themeMode == ThemeMode.dark
-                    //       ? Colors.white
-                    //       : Colors.black,
-                    //   topText: "TIC",
-                    //   bottomText: "TIC",
-                    // ),
-                  ],
-                ),
-              ),
-            ),
+            itineraries != null
+                ? ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: itineraries.length,
+                    shrinkWrap: true,
+                    physics: ClampingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      //print(itineraries[index]);
+                      //print('Type of itineraries[$index]: ${itineraries[index].runtimeType}');
+                      return Column(
+                        children: [
+                          MultipleTicketsWidget(
+                            ticketsData: [itineraries[index]],
+                            passengerCount: widget.PassengerCount,
+                          ),
+                          SizedBox(height: 10),
+                        ],
+                      );
+                    },
+                  )
+                : SizedBox(),
           ],
         ),
       ),
+      //body:  MultipleTicketsWidget(),
     );
   }
 }

@@ -497,8 +497,19 @@ class _FlightSearchState extends State<FlightSearch> {
             SizedBox(height: 30),
             ElevatedButton(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SearchFlights(selectedFromAirport: selectedFromAirport,selectedToAirport: selectedToAirport,DepartureDate: selectedDepartureDate,Class: selectedStrings.isNotEmpty ? selectedStrings[0] : null,PassengerCount: counterCount.toInt(),)));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SearchFlights(
+                                selectedFromAirport: selectedFromAirport,
+                                selectedToAirport: selectedToAirport,
+                                DepartureDate:
+                                    '${selectedDepartureDate?.year}-${selectedDepartureDate?.month.toString().padLeft(2, '0')}-${selectedDepartureDate!.day.toString().padLeft(2, '0')}',
+                                Class: selectedStrings.isNotEmpty
+                                    ? selectedStrings[0]
+                                    : null,
+                                PassengerCount: counterCount.toInt(),
+                              )));
                 },
                 child: Text('Search')),
           ],
