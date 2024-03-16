@@ -9,8 +9,8 @@ import 'package:voyager/pages/profile_sections/favourite_page.dart';
 import 'package:voyager/pages/profile_sections/feedback_page.dart';
 import 'package:voyager/pages/profile_sections/trips_page.dart';
 
-import '../utils/colors.dart';
-import '../utils/constants.dart';
+import '../../utils/colors.dart';
+import '../../utils/constants.dart';
 import 'edit_profile_page.dart';
 
 class Profile extends StatefulWidget {

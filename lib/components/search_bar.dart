@@ -3,7 +3,7 @@
 import "package:flutter/material.dart";
 import "package:iconsax/iconsax.dart";
 import "package:provider/provider.dart";
-import "package:voyager/pages/destination_description.dart";
+import "package:voyager/pages/explore_sections/destination_description.dart";
 import "package:voyager/utils/constants.dart";
 
 import "../utils/colors.dart";

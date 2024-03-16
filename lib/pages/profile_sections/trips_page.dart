@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../components/trips_cards.dart';
 import '../../utils/colors.dart';
 import '../../utils/constants.dart';
-import '../profile_page.dart';
+import 'profile_page.dart';
 
 class ProfileTrips extends StatelessWidget {
   const ProfileTrips({super.key});

@@ -3,7 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:voyager/pages/travel_info_page.dart';
+import 'package:voyager/pages/explore_sections/travel_info_page.dart';
 import 'package:voyager/utils/constants.dart';
 
 class TravelInfoIcon extends StatelessWidget {

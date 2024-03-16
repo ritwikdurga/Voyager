@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/components/calender_picker.dart';
 import 'package:voyager/components/date_section.dart';
-import 'package:voyager/pages/search_flights.dart';
+import 'package:voyager/pages/booking_sections/search_flights.dart';
 import 'package:voyager/utils/constants.dart';
 
 class FlightSearch extends StatefulWidget {

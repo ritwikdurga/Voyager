@@ -10,8 +10,8 @@ import 'package:voyager/components/third_party.dart';
 import 'package:voyager/services/auth_service.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../components/loading.dart';
-import '../utils/constants.dart';
+import '../../components/loading.dart';
+import '../../utils/constants.dart';
 
 class RegisterPage extends StatefulWidget {
   final Function()? onTap;

@@ -10,9 +10,9 @@ import 'package:intl/date_symbol_data_local.dart'; // Import date symbol data
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/components/flight_ticket_widget.dart';
-import '../components/horizontal_cal.dart';
-import '../components/ticket_widget.dart';
-import '../utils/constants.dart';
+import '../../components/horizontal_cal.dart';
+import '../../components/ticket_widget.dart';
+import '../../utils/constants.dart';
 
 class SearchFlights extends StatefulWidget {
   SearchFlights(
@@ -50,7 +50,7 @@ class _SearchFlightsState extends State<SearchFlights> {
         Uri.parse('https://sky-scanner3.p.rapidapi.com/flights/search-one-way');
 
     var headers = {
-      'X-RapidAPI-Key': 'b2aab9152bmsh7f208feb5f2b581p1c5e70jsnd0a5652a8b5a',
+      'X-RapidAPI-Key': '<YOUR-API-KEY',
       'X-RapidAPI-Host': 'sky-scanner3.p.rapidapi.com'
     };
 

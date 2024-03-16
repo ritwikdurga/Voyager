@@ -13,8 +13,8 @@ import "package:voyager/components/category_icons_listview.dart";
 import "package:voyager/components/destinations.dart";
 import "package:voyager/components/image_slider.dart";
 import "package:voyager/components/travel_info_list.dart";
-import "package:voyager/pages/for_you_expanded.dart";
-import "package:voyager/pages/see_all_for_categories.dart";
+import "package:voyager/pages/explore_sections/for_you_expanded.dart";
+import "package:voyager/pages/explore_sections/see_all_for_categories.dart";
 import "package:voyager/utils/colors.dart";
 import "package:voyager/utils/constants.dart";
 

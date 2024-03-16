@@ -6,9 +6,9 @@ import 'package:http/http.dart' as http;
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import '../components/horizontal_cal.dart';
-import '../components/ticket_widget.dart';
-import '../utils/constants.dart';
+import '../../components/horizontal_cal.dart';
+import '../../components/ticket_widget.dart';
+import '../../utils/constants.dart';
 
 class SearchTrains extends StatefulWidget {
   final String? fromStation;

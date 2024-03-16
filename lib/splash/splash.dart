@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:voyager/pages/intro_page.dart';
+import 'package:voyager/pages/login_section/intro_page.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:voyager/utils/colors.dart';

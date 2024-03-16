@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:voyager/pages/category_page.dart';
+import 'package:voyager/pages/explore_sections/category_page.dart';
 import 'package:voyager/utils/constants.dart';
 
 class CatIcon extends StatelessWidget {

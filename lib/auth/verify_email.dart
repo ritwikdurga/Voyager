@@ -7,7 +7,7 @@ import 'package:voyager/utils/colors.dart';
 import 'package:voyager/utils/constants.dart';
 
 import '../home_screen.dart';
-import '../pages/login_page.dart';
+import '../pages/login_section/login_page.dart';
 
 class VerifyEmailPage extends StatefulWidget {
   final Function()? onTap;
