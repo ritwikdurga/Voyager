@@ -4,7 +4,7 @@ import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 import "package:voyager/pages/explore_sections/destination_description.dart";
 
-import "../utils/constants.dart";
+import "../../utils/constants.dart";
 
 class PastSearches extends StatelessWidget {
   const PastSearches({

@@ -6,7 +6,7 @@ import "package:provider/provider.dart";
 import "package:voyager/pages/explore_sections/destination_description.dart";
 import "package:voyager/utils/constants.dart";
 
-import "../utils/colors.dart";
+import "../../utils/colors.dart";
 
 class Search extends StatefulWidget {
   const Search({super.key});

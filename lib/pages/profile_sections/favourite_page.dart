@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/utils/colors.dart';
 
-import '../../components/trips_cards.dart';
+import '../../components/explore_section/trips_cards.dart';
 import '../../utils/constants.dart';
 
 class FavouritePage extends StatelessWidget {

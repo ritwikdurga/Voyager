@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/auth/main_page.dart';
 import 'package:voyager/components/back_ground/animatedbck.dart';
-import 'package:voyager/components/my_button.dart';
-import 'package:voyager/components/third_party.dart';
+import 'package:voyager/components/auth_section/my_button.dart';
+import 'package:voyager/components/auth_section/third_party.dart';
 import 'package:voyager/services/auth_service.dart';
 import 'package:iconsax/iconsax.dart';
 

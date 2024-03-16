@@ -3,7 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:voyager/components/travel_info_icon.dart';
+import 'package:voyager/components/explore_section/travel_info_icon.dart';
 
 class TravelInfoList extends StatelessWidget {
   TravelInfoList({

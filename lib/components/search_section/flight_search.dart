@@ -5,10 +5,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:voyager/components/calender_picker.dart';
-import 'package:voyager/components/date_section.dart';
-import 'package:voyager/pages/booking_sections/search_flights.dart';
+import 'package:voyager/components/search_section/calender_picker.dart';
+import 'package:voyager/components/search_section/date_section.dart';
 import 'package:voyager/utils/constants.dart';
+
+import '../../pages/search_sections/search_flights.dart';
+import '../../pages/search_sections/search_round_flights.dart';
 
 class FlightSearch extends StatefulWidget {
   FlightSearch({super.key});
@@ -460,6 +462,7 @@ class _FlightSearchState extends State<FlightSearch> {
                 itemCount: stringList.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
+                  final themeProvider = Provider.of<ThemeProvider>(context);
                   bool isSelected = selectedStrings.contains(stringList[index]);
                   return SizedBox(
                     width: screenWidth / 3,
@@ -472,7 +475,11 @@ class _FlightSearchState extends State<FlightSearch> {
                             vertical: 10.0, horizontal: 5.51),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: isSelected ? kGreenColor : Colors.grey[800],
+                            color: isSelected
+                                ? kGreenColor
+                                : themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.black,
                             borderRadius: BorderRadius.all(Radius.circular(25)),
                           ),
                           child: Padding(
@@ -481,6 +488,11 @@ class _FlightSearchState extends State<FlightSearch> {
                               stringList[index],
                               textAlign: TextAlign.center,
                               style: TextStyle(
+                                color: isSelected
+                                    ? Colors.white
+                                    : themeProvider.themeMode == ThemeMode.dark
+                                        ? Colors.black
+                                        : Colors.white,
                                 fontSize: 18,
                                 fontFamily: 'ProductSans',
                                 fontWeight: FontWeight.bold,
@@ -497,19 +509,80 @@ class _FlightSearchState extends State<FlightSearch> {
             SizedBox(height: 30),
             ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
+                  if (selectedFromAirport != null &&
+                      selectedToAirport !=
+                          null) if (selectedFromAirport !=
+                      selectedToAirport) if (selectedArrivalDate != null) {
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => SearchFlights(
-                                selectedFromAirport: selectedFromAirport,
-                                selectedToAirport: selectedToAirport,
-                                DepartureDate:
-                                    '${selectedDepartureDate?.year}-${selectedDepartureDate?.month.toString().padLeft(2, '0')}-${selectedDepartureDate!.day.toString().padLeft(2, '0')}',
-                                Class: selectedStrings.isNotEmpty
-                                    ? selectedStrings[0]
-                                    : null,
-                                PassengerCount: counterCount.toInt(),
-                              )));
+                        builder: (context) => SearchRoundFlights(
+                          selectedFromAirport: selectedFromAirport,
+                          selectedToAirport: selectedToAirport,
+                          DepartureDate:
+                              '${selectedDepartureDate?.year}-${selectedDepartureDate?.month.toString().padLeft(2, '0')}-${selectedDepartureDate!.day.toString().padLeft(2, '0')}',
+                          Class: selectedStrings.isNotEmpty
+                              ? selectedStrings[0]
+                              : null,
+                          PassengerCount: counterCount.toInt(),
+                          ArrivalDate:
+                              '${selectedArrivalDate?.year}-${selectedArrivalDate?.month.toString().padLeft(2, '0')}-${selectedArrivalDate!.day.toString().padLeft(2, '0')}',
+                        ),
+                      ),
+                    );
+                  } else {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SearchFlights(
+                                  selectedFromAirport: selectedFromAirport,
+                                  selectedToAirport: selectedToAirport,
+                                  DepartureDate:
+                                      '${selectedDepartureDate?.year}-${selectedDepartureDate?.month.toString().padLeft(2, '0')}-${selectedDepartureDate!.day.toString().padLeft(2, '0')}',
+                                  Class: selectedStrings.isNotEmpty
+                                      ? selectedStrings[0]
+                                      : null,
+                                  PassengerCount: counterCount.toInt(),
+                                )));
+                  }
+                  else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: kRedColor,
+                        content: Center(
+                          child: Text(
+                            'Please select different airports.',
+                            style: TextStyle(
+                              fontSize: 16,
+                              // Change the font size as needed
+                              fontFamily: 'ProductSans',
+                              // Change the font family as needed
+                              color: Colors.white, // Change the text color
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                  else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: kRedColor,
+                        content: Center(
+                          child: Text(
+                            'Please select the airports.',
+                            style: TextStyle(
+                              fontSize: 16,
+                              // Change the font size as needed
+                              fontFamily: 'ProductSans',
+                              // Change the font family as needed
+                              color: Colors.white, // Change the text color
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }
                 },
                 child: Text('Search')),
           ],

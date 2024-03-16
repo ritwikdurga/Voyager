@@ -4,7 +4,7 @@ import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/widgets.dart";
 import "package:provider/provider.dart";
-import "package:voyager/components/destinations_expanded.dart";
+import "package:voyager/components/explore_section/destinations_expanded.dart";
 import "package:voyager/utils/colors.dart";
 import "package:voyager/utils/constants.dart";
 

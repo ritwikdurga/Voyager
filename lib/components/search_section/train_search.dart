@@ -3,9 +3,9 @@
 import 'package:customizable_counter/customizable_counter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:voyager/components/calender_picker.dart';
-import 'package:voyager/components/date_section.dart';
-import 'package:voyager/pages/booking_sections/search_trains.dart';
+import 'package:voyager/components/search_section/calender_picker.dart';
+import 'package:voyager/components/search_section/date_section.dart';
+import 'package:voyager/pages/search_sections/search_trains.dart';
 import 'package:voyager/utils/constants.dart';
 
 class TrainSearch extends StatefulWidget {
@@ -366,24 +366,56 @@ class _TrainSearchState extends State<TrainSearch> {
                   if (selectedFromStation != null &&
                       selectedToStation != null &&
                       selectedDate != null) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) {
-                        return SearchTrains(
-                          fromStation: selectedFromStation,
-                          toStation: selectedToStation,
-                          fromStationName: fromStationcontroller.text,
-                          toStationName: toStationcontroller.text,
-                          date:
-                              '${selectedDate?.year}-${selectedDate?.month.toString().padLeft(2, '0')}-${selectedDate!.day.toString().padLeft(2, '0')}',
-                          passengers: counterCount.toInt(),
-                        );
-                      }),
-                    );
+                    if (selectedFromStation != selectedToStation)
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return SearchTrains(
+                            fromStation: selectedFromStation,
+                            toStation: selectedToStation,
+                            fromStationName: fromStationcontroller.text,
+                            toStationName: toStationcontroller.text,
+                            date:
+                                '${selectedDate?.year}-${selectedDate?.month.toString().padLeft(2, '0')}-${selectedDate!.day.toString().padLeft(2, '0')}',
+                            passengers: counterCount.toInt(),
+                          );
+                        }),
+                      );
+                    else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: kRedColor,
+                          content: Center(
+                            child: Text(
+                              'From and To stations cannot be same.',
+                              style: TextStyle(
+                                fontSize: 16,
+                                // Change the font size as needed
+                                fontFamily: 'ProductSans',
+                                // Change the font family as needed
+                                color: Colors.white, // Change the text color
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Please fill all the fields'),
+                        backgroundColor: kRedColor,
+                        content: Center(
+                          child: Text(
+                            'All fields are required.',
+                            style: TextStyle(
+                              fontSize: 16,
+                              // Change the font size as needed
+                              fontFamily: 'ProductSans',
+                              // Change the font family as needed
+                              color: Colors.white, // Change the text color
+                            ),
+                          ),
+                        ),
                       ),
                     );
                   }

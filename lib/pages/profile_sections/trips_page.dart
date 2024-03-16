@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../components/trips_cards.dart';
+import '../../components/explore_section/trips_cards.dart';
 import '../../utils/colors.dart';
 import '../../utils/constants.dart';
 import 'profile_page.dart';

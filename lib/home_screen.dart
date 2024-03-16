@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/pages/trip_planning_sections/add_trips_page.dart';
-import 'package:voyager/pages/booking_sections/booking_page.dart';
+import 'package:voyager/pages/search_sections/search_page.dart';
 import 'package:voyager/pages/explore_sections/explore_page.dart';
 import 'package:voyager/pages/profile_sections/profile_page.dart';
 import 'package:voyager/utils/constants.dart';

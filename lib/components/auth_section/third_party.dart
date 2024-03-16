@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
-import '../utils/constants.dart';
+import '../../utils/constants.dart';
 
 class SocialAuth extends StatelessWidget {
   final Function()? onPressGoogle;

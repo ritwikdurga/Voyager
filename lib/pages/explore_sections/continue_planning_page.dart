@@ -2,7 +2,7 @@
 
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
-import "package:voyager/components/trips_cards.dart";
+import "package:voyager/components/explore_section/trips_cards.dart";
 import "package:voyager/utils/colors.dart";
 import "package:voyager/utils/constants.dart";
 

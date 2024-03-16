@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:voyager/components/circle_tab_indicator.dart';
-import 'package:voyager/components/flight_search.dart';
-import 'package:voyager/components/tab_view_icons.dart';
-import 'package:voyager/components/train_search.dart';
+import 'package:voyager/components/search_section/circle_tab_indicator.dart';
+import 'package:voyager/components/search_section/flight_search.dart';
+import 'package:voyager/components/search_section/tab_view_icons.dart';
+import 'package:voyager/components/search_section/train_search.dart';
 import 'package:voyager/utils/colors.dart';
 import 'package:voyager/utils/constants.dart';
 
@@ -58,10 +58,7 @@ class _BookingState extends State<Booking> with TickerProviderStateMixin {
             Expanded(
               child: TabBarView(
                 controller: _tabController,
-                children: [
-                  TrainSearch(),
-                  FlightSearch()
-                ],
+                children: [TrainSearch(), FlightSearch()],
               ),
             ),
           ],

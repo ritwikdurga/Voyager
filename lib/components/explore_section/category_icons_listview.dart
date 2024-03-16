@@ -2,7 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:voyager/components/category_icon.dart';
+import 'package:voyager/components/explore_section/category_icon.dart';
 import 'package:voyager/utils/constants.dart';
 
 class CatIconsListView extends StatelessWidget {

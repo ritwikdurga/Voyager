@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/components/back_ground/animatedbck.dart';
 import 'package:voyager/components/loading.dart';
-import 'package:voyager/components/my_button.dart';
+import 'package:voyager/components/auth_section/my_button.dart';
 import 'package:voyager/pages/login_section/register_page.dart';
 import 'package:voyager/services/auth_service.dart';
 import 'package:iconsax/iconsax.dart';
-import '../../components/third_party.dart';
+import '../../components/auth_section/third_party.dart';
 import '../../utils/constants.dart';
 import 'forgot_pw_page.dart';
 

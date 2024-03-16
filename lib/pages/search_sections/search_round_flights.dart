@@ -3,37 +3,34 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:http/http.dart' as http;
-import 'package:iconsax/iconsax.dart';
-import 'package:intl/date_symbol_data_local.dart'; // Import date symbol data
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:voyager/components/flight_ticket_widget.dart';
-import '../../components/horizontal_cal.dart';
-import '../../components/ticket_widget.dart';
+import '../../components/search_section/flight_ticket_widget.dart';
 import '../../utils/constants.dart';
 
-class SearchFlights extends StatefulWidget {
-  SearchFlights(
+class SearchRoundFlights extends StatefulWidget {
+  SearchRoundFlights(
       {super.key,
       required this.selectedFromAirport,
       required this.selectedToAirport,
-      required this.DepartureDate,
       required this.Class,
-      required this.PassengerCount});
+      required this.PassengerCount,
+      required this.DepartureDate,
+      required this.ArrivalDate});
 
   Map<String, String>? selectedFromAirport;
   Map<String, String>? selectedToAirport;
   String? Class;
   int PassengerCount;
   String DepartureDate;
+  String ArrivalDate;
 
   @override
-  State<SearchFlights> createState() => _SearchFlightsState();
+  State<SearchRoundFlights> createState() => _SearchRoundFlightsState();
 }
 
-class _SearchFlightsState extends State<SearchFlights> {
+class _SearchRoundFlightsState extends State<SearchRoundFlights> {
   @override
   void initState() {
     _selectedDate = DateTime.parse(widget.DepartureDate);
@@ -43,14 +40,15 @@ class _SearchFlightsState extends State<SearchFlights> {
 
   late DateTime _selectedDate;
   var itineraries;
+
   // call the api to get the flights
 
   Future<void> getFlights() async {
-    var url =
-        Uri.parse('https://sky-scanner3.p.rapidapi.com/flights/search-one-way');
+    var url = Uri.parse(
+        'https://sky-scanner3.p.rapidapi.com/flights/search-roundtrip');
 
     var headers = {
-      'X-RapidAPI-Key': '<YOUR-API-KEY',
+      'X-RapidAPI-Key': '<YOUR API KEY>',
       'X-RapidAPI-Host': 'sky-scanner3.p.rapidapi.com'
     };
 
@@ -58,6 +56,7 @@ class _SearchFlightsState extends State<SearchFlights> {
       'fromEntityId': widget.selectedFromAirport?['entity_id'],
       'toEntityId': widget.selectedToAirport?['entity_id'],
       'departDate': widget.DepartureDate,
+      'returnDate': widget.ArrivalDate,
       if (widget.Class != null) 'cabinClass': widget.Class!.toLowerCase(),
     };
 
@@ -95,44 +94,22 @@ class _SearchFlightsState extends State<SearchFlights> {
       ),
       body: SafeArea(
         child: ListView(
-          //crossAxisAlignment: CrossAxisAlignment.stretch,
           scrollDirection: Axis.vertical,
           children: [
-            HorizontalCalendarCustom(
-              date: widget.DepartureDate.isEmpty
-                  ? DateTime.now()
-                  : DateFormat('yyyy-MM-dd').parse(widget.DepartureDate),
-              initialDate: DateTime.now(),
-              textColor: themeProvider.themeMode == ThemeMode.dark
-                  ? Colors.white
-                  : Colors.black,
-              backgroundColor: themeProvider.themeMode == ThemeMode.dark
-                  ? Colors.black
-                  : Colors.white,
-              selectedColor: Colors.blueAccent,
-              showMonth: true,
-              locale: Localizations.localeOf(context),
-              onDateSelected: (date) {
-                setState(() {
-                  _selectedDate = date;
-                  widget.DepartureDate = DateFormat('yyyy-MM-dd').format(date);
-                  itineraries = null;
-                });
-                getFlights();
-              },
-            ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Flights on ${DateFormat.yMMMd().format(_selectedDate)}',
+                    'Flights from ${widget.selectedFromAirport?['place']} to ${widget.selectedToAirport?['place']} and back',
                     style: TextStyle(
                       fontFamily: 'ProductSans',
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
                     ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
                   ),
                 ],
               ),
@@ -144,8 +121,6 @@ class _SearchFlightsState extends State<SearchFlights> {
                     shrinkWrap: true,
                     physics: ClampingScrollPhysics(),
                     itemBuilder: (context, index) {
-                      //print(itineraries[index]);
-                      //print('Type of itineraries[$index]: ${itineraries[index].runtimeType}');
                       return Column(
                         children: [
                           MultipleTicketsWidget(

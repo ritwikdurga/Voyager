@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:voyager/components/destinations.dart';
-import 'package:voyager/components/past_searches.dart';
-import 'package:voyager/components/search_bar.dart';
-import 'package:voyager/components/trips_cards.dart';
+import 'package:voyager/components/explore_section/destinations.dart';
+import 'package:voyager/components/explore_section/past_searches.dart';
+import 'package:voyager/components/explore_section/search_bar.dart';
+import 'package:voyager/components/explore_section/trips_cards.dart';
 import 'package:voyager/pages/explore_sections/continue_planning_page.dart';
 import 'package:voyager/pages/explore_sections/for_you_expanded.dart';
 import 'package:voyager/pages/explore_sections/popular_destinations_expanded.dart';
