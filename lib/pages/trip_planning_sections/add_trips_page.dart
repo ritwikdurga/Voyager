@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, curly_braces_in_flow_control_structures
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/components/explore_section/trips_cards.dart';
 import 'package:voyager/pages/trip_planning_sections/new_trip_page.dart';
@@ -98,34 +100,47 @@ class AddTrips extends StatelessWidget {
               //   ),
               // ),
               Text(
-                'Welcome to the Trips Page!',
+                'No plans yet? No problem!',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
+                  fontFamily: 'ProductSans',
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 2),
               Text(
-                'What would you like to do?',
+                'Your journey starts here.',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'ProductSans',
                 ),
               ),
               SizedBox(height: 40),
-              ElevatedButton(
-                onPressed: () {
-                  _showBottomSheet(context);
-                },
-                child: Text('Continue Planning Previous Trip'),
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  // _showBottomSheet(context, 'Plan a New Trip');
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => NewTrip()));
-                },
-                child: Text('Plan a New Trip'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    width: 180,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _showBottomSheet(context);
+                      },
+                      child: Text('Continue Planning'),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  SizedBox(
+                    width: 180,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => NewTrip()));
+                      },
+                      child: Text('Plan a New Trip'),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

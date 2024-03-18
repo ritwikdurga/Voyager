@@ -58,6 +58,9 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
                     child: Text(
                       'Paris',
                       style: TextStyle(
+                        color: themeProvider.themeMode == ThemeMode.dark
+                            ? Colors.white
+                            : Colors.white,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'ProductSans',
                         fontSize: 40,
@@ -66,7 +69,12 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
                   ),
                   Text(
                     '31 Mar-4 Apr',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300),
+                    style: TextStyle(
+                        color: themeProvider.themeMode == ThemeMode.dark
+                            ? Colors.white
+                            : Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w300),
                   ),
                 ],
               ),
@@ -75,8 +83,7 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
             padding: EdgeInsets.only(
                 top: _tabController.index == 0 ? screenHeight / 3 - 20 : 30),
             child: AnimatedSize(
-              // add a different animation to the tab bar
-              curve: Curves.easeOut,
+              curve: Curves.easeIn,
               duration: Duration(milliseconds: 300),
               child: Container(
                 height: _tabController.index == 0
@@ -93,7 +100,7 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
                             : Colors.white,
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(24.0),
+                        padding: const EdgeInsets.all(5.0),
                         child: TabBar(
                           controller: _tabController,
                           dividerColor:
