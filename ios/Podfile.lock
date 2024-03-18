@@ -68,6 +68,22 @@ PODS:
     - AppAuth/Core (~> 1.6)
     - GTMSessionFetcher/Core (< 4.0, >= 1.5)
   - GTMSessionFetcher/Core (3.3.1)
+  - Mapbox-iOS-SDK (6.4.1):
+    - MapboxMobileEvents (~> 0.10.12)
+  - mapbox_gl (0.0.1):
+    - Flutter
+    - Mapbox-iOS-SDK (~> 6.4.0)
+    - MapboxAnnotationExtension (~> 0.0.1-beta.1)
+  - MapboxAnnotationExtension (0.0.1-beta.2):
+    - Mapbox-iOS-SDK (~> 6.0)
+  - MapboxCommon (24.2.0)
+  - MapboxCoreMaps (11.2.0):
+    - MapboxCommon (~> 24.2)
+  - MapboxMaps (11.2.0):
+    - MapboxCommon (= 24.2.0)
+    - MapboxCoreMaps (= 11.2.0)
+    - Turf (= 2.8.0)
+  - MapboxMobileEvents (0.10.14)
   - PromisesObjC (2.4.0)
   - RecaptchaInterop (100.0.0)
   - shared_preferences_foundation (0.0.1):
@@ -75,6 +91,7 @@ PODS:
     - FlutterMacOS
   - sign_in_with_apple (0.0.1):
     - Flutter
+  - Turf (2.8.0)
 
 DEPENDENCIES:
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
@@ -82,6 +99,8 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/darwin`)
+  - mapbox_gl (from `.symlinks/plugins/mapbox_gl/ios`)
+  - MapboxMaps (= 11.2.0)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
 
@@ -97,8 +116,15 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMAppAuth
     - GTMSessionFetcher
+    - Mapbox-iOS-SDK
+    - MapboxAnnotationExtension
+    - MapboxCommon
+    - MapboxCoreMaps
+    - MapboxMaps
+    - MapboxMobileEvents
     - PromisesObjC
     - RecaptchaInterop
+    - Turf
 
 EXTERNAL SOURCES:
   firebase_auth:
@@ -111,6 +137,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_native_splash/ios"
   google_sign_in_ios:
     :path: ".symlinks/plugins/google_sign_in_ios/darwin"
+  mapbox_gl:
+    :path: ".symlinks/plugins/mapbox_gl/ios"
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
   sign_in_with_apple:
@@ -132,11 +160,19 @@ SPEC CHECKSUMS:
   GoogleUtilities: d053d902a8edaa9904e1bd00c37535385b8ed152
   GTMAppAuth: 99fb010047ba3973b7026e45393f51f27ab965ae
   GTMSessionFetcher: 8a1b34ad97ebe6f909fb8b9b77fba99943007556
+  Mapbox-iOS-SDK: f870f83cbdc7aa4a74afcee143aafb0dae390c82
+  mapbox_gl: 33c5ab6306cbfa72289bb3606d2cd2e8baee9ff0
+  MapboxAnnotationExtension: 4eee6c26349ef6d909f1a23a7eae2d0f7ca5fa7d
+  MapboxCommon: f40f1e8c8f3ee8e2bee3b15437812ab114722420
+  MapboxCoreMaps: 4294d3178201702a95f2ae316bc4ad419f5fa16a
+  MapboxMaps: 413cb886e75b6703c0a3084ce84c29cd681d916f
+  MapboxMobileEvents: 5a172cc9bbf8ac0e45ba86095cbee685ede248cc
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695
   sign_in_with_apple: f3bf75217ea4c2c8b91823f225d70230119b8440
+  Turf: aa2ede4298009639d10db36aba1a7ebaad072a5e
 
-PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
+PODFILE CHECKSUM: 062dcd75ecb6cb2b859fcbb57281afea72fdcb53
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.14.3

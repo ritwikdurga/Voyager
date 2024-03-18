@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
   <dict>
+    <key>io.flutter.embedded_views_preview</key>
+        <true/>
+        <key>MGLMapboxAccessToken</key>
+        <string><YOUR MAPBOX API KEY></string>
+    	<key>NSLocationWhenInUseUsageDescription</key>
+    	<string>Allow location access</string>
     <!-- Put me in the [my_project]/ios/Runner/Info.plist file -->
     <!-- Google Sign-in Section -->
     <key>CFBundleURLTypes</key>

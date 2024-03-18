@@ -10,6 +10,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'auth/main_page.dart';
 import 'firebase_options.dart';
+import 'map_section/autocomplete_func.dart';
+import 'map_section/normal__map_page.dart';
+import 'map_section/search_functionality.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -69,4 +72,5 @@ class _MyAppState extends State<MyApp> {
       // and return the home page or the login page
     );
   }
+
 }
