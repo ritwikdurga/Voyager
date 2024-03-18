@@ -18,23 +18,20 @@ class TravelInfoIcon extends StatelessWidget {
     return GestureDetector(
       child: SizedBox(
         width: screenWidth/5-4,
-        height: 105,
+        height: 99,
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: screenWidth/5-4,
+                height: screenWidth/6-5,
                 width: 60,
                 child: icon,
-              ),
-              SizedBox(
-                height: 2,
               ),
               Center(
                 child: Text(
                   text,
-                  maxLines: 3,
+                  maxLines: 1,
                   textAlign: TextAlign.center,
                   softWrap: true,
                   style: TextStyle(

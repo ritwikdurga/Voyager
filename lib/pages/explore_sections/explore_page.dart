@@ -27,8 +27,8 @@ class _ExploreState extends State<Explore> {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: themeProvider.themeMode == ThemeMode.dark
-                                    ? Colors.black
-                                    : Colors.white,
+          ? Colors.black
+          : Colors.white,
       body: SingleChildScrollView(
         child: SafeArea(
           child: GestureDetector(
@@ -148,7 +148,9 @@ class _ExploreState extends State<Explore> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ForYouExp(heading: 'For You',)));
+                                builder: (context) => ForYouExp(
+                                      heading: 'For You',
+                                    )));
                       },
                     )
                   ],

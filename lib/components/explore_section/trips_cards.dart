@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
@@ -36,70 +36,46 @@ class trips extends StatelessWidget {
           // redirect to planning page.
         },
         child: SizedBox(
-          height: screenWidth / 3,
+          height: screenWidth / 3 + 20,
           width: screenWidth - 10,
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(18, 8, 0, 8),
-            child: Row(
-              children: [
-                ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxHeight: (screenWidth / 3) - 16,
-                    maxWidth: screenWidth / 3,
-                  ),
-                  child: Image.asset(
-                    'assets/images/a.png',
-                  ),
-                ),
-                SizedBox(
-                  width: screenWidth / 20,
-                ),
-                Column(
+          child: Stack(
+            children: [
+              Image.asset(
+                'assets/images/a.png',
+                fit: BoxFit.cover,
+                height: screenWidth / 3 + 20,
+                width: screenWidth - 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
+                      '31 Mar - 4 Apr',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Spacer(),
+                    Text(
                       'Paris Trip',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: themeProvider.themeMode == ThemeMode.dark
-                            ? Colors.white
-                            : Colors.black,
+                        color: Colors.white,
                         fontSize: 24,
                       ),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                     ),
-                    SizedBox(height: 0.25),
-                    Text(
-                      '31 Mar - 4 Apr',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w200,
-                        fontSize: 14,
-                        color: themeProvider.themeMode == ThemeMode.dark
-                            ? Colors.white
-                            : Colors.black,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    ConstrainedBox(
-                      constraints: BoxConstraints(maxWidth: screenWidth / 2),
-                      child: Text(
-                        'Planning with abc,xyz,def,ghi,jkl,mno,pqr,stu,vwx,yz,123,456,789,0',
-                        style: TextStyle(
-                          color: themeProvider.themeMode == ThemeMode.dark
-                              ? Colors.white
-                              : Colors.black,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                      ),
-                    )
+                    
                   ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

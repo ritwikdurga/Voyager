@@ -107,7 +107,7 @@ class _DestDescState extends State<DestDesc> {
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
+                    const EdgeInsets.symmetric(vertical: 1.0, horizontal: 12),
                 child: Divider(
                   thickness: 0.5,
                   color: Colors.grey[400],
@@ -116,7 +116,7 @@ class _DestDescState extends State<DestDesc> {
               Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(12.0),
+                    padding: const EdgeInsets.fromLTRB(12.0,12,12,1),
                     child: Text(
                       'Travel information',
                       style: TextStyle(
@@ -134,7 +134,7 @@ class _DestDescState extends State<DestDesc> {
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
+                    const EdgeInsets.symmetric(vertical:0.5, horizontal: 12),
                 child: Divider(
                   thickness: 0.5,
                   color: Colors.grey[400],
@@ -191,16 +191,16 @@ class _DestDescState extends State<DestDesc> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: 3,
-              ),
+              // SizedBox(
+              //   height: 3,
+              // ),
               SizedBox(
                 height: 105,
                 child: CatIconsListView(),
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
+                    const EdgeInsets.symmetric(vertical: 1.0, horizontal: 12),
                 child: Divider(
                   thickness: 0.5,
                   color: Colors.grey[400],
