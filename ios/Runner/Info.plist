@@ -5,7 +5,7 @@
     <key>io.flutter.embedded_views_preview</key>
         <true/>
         <key>MGLMapboxAccessToken</key>
-        <string><YOUR MAPBOX API KEY></string>
+        <string>YOUR MAPBOX API KEY</string>
     	<key>NSLocationWhenInUseUsageDescription</key>
     	<string>Allow location access</string>
     <!-- Put me in the [my_project]/ios/Runner/Info.plist file -->
