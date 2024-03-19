@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/components/explore_section/trips_cards.dart';
 import 'package:voyager/pages/trip_planning_sections/new_trip_page.dart';
+import 'package:voyager/pages/trip_planning_sections/plan_with_ai.dart';
 import 'package:voyager/utils/colors.dart';
 import 'package:voyager/utils/constants.dart';
 
@@ -25,80 +26,6 @@ class AddTrips extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Padding(
-              //   padding: const EdgeInsets.all(20.0),
-              //   child: SizedBox(
-              //     width:250,
-              //     child: TextButton(
-              //       style: ButtonStyle(
-              //         foregroundColor: MaterialStateProperty.all<Color>(
-              //           themeProvider.themeMode == ThemeMode.dark
-              //               ? Colors.white
-              //               : Colors.black,
-              //         ),
-              //         overlayColor: MaterialStateProperty.resolveWith<Color?>(
-              //           (Set<MaterialState> states) {
-              //             if (states.contains(MaterialState.focused) ||
-              //                 states.contains(MaterialState.pressed))
-              //               return Colors.blue;
-              //             return null; // Defer to the widget's default.
-              //           },
-              //         ),
-              //         backgroundColor:
-              //             MaterialStateProperty.all<Color>(Colors.blueAccent),
-              //         shape: MaterialStateProperty.all<OutlinedBorder>(
-              //           RoundedRectangleBorder(
-              //             borderRadius: BorderRadius.circular(30.0),
-              //           ),
-              //         ),
-              //       ),
-              //       onPressed: () {},
-              //       child: Text(
-              //         'Continue Planning',
-              //         style: TextStyle(
-              //           fontSize: 24,
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.all(20.0),
-              //   child: SizedBox(
-              //     width:250,
-              //     child: TextButton(
-              //       style: ButtonStyle(
-              //         foregroundColor: MaterialStateProperty.all<Color>(
-              //           themeProvider.themeMode == ThemeMode.dark
-              //               ? Colors.white
-              //               : Colors.black,
-              //         ),
-              //         overlayColor: MaterialStateProperty.resolveWith<Color?>(
-              //           (Set<MaterialState> states) {
-              //             if (states.contains(MaterialState.focused) ||
-              //                 states.contains(MaterialState.pressed))
-              //               return Colors.blue;
-              //             return null; // Defer to the widget's default.
-              //           },
-              //         ),
-              //         backgroundColor:
-              //             MaterialStateProperty.all<Color>(Colors.blueAccent),
-              //         shape: MaterialStateProperty.all<OutlinedBorder>(
-              //           RoundedRectangleBorder(
-              //             borderRadius: BorderRadius.circular(30.0),
-              //           ),
-              //         ),
-              //       ),
-              //       onPressed: () {},
-              //       child: Text(
-              //         'Plan A New Trip',
-              //         style: TextStyle(
-              //           fontSize: 24,
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
               Text(
                 'No plans yet? No problem!',
                 style: TextStyle(
@@ -124,7 +51,7 @@ class AddTrips extends StatelessWidget {
                     width: 180,
                     child: ElevatedButton(
                       onPressed: () {
-                        _showBottomSheet(context);
+                        _showBottomSheetForContinuePlanning(context);
                       },
                       child: Text('Continue Planning'),
                     ),
@@ -134,8 +61,9 @@ class AddTrips extends StatelessWidget {
                     width: 180,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => NewTrip()));
+                        // Navigator.push(context,
+                        //     MaterialPageRoute(builder: (context) => NewTrip()));
+                        _showBottomSheetForNewTrip(context);
                       },
                       child: Text('Plan a New Trip'),
                     ),
@@ -150,14 +78,13 @@ class AddTrips extends StatelessWidget {
   }
 }
 
-void _showBottomSheet(BuildContext context) {
+void _showBottomSheetForContinuePlanning(BuildContext context) {
   double screenWidth = MediaQuery.of(context).size.width;
   double screenHeight = MediaQuery.of(context).size.height;
   showModalBottomSheet(
     context: context,
     builder: (BuildContext bc) {
       return Column(
-        //crossAxisAlignment:CrossAxisAlignment.end,
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
@@ -180,6 +107,66 @@ void _showBottomSheet(BuildContext context) {
                     child: trips(screenWidth: screenWidth),
                   );
                 }),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void _showBottomSheetForNewTrip(BuildContext context) {
+  double screenWidth = MediaQuery.of(context).size.width;
+  double screenHeight = MediaQuery.of(context).size.height;
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext bc) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            'No plans yet? No problem!',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'ProductSans',
+            ),
+          ),
+          SizedBox(height: 2),
+          Text(
+            'Your journey starts here.',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'ProductSans',
+            ),
+          ),
+          SizedBox(height: 40),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SizedBox(
+                width: 180,
+                child: ElevatedButton(
+                  onPressed: () {
+                    //_showBottomSheetForContinuePlanning(context);
+                  },
+                  child: Text('Manual'),
+                ),
+              ),
+              SizedBox(height: 10),
+              SizedBox(
+                width: 180,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => PlanWithAI()));
+                    //_showBottomSheetForNewTrip(context);
+                  },
+                  child: Text('Plan with AI'),
+                ),
+              ),
+            ],
           ),
         ],
       );
