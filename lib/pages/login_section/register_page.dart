@@ -9,7 +9,7 @@ import 'package:voyager/components/auth_section/my_button.dart';
 import 'package:voyager/components/auth_section/third_party.dart';
 import 'package:voyager/services/auth_service.dart';
 import 'package:iconsax/iconsax.dart';
-
+import 'package:voyager/pages/profile_sections/user_provider.dart';
 import '../../components/loading.dart';
 import '../../utils/constants.dart';
 
@@ -23,6 +23,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final AuthService _authService = AuthService();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _enterPasswordController =
@@ -69,12 +70,17 @@ class _RegisterPageState extends State<RegisterPage> {
     if (_enterPasswordController.text == _confirmPasswordController.text) {
       try {
         // Create the user with email, password, and display name
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: _emailController.text,
-          password: _enterPasswordController.text,
-        );
+        // await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        //   email: _emailController.text,
+        //   password: _enterPasswordController.text,
+        // );
 
-        successSnackBar();
+        await _authService.registerWithEmail(_emailController.text,
+            _enterPasswordController.text, _nameController.text);
+        FirebaseAuth instance = FirebaseAuth.instance;
+        // ignore: use_build_context_synchronously
+        Provider.of<UserProvider>(context, listen: false)
+            .updateName(instance.currentUser?.displayName ?? 'NaN');
         // Close the dialog
         if (mounted) {
           Navigator.pop(context);
@@ -96,26 +102,6 @@ class _RegisterPageState extends State<RegisterPage> {
     } else {
       passMismatch();
     }
-  }
-
-  void successSnackBar() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        // Change the background color of the snackbar
-        backgroundColor: Colors.green,
-        content: Center(
-          child: Text(
-            'Account created successfully!',
-            style: TextStyle(
-              fontSize: 16, // Change the font size as needed
-              fontFamily: 'ProductSans', // Change the font family as needed
-              color: Colors.white, // Change the font color as needed
-              fontWeight: FontWeight.w600, // Change the font weight as needed
-            ),
-          ),
-        ),
-      ),
-    );
   }
 
   void errorSnackBar() {
@@ -554,8 +540,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SocialAuth(
-                          onPressGoogle: () {
-                            AuthService().signInWithGoogle();
+                          onPressGoogle: () async {
+                            await _authService.signInWithGoogle();
+                            FirebaseAuth instance = FirebaseAuth.instance;
+                            // ignore: use_build_context_synchronously
+                            Provider.of<UserProvider>(context, listen: false)
+                                .updateName(
+                                    instance.currentUser?.displayName ?? 'NaN');
                           },
                           onPressApple: () {
                             // Sign in with apple

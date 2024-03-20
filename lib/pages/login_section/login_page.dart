@@ -12,17 +12,20 @@ import 'package:iconsax/iconsax.dart';
 import '../../components/auth_section/third_party.dart';
 import '../../utils/constants.dart';
 import 'forgot_pw_page.dart';
+import 'package:voyager/pages/profile_sections/user_provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class LoginPage extends StatefulWidget {
   final Function()? onTap;
 
-  const LoginPage({Key? key, required this.onTap}) : super(key: key);
+  const LoginPage({super.key, required this.onTap});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final AuthService _authService = AuthService();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -54,10 +57,14 @@ class _LoginPageState extends State<LoginPage> {
         return;
       }
       // Sign in with email and password
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
+      await _authService.signInWithEmail(
+        _emailController.text.trim(),
+        _passwordController.text.trim(),
       );
+      FirebaseAuth instance = FirebaseAuth.instance;
+      // ignore: use_build_context_synchronously
+      Provider.of<UserProvider>(context, listen: false)
+          .updateName(instance.currentUser?.displayName ?? 'NaN');
 
       // Hide loading dialog
       if (mounted) {
@@ -397,8 +404,14 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         Center(
                           child: SocialAuth(
-                            onPressGoogle: () {
-                              AuthService().signInWithGoogle();
+                            onPressGoogle: () async {
+                              await _authService.signInWithGoogle();
+                              FirebaseAuth instance = FirebaseAuth.instance;
+                              // ignore: use_build_context_synchronously
+                              Provider.of<UserProvider>(context, listen: false)
+                                  .updateName(
+                                      instance.currentUser?.displayName ??
+                                          'NaN');
                             },
                             onPressApple: () {
                               // Sign in with apple

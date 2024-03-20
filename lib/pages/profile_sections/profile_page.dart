@@ -8,20 +8,40 @@ import 'package:voyager/pages/profile_sections/faq_page.dart';
 import 'package:voyager/pages/profile_sections/favourite_page.dart';
 import 'package:voyager/pages/profile_sections/feedback_page.dart';
 import 'package:voyager/pages/profile_sections/trips_page.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../utils/colors.dart';
 import '../../utils/constants.dart';
 import 'edit_profile_page.dart';
+import 'user_provider.dart';
 
 class Profile extends StatefulWidget {
+  const Profile({super.key});
+
   @override
   State<Profile> createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
+  late String name;
+  late String photoURL;
+  late List<String> date;
+
+  @override
+  void initState() {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    name = auth.currentUser?.displayName as String;
+    photoURL = auth.currentUser?.photoURL ?? '';
+    String creationTime = auth.currentUser?.metadata.creationTime
+        .toString()
+        .substring(0, 10) as String;
+    date = creationTime.split('-');
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final providerUser = Provider.of<UserProvider>(context);
     return Scaffold(
       backgroundColor: themeProvider.themeMode == ThemeMode.dark
           ? darkColorScheme.background
@@ -63,8 +83,9 @@ class _ProfileState extends State<Profile> {
                   ? Colors.white
                   : Colors.black,
             ),
-            onPressed: () {
+            onPressed: () async {
               FirebaseAuth.instance.signOut();
+              Provider.of<UserProvider>(context, listen: false).clearUserData();
             },
           ),
         ],
@@ -78,12 +99,22 @@ class _ProfileState extends State<Profile> {
               SizedBox(
                 height: 30,
               ),
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                  child: CircleAvatar(
+                      radius: 50,
+                      backgroundImage: NetworkImage(
+                          photoURL) // You can also use providerUser.imageUrl if you have the image URL in your user provider
+                      ),
+                ),
+              ),
               // editable profile name section
               Center(
                 child: Padding(
                   padding: const EdgeInsets.all(3.0),
                   child: Text(
-                    'John Doe',
+                    providerUser.name,
                     style: TextStyle(
                         color: themeProvider.themeMode == ThemeMode.dark
                             ? Colors.white
@@ -100,7 +131,7 @@ class _ProfileState extends State<Profile> {
                 padding: const EdgeInsets.only(bottom: 18.0),
                 child: Center(
                   child: Text(
-                    'Joined in 2023',
+                    'Joined on ${date[2]}/${date[1]}/${date[0]}',
                     // You can replace this with the actual date joined
                     style: TextStyle(
                         fontSize: 14,
@@ -137,6 +168,7 @@ class _ProfileState extends State<Profile> {
               ListTile(
                 // icon for trips
                 leading: Container(
+                  decoration: BoxDecoration(),
                   child: Icon(
                     Iconsax.map,
                     size: 30,
@@ -144,7 +176,6 @@ class _ProfileState extends State<Profile> {
                         ? Colors.white
                         : Colors.black,
                   ),
-                  decoration: BoxDecoration(),
                 ),
                 title: Text('My Trips',
                     style: TextStyle(

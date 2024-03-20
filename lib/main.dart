@@ -14,6 +14,7 @@ import 'map_section/autocomplete_func.dart';
 import 'map_section/normal__map_page.dart';
 import 'map_section/search_functionality.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:voyager/pages/profile_sections/user_provider.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +27,7 @@ Future main() async {
           create: (_) => ThemeProvider(),
         ),
         ChangeNotifierProvider(create: (_) => MyIndexProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
       child: MyApp(),
     ),
@@ -74,5 +76,4 @@ class _MyAppState extends State<MyApp> {
       // and return the home page or the login page
     );
   }
-
 }

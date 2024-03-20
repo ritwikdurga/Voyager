@@ -48,6 +48,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       timer?.cancel();
       setState(() {
         isEmailVerified = true;
+        successSnackBar();
       });
 
       // Create the user account after email verification
@@ -200,6 +201,26 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                 ),
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void successSnackBar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        // Change the background color of the snackbar
+        backgroundColor: Colors.green,
+        content: Center(
+          child: Text(
+            'Account created successfully!',
+            style: TextStyle(
+              fontSize: 16, // Change the font size as needed
+              fontFamily: 'ProductSans', // Change the font family as needed
+              color: Colors.white, // Change the font color as needed
+              fontWeight: FontWeight.w600, // Change the font weight as needed
+            ),
           ),
         ),
       ),
