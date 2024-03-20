@@ -13,9 +13,11 @@ import 'firebase_options.dart';
 import 'map_section/autocomplete_func.dart';
 import 'map_section/normal__map_page.dart';
 import 'map_section/search_functionality.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() async {
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: "assets/.env");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     MultiProvider(

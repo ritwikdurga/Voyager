@@ -6,6 +6,9 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:voyager/pages/trip_planning_sections/trips_form_input/location_input.dart';
+import 'package:voyager/pages/trip_planning_sections/trips_form_input/trip_length_input.dart';
+import 'package:voyager/pages/trip_planning_sections/trips_form_input/tripmate_kind_input.dart';
+import 'package:voyager/pages/trip_planning_sections/trips_form_input/typesof_places_input.dart';
 import 'package:voyager/utils/constants.dart';
 
 class PlanWithAI extends StatefulWidget {
@@ -20,6 +23,11 @@ class _PlanWithAIState extends State<PlanWithAI> {
   TextEditingController _locationController = TextEditingController();
   bool locationSelected = false;
   String? selectedLocation;
+  DateTime? departure;
+  DateTime? arrival;
+  String? tripMateKind;
+  
+
   @override
   void dispose() {
     _controller.dispose();
@@ -27,10 +35,21 @@ class _PlanWithAIState extends State<PlanWithAI> {
     super.dispose();
   }
 
-  void _showErrorSnackbar() {
+  void _showErrorSnackbar(String Error) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Please select a location before proceeding.'),
+        backgroundColor: kRedColor,
+        // Change the background color of the snackbar
+        content: Center(
+          child: Text(
+            Error,
+            style: TextStyle(
+              fontSize: 16, // Change the font size as needed
+              fontFamily: 'ProductSans', // Change the font family as needed
+              color: Colors.white, // Change the text color
+            ),
+          ),
+        ),
         duration: Duration(seconds: 2),
       ),
     );
@@ -83,8 +102,16 @@ class _PlanWithAIState extends State<PlanWithAI> {
             controller: _controller,
             onPageChanged: (index) {
               if (index > 0 && !locationSelected) {
-                _showErrorSnackbar();
+                _showErrorSnackbar('Please select your destination.');
                 _controller.jumpToPage(0);
+              }
+              if(index>1 && (departure==null || arrival==null)){
+                _showErrorSnackbar('Please select the Start or End date.');
+                _controller.jumpToPage(1);
+              }
+              if(index>2 && tripMateKind==null){
+                _showErrorSnackbar('Please select Yout tripmate kind.');
+                _controller.jumpToPage(2);
               }
             },
             children: [
@@ -98,15 +125,22 @@ class _PlanWithAIState extends State<PlanWithAI> {
                   });
                 },
               ),
-              Text(
-                'hi1',
+              tripLength(
+                onDatesSelected: (DepartureDate,ArrivalDate) {
+                  setState(() {
+                    departure=DepartureDate;
+                    arrival=ArrivalDate;
+                  });
+                }
               ),
-              Text(
-                'hi2',
+              TripMateKind(
+                onTripMateSelected:(tripMateKind){
+                  setState(() {
+                    this.tripMateKind=tripMateKind;
+                  });
+                }
               ),
-              Text(
-                'hi3',
-              ),
+              TypesOfPlaces(),
             ],
           ),
         ),

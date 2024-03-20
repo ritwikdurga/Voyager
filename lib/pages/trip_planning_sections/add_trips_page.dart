@@ -16,6 +16,7 @@ class AddTrips extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
       backgroundColor: themeProvider.themeMode == ThemeMode.dark
           ? darkColorScheme.background
@@ -159,6 +160,7 @@ void _showBottomSheetForNewTrip(BuildContext context) {
                 width: 180,
                 child: ElevatedButton(
                   onPressed: () {
+                    Navigator.pop(context);
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => PlanWithAI()));
                     //_showBottomSheetForNewTrip(context);

@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -25,11 +26,10 @@ class _LocationInputState extends State<LocationInput>
     with AutomaticKeepAliveClientMixin {
   final PlaceAutocomplete placeAutocomplete = PlaceAutocomplete(
     apiKey:
-        '<YOUR API KEY>',
+        dotenv.env['KEY']!,
   );
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 
   List<String> suggestions = [];
@@ -56,7 +56,7 @@ class _LocationInputState extends State<LocationInput>
 
   Future<List<String>> getSuggestions(String query) async {
     String apiKey =
-        '<YOUR API KEY>';
+        dotenv.env['KEY']!;
     String endpoint =
         'https://api.mapbox.com/geocoding/v5/mapbox.places/$query.json?access_token=$apiKey';
 
