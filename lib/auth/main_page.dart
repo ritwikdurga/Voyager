@@ -24,7 +24,7 @@ class MainPage extends StatelessWidget {
               return const VerifyEmailPage();
             }
             if (snapshot.data!.emailVerified == true) {
-              return HomeScreen();
+              return HomeScreen(initialIndex: 0,);
             } else {
               return const VerifyEmailPage();
             }

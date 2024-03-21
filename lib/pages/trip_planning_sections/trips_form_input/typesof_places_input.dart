@@ -8,7 +8,10 @@ import 'package:voyager/pages/trip_planning_sections/new_trip_page.dart';
 import 'package:voyager/utils/constants.dart';
 
 class TypesOfPlaces extends StatefulWidget {
-  const TypesOfPlaces({super.key});
+  String? locationSelected;
+  DateTime? StartDate;
+  DateTime? EndDate;
+  TypesOfPlaces({super.key,required this.locationSelected,required this.StartDate,required this.EndDate,});
 
   @override
   State<TypesOfPlaces> createState() => _TypesOfPlacesState();
@@ -145,7 +148,11 @@ class _TypesOfPlacesState extends State<TypesOfPlaces> {
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => NewTrip()));
+                    context, MaterialPageRoute(builder: (context) => NewTrip(
+                      locationSelected: widget.locationSelected,
+                      StartDate: widget.StartDate,
+                      EndDate: widget.EndDate,
+                    )));
               },
             ),
           ),

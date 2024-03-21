@@ -140,7 +140,11 @@ class _PlanWithAIState extends State<PlanWithAI> {
                   });
                 }
               ),
-              TypesOfPlaces(),
+              TypesOfPlaces(
+                locationSelected: selectedLocation,
+                StartDate: departure,
+                EndDate: arrival, 
+              ),
             ],
           ),
         ),

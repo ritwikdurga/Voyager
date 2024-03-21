@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/pages/explore_sections/explore_page.dart';
 import 'package:voyager/pages/trip_planning_sections/main_tab_sections/expenses.dart';
@@ -12,7 +13,10 @@ import 'package:voyager/pages/trip_planning_sections/main_tab_sections/overview.
 import 'package:voyager/utils/constants.dart';
 
 class NewTrip extends StatefulWidget {
-  const NewTrip({Key? key}) : super(key: key);
+  String? locationSelected;
+  DateTime? StartDate;
+  DateTime? EndDate;
+  NewTrip({Key? key, required this.locationSelected,required this.StartDate,required this.EndDate}) : super(key: key);
 
   @override
   State<NewTrip> createState() => _NewTripState();
@@ -21,6 +25,7 @@ class NewTrip extends StatefulWidget {
 class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
   late TabController _tabController;
   double screenHeight = 0;
+  TextEditingController _HeadingTextController = TextEditingController();
 
   @override
   void initState() {
@@ -29,6 +34,7 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
     _tabController.addListener(() {
       setState(() {});
     });
+    _HeadingTextController.text=widget.locationSelected!;
   }
 
   @override
@@ -55,20 +61,26 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0),
-                    child: Text(
-                      'Paris',
+                    child: TextField(
+                      controller: _HeadingTextController,
                       style: TextStyle(
                         color: themeProvider.themeMode == ThemeMode.dark
                             ? Colors.white
-                            : Colors.white,
+                            : Colors
+                                .black, // Changed color to black for better visibility
                         fontWeight: FontWeight.bold,
                         fontFamily: 'ProductSans',
                         fontSize: 40,
                       ),
+                      textAlign: TextAlign.center,
+                      onChanged: (newValue) {
+                        // Update the value in yourTextEditingController or handle the change as needed
+                      },
+                      decoration: null,
                     ),
                   ),
                   Text(
-                    '31 Mar-4 Apr',
+                    '${DateFormat('dd MMM').format(widget.StartDate!)}-${DateFormat('dd MMM').format(widget.EndDate!)}',
                     style: TextStyle(
                         color: themeProvider.themeMode == ThemeMode.dark
                             ? Colors.white
