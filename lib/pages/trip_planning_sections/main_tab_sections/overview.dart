@@ -10,6 +10,7 @@ import 'package:voyager/components/search_section/date_section.dart';
 import 'package:voyager/components/trip_planning_section/friends_icons.dart';
 import 'package:voyager/components/trip_planning_section/profile_tile.dart';
 import 'package:voyager/home_screen.dart';
+import 'package:voyager/pages/trip_planning_sections/main_tab_sections/form_sections/form_for_one_way.dart';
 import 'package:voyager/utils/constants.dart';
 
 class Item {
@@ -217,8 +218,8 @@ class _OverviewTripsState extends State<OverviewTrips> {
                   ),
                   onPressed: () {
                     setState(() {
-                      notes.add(
-                          Item(heading: 'Note ${notes.length + 1}', notes: null));
+                      notes.add(Item(
+                          heading: 'Note ${notes.length + 1}', notes: null));
                     });
                   },
                 ),
@@ -280,11 +281,9 @@ class _OverviewTripsState extends State<OverviewTrips> {
                               IconButton(
                                 icon: Icon(Icons.edit),
                                 onPressed: () {
-                                  debugPrint('pressed me!');
                                   setState(() {
                                     _isEditing = !_isEditing;
                                     item.isEditing = !item.isEditing;
-                                    debugPrint(_isEditing.toString());
                                   });
                                 },
                               ),
@@ -307,7 +306,8 @@ class _OverviewTripsState extends State<OverviewTrips> {
                       textInputAction: TextInputAction.done,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10))),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
                         hintText:
                             item.notes != null ? null : 'Tap to write notes',
                       ),
@@ -511,7 +511,11 @@ void ShowFormsForManualAttachment(BuildContext context) {
                           //       builder: (context) =>
                           //           HomeScreen(initialIndex: 1)),
                           // );
-                          showFormsForOneWay(context);
+                          //showFormsForOneWay(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FormForOneWay()));
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -539,130 +543,62 @@ void ShowFormsForManualAttachment(BuildContext context) {
   );
 }
 
-DateTime? selectedDepartureDate = null;
-DateTime? selectedArrivalDate = null;
 
-void showFormsForOneWay(BuildContext context) {
-  double screenWidth = MediaQuery.of(context).size.width;
-  double screenHeight = MediaQuery.of(context).size.height;
-  showModalBottomSheet(
-    context: context,
-    builder: (BuildContext bc) {
-      return StatefulBuilder(
-        builder: (BuildContext context, StateSetter setState) {
-          return Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: Icon(Icons.close),
-                ),
-              ),
-              SizedBox(
-                height: screenHeight / 2 - 10,
-                width: screenWidth,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(18.0),
-                      child: Text(
-                        'Some Random Question?',
-                      ),
-                    ),
-                    Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Row(
-                            children: [
-                              Text('Departure Date'),
-                              Spacer(),
-                              if (selectedDepartureDate != null)
-                                DateDisplayer(
-                                  Date: selectedDepartureDate!.day.toString(),
-                                  Day: selectedDepartureDate!.weekday,
-                                  month: selectedDepartureDate!.month,
-                                  Year: selectedDepartureDate!.year.toString(),
-                                  valid: true,
-                                )
-                              else
-                                DateDisplayer(
-                                  Date: 'Month',
-                                  Day: 0,
-                                  month: 0,
-                                  Year: '',
-                                  valid: false,
-                                ),
-                              IconButton(
-                                icon: Icon(Icons.calendar_month),
-                                onPressed: () {
-                                  //Navigator.pop(context);
-                                  _showDatePickerDialog(context, false,
-                                      (DateTime? date) {
-                                    setState(() {
-                                      selectedDepartureDate = date;
-                                    });
-                                  });
-                                },
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          );
-        },
-      );
-    },
-  );
-}
 
-void _showDatePickerDialog(
-    BuildContext context, bool Arrival, Function(DateTime?) setDate) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      final _themeProvider = Provider.of<ThemeProvider>(context);
-      return SizedBox(
-        height: 300,
-        child: AlertDialog(
-          backgroundColor: _themeProvider.themeMode == ThemeMode.dark
-              ? Colors.black
-              : Colors.white,
-          surfaceTintColor: _themeProvider.themeMode == ThemeMode.dark
-              ? Colors.black
-              : Colors.white,
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                if (Arrival) {
-                  setDate(null);
-                }
-              },
-              child: Text('Clear'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Select'),
-            ),
-          ],
-          content: DatePicker(
-            onDateSelected: (date) {
-              setDate(date);
-            },
-          ),
-        ),
-      );
-    },
-  );
-}
+// void showFormsForOneWay(BuildContext context) {
+//   double screenWidth = MediaQuery.of(context).size.width;
+//   double screenHeight = MediaQuery.of(context).size.height;
+//   showModalBottomSheet(
+//     context: context,
+//     builder: (BuildContext bc) {
+//       return StatefulBuilder(
+//         builder: (BuildContext context, StateSetter setState) {
+//           return ;
+//         },
+//       );
+//     },
+//   );
+// }
+
+// void _showDatePickerDialog(
+//     BuildContext context, bool Arrival, Function(DateTime?) setDate) {
+//   showDialog(
+//     context: context,
+//     builder: (BuildContext context) {
+//       final _themeProvider = Provider.of<ThemeProvider>(context);
+//       return SizedBox(
+//         height: 300,
+//         child: AlertDialog(
+//           backgroundColor: _themeProvider.themeMode == ThemeMode.dark
+//               ? Colors.black
+//               : Colors.white,
+//           surfaceTintColor: _themeProvider.themeMode == ThemeMode.dark
+//               ? Colors.black
+//               : Colors.white,
+//           actions: <Widget>[
+//             TextButton(
+//               onPressed: () {
+//                 Navigator.of(context).pop();
+//                 if (Arrival) {
+//                   setDate(null);
+//                 }
+//               },
+//               child: Text('Clear'),
+//             ),
+//             TextButton(
+//               onPressed: () {
+//                 Navigator.of(context).pop();
+//               },
+//               child: Text('Select'),
+//             ),
+//           ],
+//           content: DatePicker(
+//             onDateSelected: (date) {
+//               setDate(date);
+//             },
+//           ),
+//         ),
+//       );
+//     },
+//   );
+// }

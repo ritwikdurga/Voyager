@@ -62,9 +62,15 @@ class AddTrips extends StatelessWidget {
                     width: 180,
                     child: ElevatedButton(
                       onPressed: () {
-                        // Navigator.push(context,
-                        //     MaterialPageRoute(builder: (context) => NewTrip()));
-                        _showBottomSheetForNewTrip(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NewTrip(
+                                      locationSelected: 'Argentina',
+                                      StartDate: DateTime.now(),
+                                      EndDate: DateTime.now(),
+                                    )));
+                        //_showBottomSheetForNewTrip(context);
                       },
                       child: Text('Plan a New Trip'),
                     ),
