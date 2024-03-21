@@ -8,6 +8,7 @@ import 'package:voyager/utils/constants.dart';
 
 import '../home_screen.dart';
 import '../pages/login_section/login_page.dart';
+import 'package:voyager/pages/profile_sections/user_provider.dart';
 
 class VerifyEmailPage extends StatefulWidget {
   final Function()? onTap;
@@ -48,6 +49,9 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       timer?.cancel();
       setState(() {
         isEmailVerified = true;
+        FirebaseAuth instance = FirebaseAuth.instance;
+        Provider.of<UserProvider>(context, listen: false)
+            .updateName(instance.currentUser?.displayName ?? 'NaN');
         successSnackBar();
       });
 
@@ -190,7 +194,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                         : Colors.black,
                     backgroundColor: Colors.blueAccent, // Text color
                   ),
-                  child: Text(
+                  child: const Text(
                     'Cancel',
                     style: TextStyle(
                       color: Colors.white,

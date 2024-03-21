@@ -4,11 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
+import 'package:voyager/pages/login_section/login_page.dart';
 import 'package:voyager/pages/profile_sections/faq_page.dart';
 import 'package:voyager/pages/profile_sections/favourite_page.dart';
 import 'package:voyager/pages/profile_sections/feedback_page.dart';
 import 'package:voyager/pages/profile_sections/trips_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../utils/colors.dart';
 import '../../utils/constants.dart';
 import 'edit_profile_page.dart';
@@ -84,8 +84,16 @@ class _ProfileState extends State<Profile> {
                   : Colors.black,
             ),
             onPressed: () async {
-              FirebaseAuth.instance.signOut();
-              Provider.of<UserProvider>(context, listen: false).clearUserData();
+              await FirebaseAuth.instance.signOut();
+              if (context.mounted) {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => LoginPage(
+                      onTap: () => {},
+                    ),
+                  ),
+                );
+              }
             },
           ),
         ],

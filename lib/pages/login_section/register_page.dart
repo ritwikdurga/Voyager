@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables,, avoid_print
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +7,7 @@ import 'package:voyager/auth/main_page.dart';
 import 'package:voyager/components/back_ground/animatedbck.dart';
 import 'package:voyager/components/auth_section/my_button.dart';
 import 'package:voyager/components/auth_section/third_party.dart';
+import 'package:voyager/home_screen.dart';
 import 'package:voyager/services/auth_service.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:voyager/pages/profile_sections/user_provider.dart';
@@ -77,10 +78,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
         await _authService.registerWithEmail(_emailController.text,
             _enterPasswordController.text, _nameController.text);
-        FirebaseAuth instance = FirebaseAuth.instance;
-        // ignore: use_build_context_synchronously
-        Provider.of<UserProvider>(context, listen: false)
-            .updateName(instance.currentUser?.displayName ?? 'NaN');
         // Close the dialog
         if (mounted) {
           Navigator.pop(context);
@@ -204,6 +201,36 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
+  void signInWithGoogle() async {
+    showDialog(
+      context: context,
+      builder: (context) => Loading(),
+    );
+    try {
+      await _authService.signInWithGoogle();
+      FirebaseAuth instance = FirebaseAuth.instance;
+      if (mounted) {
+        Provider.of<UserProvider>(context, listen: false).updateName(
+          instance.currentUser?.displayName ?? 'NaN',
+        );
+        Navigator.of(context).pop();
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => HomeScreen(
+              initialIndex: 0,
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
+      errorSnackBar();
+      print(e.toString());
+    }
+  }
+
   @override
   void dispose() {
     _nameController.dispose();
@@ -296,7 +323,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                       ),
                     ),
-
                     SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -510,43 +536,13 @@ class _RegisterPageState extends State<RegisterPage> {
                         ],
                       ),
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.symmetric(vertical: 16),
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.center,
-                    //     children: [
-                    //       IconButton(
-                    //         onPressed: () => AuthService().signInWithGoogle(),
-                    //         icon: Icon(
-                    //           Ionicons.logo_google,
-                    //           size: 30,
-                    //           color: kPrimaryColor,
-                    //         ),
-                    //       ),
-                    //       SizedBox(width: 20),
-                    //       IconButton(
-                    //         onPressed: () {},
-                    //         icon: Icon(
-                    //           Ionicons.logo_facebook,
-                    //           size: 30,
-                    //           color: kPrimaryColor,
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
                     SizedBox(height: 30),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SocialAuth(
                           onPressGoogle: () async {
-                            await _authService.signInWithGoogle();
-                            FirebaseAuth instance = FirebaseAuth.instance;
-                            // ignore: use_build_context_synchronously
-                            Provider.of<UserProvider>(context, listen: false)
-                                .updateName(
-                                    instance.currentUser?.displayName ?? 'NaN');
+                            signInWithGoogle();
                           },
                           onPressApple: () {
                             // Sign in with apple

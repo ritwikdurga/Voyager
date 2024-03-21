@@ -7,7 +7,7 @@ import 'user_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EditProfile extends StatefulWidget {
-  const EditProfile({super.key}); // Added key parameter
+  const EditProfile({super.key});
 
   @override
   State<EditProfile> createState() => _EditProfileState();
@@ -15,7 +15,7 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   late String name;
-  late String uid;
+  late String photoURL;
   late String email;
   bool isEditing = false;
   late TextEditingController nameController;
@@ -24,9 +24,9 @@ class _EditProfileState extends State<EditProfile> {
   void initState() {
     super.initState();
     FirebaseAuth auth = FirebaseAuth.instance;
-    name = auth.currentUser?.displayName as String;
-    email = auth.currentUser?.email as String;
-    uid = auth.currentUser?.uid as String;
+    name = auth.currentUser?.displayName ?? '';
+    email = auth.currentUser?.email ?? '';
+    photoURL = auth.currentUser?.photoURL ?? '';
     nameController = TextEditingController(text: name);
   }
 
@@ -71,13 +71,11 @@ class _EditProfileState extends State<EditProfile> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, 40),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 40),
                   child: CircleAvatar(
                     radius: 65,
-                    backgroundImage: NetworkImage(
-                      'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper-thumbnail.png',
-                    ),
+                    backgroundImage: NetworkImage(photoURL),
                   ),
                 ),
                 Padding(
@@ -105,47 +103,41 @@ class _EditProfileState extends State<EditProfile> {
                           ),
                           const SizedBox(width: 10),
                           Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 4.0),
-                              child: Consumer<UserProvider>(
-                                builder: (context, userProvider, _) {
-                                  return isEditing
-                                      ? TextFormField(
-                                          autofocus: true,
-                                          controller: nameController,
-                                          onChanged: (value) {
-                                            userProvider.updateName(
-                                                value); // Update name in UserProvider
-                                          },
-                                          style: TextStyle(
-                                            fontFamily: "ProductSans",
-                                            fontWeight: FontWeight.bold,
-                                            color: themeProvider.themeMode ==
-                                                    ThemeMode.dark
-                                                ? Colors.white
-                                                : Colors.black,
-                                            fontSize: 18,
-                                          ),
-                                          decoration: const InputDecoration(
-                                            border: InputBorder.none,
-                                          ),
-                                        )
-                                      : Text(
-                                          userProvider
-                                              .name, // Use name from UserProvider
-                                          style: TextStyle(
-                                            fontFamily: "ProductSans",
-                                            fontWeight: FontWeight.bold,
-                                            color: themeProvider.themeMode ==
-                                                    ThemeMode.dark
-                                                ? Colors.white
-                                                : Colors.black,
-                                            fontSize: 18,
-                                          ),
-                                        );
-                                },
-                              ),
-                            ),
+                            child: isEditing
+                                ? TextFormField(
+                                    autofocus: true,
+                                    controller: nameController,
+                                    keyboardType: TextInputType.name,
+                                    style: TextStyle(
+                                      fontFamily: "ProductSans",
+                                      fontWeight: FontWeight.bold,
+                                      color: themeProvider.themeMode ==
+                                              ThemeMode.dark
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontSize: 18,
+                                    ),
+                                    decoration: const InputDecoration(
+                                      hintText: "Name",
+                                      hintStyle: TextStyle(
+                                        fontSize: 16,
+                                        fontFamily: "ProductSans",
+                                      ),
+                                      border: InputBorder.none,
+                                    ),
+                                  )
+                                : Text(
+                                    name,
+                                    style: TextStyle(
+                                      fontFamily: "ProductSans",
+                                      fontWeight: FontWeight.bold,
+                                      color: themeProvider.themeMode ==
+                                              ThemeMode.dark
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontSize: 18,
+                                    ),
+                                  ),
                           ),
                           IconButton(
                             icon: Icon(isEditing ? Icons.check : Icons.edit,
@@ -154,27 +146,17 @@ class _EditProfileState extends State<EditProfile> {
                                     : Colors.black,
                                 size: 20),
                             onPressed: () async {
-                              if (isEditing) {
-                                FirebaseAuth.instance
-                                    .authStateChanges()
-                                    .listen((User? user) async {
-                                  if (user != null) {
-                                    await user.updateDisplayName(name);
-                                    nameUpdated();
-                                    final FirebaseFirestore db =
-                                        FirebaseFirestore.instance;
-                                    var userdata = db.collection("users");
-                                    await userdata
-                                        .doc(user.uid)
-                                        .update({'name': name});
-                                  }
-                                });
-                              }
                               setState(() {
-                                if (isEditing) {
-                                  name = nameController.text;
-                                }
                                 isEditing = !isEditing;
+                                if (!isEditing &&
+                                    nameController.text.isNotEmpty) {
+                                  updateName(nameController.text);
+                                  Provider.of<UserProvider>(context,
+                                          listen: false)
+                                      .updateName(nameController.text);
+                                } else if (nameController.text.isEmpty) {
+                                  emptyName();
+                                }
                               });
                             },
                           )
@@ -264,6 +246,25 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
+  void updateName(String newName) async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    final user = auth.currentUser;
+    if (user != null) {
+      try {
+        setState(() {
+          name = newName;
+        });
+        await user.updateDisplayName(newName);
+        final db = FirebaseFirestore.instance;
+        var userdata = db.collection("users");
+        await userdata.doc(user.uid).update({'name': newName});
+        nameUpdated();
+      } catch (e) {
+        print('Error updating name: $e');
+      }
+    }
+  }
+
   void nameUpdated() {
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -273,8 +274,27 @@ class _EditProfileState extends State<EditProfile> {
             child: Text(
               'Successfully Updated',
               style: TextStyle(
-                fontSize: 16, // Change the font size as needed
-                fontFamily: 'ProductSans', // Change the font family as needed
+                fontSize: 16,
+                fontFamily: 'ProductSans',
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+  }
+
+  void emptyName() {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.red,
+          content: Center(
+            child: Text(
+              'Name Cannot be Empty',
+              style: TextStyle(
+                fontSize: 16,
+                fontFamily: 'ProductSans',
               ),
             ),
           ),

@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:voyager/components/back_ground/animatedbck.dart';
 import 'package:voyager/components/loading.dart';
 import 'package:voyager/components/auth_section/my_button.dart';
+import 'package:voyager/home_screen.dart';
 import 'package:voyager/pages/login_section/register_page.dart';
 import 'package:voyager/services/auth_service.dart';
 import 'package:iconsax/iconsax.dart';
@@ -13,7 +14,6 @@ import '../../components/auth_section/third_party.dart';
 import '../../utils/constants.dart';
 import 'forgot_pw_page.dart';
 import 'package:voyager/pages/profile_sections/user_provider.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 class LoginPage extends StatefulWidget {
   final Function()? onTap;
@@ -61,27 +61,34 @@ class _LoginPageState extends State<LoginPage> {
         _emailController.text.trim(),
         _passwordController.text.trim(),
       );
-      FirebaseAuth instance = FirebaseAuth.instance;
-      // ignore: use_build_context_synchronously
-      Provider.of<UserProvider>(context, listen: false)
-          .updateName(instance.currentUser?.displayName ?? 'NaN');
+      FirebaseAuth.instance.authStateChanges().listen((User? user) {
+        if (user != null) {
+          // Update user name
+          Provider.of<UserProvider>(context, listen: false)
+              .updateName(user.displayName ?? 'NaN');
 
-      // Hide loading dialog
-      if (mounted) {
-        Navigator.pop(context);
-      }
+          // Navigate to the home screen
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomeScreen(initialIndex: 0),
+            ),
+          );
+        }
+      });
     } on FirebaseAuthException catch (e) {
       // Hide loading dialog
       if (mounted) {
         Navigator.pop(context);
       }
       if (e.code == 'user-not-found') {
-        // give another method to show snackbar without the of(context)
         userNotFoundSnackBar();
       } else if (e.code == 'wrong-password') {
         wrongPasswordSnackBar();
-        print(e.code);
+      } else if (e.code == 'invalid-email') {
+        invalidEmail();
       } else {
+        print(e.toString());
         errorSnackBar();
       }
     }
@@ -163,6 +170,49 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  void invalidEmail() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: kRedColor,
+        // Change the background color of the snackbar
+
+        content: Center(
+          child: Text(
+            'Enter a Valid Email.',
+            style: TextStyle(
+              fontSize: 16, // Change the font size as needed
+              fontFamily: 'ProductSans', // Change the font family as needed
+              color: Colors.white, // Change the text color
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future signInWithGoogle() async {
+    showDialog(
+      context: context,
+      builder: (context) => Loading(),
+    );
+    try {
+      await _authService.signInWithGoogle();
+      FirebaseAuth instance = FirebaseAuth.instance;
+      if (mounted) {
+        Provider.of<UserProvider>(context, listen: false).updateName(
+          instance.currentUser?.displayName ?? 'NaN',
+        );
+        Navigator.of(context).pop();
+      }
+    } catch (e) {
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
+      errorSnackBar();
+      print(e.toString());
+    }
   }
 
   @override
@@ -405,13 +455,16 @@ class _LoginPageState extends State<LoginPage> {
                         Center(
                           child: SocialAuth(
                             onPressGoogle: () async {
-                              await _authService.signInWithGoogle();
-                              FirebaseAuth instance = FirebaseAuth.instance;
-                              // ignore: use_build_context_synchronously
-                              Provider.of<UserProvider>(context, listen: false)
-                                  .updateName(
-                                      instance.currentUser?.displayName ??
-                                          'NaN');
+                              await signInWithGoogle();
+                              if (context.mounted) {
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) => HomeScreen(
+                                      initialIndex: 0,
+                                    ),
+                                  ),
+                                );
+                              }
                             },
                             onPressApple: () {
                               // Sign in with apple
