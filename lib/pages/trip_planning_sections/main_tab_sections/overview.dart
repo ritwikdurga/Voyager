@@ -12,6 +12,7 @@ import 'package:voyager/components/trip_planning_section/friends_icons.dart';
 import 'package:voyager/components/trip_planning_section/profile_tile.dart';
 import 'package:voyager/home_screen.dart';
 import 'package:voyager/pages/trip_planning_sections/main_tab_sections/form_sections/form_for_one_way.dart';
+import 'package:voyager/pages/trip_planning_sections/main_tab_sections/form_sections/form_for_trains.dart';
 import 'package:voyager/utils/constants.dart';
 
 class Item {
@@ -36,6 +37,7 @@ class OverviewTrips extends StatefulWidget {
 class _OverviewTripsState extends State<OverviewTrips> {
   List<Item> notes = [Item(heading: 'Note 1', notes: null)];
   List<TicketData> FlightTickets = [];
+  List<TrainData> TrainTickets = [];
   void AttachForFlights(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -119,6 +121,103 @@ class _OverviewTripsState extends State<OverviewTrips> {
                               padding: const EdgeInsets.all(10.0),
                               child: Text(
                                 'Search for Flights',
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void AttachForTrains(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(Icons.close),
+              ),
+            ),
+            SizedBox(
+              height: screenHeight / 2 - 10,
+              width: screenWidth,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: Text(
+                      'Some Random Question?',
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(25.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(25),
+                            color: Colors.grey[600],
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => FormForTrain(
+                                            onTrainTicketAdded: (traindata) {
+                                              setState(() {
+                                                TrainTickets.add(traindata);
+                                              });
+                                            },
+                                          )));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(
+                                'Add Manually',
+                              ),
+                            ),
+                          ),
+                        ),
+                        Spacer(),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      HomeScreen(initialIndex: 1)),
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(25),
+                              color: Colors.grey[600],
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(
+                                'Search for Trains',
                               ),
                             ),
                           ),
@@ -244,18 +343,23 @@ class _OverviewTripsState extends State<OverviewTrips> {
                       SizedBox(
                         width: screenWidth / 4 - 15,
                         height: 80,
-                        child: Column(
-                          children: [
-                            Icon(
-                              Icons.train,
-                              size: 50,
-                              color: Colors.white,
-                            ),
-                            Spacer(),
-                            Text(
-                              'Trains',
-                            ),
-                          ],
+                        child: GestureDetector(
+                          onTap: () {
+                            AttachForTrains(context);
+                          },
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.train,
+                                size: 50,
+                                color: Colors.white,
+                              ),
+                              Spacer(),
+                              Text(
+                                'Trains',
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       Padding(
@@ -580,6 +684,318 @@ class _OverviewTripsState extends State<OverviewTrips> {
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text(
                                               FlightTickets[index].price,
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          '',
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Divider(
+                                  thickness: 0.25,
+                                  color: Colors.white,
+                                ),
+                                Container(
+                                  width: 0.9 * screenWidth,
+                                  height: 80,
+                                  alignment: Alignment.center,
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      hintText: 'Notes',
+                                      border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            if (!TrainTickets.isEmpty)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ExpansionTile(
+                  title: Text('Your Train Tickets'),
+                  initiallyExpanded: false,
+                  children: [
+                    SizedBox(
+                      height: 337,
+                      width: screenWidth,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount: TrainTickets.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: EdgeInsets.symmetric(vertical: 5.0),
+                            width: 0.95 * screenWidth,
+                            padding: EdgeInsets.all(10.0),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[800],
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'DEPART',
+                                        ),
+                                        Container(
+                                          width: 0.5 * screenWidth,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[900],
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              TrainTickets[index].fromStation,
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          TrainTickets[index].topText,
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Spacer(),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'DATE',
+                                        ),
+                                        Container(
+                                          width: 0.17 * screenWidth,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[900],
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              TrainTickets[index].fromDate,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          '',
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Spacer(),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'TIME',
+                                        ),
+                                        Container(
+                                          width: 0.22 * screenWidth,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[900],
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(DateFormat('hh:mm a')
+                                                .format(DateFormat('HH:mm')
+                                                    .parse(TrainTickets[index]
+                                                        .fromTime))),
+                                          ),
+                                        ),
+                                        Text(
+                                          '',
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'ARRIVE',
+                                        ),
+                                        Container(
+                                          width: 0.5 * screenWidth,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[900],
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              TrainTickets[index].toStation,
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          TrainTickets[index].bottomText,
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Spacer(),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'DATE',
+                                        ),
+                                        Container(
+                                          width: 0.17 * screenWidth,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[900],
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              TrainTickets[index].toDate,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          '',
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Spacer(),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'TIME',
+                                        ),
+                                        Container(
+                                          width: 0.22 * screenWidth,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[900],
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(DateFormat('hh:mm a')
+                                                .format(DateFormat('HH:mm')
+                                                    .parse(TrainTickets[index]
+                                                        .toTime))),
+                                          ),
+                                        ),
+                                        Text(
+                                          '',
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'TRAIN OPERATER',
+                                        ),
+                                        Container(
+                                          width: 0.58 * screenWidth,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[900],
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              '${TrainTickets[index].trainOperater}-${TrainTickets[index].trainNumber}',
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          '',
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Spacer(),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'COST',
+                                        ),
+                                        Container(
+                                          width: 0.3 * screenWidth,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[900],
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              TrainTickets[index].price,
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 1,
                                             ),

@@ -14,7 +14,7 @@ import 'package:voyager/utils/constants.dart';
 
 class FormForOneWay extends StatefulWidget {
   final Function(List<TicketData>?) onTicketAdded;
-  FormForOneWay({super.key,required this.onTicketAdded});
+  FormForOneWay({super.key, required this.onTicketAdded});
 
   @override
   State<FormForOneWay> createState() => _FormForOneWayState();
