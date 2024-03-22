@@ -10,7 +10,10 @@ import 'package:voyager/components/search_section/calender_picker.dart';
 import 'package:voyager/components/search_section/date_section.dart';
 import 'package:voyager/components/trip_planning_section/friends_icons.dart';
 import 'package:voyager/components/trip_planning_section/profile_tile.dart';
+import 'package:voyager/components/trip_planning_section/ticket_container.dart';
 import 'package:voyager/home_screen.dart';
+import 'package:voyager/pages/trip_planning_sections/main_tab_sections/form_sections/form_for_buses.dart';
+import 'package:voyager/pages/trip_planning_sections/main_tab_sections/form_sections/form_for_cars.dart';
 import 'package:voyager/pages/trip_planning_sections/main_tab_sections/form_sections/form_for_one_way.dart';
 import 'package:voyager/pages/trip_planning_sections/main_tab_sections/form_sections/form_for_trains.dart';
 import 'package:voyager/utils/constants.dart';
@@ -38,6 +41,8 @@ class _OverviewTripsState extends State<OverviewTrips> {
   List<Item> notes = [Item(heading: 'Note 1', notes: null)];
   List<TicketData> FlightTickets = [];
   List<TrainData> TrainTickets = [];
+  List<BusData> BusTickets = [];
+  List<CarData> CarTickets = [];
   void AttachForFlights(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -79,7 +84,6 @@ class _OverviewTripsState extends State<OverviewTrips> {
                           child: GestureDetector(
                             onTap: () {
                               Navigator.pop(context);
-                              // ShowFormsForManualAttachment(context);
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -319,7 +323,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                           AttachForFlights(context);
                         },
                         child: SizedBox(
-                          width: screenWidth / 4 - 15,
+                          width: screenWidth / 5 - 15,
                           height: 80,
                           child: Column(
                             children: [
@@ -341,7 +345,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                         ),
                       ),
                       SizedBox(
-                        width: screenWidth / 4 - 15,
+                        width: screenWidth / 5 - 15,
                         height: 80,
                         child: GestureDetector(
                           onTap: () {
@@ -369,20 +373,34 @@ class _OverviewTripsState extends State<OverviewTrips> {
                         ),
                       ),
                       SizedBox(
-                        width: screenWidth / 4 - 15,
+                        width: screenWidth / 5 - 15,
                         height: 80,
-                        child: Column(
-                          children: [
-                            Icon(
-                              Iconsax.bus5,
-                              size: 50,
-                              color: Colors.white,
-                            ),
-                            Spacer(),
-                            Text(
-                              'Buses',
-                            ),
-                          ],
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => FormForBuses(
+                                          onBusAdded: (busdata) {
+                                            setState(() {
+                                              BusTickets.add(busdata);
+                                            });
+                                          },
+                                        )));
+                          },
+                          child: Column(
+                            children: [
+                              Icon(
+                                Iconsax.bus5,
+                                size: 50,
+                                color: Colors.white,
+                              ),
+                              Spacer(),
+                              Text(
+                                'Buses',
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       Padding(
@@ -392,7 +410,45 @@ class _OverviewTripsState extends State<OverviewTrips> {
                         ),
                       ),
                       SizedBox(
-                        width: screenWidth / 4 - 15,
+                        width: screenWidth / 5 - 15,
+                        height: 80,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => FormForCars(
+                                          onCarAdded: (cardata) {
+                                            setState(() {
+                                              CarTickets.add(cardata);
+                                            });
+                                          },
+                                        )));
+                          },
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.car_repair_sharp,
+                                size: 50,
+                                color: Colors.white,
+                              ),
+                              Spacer(),
+                              Text(
+                                'Cars',
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                        child: VerticalDivider(
+                          thickness: 0.25,
+                        ),
+                      ),
+                      SizedBox(
+                        width: screenWidth / 5 - 15,
                         height: 80,
                         child: Column(
                           children: [
@@ -404,6 +460,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                             Spacer(),
                             Text(
                               'Attachment',
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ],
                         ),
@@ -421,303 +478,32 @@ class _OverviewTripsState extends State<OverviewTrips> {
                   initiallyExpanded: false,
                   children: [
                     SizedBox(
-                      height: 337,
+                      height: 384,
                       width: screenWidth,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
                         itemCount: FlightTickets.length,
                         itemBuilder: (context, index) {
-                          return Container(
-                            margin: EdgeInsets.symmetric(vertical: 5.0),
-                            width: 0.95 * screenWidth,
-                            padding: EdgeInsets.all(10.0),
-                            decoration: BoxDecoration(
-                              color: Colors.grey[800],
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'DEPART',
-                                        ),
-                                        Container(
-                                          width: 0.5 * screenWidth,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey[900],
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              FlightTickets[index].fromAirport,
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                          FlightTickets[index].topText,
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Spacer(),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'DATE',
-                                        ),
-                                        Container(
-                                          width: 0.17 * screenWidth,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey[900],
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              FlightTickets[index].fromDate,
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                          '',
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Spacer(),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'TIME',
-                                        ),
-                                        Container(
-                                          width: 0.22 * screenWidth,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey[900],
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(DateFormat('hh:mm a')
-                                                .format(DateFormat('HH:mm')
-                                                    .parse(FlightTickets[index]
-                                                        .fromTime))),
-                                          ),
-                                        ),
-                                        Text(
-                                          '',
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'ARRIVE',
-                                        ),
-                                        Container(
-                                          width: 0.5 * screenWidth,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey[900],
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              FlightTickets[index].toAirport,
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                          FlightTickets[index].bottomText,
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Spacer(),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'DATE',
-                                        ),
-                                        Container(
-                                          width: 0.17 * screenWidth,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey[900],
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              FlightTickets[index].toDate,
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                          '',
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Spacer(),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'TIME',
-                                        ),
-                                        Container(
-                                          width: 0.22 * screenWidth,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey[900],
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(DateFormat('hh:mm a')
-                                                .format(DateFormat('HH:mm')
-                                                    .parse(FlightTickets[index]
-                                                        .toTime))),
-                                          ),
-                                        ),
-                                        Text(
-                                          '',
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'FLIGHT OPERATER',
-                                        ),
-                                        Container(
-                                          width: 0.58 * screenWidth,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey[900],
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              '${FlightTickets[index].flightOperator}-${FlightTickets[index].flightNumber}',
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                          '',
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Spacer(),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'COST',
-                                        ),
-                                        Container(
-                                          width: 0.3 * screenWidth,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey[900],
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              FlightTickets[index].price,
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                          '',
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Divider(
-                                  thickness: 0.25,
-                                  color: Colors.white,
-                                ),
-                                Container(
-                                  width: 0.9 * screenWidth,
-                                  height: 80,
-                                  alignment: Alignment.center,
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                      hintText: 'Notes',
-                                      border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10))),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                          return TicketContainer(
+                            DepartLocation: FlightTickets[index].fromAirport,
+                            topText: FlightTickets[index].topText,
+                            fromDate: FlightTickets[index].fromDate,
+                            fromTime: FlightTickets[index].fromTime,
+                            ArrivalLocation: FlightTickets[index].toAirport,
+                            bottomText: FlightTickets[index].bottomText,
+                            toDate: FlightTickets[index].toDate,
+                            toTime: FlightTickets[index].toTime,
+                            transitCarrier:
+                                '${FlightTickets[index].flightOperator}-${FlightTickets[index].flightNumber}',
+                            price: FlightTickets[index].price,
+                            operaterHeading: 'FLIGHT OPERATER',
+                            index: index,
+                            onDeleted: (index) {
+                              setState(() {
+                                FlightTickets.removeAt(index);
+                              });
+                            },
                           );
                         },
                       ),
@@ -733,303 +519,112 @@ class _OverviewTripsState extends State<OverviewTrips> {
                   initiallyExpanded: false,
                   children: [
                     SizedBox(
-                      height: 337,
+                      height: 384,
                       width: screenWidth,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
                         itemCount: TrainTickets.length,
                         itemBuilder: (context, index) {
-                          return Container(
-                            margin: EdgeInsets.symmetric(vertical: 5.0),
-                            width: 0.95 * screenWidth,
-                            padding: EdgeInsets.all(10.0),
-                            decoration: BoxDecoration(
-                              color: Colors.grey[800],
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'DEPART',
-                                        ),
-                                        Container(
-                                          width: 0.5 * screenWidth,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey[900],
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              TrainTickets[index].fromStation,
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                          TrainTickets[index].topText,
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Spacer(),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'DATE',
-                                        ),
-                                        Container(
-                                          width: 0.17 * screenWidth,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey[900],
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              TrainTickets[index].fromDate,
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                          '',
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Spacer(),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'TIME',
-                                        ),
-                                        Container(
-                                          width: 0.22 * screenWidth,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey[900],
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(DateFormat('hh:mm a')
-                                                .format(DateFormat('HH:mm')
-                                                    .parse(TrainTickets[index]
-                                                        .fromTime))),
-                                          ),
-                                        ),
-                                        Text(
-                                          '',
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'ARRIVE',
-                                        ),
-                                        Container(
-                                          width: 0.5 * screenWidth,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey[900],
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              TrainTickets[index].toStation,
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                          TrainTickets[index].bottomText,
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Spacer(),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'DATE',
-                                        ),
-                                        Container(
-                                          width: 0.17 * screenWidth,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey[900],
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              TrainTickets[index].toDate,
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                          '',
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Spacer(),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'TIME',
-                                        ),
-                                        Container(
-                                          width: 0.22 * screenWidth,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey[900],
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(DateFormat('hh:mm a')
-                                                .format(DateFormat('HH:mm')
-                                                    .parse(TrainTickets[index]
-                                                        .toTime))),
-                                          ),
-                                        ),
-                                        Text(
-                                          '',
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'TRAIN OPERATER',
-                                        ),
-                                        Container(
-                                          width: 0.58 * screenWidth,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey[900],
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              '${TrainTickets[index].trainOperater}-${TrainTickets[index].trainNumber}',
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                          '',
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Spacer(),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'COST',
-                                        ),
-                                        Container(
-                                          width: 0.3 * screenWidth,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey[900],
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              TrainTickets[index].price,
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                          '',
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Divider(
-                                  thickness: 0.25,
-                                  color: Colors.white,
-                                ),
-                                Container(
-                                  width: 0.9 * screenWidth,
-                                  height: 80,
-                                  alignment: Alignment.center,
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                      hintText: 'Notes',
-                                      border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10))),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                          return TicketContainer(
+                            DepartLocation: TrainTickets[index].fromStation,
+                            topText: TrainTickets[index].topText,
+                            fromDate: TrainTickets[index].fromDate,
+                            fromTime: TrainTickets[index].fromTime,
+                            ArrivalLocation: TrainTickets[index].toStation,
+                            bottomText: TrainTickets[index].bottomText,
+                            toDate: TrainTickets[index].toDate,
+                            toTime: TrainTickets[index].toTime,
+                            transitCarrier:
+                                '${TrainTickets[index].trainOperater}-${TrainTickets[index].trainNumber}',
+                            price: TrainTickets[index].price,
+                            operaterHeading: 'TRAIN OPERATER',
+                            index: index,
+                            onDeleted: (index) {
+                              setState(() {
+                                TrainTickets.removeAt(index);
+                              });
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            if (!BusTickets.isEmpty)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ExpansionTile(
+                  title: Text('Your Bus Tickets'),
+                  initiallyExpanded: false,
+                  children: [
+                    SizedBox(
+                      height: 384,
+                      width: screenWidth,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount: BusTickets.length,
+                        itemBuilder: (context, index) {
+                          return TicketContainer(
+                            DepartLocation: BusTickets[index].fromBusStop,
+                            topText: '',
+                            fromDate: BusTickets[index].fromDate,
+                            fromTime: BusTickets[index].fromTime,
+                            ArrivalLocation: BusTickets[index].toBusStop,
+                            bottomText: '',
+                            toDate: BusTickets[index].toDate,
+                            toTime: BusTickets[index].toTime,
+                            transitCarrier: BusTickets[index].busOperater,
+                            price: BusTickets[index].price,
+                            operaterHeading: 'BUS OPERATER',
+                            index: index,
+                            onDeleted: (index) {
+                              setState(() {
+                                BusTickets.removeAt(index);
+                              });
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            if (!CarTickets.isEmpty)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ExpansionTile(
+                  title: Text('Your Car Tickets'),
+                  initiallyExpanded: false,
+                  children: [
+                    SizedBox(
+                      height: 384,
+                      width: screenWidth,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount: CarTickets.length,
+                        itemBuilder: (context, index) {
+                          return TicketContainer(
+                            DepartLocation: CarTickets[index].fromPlace,
+                            topText: '',
+                            fromDate: CarTickets[index].fromDate,
+                            fromTime: CarTickets[index].fromTime,
+                            ArrivalLocation: CarTickets[index].toPlace,
+                            bottomText: '',
+                            toDate: CarTickets[index].toDate,
+                            toTime: CarTickets[index].toTime,
+                            transitCarrier: CarTickets[index].carOperater,
+                            price: CarTickets[index].price,
+                            operaterHeading: 'Car OPERATER',
+                            index: index,
+                            onDeleted: (index) {
+                              setState(() {
+                                CarTickets.removeAt(index);
+                              });
+                            },
                           );
                         },
                       ),

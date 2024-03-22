@@ -1,63 +1,48 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors
 
 import 'package:date_time_picker_selector/date_time_picker_selector.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/components/search_section/calender_picker.dart';
 import 'package:voyager/components/search_section/date_section.dart';
 import 'package:voyager/utils/constants.dart';
 
-class FormForTrain extends StatefulWidget {
-  final Function(TrainData) onTrainTicketAdded;
-  const FormForTrain({super.key, required this.onTrainTicketAdded});
+class FormForCars extends StatefulWidget {
+  final Function(CarData) onCarAdded;
+  const FormForCars({super.key, required this.onCarAdded});
 
   @override
-  State<FormForTrain> createState() => _FormForTrainState();
+  State<FormForCars> createState() => _FormForCarsState();
 }
 
-class _FormForTrainState extends State<FormForTrain> {
-  TextEditingController fromStationcontroller = TextEditingController();
-  TextEditingController toStationcontroller = TextEditingController();
-  TextEditingController TrainOperater = TextEditingController();
-  TextEditingController TrainNumberOperater = TextEditingController();
+class _FormForCarsState extends State<FormForCars> {
+  TextEditingController fromPlacecontroller = TextEditingController();
+  TextEditingController toPlacecontroller = TextEditingController();
+  TextEditingController CarOperater = TextEditingController();
   TextEditingController priceController = TextEditingController();
   DateTime? selectedDepartureDate = null;
   DateTime? selectedArrivalDate = null;
-  bool isListViewVisibleForDeparture = false;
-  bool isListViewVisibleForArrival = false;
-  String? selectedFromStation = null;
-  String? selectedToStation = null;
+  String? selectedFromPlace = null;
+  String? selectedToPlace = null;
   String? selectedDepartureTime = null;
   String? selectedArrivalTime = null;
-  String? TrainName = null;
-  String? TrainNumber = null;
+  String? CarName = null;
   String? Price = null;
 
   bool areTextFieldsFilled() {
     bool allFilled = true;
-    allFilled &= fromStationcontroller.text.isNotEmpty;
-    allFilled &= toStationcontroller.text.isNotEmpty;
+    allFilled &= fromPlacecontroller.text.isNotEmpty;
+    allFilled &= toPlacecontroller.text.isNotEmpty;
     allFilled &= (selectedDepartureDate != null);
     allFilled &= (selectedArrivalDate != null);
     allFilled &= (selectedArrivalTime != null);
     allFilled &= (selectedDepartureTime != null);
-    allFilled &= (TrainName != null);
-    allFilled &= (TrainNumber != null);
-    allFilled &= (Price != null);
+    allFilled &= (CarName != null);
+    allFilled &= (priceController.text.isNotEmpty);
     return allFilled;
-  }
-
-  List<Map<String, String>> getFilteredStations(String searchText) {
-    return Stations.where((station) {
-      final String code = station['code'] ?? '';
-      final String name = station['name'] ?? '';
-      return code.toLowerCase().contains(searchText.toLowerCase()) ||
-          name.toLowerCase().contains(searchText.toLowerCase());
-    }).toList();
   }
 
   void _showDatePickerDialog(BuildContext context, bool Arrival) {
@@ -119,7 +104,7 @@ class _FormForTrainState extends State<FormForTrain> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Form for trains',
+          'Form for Cars',
         ),
       ),
       body: SingleChildScrollView(
@@ -143,7 +128,7 @@ class _FormForTrainState extends State<FormForTrain> {
                       SizedBox(
                         width: 0.95 * screenWidth,
                         child: TextField(
-                          controller: fromStationcontroller,
+                          controller: fromPlacecontroller,
                           decoration: InputDecoration(
                             prefixIcon: Icon(
                               Icons.near_me,
@@ -164,54 +149,16 @@ class _FormForTrainState extends State<FormForTrain> {
                               ),
                             ),
                           ),
-                          onTap: () {
-                            setState(() {
-                              isListViewVisibleForDeparture = true;
-                            });
-                          },
+                          onTap: () {},
                           onChanged: (value) {
-                            setState(() {});
+                            setState(() {
+                              selectedFromPlace = fromPlacecontroller.text;
+                            });
                           },
                         ),
                       ),
                     ],
                   ),
-                  if (isListViewVisibleForDeparture)
-                    SizedBox(
-                      height: 200,
-                      child: Stack(
-                        children: [
-                          ListView.builder(
-                            itemCount:
-                                getFilteredStations(fromStationcontroller.text)
-                                    .length,
-                            itemBuilder: (context, index) {
-                              final station = getFilteredStations(
-                                  fromStationcontroller.text)[index];
-                              return ListTile(
-                                title: Row(
-                                  children: [
-                                    Text('${station['code']}'),
-                                    SizedBox(width: 5),
-                                    Text('${station['name']}')
-                                  ],
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    fromStationcontroller.text =
-                                        station['name'] ?? '';
-                                    selectedFromStation = station['code'];
-                                    isListViewVisibleForDeparture = false;
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                  });
-                                },
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
                 ],
               ),
             ),
@@ -225,7 +172,7 @@ class _FormForTrainState extends State<FormForTrain> {
                       SizedBox(
                         width: 0.95 * screenWidth,
                         child: TextField(
-                          controller: toStationcontroller,
+                          controller: toPlacecontroller,
                           decoration: InputDecoration(
                             prefixIcon: Icon(
                               Icons.location_on,
@@ -246,54 +193,16 @@ class _FormForTrainState extends State<FormForTrain> {
                               ),
                             ),
                           ),
-                          onTap: () {
-                            setState(() {
-                              isListViewVisibleForArrival = true;
-                            });
-                          },
+                          onTap: () {},
                           onChanged: (value) {
-                            setState(() {});
+                            setState(() {
+                              selectedToPlace = toPlacecontroller.text;
+                            });
                           },
                         ),
                       ),
                     ],
                   ),
-                  if (isListViewVisibleForArrival)
-                    SizedBox(
-                      height: 200,
-                      child: Stack(
-                        children: [
-                          ListView.builder(
-                            itemCount:
-                                getFilteredStations(toStationcontroller.text)
-                                    .length,
-                            itemBuilder: (context, index) {
-                              final station = getFilteredStations(
-                                  toStationcontroller.text)[index];
-                              return ListTile(
-                                title: Row(
-                                  children: [
-                                    Text('${station['code']}'),
-                                    SizedBox(width: 5),
-                                    Text('${station['name']}')
-                                  ],
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    toStationcontroller.text =
-                                        station['name'] ?? '';
-                                    selectedToStation = station['code'];
-                                    isListViewVisibleForArrival = false;
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                  });
-                                },
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
                 ],
               ),
             ),
@@ -411,12 +320,12 @@ class _FormForTrainState extends State<FormForTrain> {
                   SizedBox(
                     width: 0.95 * screenWidth,
                     child: TextField(
-                      controller: TrainOperater,
+                      controller: CarOperater,
                       decoration: InputDecoration(
                         prefixIcon: Icon(
                           Icons.near_me,
                         ),
-                        hintText: 'Train Name',
+                        hintText: 'Car Name',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15),
                           borderSide: BorderSide(
@@ -433,61 +342,12 @@ class _FormForTrainState extends State<FormForTrain> {
                         ),
                       ),
                       onTap: () {
-                        setState(() {
-                          TrainName = TrainOperater.text;
-                        });
+                        setState(() {});
                       },
                       onChanged: (value) {
                         setState(() {
-                          TrainName = TrainOperater.text;
+                          CarName = CarOperater.text;
                         });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 6.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 0.95 * screenWidth,
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly,
-                        LengthLimitingTextInputFormatter(6),
-                      ],
-                      controller: TrainNumberOperater,
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(
-                          Icons.near_me,
-                        ),
-                        hintText: 'Train Number',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide(
-                            color: themeProvider.themeMode == ThemeMode.dark
-                                ? Colors.white
-                                : Colors.black,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide(
-                            color: kGreenColor,
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-                        setState(() {
-                          TrainNumber = TrainNumberOperater.text;
-                        });
-                      },
-                      onChanged: (value) {
-                        setState(() {TrainNumber = TrainNumberOperater.text;});
                       },
                     ),
                   ),
@@ -534,7 +394,9 @@ class _FormForTrainState extends State<FormForTrain> {
                         });
                       },
                       onChanged: (value) {
-                        setState(() {});
+                        setState(() {
+                          Price = priceController.text;
+                        });
                       },
                     ),
                   ),
@@ -561,21 +423,18 @@ class _FormForTrainState extends State<FormForTrain> {
                   ),
                   onTap: () {
                     Navigator.pop(context);
-                    TrainData traindata = TrainData(
-                      fromStation: fromStationcontroller.text,
-                      toStation: toStationcontroller.text,
-                      topText: selectedFromStation!,
-                      bottomText: selectedToStation!,
-                      price: priceController.text,
-                      trainNumber: TrainNumber!,
-                      trainOperater: TrainName!,
-                      fromDate:
-                          DateFormat('dd MMM').format(selectedDepartureDate!),
-                      toDate: DateFormat('dd MMM').format(selectedArrivalDate!),
-                      fromTime: selectedDepartureTime!,
-                      toTime: selectedArrivalTime!,
-                    );
-                    widget.onTrainTicketAdded(traindata);
+                    CarData carData = CarData(
+                        fromPlace: selectedFromPlace!,
+                        toPlace: selectedToPlace!,
+                        price: Price!,
+                        carOperater: CarName!,
+                        fromDate:
+                            DateFormat('dd MMM').format(selectedDepartureDate!),
+                        toDate:
+                            DateFormat('dd MMM').format(selectedArrivalDate!),
+                        fromTime: selectedDepartureTime!,
+                        toTime: selectedArrivalTime!);
+                    widget.onCarAdded(carData);
                   }),
           ],
         ),
@@ -584,27 +443,21 @@ class _FormForTrainState extends State<FormForTrain> {
   }
 }
 
-class TrainData {
-  late final String fromStation;
-  late final String toStation;
-  late final String topText;
-  late final String bottomText;
+class CarData {
+  late final String fromPlace;
+  late final String toPlace;
   late final String price;
-  late final String trainNumber;
-  late final String trainOperater;
+  late final String carOperater;
   late final String fromDate;
   late final String toDate;
   late final String fromTime;
   late final String toTime;
 
-  TrainData({
-    required this.fromStation,
-    required this.toStation,
-    required this.topText,
-    required this.bottomText,
+  CarData({
+    required this.fromPlace,
+    required this.toPlace,
     required this.price,
-    required this.trainNumber,
-    required this.trainOperater,
+    required this.carOperater,
     required this.fromDate,
     required this.toDate,
     required this.fromTime,
