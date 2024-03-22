@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/components/search_section/calender_picker.dart';
 import 'package:voyager/components/search_section/date_section.dart';
@@ -26,7 +27,7 @@ class Item {
 }
 
 class OverviewTrips extends StatefulWidget {
-  const OverviewTrips({super.key});
+  OverviewTrips({super.key});
 
   @override
   State<OverviewTrips> createState() => _OverviewTripsState();
@@ -34,6 +35,106 @@ class OverviewTrips extends StatefulWidget {
 
 class _OverviewTripsState extends State<OverviewTrips> {
   List<Item> notes = [Item(heading: 'Note 1', notes: null)];
+  List<TicketData> FlightTickets = [];
+  void AttachForFlights(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(Icons.close),
+              ),
+            ),
+            SizedBox(
+              height: screenHeight / 2 - 10,
+              width: screenWidth,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: Text(
+                      'Some Random Question?',
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(25.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(25),
+                            color: Colors.grey[600],
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                              // ShowFormsForManualAttachment(context);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => FormForOneWay(
+                                            onTicketAdded: (ticketsData) {
+                                              setState(() {
+                                                FlightTickets.addAll(
+                                                    ticketsData!);
+                                              });
+                                            },
+                                          )));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(
+                                'Add Manually',
+                              ),
+                            ),
+                          ),
+                        ),
+                        Spacer(),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      HomeScreen(initialIndex: 1)),
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(25),
+                              color: Colors.grey[600],
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(
+                                'Search for Flights',
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -208,6 +309,318 @@ class _OverviewTripsState extends State<OverviewTrips> {
                 ],
               ),
             ),
+            if (!FlightTickets.isEmpty)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ExpansionTile(
+                  title: Text('Your Flight Tickets'),
+                  initiallyExpanded: false,
+                  children: [
+                    SizedBox(
+                      height: 337,
+                      width: screenWidth,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount: FlightTickets.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: EdgeInsets.symmetric(vertical: 5.0),
+                            width: 0.95 * screenWidth,
+                            padding: EdgeInsets.all(10.0),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[800],
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'DEPART',
+                                        ),
+                                        Container(
+                                          width: 0.5 * screenWidth,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[900],
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              FlightTickets[index].fromAirport,
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          FlightTickets[index].topText,
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Spacer(),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'DATE',
+                                        ),
+                                        Container(
+                                          width: 0.17 * screenWidth,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[900],
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              FlightTickets[index].fromDate,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          '',
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Spacer(),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'TIME',
+                                        ),
+                                        Container(
+                                          width: 0.22 * screenWidth,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[900],
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(DateFormat('hh:mm a')
+                                                .format(DateFormat('HH:mm')
+                                                    .parse(FlightTickets[index]
+                                                        .fromTime))),
+                                          ),
+                                        ),
+                                        Text(
+                                          '',
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'ARRIVE',
+                                        ),
+                                        Container(
+                                          width: 0.5 * screenWidth,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[900],
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              FlightTickets[index].toAirport,
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          FlightTickets[index].bottomText,
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Spacer(),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'DATE',
+                                        ),
+                                        Container(
+                                          width: 0.17 * screenWidth,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[900],
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              FlightTickets[index].toDate,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          '',
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Spacer(),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'TIME',
+                                        ),
+                                        Container(
+                                          width: 0.22 * screenWidth,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[900],
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(DateFormat('hh:mm a')
+                                                .format(DateFormat('HH:mm')
+                                                    .parse(FlightTickets[index]
+                                                        .toTime))),
+                                          ),
+                                        ),
+                                        Text(
+                                          '',
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'FLIGHT OPERATER',
+                                        ),
+                                        Container(
+                                          width: 0.58 * screenWidth,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[900],
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              '${FlightTickets[index].flightOperator}-${FlightTickets[index].flightNumber}',
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          '',
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Spacer(),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'COST',
+                                        ),
+                                        Container(
+                                          width: 0.3 * screenWidth,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[900],
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              FlightTickets[index].price,
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          '',
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Divider(
+                                  thickness: 0.25,
+                                  color: Colors.white,
+                                ),
+                                Container(
+                                  width: 0.9 * screenWidth,
+                                  height: 80,
+                                  alignment: Alignment.center,
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      hintText: 'Notes',
+                                      border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             Row(
               children: [
                 Text('Notes'),
@@ -361,244 +774,3 @@ void _showBottomSheet(BuildContext context) {
     },
   );
 }
-
-void AttachForFlights(BuildContext context) {
-  double screenWidth = MediaQuery.of(context).size.width;
-  double screenHeight = MediaQuery.of(context).size.height;
-  showModalBottomSheet(
-    context: context,
-    builder: (BuildContext bc) {
-      return Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-            child: IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: Icon(Icons.close),
-            ),
-          ),
-          SizedBox(
-            height: screenHeight / 2 - 10,
-            width: screenWidth,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(18.0),
-                  child: Text(
-                    'Some Random Question?',
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(25.0),
-                  child: Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(25),
-                          color: Colors.grey[600],
-                        ),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                            ShowFormsForManualAttachment(context);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              'Add Manually',
-                            ),
-                          ),
-                        ),
-                      ),
-                      Spacer(),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    HomeScreen(initialIndex: 1)),
-                          );
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.circular(25),
-                            color: Colors.grey[600],
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              'Search for Flights',
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      );
-    },
-  );
-}
-
-void ShowFormsForManualAttachment(BuildContext context) {
-  double screenWidth = MediaQuery.of(context).size.width;
-  double screenHeight = MediaQuery.of(context).size.height;
-  showModalBottomSheet(
-    context: context,
-    builder: (BuildContext bc) {
-      return Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-            child: IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: Icon(Icons.close),
-            ),
-          ),
-          SizedBox(
-            height: screenHeight / 2 - 10,
-            width: screenWidth,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(18.0),
-                  child: Text(
-                    'Some Random Question?',
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(25.0),
-                  child: Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(25),
-                          color: Colors.grey[600],
-                        ),
-                        child: GestureDetector(
-                          onTap: () {
-                            // Navigator.pop(context);
-                            // ShowFormsForManualAttachment(context);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              'Round Trip',
-                            ),
-                          ),
-                        ),
-                      ),
-                      Spacer(),
-                      GestureDetector(
-                        onTap: () {
-                          // Navigator.of(context).pop();
-                          // Navigator.pushReplacement(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) =>
-                          //           HomeScreen(initialIndex: 1)),
-                          // );
-                          //showFormsForOneWay(context);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => FormForOneWay()));
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.circular(25),
-                            color: Colors.grey[600],
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              'One Way trip',
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      );
-    },
-  );
-}
-
-
-
-// void showFormsForOneWay(BuildContext context) {
-//   double screenWidth = MediaQuery.of(context).size.width;
-//   double screenHeight = MediaQuery.of(context).size.height;
-//   showModalBottomSheet(
-//     context: context,
-//     builder: (BuildContext bc) {
-//       return StatefulBuilder(
-//         builder: (BuildContext context, StateSetter setState) {
-//           return ;
-//         },
-//       );
-//     },
-//   );
-// }
-
-// void _showDatePickerDialog(
-//     BuildContext context, bool Arrival, Function(DateTime?) setDate) {
-//   showDialog(
-//     context: context,
-//     builder: (BuildContext context) {
-//       final _themeProvider = Provider.of<ThemeProvider>(context);
-//       return SizedBox(
-//         height: 300,
-//         child: AlertDialog(
-//           backgroundColor: _themeProvider.themeMode == ThemeMode.dark
-//               ? Colors.black
-//               : Colors.white,
-//           surfaceTintColor: _themeProvider.themeMode == ThemeMode.dark
-//               ? Colors.black
-//               : Colors.white,
-//           actions: <Widget>[
-//             TextButton(
-//               onPressed: () {
-//                 Navigator.of(context).pop();
-//                 if (Arrival) {
-//                   setDate(null);
-//                 }
-//               },
-//               child: Text('Clear'),
-//             ),
-//             TextButton(
-//               onPressed: () {
-//                 Navigator.of(context).pop();
-//               },
-//               child: Text('Select'),
-//             ),
-//           ],
-//           content: DatePicker(
-//             onDateSelected: (date) {
-//               setDate(date);
-//             },
-//           ),
-//         ),
-//       );
-//     },
-//   );
-// }
