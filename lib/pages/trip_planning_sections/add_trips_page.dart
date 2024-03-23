@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/components/explore_section/trips_cards.dart';
 import 'package:voyager/pages/trip_planning_sections/new_trip_page.dart';
+import 'package:voyager/pages/trip_planning_sections/plan_manual.dart';
 import 'package:voyager/pages/trip_planning_sections/plan_with_ai.dart';
 import 'package:voyager/utils/colors.dart';
 import 'package:voyager/utils/constants.dart';
@@ -63,15 +64,15 @@ class AddTrips extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () {
                         //change this code at last
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => NewTrip(
-                                      locationSelected: 'Argentina',
-                                      StartDate: DateTime.now(),
-                                      EndDate: DateTime.now(),
-                                    )));
-                        //_showBottomSheetForNewTrip(context);
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => NewTrip(
+                        //               locationSelected: 'Argentina',
+                        //               StartDate: DateTime.now(),
+                        //               EndDate: DateTime.now(),
+                        //             )));
+                        _showBottomSheetForNewTrip(context);
                       },
                       child: Text('Plan a New Trip'),
                     ),
@@ -158,6 +159,9 @@ void _showBottomSheetForNewTrip(BuildContext context) {
                 child: ElevatedButton(
                   onPressed: () {
                     //_showBottomSheetForContinuePlanning(context);
+                    Navigator.pop(context);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => PlanManual()));
                   },
                   child: Text('Manual'),
                 ),
