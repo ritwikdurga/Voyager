@@ -1,9 +1,10 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, must_be_immutable, prefer_const_constructors_in_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, must_be_immutable, prefer_const_constructors_in_immutables, curly_braces_in_flow_control_structures
 
 import 'package:customizable_counter/customizable_counter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/components/search_section/calender_picker.dart';
 import 'package:voyager/components/search_section/date_section.dart';
@@ -357,7 +358,7 @@ class _FlightSearchState extends State<FlightSearch> {
                                 Year: '',
                                 valid: false),
                           IconButton(
-                            icon: Icon(Icons.calendar_month),
+                            icon: Icon(Iconsax.calendar5),
                             onPressed: () {
                               _showDatePickerDialog(context, false);
                             },
@@ -400,7 +401,7 @@ class _FlightSearchState extends State<FlightSearch> {
                               Year: '',
                               valid: false),
                         IconButton(
-                          icon: Icon(Icons.calendar_month),
+                          icon: Icon(Iconsax.calendar5),
                           onPressed: () {
                             _showDatePickerDialog(context, true);
                           },
@@ -478,8 +479,8 @@ class _FlightSearchState extends State<FlightSearch> {
                             color: isSelected
                                 ? kGreenColor
                                 : themeProvider.themeMode == ThemeMode.dark
-                                    ? Colors.white
-                                    : Colors.black,
+                                    ? Colors.grey.shade800
+                                    : Colors.grey.shade500,
                             borderRadius: BorderRadius.all(Radius.circular(25)),
                           ),
                           child: Padding(
@@ -488,11 +489,7 @@ class _FlightSearchState extends State<FlightSearch> {
                               stringList[index],
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: isSelected
-                                    ? Colors.white
-                                    : themeProvider.themeMode == ThemeMode.dark
-                                        ? Colors.black
-                                        : Colors.white,
+                                color: Colors.white,
                                 fontSize: 18,
                                 fontFamily: 'ProductSans',
                                 fontWeight: FontWeight.bold,

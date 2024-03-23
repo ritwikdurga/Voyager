@@ -3,6 +3,7 @@
 import 'package:date_time_picker_selector/date_time_picker_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/components/search_section/calender_picker.dart';
@@ -42,6 +43,26 @@ class _FormForBusesState extends State<FormForBuses> {
     allFilled &= (BusName != null);
     allFilled &= (priceController.text.isNotEmpty);
     return allFilled;
+  }
+
+  void _showErrorSnackbar(String Error) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: kRedColor,
+        // Change the background color of the snackbar
+        content: Center(
+          child: Text(
+            Error,
+            style: TextStyle(
+              fontSize: 16, // Change the font size as needed
+              fontFamily: 'ProductSans', // Change the font family as needed
+              color: Colors.white, // Change the text color
+            ),
+          ),
+        ),
+        duration: Duration(seconds: 2),
+      ),
+    );
   }
 
   void _showDatePickerDialog(BuildContext context, bool Arrival) {
@@ -84,8 +105,21 @@ class _FormForBusesState extends State<FormForBuses> {
                 setState(() {
                   if (Arrival) {
                     selectedArrivalDate = date;
+                    // print(selectedArrivalDate);
+                    // print(selectedDepartureDate);
+                    // DateTime departureDate=DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day);
+                    // if(selectedDepartureDate!=null) departureDate=selectedDepartureDate!;
+                    // DateTime ArrivalDate=date;
+                    // if(selectedDepartureDate!=null && (departureDate.isBefore(ArrivalDate) || departureDate.isAtSameMomentAs(ArrivalDate))){
+                    //   _showErrorSnackbar('The Arrival Date must be after Departure Date');
+                    //   selectedArrivalDate=null;
+                    // }
                   } else {
                     selectedDepartureDate = date;
+                    // if(selectedArrivalDate!=null && selectedArrivalDate!.isAfter(selectedDepartureDate!)){
+                    //   _showErrorSnackbar('The Departure Date must be before Arrival Date');
+                    //   selectedDepartureDate=null;
+                    // }
                   }
                 });
               },
@@ -102,21 +136,26 @@ class _FormForBusesState extends State<FormForBuses> {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
+        leading: GestureDetector(
+          onTap:(){
+            Navigator.pop(context);
+          },
+          child: Icon(
+            Icons.arrow_back_ios,
+            size: 20,
+          ),
+        ),
         title: Text(
-          'Form for Buses',
+          'Add Your Bus Journey',
+          style: TextStyle(
+            color:  Colors.blueAccent,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Text(
-                  'Some Random Question?',
-                ),
-              ),
-            ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 12, 0, 6),
               child: Column(
@@ -211,7 +250,14 @@ class _FormForBusesState extends State<FormForBuses> {
                 children: [
                   Row(
                     children: [
-                      Text('Departure Date'),
+                      Text(
+                        'Departure Date',
+                        style: TextStyle(
+                          color: Colors.blueAccent,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
                       Spacer(),
                       if (selectedDepartureDate != null)
                         DateDisplayer(
@@ -239,7 +285,14 @@ class _FormForBusesState extends State<FormForBuses> {
                   ),
                   Row(
                     children: [
-                      Text('Arrival Date'),
+                      Text(
+                        'Arrival Date',
+                        style: TextStyle(
+                          color: Colors.blueAccent,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
                       Spacer(),
                       if (selectedArrivalDate != null)
                         DateDisplayer(
@@ -267,7 +320,14 @@ class _FormForBusesState extends State<FormForBuses> {
                   ),
                   Row(
                     children: [
-                      Text('Departure Time'),
+                      Text(
+                        'Departure Time',
+                        style: TextStyle(
+                          color: Colors.blueAccent,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
                       Spacer(),
                       SizedBox(
                         width: 80,
@@ -276,6 +336,10 @@ class _FormForBusesState extends State<FormForBuses> {
                           onChanged: (val) {
                             setState(() {
                               selectedDepartureTime = val;
+                              // if(selectedArrivalTime!=null && selectedArrivalDate!=null && selectedArrivalDate==selectedArrivalDate && DateTime.parse('1970-01-01 $selectedDepartureTime').isBefore(DateTime.parse('1970-01-01 $selectedArrivalTime'))){
+                              //   selectedDepartureTime=null;
+                              //   _showErrorSnackbar('Selected Departure Time must be before the Selected arrival Time.');
+                              // }
                             });
                           },
                           validator: (val) {
@@ -288,7 +352,14 @@ class _FormForBusesState extends State<FormForBuses> {
                   ),
                   Row(
                     children: [
-                      Text('Arrival Time'),
+                      Text(
+                        'Arrival Time',
+                        style: TextStyle(
+                          color: Colors.blueAccent,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
                       Spacer(),
                       SizedBox(
                         width: 80,
@@ -297,6 +368,10 @@ class _FormForBusesState extends State<FormForBuses> {
                           onChanged: (val) {
                             setState(() {
                               selectedArrivalTime = val;
+                              //  if(selectedDepartureTime!=null && selectedArrivalDate!=null && selectedArrivalDate==selectedArrivalDate && DateTime.parse('1970-01-01 $selectedDepartureTime').isBefore(DateTime.parse('1970-01-01 $selectedArrivalTime'))){
+                              //   selectedArrivalTime=null;
+                              //   _showErrorSnackbar('Selected Arrival Time must be after the Selected Departure Time.');
+                              // }
                             });
                           },
                           validator: (val) {
@@ -322,7 +397,7 @@ class _FormForBusesState extends State<FormForBuses> {
                       controller: BusOperater,
                       decoration: InputDecoration(
                         prefixIcon: Icon(
-                          Icons.near_me,
+                          Iconsax.bus5,
                         ),
                         hintText: 'Bus Name',
                         border: OutlineInputBorder(
@@ -369,7 +444,7 @@ class _FormForBusesState extends State<FormForBuses> {
                       controller: priceController,
                       decoration: InputDecoration(
                         prefixIcon: Icon(
-                          Icons.near_me,
+                          Iconsax.dollar_circle,
                         ),
                         hintText: 'Price',
                         border: OutlineInputBorder(

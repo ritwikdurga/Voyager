@@ -4,6 +4,7 @@ import 'package:date_time_picker_selector/date_time_picker_selector.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/components/search_section/calender_picker.dart';
@@ -103,21 +104,26 @@ class _FormForCarsState extends State<FormForCars> {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Icon(
+            Icons.arrow_back_ios,
+            size: 20,
+          ),
+        ),
         title: Text(
-          'Form for Cars',
+          'Add Your Car Journey',
+          style: TextStyle(
+            color: Colors.blueAccent,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Text(
-                  'Some Random Question?',
-                ),
-              ),
-            ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 12, 0, 6),
               child: Column(
@@ -212,7 +218,14 @@ class _FormForCarsState extends State<FormForCars> {
                 children: [
                   Row(
                     children: [
-                      Text('Departure Date'),
+                      Text(
+                        'Departure Date',
+                        style: TextStyle(
+                          color: Colors.blueAccent,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
                       Spacer(),
                       if (selectedDepartureDate != null)
                         DateDisplayer(
@@ -240,7 +253,14 @@ class _FormForCarsState extends State<FormForCars> {
                   ),
                   Row(
                     children: [
-                      Text('Arrival Date'),
+                      Text(
+                        'Arrival Date',
+                        style: TextStyle(
+                          color: Colors.blueAccent,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
                       Spacer(),
                       if (selectedArrivalDate != null)
                         DateDisplayer(
@@ -268,43 +288,63 @@ class _FormForCarsState extends State<FormForCars> {
                   ),
                   Row(
                     children: [
-                      Text('Departure Time'),
+                      Text(
+                        'Departure Time',
+                        style: TextStyle(
+                          color: Colors.blueAccent,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
                       Spacer(),
-                      SizedBox(
-                        width: 80,
-                        child: DateTimePicker(
-                          type: DateTimePickerType.time,
-                          onChanged: (val) {
-                            setState(() {
-                              selectedDepartureTime = val;
-                            });
-                          },
-                          validator: (val) {
-                            return null;
-                          },
-                          onSaved: (val) {},
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0,0,30,0),
+                        child: SizedBox(
+                          width: 80,
+                          child: DateTimePicker(
+                            type: DateTimePickerType.time,
+                            onChanged: (val) {
+                              setState(() {
+                                selectedDepartureTime = val;
+                              });
+                            },
+                            validator: (val) {
+                              return null;
+                            },
+                            onSaved: (val) {},
+                          ),
                         ),
                       ),
                     ],
                   ),
                   Row(
                     children: [
-                      Text('Arrival Time'),
+                      Text(
+                        'Arrival Time',
+                        style: TextStyle(
+                          color: Colors.blueAccent,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
                       Spacer(),
-                      SizedBox(
-                        width: 80,
-                        child: DateTimePicker(
-                          type: DateTimePickerType.time,
-                          onChanged: (val) {
-                            setState(() {
-                              selectedArrivalTime = val;
-                            });
-                          },
-                          validator: (val) {
-                            print(val);
-                            return null;
-                          },
-                          onSaved: (val) {},
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0,0,30,0),
+                        child: SizedBox(
+                          width: 80,
+                          child: DateTimePicker(
+                            type: DateTimePickerType.time,
+                            onChanged: (val) {
+                              setState(() {
+                                selectedArrivalTime = val;
+                              });
+                            },
+                            validator: (val) {
+                              print(val);
+                              return null;
+                            },
+                            onSaved: (val) {},
+                          ),
                         ),
                       ),
                     ],
@@ -323,7 +363,7 @@ class _FormForCarsState extends State<FormForCars> {
                       controller: CarOperater,
                       decoration: InputDecoration(
                         prefixIcon: Icon(
-                          Icons.near_me,
+                          Iconsax.car5,
                         ),
                         hintText: 'Car Name',
                         border: OutlineInputBorder(
@@ -370,7 +410,7 @@ class _FormForCarsState extends State<FormForCars> {
                       controller: priceController,
                       decoration: InputDecoration(
                         prefixIcon: Icon(
-                          Icons.near_me,
+                          Iconsax.dollar_circle,
                         ),
                         hintText: 'Price',
                         border: OutlineInputBorder(

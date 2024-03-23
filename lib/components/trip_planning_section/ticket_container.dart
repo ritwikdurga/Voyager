@@ -304,11 +304,24 @@ class TicketContainer extends StatelessWidget {
               ),
             ),
           ),
-          IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: () {
-              onDeleted(index);
-            },
+          // IconButton(
+          //   icon: Icon(Icons.delete),
+          //   onPressed: () {
+          //     onDeleted(index);
+          //   },
+          // ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  onDeleted(index);
+                },
+                child: Text(
+                  'Delete',
+                ),
+              ),
+            ],
           )
         ],
       ),

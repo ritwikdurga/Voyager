@@ -109,14 +109,10 @@ class _OverviewTripsState extends State<OverviewTrips> {
                     padding: const EdgeInsets.all(25.0),
                     child: Row(
                       children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.circular(25),
-                            color: Colors.grey[600],
-                          ),
-                          child: GestureDetector(
-                            onTap: () {
+                        Padding(
+                          padding: const EdgeInsets.all(7.0),
+                          child: ElevatedButton(
+                            onPressed: () {
                               Navigator.pop(context);
                               Navigator.push(
                                   context,
@@ -130,37 +126,27 @@ class _OverviewTripsState extends State<OverviewTrips> {
                                             },
                                           )));
                             },
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text(
-                                'Add Manually',
-                              ),
+                            child: Text(
+                              'Add Manually',
                             ),
                           ),
                         ),
                         Spacer(),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pop();
+                        Padding(
+                          padding: const EdgeInsets.all(7.0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
 
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomeScreen()),
-                            );
-                            _indexProvider.setMyIndex(1);
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.circular(25),
-                              color: Colors.grey[600],
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text(
-                                'Search for Flights',
-                              ),
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomeScreen()),
+                              );
+                              _indexProvider.setMyIndex(1);
+                            },
+                            child: Text(
+                              'Search for Flights',
                             ),
                           ),
                         ),
@@ -205,45 +191,31 @@ class _OverviewTripsState extends State<OverviewTrips> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(25.0),
+                    padding: const EdgeInsets.all(5.0),
                     child: Row(
                       children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.circular(25),
-                            color: Colors.grey[600],
-                          ),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                              _pickImageFromCamera();
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text(
-                                'Take Photo',
-                              ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            _pickImageFromCamera();
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(7.0),
+                            child: Text(
+                              'Take Photo',
                             ),
                           ),
                         ),
                         Spacer(),
-                        GestureDetector(
-                          onTap: () {
+                        ElevatedButton(
+                          onPressed: () {
                             Navigator.pop(context);
                             _pickImageFromGallery();
                           },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.circular(25),
-                              color: Colors.grey[600],
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text(
-                                'Add Photo from Gallery',
-                              ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(7.0),
+                            child: Text(
+                              'Add Photo from Gallery',
                             ),
                           ),
                         ),
@@ -291,14 +263,10 @@ class _OverviewTripsState extends State<OverviewTrips> {
                     padding: const EdgeInsets.all(25.0),
                     child: Row(
                       children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.circular(25),
-                            color: Colors.grey[600],
-                          ),
-                          child: GestureDetector(
-                            onTap: () {
+                        Padding(
+                          padding: const EdgeInsets.all(7.0),
+                          child: ElevatedButton(
+                            onPressed: () {
                               Navigator.pop(context);
                               Navigator.push(
                                   context,
@@ -311,11 +279,8 @@ class _OverviewTripsState extends State<OverviewTrips> {
                                             },
                                           )));
                             },
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text(
-                                'Add Manually',
-                              ),
+                            child: Text(
+                              'Add Manually',
                             ),
                           ),
                         ),
@@ -328,15 +293,19 @@ class _OverviewTripsState extends State<OverviewTrips> {
                               MaterialPageRoute(
                                   builder: (context) => HomeScreen()),
                             );
+                            _indexProvider.setMyIndex(1);
                           },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.circular(25),
-                              color: Colors.grey[600],
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
+                          child: Padding(
+                            padding: const EdgeInsets.all(7.0),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomeScreen()),
+                                );
+                              },
                               child: Text(
                                 'Search for Trains',
                               ),
@@ -371,7 +340,9 @@ class _OverviewTripsState extends State<OverviewTrips> {
                   Text(
                     'Your Tripmates',
                     style: TextStyle(
-                      fontSize: 17,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blueAccent,
                     ),
                   ),
                   Spacer(),
@@ -401,7 +372,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(8.0, 0, 8, 8),
+                    padding: const EdgeInsets.fromLTRB(8.0, 0, 8, 4),
                     child: SizedBox(
                       height: 85,
                       width: screenWidth - 50,
@@ -412,13 +383,15 @@ class _OverviewTripsState extends State<OverviewTrips> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
+              padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
               child: Row(
                 children: [
                   Text(
                     'Reservations and Attachments',
                     style: TextStyle(
-                      fontSize: 17,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blueAccent,
                     ),
                   ),
                 ],
@@ -426,7 +399,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
             ),
             SizedBox(height: 8),
             SizedBox(
-              height: 80,
+              height: 60,
               width: screenWidth,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -447,19 +420,28 @@ class _OverviewTripsState extends State<OverviewTrips> {
                             children: [
                               Icon(
                                 Icons.flight_takeoff,
-                                size: 50,
+                                size: 40,
                                 color: themeProvider.themeMode == ThemeMode.dark
                                     ? Colors.white
                                     : Colors.black,
                               ),
-                              Spacer(),
-                              Text('Flights'),
+                              // Spacer(),
+                              Text(
+                                'Flights',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  color:themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.grey.shade800,
+                                ),
+                              ),
                             ],
                           ),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                        padding: const EdgeInsets.fromLTRB(0, 12, 0, 22),
                         child: VerticalDivider(
                           thickness: 0.25,
                         ),
@@ -475,21 +457,28 @@ class _OverviewTripsState extends State<OverviewTrips> {
                             children: [
                               Icon(
                                 Icons.train,
-                                size: 50,
+                                size: 40,
                                 color: themeProvider.themeMode == ThemeMode.dark
                                     ? Colors.white
                                     : Colors.black,
                               ),
-                              Spacer(),
+                              // Spacer(),
                               Text(
                                 'Trains',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  color:themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.grey.shade800,
+                                ),
                               ),
                             ],
                           ),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                        padding: const EdgeInsets.fromLTRB(0, 12, 0, 22),
                         child: VerticalDivider(
                           thickness: 0.25,
                         ),
@@ -514,21 +503,31 @@ class _OverviewTripsState extends State<OverviewTrips> {
                             children: [
                               Icon(
                                 Iconsax.bus5,
-                                size: 50,
+                                size: 38,
                                 color: themeProvider.themeMode == ThemeMode.dark
                                     ? Colors.white
                                     : Colors.black,
                               ),
-                              Spacer(),
+                              // Spacer(),
+                              SizedBox(
+                                height: 2,
+                              ),
                               Text(
                                 'Buses',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  color:themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.grey.shade800,
+                                ),
                               ),
                             ],
                           ),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                        padding: const EdgeInsets.fromLTRB(0, 12, 0, 22),
                         child: VerticalDivider(
                           thickness: 0.25,
                         ),
@@ -552,30 +551,39 @@ class _OverviewTripsState extends State<OverviewTrips> {
                           child: Column(
                             children: [
                               Icon(
-                                Icons.car_repair_sharp,
-                                size: 50,
+                                Iconsax.car5,
+                                size: 35,
                                 color: themeProvider.themeMode == ThemeMode.dark
                                     ? Colors.white
                                     : Colors.black,
                               ),
-                              Spacer(),
+                              // Spacer(),
+                              SizedBox(
+                                height: 5,
+                              ),
                               Text(
                                 'Cars',
                                 overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  color:themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.grey.shade800,
+                                ),
                               ),
                             ],
                           ),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+                        padding: const EdgeInsets.fromLTRB(0, 12, 0, 22),
                         child: VerticalDivider(
                           thickness: 0.25,
                         ),
                       ),
                       SizedBox(
                         width: screenWidth / 5 - 15,
-                        height: 80,
                         child: GestureDetector(
                           onTap: () {
                             AttachForAttachments(context);
@@ -584,15 +592,22 @@ class _OverviewTripsState extends State<OverviewTrips> {
                             children: [
                               Icon(
                                 Icons.attachment_outlined,
-                                size: 50,
+                                size: 40,
                                 color: themeProvider.themeMode == ThemeMode.dark
                                     ? Colors.white
                                     : Colors.black,
                               ),
-                              Spacer(),
+                              // Spacer(),
                               Text(
-                                'Attachment',
+                                'Attach',
                                 overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  color:themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.grey.shade800,
+                                ),
                               ),
                             ],
                           ),

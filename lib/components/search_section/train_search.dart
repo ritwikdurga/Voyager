@@ -2,6 +2,7 @@
 
 import 'package:customizable_counter/customizable_counter.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/components/search_section/calender_picker.dart';
 import 'package:voyager/components/search_section/date_section.dart';
@@ -307,7 +308,7 @@ class _TrainSearchState extends State<TrainSearch> {
                         Year: '',
                         valid: false),
                   IconButton(
-                    icon: Icon(Icons.calendar_month),
+                    icon: Icon(Iconsax.calendar5),
                     onPressed: () {
                       _showDatePickerDialog(context);
                     },

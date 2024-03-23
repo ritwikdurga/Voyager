@@ -1,7 +1,11 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:provider/provider.dart';
+import 'package:voyager/utils/constants.dart';
 
 class BlockIti extends StatefulWidget {
   final DateTime startDate;
@@ -24,6 +28,7 @@ class _BlockItiState extends State<BlockIti> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     // clear the blockDataList
     blockDataList.clear();
     for (var i = 0;
@@ -131,6 +136,7 @@ class _BlockWidgetState extends State<BlockWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Container(
       key: UniqueKey(),
       child: ExpansionTile(
@@ -138,7 +144,9 @@ class _BlockWidgetState extends State<BlockWidget> {
           child: Text(DateFormat('dd MMM yyyy').format(widget.blockData.date),
               style: TextStyle(
                   fontSize: 18.0,
-                  color: Colors.white,
+                  color:themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.grey.shade800,
                   fontWeight: FontWeight.bold)),
         ),
         children: [

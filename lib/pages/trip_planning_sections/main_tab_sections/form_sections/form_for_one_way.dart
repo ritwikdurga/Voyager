@@ -59,6 +59,8 @@ class _FormForOneWayState extends State<FormForOneWay> {
                   Navigator.of(context).pop();
                   if (Arrival) {
                     setDate(null);
+                  }else{
+                    setDate(null);
                   }
                 },
                 child: Text('Clear'),
@@ -167,7 +169,22 @@ class _FormForOneWayState extends State<FormForOneWay> {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Form for Flights'),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Icon(
+            Icons.arrow_back_ios,
+            size: 20,
+          ),
+        ),
+        title: Text(
+          'Add Your Flight Journey',
+          style: TextStyle(
+            color: Colors.blueAccent,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -175,16 +192,17 @@ class _FormForOneWayState extends State<FormForOneWay> {
             Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(18.0),
-                  child: Text(
-                    'Some Random Question?',
-                  ),
-                ),
-                Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Row(
                     children: [
-                      Text('Number of Stops'),
+                      Text(
+                        'Number of Stops',
+                        style: TextStyle(
+                          color: Colors.blueAccent,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
                       Spacer(),
                       CustomizableCounter(
                         borderWidth: 1,
@@ -362,7 +380,7 @@ class _FormForOneWayState extends State<FormForOneWay> {
                   physics: ClampingScrollPhysics(),
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.fromLTRB(20.0,2,20,0),
                       child: Column(
                         children: [
                           if (index != 0)
@@ -482,9 +500,23 @@ class _FormForOneWayState extends State<FormForOneWay> {
                           Row(
                             children: [
                               if (stopCount == 0)
-                                Text('Departure Date')
+                                Text(
+                                  'Departure Date',
+                                  style: TextStyle(
+                                    color: Colors.blueAccent,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                )
                               else
-                                Text('Departure Date for flight ${index + 1}'),
+                                Text(
+                                  'Departure Date for flight ${index + 1}',
+                                  style: TextStyle(
+                                    color: Colors.blueAccent,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                  ),
+                                ),
                               Spacer(),
                               if (selectedDepartureDates[index] != null)
                                 DateDisplayer(
@@ -525,9 +557,23 @@ class _FormForOneWayState extends State<FormForOneWay> {
                           Row(
                             children: [
                               if (stopCount == 0)
-                                Text('Arrival Date')
+                                Text(
+                                  'Arrival Date',
+                                  style: TextStyle(
+                                    color: Colors.blueAccent,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                )
                               else
-                                Text('Arrival Date for flight ${index + 1}'),
+                                Text(
+                                  'Arrival Date for flight ${index + 1}',
+                                  style: TextStyle(
+                                    color: Colors.blueAccent,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                  ),
+                                ),
                               Spacer(),
                               if (selectedArrivalDates[index] != null)
                                 DateDisplayer(
@@ -568,24 +614,41 @@ class _FormForOneWayState extends State<FormForOneWay> {
                           Row(
                             children: [
                               if (stopCount == 0)
-                                Text('Departure Time')
+                                Text(
+                                  'Departure Time',
+                                  style: TextStyle(
+                                    color: Colors.blueAccent,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                )
                               else
-                                Text('Departure Time for flight ${index + 1}'),
+                                Text(
+                                  'Departure Time for flight ${index + 1}',
+                                  style: TextStyle(
+                                    color: Colors.blueAccent,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                  ),
+                                ),
                               Spacer(),
-                              SizedBox(
-                                width: 80,
-                                child: DateTimePicker(
-                                  type: DateTimePickerType.time,
-                                  onChanged: (val) {
-                                    setState(() {
-                                      selectedDepartureTimes[index] = val;
-                                      debugPrint('hi');
-                                    });
-                                  },
-                                  validator: (val) {
-                                    return null;
-                                  },
-                                  onSaved: (val) {},
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 0, 30, 0),
+                                child: SizedBox(
+                                  width: 80,
+                                  child: DateTimePicker(
+                                    type: DateTimePickerType.time,
+                                    onChanged: (val) {
+                                      setState(() {
+                                        selectedDepartureTimes[index] = val;
+                                        debugPrint('hi');
+                                      });
+                                    },
+                                    validator: (val) {
+                                      return null;
+                                    },
+                                    onSaved: (val) {},
+                                  ),
                                 ),
                               ),
                             ],
@@ -593,30 +656,47 @@ class _FormForOneWayState extends State<FormForOneWay> {
                           Row(
                             children: [
                               if (stopCount == 0)
-                                Text('Arrival Time')
+                                Text(
+                                  'Arrival Time',
+                                  style: TextStyle(
+                                    color: Colors.blueAccent,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                )
                               else
-                                Text('Arrival Time for flight ${index + 1}'),
+                                Text(
+                                  'Arrival Time for flight ${index + 1}',
+                                  style: TextStyle(
+                                    color: Colors.blueAccent,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                  ),
+                                ),
                               Spacer(),
-                              SizedBox(
-                                width: 80,
-                                child: DateTimePicker(
-                                  type: DateTimePickerType.time,
-                                  onChanged: (val) {
-                                    setState(() {
-                                      selectedArrivalTimes[index] = val;
-                                    });
-                                  },
-                                  validator: (val) {
-                                    print(val);
-                                    return null;
-                                  },
-                                  onSaved: (val) {},
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 0, 30, 0),
+                                child: SizedBox(
+                                  width: 80,
+                                  child: DateTimePicker(
+                                    type: DateTimePickerType.time,
+                                    onChanged: (val) {
+                                      setState(() {
+                                        selectedArrivalTimes[index] = val;
+                                      });
+                                    },
+                                    validator: (val) {
+                                      print(val);
+                                      return null;
+                                    },
+                                    onSaved: (val) {},
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(18.0),
+                            padding: const EdgeInsets.fromLTRB(18.0,15,18,10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -659,7 +739,7 @@ class _FormForOneWayState extends State<FormForOneWay> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(18.0),
+                            padding: const EdgeInsets.fromLTRB(18.0,0,18,10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -710,7 +790,7 @@ class _FormForOneWayState extends State<FormForOneWay> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(18.0),
+                            padding: const EdgeInsets.fromLTRB(18.0,0,18,10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

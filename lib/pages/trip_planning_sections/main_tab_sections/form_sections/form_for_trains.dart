@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/components/search_section/calender_picker.dart';
@@ -118,21 +119,26 @@ class _FormForTrainState extends State<FormForTrain> {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Icon(
+            Icons.arrow_back_ios,
+            size: 20,
+          ),
+        ),
         title: Text(
-          'Form for trains',
+          'Add Your Train Journey',
+          style: TextStyle(
+            color: Colors.blueAccent,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Text(
-                  'Some Random Question?',
-                ),
-              ),
-            ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 12, 0, 6),
               child: Column(
@@ -303,7 +309,14 @@ class _FormForTrainState extends State<FormForTrain> {
                 children: [
                   Row(
                     children: [
-                      Text('Departure Date'),
+                      Text(
+                        'Departure Date',
+                        style: TextStyle(
+                          color: Colors.blueAccent,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
                       Spacer(),
                       if (selectedDepartureDate != null)
                         DateDisplayer(
@@ -331,7 +344,14 @@ class _FormForTrainState extends State<FormForTrain> {
                   ),
                   Row(
                     children: [
-                      Text('Arrival Date'),
+                      Text(
+                        'Arrival Date',
+                        style: TextStyle(
+                          color: Colors.blueAccent,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
                       Spacer(),
                       if (selectedArrivalDate != null)
                         DateDisplayer(
@@ -359,43 +379,63 @@ class _FormForTrainState extends State<FormForTrain> {
                   ),
                   Row(
                     children: [
-                      Text('Departure Time'),
+                      Text(
+                        'Departure Time',
+                        style: TextStyle(
+                          color: Colors.blueAccent,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
                       Spacer(),
-                      SizedBox(
-                        width: 80,
-                        child: DateTimePicker(
-                          type: DateTimePickerType.time,
-                          onChanged: (val) {
-                            setState(() {
-                              selectedDepartureTime = val;
-                            });
-                          },
-                          validator: (val) {
-                            return null;
-                          },
-                          onSaved: (val) {},
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 40, 0),
+                        child: SizedBox(
+                          width: 80,
+                          child: DateTimePicker(
+                            type: DateTimePickerType.time,
+                            onChanged: (val) {
+                              setState(() {
+                                selectedDepartureTime = val;
+                              });
+                            },
+                            validator: (val) {
+                              return null;
+                            },
+                            onSaved: (val) {},
+                          ),
                         ),
                       ),
                     ],
                   ),
                   Row(
                     children: [
-                      Text('Arrival Time'),
+                      Text(
+                        'Arrival Time',
+                        style: TextStyle(
+                          color: Colors.blueAccent,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
                       Spacer(),
-                      SizedBox(
-                        width: 80,
-                        child: DateTimePicker(
-                          type: DateTimePickerType.time,
-                          onChanged: (val) {
-                            setState(() {
-                              selectedArrivalTime = val;
-                            });
-                          },
-                          validator: (val) {
-                            print(val);
-                            return null;
-                          },
-                          onSaved: (val) {},
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 40, 0),
+                        child: SizedBox(
+                          width: 80,
+                          child: DateTimePicker(
+                            type: DateTimePickerType.time,
+                            onChanged: (val) {
+                              setState(() {
+                                selectedArrivalTime = val;
+                              });
+                            },
+                            validator: (val) {
+                              print(val);
+                              return null;
+                            },
+                            onSaved: (val) {},
+                          ),
                         ),
                       ),
                     ],
@@ -414,7 +454,7 @@ class _FormForTrainState extends State<FormForTrain> {
                       controller: TrainOperater,
                       decoration: InputDecoration(
                         prefixIcon: Icon(
-                          Icons.near_me,
+                          Icons.train,
                         ),
                         hintText: 'Train Name',
                         border: OutlineInputBorder(
@@ -463,7 +503,7 @@ class _FormForTrainState extends State<FormForTrain> {
                       controller: TrainNumberOperater,
                       decoration: InputDecoration(
                         prefixIcon: Icon(
-                          Icons.near_me,
+                          Icons.numbers,
                         ),
                         hintText: 'Train Number',
                         border: OutlineInputBorder(
@@ -487,7 +527,9 @@ class _FormForTrainState extends State<FormForTrain> {
                         });
                       },
                       onChanged: (value) {
-                        setState(() {TrainNumber = TrainNumberOperater.text;});
+                        setState(() {
+                          TrainNumber = TrainNumberOperater.text;
+                        });
                       },
                     ),
                   ),
@@ -510,7 +552,7 @@ class _FormForTrainState extends State<FormForTrain> {
                       controller: priceController,
                       decoration: InputDecoration(
                         prefixIcon: Icon(
-                          Icons.near_me,
+                          Iconsax.dollar_circle,
                         ),
                         hintText: 'Price',
                         border: OutlineInputBorder(
