@@ -74,7 +74,7 @@ class _CustomStartEndCalState extends State<CustomStartEndCal> {
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: isSelected
-                          ? widget.selectedColor ??
+                          ? Colors.blueAccent ??
                               Theme.of(context).primaryColor
                           : null,
                       borderRadius: BorderRadius.circular(20),

@@ -8,14 +8,12 @@ import "package:flutter/painting.dart";
 import "package:flutter/rendering.dart";
 import "package:flutter/widgets.dart";
 import "package:provider/provider.dart";
-import "package:voyager/components/explore_section/category_icon.dart";
 import "package:voyager/components/explore_section/category_icons_listview.dart";
 import "package:voyager/components/explore_section/destinations.dart";
 import "package:voyager/components/explore_section/image_slider.dart";
 import "package:voyager/components/explore_section/travel_info_list.dart";
 import "package:voyager/pages/explore_sections/for_you_expanded.dart";
 import "package:voyager/pages/explore_sections/see_all_for_categories.dart";
-import "package:voyager/utils/colors.dart";
 import "package:voyager/utils/constants.dart";
 
 class DestDesc extends StatefulWidget {
@@ -34,6 +32,7 @@ class _DestDescState extends State<DestDesc> {
     'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
     'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
   ];
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -116,7 +115,7 @@ class _DestDescState extends State<DestDesc> {
               Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(12.0,0,12,0),
+                    padding: const EdgeInsets.fromLTRB(12.0, 0, 12, 0),
                     child: Text(
                       'Travel information',
                       style: TextStyle(
@@ -134,7 +133,7 @@ class _DestDescState extends State<DestDesc> {
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical:0, horizontal: 12),
+                    const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
                 child: Divider(
                   thickness: 0.5,
                   color: Colors.grey[400],
@@ -143,7 +142,7 @@ class _DestDescState extends State<DestDesc> {
               Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(12.0,12,12,12),
+                    padding: const EdgeInsets.fromLTRB(12.0, 12, 12, 12),
                     child: Text(
                       'Categories',
                       style: TextStyle(
