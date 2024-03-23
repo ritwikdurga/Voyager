@@ -82,7 +82,7 @@ class _RegisterPageState extends State<RegisterPage> {
         if (mounted) {
           Navigator.pop(context);
         }
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => MainPage(isRegistered: true)),
         );

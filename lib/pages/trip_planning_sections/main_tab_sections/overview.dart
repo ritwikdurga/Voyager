@@ -26,6 +26,7 @@ class Item {
   String? notes;
   bool isExpanded;
   bool isEditing;
+
   Item(
       {required this.heading,
       required this.notes,
@@ -48,12 +49,12 @@ class _OverviewTripsState extends State<OverviewTrips> {
   List<CarData> CarTickets = [];
   List<XFile?> ImagesList = [];
   late final MyIndexProvider _indexProvider;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-   _indexProvider =
-        Provider.of<MyIndexProvider>(context, listen: false);
+    _indexProvider = Provider.of<MyIndexProvider>(context, listen: false);
   }
 
   Future _pickImageFromGallery() async {
@@ -141,7 +142,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                         GestureDetector(
                           onTap: () {
                             Navigator.of(context).pop();
-                            
+
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(

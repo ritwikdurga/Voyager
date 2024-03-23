@@ -16,7 +16,13 @@ class NewTrip extends StatefulWidget {
   String? locationSelected;
   DateTime? StartDate;
   DateTime? EndDate;
-  NewTrip({Key? key, required this.locationSelected,required this.StartDate,required this.EndDate}) : super(key: key);
+
+  NewTrip(
+      {Key? key,
+      required this.locationSelected,
+      required this.StartDate,
+      required this.EndDate})
+      : super(key: key);
 
   @override
   State<NewTrip> createState() => _NewTripState();
@@ -34,7 +40,7 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
     _tabController.addListener(() {
       setState(() {});
     });
-    _HeadingTextController.text=widget.locationSelected!;
+    _HeadingTextController.text = widget.locationSelected!;
   }
 
   @override
@@ -64,7 +70,8 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
                     child: TextField(
                       controller: _HeadingTextController,
                       style: TextStyle(
-                        color: Colors.white, // Changed color to black for better visibility
+                        color: Colors.white,
+                        // Changed color to black for better visibility
                         fontWeight: FontWeight.bold,
                         fontFamily: 'ProductSans',
                         fontSize: 40,
@@ -131,7 +138,9 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
                         children: [
                           OverviewTrips(),
                           ExploreTrips(),
-                          ItineraryTrips(),
+                          ItineraryTrips(
+                              startDate: widget.StartDate,
+                              endDate: widget.EndDate),
                           ExpensesTrips(),
                         ],
                       ),
