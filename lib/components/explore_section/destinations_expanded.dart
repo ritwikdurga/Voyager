@@ -23,11 +23,11 @@ class destExp extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       shape: shape,
       color: themeProvider.themeMode == ThemeMode.dark
-          ? Colors.black
-          : Colors.white,
+          ? kBlackColor
+          : Colors.grey.shade200,
       surfaceTintColor: themeProvider.themeMode == ThemeMode.dark
-          ? Colors.black
-          : Colors.white,
+          ? kBlackColor
+          : Colors.grey.shade200,
           elevation: 0,
       child: InkWell(
         splashColor: Colors.blueAccent,

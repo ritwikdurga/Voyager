@@ -22,7 +22,7 @@ class SelectedBorder extends RoundedRectangleBorder
   @override
   OutlinedBorder? resolve(Set<MaterialState> states) {
     return const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(15)));
+        borderRadius: BorderRadius.all(Radius.circular(30)));
   }
 }
 
@@ -42,7 +42,6 @@ class _SearchState extends State<Search> {
         viewSurfaceTintColor: themeProvider.themeMode == ThemeMode.dark
             ? Colors.black
             : Colors.white,
-        //isFullScreen: false,
         viewHintText: 'Where To?',
         headerTextStyle: TextStyle(
           color: themeProvider.themeMode == ThemeMode.dark
@@ -108,13 +107,13 @@ class _SearchState extends State<Search> {
                 hintText: 'Where To?',
                 backgroundColor: MaterialStateColor.resolveWith(
                   (states) => themeProvider.themeMode == ThemeMode.dark
-                      ? Colors.black
-                      : Colors.white,
+                      ? Colors.grey.shade800
+                      : Colors.grey.shade300,
                 ),
                 surfaceTintColor: MaterialStateColor.resolveWith(
                   (states) => themeProvider.themeMode == ThemeMode.dark
-                      ? Colors.black
-                      : Colors.white,
+                      ? Colors.grey.shade800
+                      : Colors.grey.shade300,
                 ),
                 // shadowColor: MaterialStateColor.resolveWith((states) => Colors.white),
                 elevation: MaterialStateProperty.resolveWith((states) => 1),
@@ -133,16 +132,16 @@ class _SearchState extends State<Search> {
                               : Colors.black,
                         )),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Divider(
-                  color: themeProvider.themeMode == ThemeMode.dark
-                      ? Colors.white
-                      : Colors.black,
-                  thickness: 1,
-                  height: 0,
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              //   child: Divider(
+              //     color: themeProvider.themeMode == ThemeMode.dark
+              //         ? Colors.white
+              //         : Colors.black,
+              //     thickness: 1,
+              //     height: 0,
+              //   ),
+              // ),
             ],
           );
         },
@@ -167,7 +166,7 @@ class _SearchState extends State<Search> {
                   ? Colors.black
                   : Colors.white,
               child: Padding(
-                padding: const EdgeInsets.only(left: 18.0),
+                padding: const EdgeInsets.only(left: 20.0),
                 child: ListTile(
                   leading: Icon(Iconsax.location),
                   title: Text(
