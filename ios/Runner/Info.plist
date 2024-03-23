@@ -24,6 +24,12 @@
       </dict>
     </array>
     <!-- End of the Google Sign-in Section -->
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Used to demonstrate image picker plugin</string>
+    <key>NSCameraUsageDescription</key>
+     <string>Use to demonstrate image picker plugin</string>
+    <key>NSMicrophoneUsageDescription</key>
+     <string>Use to capture audio for image picker plugin</string>
     <key>CFBundleDevelopmentRegion</key>
     <string>$(DEVELOPMENT_LANGUAGE)</string>
     <key>CFBundleDisplayName</key>

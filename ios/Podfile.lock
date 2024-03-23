@@ -999,6 +999,8 @@ PODS:
     - AppAuth/Core (~> 1.6)
     - GTMSessionFetcher/Core (< 4.0, >= 1.5)
   - GTMSessionFetcher/Core (3.3.2)
+  - image_picker_ios (0.0.1):
+    - Flutter
   - leveldb-library (1.22.4)
   - Mapbox-iOS-SDK (6.4.1):
     - MapboxMobileEvents (~> 0.10.12)
@@ -1037,6 +1039,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/darwin`)
+  - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - mapbox_gl (from `.symlinks/plugins/mapbox_gl/ios`)
   - MapboxMaps (= 11.2.0)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
@@ -1087,6 +1090,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_native_splash/ios"
   google_sign_in_ios:
     :path: ".symlinks/plugins/google_sign_in_ios/darwin"
+  image_picker_ios:
+    :path: ".symlinks/plugins/image_picker_ios/ios"
   mapbox_gl:
     :path: ".symlinks/plugins/mapbox_gl/ios"
   shared_preferences_foundation:
@@ -1119,6 +1124,7 @@ SPEC CHECKSUMS:
   gRPC-Core: 6ec9002832e1e22c5bb8c54994b050b0ee4205c6
   GTMAppAuth: 99fb010047ba3973b7026e45393f51f27ab965ae
   GTMSessionFetcher: 0e876eea9782ec6462e91ab872711c357322c94f
+  image_picker_ios: b545a5f16c0fa88e3ecbbce3ed4de45567a8ec18
   leveldb-library: 06a69cc7582d64b29424a63e085e683cc188230a
   Mapbox-iOS-SDK: f870f83cbdc7aa4a74afcee143aafb0dae390c82
   mapbox_gl: 33c5ab6306cbfa72289bb3606d2cd2e8baee9ff0

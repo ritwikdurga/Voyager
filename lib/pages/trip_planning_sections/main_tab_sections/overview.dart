@@ -1,9 +1,12 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/components/search_section/calender_picker.dart';
@@ -43,6 +46,28 @@ class _OverviewTripsState extends State<OverviewTrips> {
   List<TrainData> TrainTickets = [];
   List<BusData> BusTickets = [];
   List<CarData> CarTickets = [];
+  List<XFile?> ImagesList = [];
+
+  Future _pickImageFromGallery() async {
+    final returnedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (returnedImage != null) {
+      setState(() {
+        ImagesList.add(returnedImage);
+      });
+    }
+  }
+
+  Future _pickImageFromCamera() async {
+    final returnedImage =
+        await ImagePicker().pickImage(source: ImageSource.camera);
+    if (returnedImage != null) {
+      setState(() {
+        ImagesList.add(returnedImage);
+      });
+    }
+  }
+
   void AttachForFlights(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -125,6 +150,89 @@ class _OverviewTripsState extends State<OverviewTrips> {
                               padding: const EdgeInsets.all(10.0),
                               child: Text(
                                 'Search for Flights',
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void AttachForAttachments(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(Icons.close),
+              ),
+            ),
+            SizedBox(
+              height: screenHeight / 2 - 10,
+              width: screenWidth,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: Text(
+                      'Some Random Question?',
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(25.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(25),
+                            color: Colors.grey[600],
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                              _pickImageFromCamera();
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(
+                                'Take Photo',
+                              ),
+                            ),
+                          ),
+                        ),
+                        Spacer(),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                            _pickImageFromGallery();
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(25),
+                              color: Colors.grey[600],
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(
+                                'Add Photo from Gallery',
                               ),
                             ),
                           ),
@@ -450,19 +558,24 @@ class _OverviewTripsState extends State<OverviewTrips> {
                       SizedBox(
                         width: screenWidth / 5 - 15,
                         height: 80,
-                        child: Column(
-                          children: [
-                            Icon(
-                              Icons.attachment_outlined,
-                              size: 50,
-                              color: Colors.white,
-                            ),
-                            Spacer(),
-                            Text(
-                              'Attachment',
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
+                        child: GestureDetector(
+                          onTap: () {
+                            AttachForAttachments(context);
+                          },
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.attachment_outlined,
+                                size: 50,
+                                color: Colors.white,
+                              ),
+                              Spacer(),
+                              Text(
+                                'Attachment',
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -625,6 +738,33 @@ class _OverviewTripsState extends State<OverviewTrips> {
                                 CarTickets.removeAt(index);
                               });
                             },
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            if (!ImagesList.isEmpty)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ExpansionTile(
+                  title: Text('Your Attachments'),
+                  initiallyExpanded: false,
+                  children: [
+                    SizedBox(
+                      height: 384,
+                      width: screenWidth,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount: ImagesList.length,
+                        itemBuilder: (context, index) {
+                          return Image.file(
+                            File(ImagesList[index]!.path),
+                            height: 350,
+                            width: 0.95 * screenWidth,
+                            fit: BoxFit.cover,
                           );
                         },
                       ),

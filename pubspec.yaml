@@ -60,6 +60,7 @@ dependencies:
   flutter_dotenv: ^5.1.0
   cloud_firestore: ^4.15.9
   date_time_picker_selector: ^2.1.0
+  image_picker: ^1.0.7
 
 
 dev_dependencies:
