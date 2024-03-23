@@ -61,7 +61,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       // Navigate to home screen
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen(initialIndex: 0,)),
+        MaterialPageRoute(builder: (context) => HomeScreen()),
       );
     }
   }

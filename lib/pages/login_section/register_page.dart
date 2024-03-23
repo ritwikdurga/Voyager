@@ -216,9 +216,7 @@ class _RegisterPageState extends State<RegisterPage> {
         Navigator.of(context).pop();
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => HomeScreen(
-              initialIndex: 0,
-            ),
+            builder: (context) => HomeScreen(),
           ),
         );
       }

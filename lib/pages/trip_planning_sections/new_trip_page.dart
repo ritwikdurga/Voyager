@@ -64,10 +64,7 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
                     child: TextField(
                       controller: _HeadingTextController,
                       style: TextStyle(
-                        color: themeProvider.themeMode == ThemeMode.dark
-                            ? Colors.white
-                            : Colors
-                                .black, // Changed color to black for better visibility
+                        color: Colors.white, // Changed color to black for better visibility
                         fontWeight: FontWeight.bold,
                         fontFamily: 'ProductSans',
                         fontSize: 40,

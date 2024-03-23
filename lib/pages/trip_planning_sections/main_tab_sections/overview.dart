@@ -47,6 +47,14 @@ class _OverviewTripsState extends State<OverviewTrips> {
   List<BusData> BusTickets = [];
   List<CarData> CarTickets = [];
   List<XFile?> ImagesList = [];
+  late final MyIndexProvider _indexProvider;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+   _indexProvider =
+        Provider.of<MyIndexProvider>(context, listen: false);
+  }
 
   Future _pickImageFromGallery() async {
     final returnedImage =
@@ -133,12 +141,13 @@ class _OverviewTripsState extends State<OverviewTrips> {
                         GestureDetector(
                           onTap: () {
                             Navigator.of(context).pop();
+                            
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      HomeScreen(initialIndex: 1)),
+                                  builder: (context) => HomeScreen()),
                             );
+                            _indexProvider.setMyIndex(1);
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -316,8 +325,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      HomeScreen(initialIndex: 1)),
+                                  builder: (context) => HomeScreen()),
                             );
                           },
                           child: Container(
@@ -349,6 +357,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.only(bottom: 30.0),
@@ -438,7 +447,9 @@ class _OverviewTripsState extends State<OverviewTrips> {
                               Icon(
                                 Icons.flight_takeoff,
                                 size: 50,
-                                color: Colors.white,
+                                color: themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.black,
                               ),
                               Spacer(),
                               Text('Flights'),
@@ -464,7 +475,9 @@ class _OverviewTripsState extends State<OverviewTrips> {
                               Icon(
                                 Icons.train,
                                 size: 50,
-                                color: Colors.white,
+                                color: themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.black,
                               ),
                               Spacer(),
                               Text(
@@ -501,7 +514,9 @@ class _OverviewTripsState extends State<OverviewTrips> {
                               Icon(
                                 Iconsax.bus5,
                                 size: 50,
-                                color: Colors.white,
+                                color: themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.black,
                               ),
                               Spacer(),
                               Text(
@@ -538,7 +553,9 @@ class _OverviewTripsState extends State<OverviewTrips> {
                               Icon(
                                 Icons.car_repair_sharp,
                                 size: 50,
-                                color: Colors.white,
+                                color: themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.black,
                               ),
                               Spacer(),
                               Text(
@@ -567,7 +584,9 @@ class _OverviewTripsState extends State<OverviewTrips> {
                               Icon(
                                 Icons.attachment_outlined,
                                 size: 50,
-                                color: Colors.white,
+                                color: themeProvider.themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.black,
                               ),
                               Spacer(),
                               Text(

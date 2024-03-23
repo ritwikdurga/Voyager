@@ -12,8 +12,7 @@ import 'package:voyager/utils/constants.dart';
 import 'package:iconsax/iconsax.dart';
 
 class HomeScreen extends StatefulWidget {
-  final int initialIndex;
-  HomeScreen({Key? key, required this.initialIndex}) : super(key: key);
+  HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -35,7 +34,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance?.addObserver(this);
     _indexProvider = Provider.of<MyIndexProvider>(context, listen: false);
-    myIndex = widget.initialIndex;
   }
 
   @override

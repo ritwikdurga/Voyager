@@ -71,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => HomeScreen(initialIndex: 0),
+              builder: (context) => HomeScreen(),
             ),
           );
         }
@@ -459,9 +459,7 @@ class _LoginPageState extends State<LoginPage> {
                               if (context.mounted) {
                                 Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
-                                    builder: (context) => HomeScreen(
-                                      initialIndex: 0,
-                                    ),
+                                    builder: (context) => HomeScreen(),
                                   ),
                                 );
                               }
@@ -494,7 +492,7 @@ class _LoginPageState extends State<LoginPage> {
                         InkWell(
                           onTap: () {
                             // Navigate to the SignUpPage
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>

@@ -34,23 +34,23 @@ class _LocationInputState extends State<LocationInput>
 
   List<String> suggestions = [];
   TextEditingController _searchController = TextEditingController();
-  FocusNode _searchFocusNode = FocusNode();
+  //FocusNode _searchFocusNode = FocusNode();
   @override
   void initState() {
     super.initState();
-    _searchController.addListener(() {
-      setState(() {
-        if (widget.initialLocation != null) {
-          _searchController.text = widget.initialLocation!;
-        }
-      });
-    });
+    // _searchController.addListener(() {
+    //   setState(() {
+    //     if (widget.initialLocation != null) {
+    //       _searchController.text = widget.initialLocation!;
+    //     }
+    //   });
+    // });
   }
 
   @override
   void dispose() {
     _searchController.dispose();
-    _searchFocusNode.dispose();
+    //_searchFocusNode.dispose();
     super.dispose();
   }
 
@@ -102,7 +102,7 @@ class _LocationInputState extends State<LocationInput>
               color: Colors.grey[800],
             ),
             child: TextField(
-              focusNode: _searchFocusNode,
+              // focusNode: _searchFocusNode,
               controller: _searchController,
               onChanged: (value) async {
                 suggestions = await placeAutocomplete.getSuggestions(value);
@@ -124,12 +124,12 @@ class _LocationInputState extends State<LocationInput>
                 title: Text(suggestions[index]),
                 onTap: () {
                   _searchController.text = suggestions[index];
-                  _searchFocusNode.unfocus();
+                  // _searchFocusNode.unfocus();
                   if (widget.onLocationSelected != null) {
                     widget.onLocationSelected!(suggestions[index]);
                   }
                   suggestions.clear();
-                  setState(() {});
+                  // setState(() {});
                   //print('Selected: ${suggestions[index]}');
                 },
               );

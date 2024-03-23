@@ -42,6 +42,8 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     final providerUser = Provider.of<UserProvider>(context);
+    final MyIndexProvider _indexProvider =
+        Provider.of<MyIndexProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: themeProvider.themeMode == ThemeMode.dark
           ? darkColorScheme.background
@@ -85,14 +87,17 @@ class _ProfileState extends State<Profile> {
             ),
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
+              _indexProvider.setMyIndex(0);
+              
               if (context.mounted) {
-                Navigator.of(context).push(
+                Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) => LoginPage(
                       onTap: () => {},
                     ),
                   ),
                 );
+                // Navigator.pop(context);
               }
             },
           ),
