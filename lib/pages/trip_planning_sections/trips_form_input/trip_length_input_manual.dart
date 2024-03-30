@@ -13,7 +13,10 @@ import 'package:voyager/utils/constants.dart';
 class tripLengthManual extends StatefulWidget {
   final Function(DateTime?, DateTime?) onDatesSelected;
   String locationSelected;
-  tripLengthManual({super.key, required this.onDatesSelected,required this.locationSelected});
+  tripLengthManual(
+      {super.key,
+      required this.onDatesSelected,
+      required this.locationSelected});
 
   @override
   State<tripLengthManual> createState() => _tripLengthManualState();
@@ -274,6 +277,7 @@ class _tripLengthManualState extends State<tripLengthManual>
                               locationSelected: widget.locationSelected,
                               StartDate: selectedDepartureDate,
                               EndDate: selectedArrivalDate,
+                              isManual: true,
                             )));
               },
             ),

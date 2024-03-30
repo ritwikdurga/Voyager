@@ -1,7 +1,8 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_import, must_be_immutable, no_leading_underscores_for_local_identifiers, unused_local_variable, unnecessary_import, non_constant_identifier_names, prefer_is_not_empty
 
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -20,6 +21,8 @@ import 'package:voyager/pages/trip_planning_sections/main_tab_sections/form_sect
 import 'package:voyager/pages/trip_planning_sections/main_tab_sections/form_sections/form_for_one_way.dart';
 import 'package:voyager/pages/trip_planning_sections/main_tab_sections/form_sections/form_for_trains.dart';
 import 'package:voyager/utils/constants.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class Item {
   String heading;
@@ -27,32 +30,84 @@ class Item {
   bool isExpanded;
   bool isEditing;
 
-  Item(
-      {required this.heading,
-      required this.notes,
-      this.isExpanded = false,
-      this.isEditing = false});
+  Item({
+    required this.heading,
+    required this.notes,
+    this.isExpanded = false,
+    this.isEditing = false,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'heading': heading,
+      'notes': notes,
+    };
+  }
 }
 
 class OverviewTrips extends StatefulWidget {
-  OverviewTrips({super.key});
+  DocumentReference? tripRef;
+  OverviewTrips({required this.tripRef, super.key});
 
   @override
   State<OverviewTrips> createState() => _OverviewTripsState();
 }
 
 class _OverviewTripsState extends State<OverviewTrips> {
-  List<Item> notes = [Item(heading: 'Note 1', notes: null)];
+  final db = FirebaseFirestore.instance;
+  final storage = FirebaseStorage.instance;
+  List<Item> notes = [];
   List<TicketData> FlightTickets = [];
   List<TrainData> TrainTickets = [];
   List<BusData> BusTickets = [];
   List<CarData> CarTickets = [];
   List<XFile?> ImagesList = [];
   late final MyIndexProvider _indexProvider;
+  void updateNotesInFirestore(List<Item> notes) async {
+    List<Map<String, dynamic>> notesData =
+        notes.map((item) => item.toMap()).toList();
+    await widget.tripRef?.collection('attachments').doc('notes').update({
+      'data': notesData,
+    });
+  }
+
+  void updateFlightTicketsInFirestore(List<TicketData> flightTickets) async {
+    List<Map<String, dynamic>> flightData =
+        flightTickets.map((item) => item.toJson()).toList();
+    await widget.tripRef
+        ?.collection('attachments')
+        .doc('flightTickets')
+        .update({
+      'data': flightData,
+    });
+  }
+
+  void updateTrainTicketsInFirestore(List<TrainData> trainTickets) async {
+    List<Map<String, dynamic>> trainData =
+        trainTickets.map((item) => item.toMap()).toList();
+    await widget.tripRef?.collection('attachments').doc('trainTickets').update({
+      'data': trainData,
+    });
+  }
+
+  void updateBusTicketsInFirestore(List<BusData> busTickets) async {
+    List<Map<String, dynamic>> busDataMap =
+        busTickets.map((item) => item.toMap()).toList();
+    await widget.tripRef?.collection('attachments').doc('busTickets').update({
+      'data': busDataMap,
+    });
+  }
+
+  void updateCarDataInFirestore(List<CarData> carData) async {
+    List<Map<String, dynamic>> carDataMap =
+        carData.map((item) => item.toMap()).toList();
+    await widget.tripRef?.collection('attachments').doc('carTickets').update({
+      'data': carDataMap,
+    });
+  }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _indexProvider = Provider.of<MyIndexProvider>(context, listen: false);
   }
@@ -122,6 +177,8 @@ class _OverviewTripsState extends State<OverviewTrips> {
                                               setState(() {
                                                 FlightTickets.addAll(
                                                     ticketsData!);
+                                                updateFlightTicketsInFirestore(
+                                                    FlightTickets);
                                               });
                                             },
                                           )));
@@ -275,6 +332,8 @@ class _OverviewTripsState extends State<OverviewTrips> {
                                             onTrainTicketAdded: (traindata) {
                                               setState(() {
                                                 TrainTickets.add(traindata);
+                                                updateTrainTicketsInFirestore(
+                                                    TrainTickets);
                                               });
                                             },
                                           )));
@@ -431,9 +490,10 @@ class _OverviewTripsState extends State<OverviewTrips> {
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w700,
-                                  color:themeProvider.themeMode == ThemeMode.dark
-                                    ? Colors.white
-                                    : Colors.grey.shade800,
+                                  color:
+                                      themeProvider.themeMode == ThemeMode.dark
+                                          ? Colors.white
+                                          : Colors.grey.shade800,
                                 ),
                               ),
                             ],
@@ -468,9 +528,10 @@ class _OverviewTripsState extends State<OverviewTrips> {
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w700,
-                                  color:themeProvider.themeMode == ThemeMode.dark
-                                    ? Colors.white
-                                    : Colors.grey.shade800,
+                                  color:
+                                      themeProvider.themeMode == ThemeMode.dark
+                                          ? Colors.white
+                                          : Colors.grey.shade800,
                                 ),
                               ),
                             ],
@@ -495,6 +556,8 @@ class _OverviewTripsState extends State<OverviewTrips> {
                                           onBusAdded: (busdata) {
                                             setState(() {
                                               BusTickets.add(busdata);
+                                              updateBusTicketsInFirestore(
+                                                  BusTickets);
                                             });
                                           },
                                         )));
@@ -517,9 +580,10 @@ class _OverviewTripsState extends State<OverviewTrips> {
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w700,
-                                  color:themeProvider.themeMode == ThemeMode.dark
-                                    ? Colors.white
-                                    : Colors.grey.shade800,
+                                  color:
+                                      themeProvider.themeMode == ThemeMode.dark
+                                          ? Colors.white
+                                          : Colors.grey.shade800,
                                 ),
                               ),
                             ],
@@ -544,6 +608,8 @@ class _OverviewTripsState extends State<OverviewTrips> {
                                           onCarAdded: (cardata) {
                                             setState(() {
                                               CarTickets.add(cardata);
+                                              updateCarDataInFirestore(
+                                                  CarTickets);
                                             });
                                           },
                                         )));
@@ -567,9 +633,10 @@ class _OverviewTripsState extends State<OverviewTrips> {
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w700,
-                                  color:themeProvider.themeMode == ThemeMode.dark
-                                    ? Colors.white
-                                    : Colors.grey.shade800,
+                                  color:
+                                      themeProvider.themeMode == ThemeMode.dark
+                                          ? Colors.white
+                                          : Colors.grey.shade800,
                                 ),
                               ),
                             ],
@@ -604,9 +671,10 @@ class _OverviewTripsState extends State<OverviewTrips> {
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w700,
-                                  color:themeProvider.themeMode == ThemeMode.dark
-                                    ? Colors.white
-                                    : Colors.grey.shade800,
+                                  color:
+                                      themeProvider.themeMode == ThemeMode.dark
+                                          ? Colors.white
+                                          : Colors.grey.shade800,
                                 ),
                               ),
                             ],
@@ -650,6 +718,13 @@ class _OverviewTripsState extends State<OverviewTrips> {
                             onDeleted: (index) {
                               setState(() {
                                 FlightTickets.removeAt(index);
+                                updateFlightTicketsInFirestore(FlightTickets);
+                              });
+                            },
+                            updateNotes: (value) {
+                              setState(() {
+                                FlightTickets[index].note = value;
+                                updateFlightTicketsInFirestore(FlightTickets);
                               });
                             },
                           );
@@ -691,6 +766,13 @@ class _OverviewTripsState extends State<OverviewTrips> {
                             onDeleted: (index) {
                               setState(() {
                                 TrainTickets.removeAt(index);
+                                updateTrainTicketsInFirestore(TrainTickets);
+                              });
+                            },
+                            updateNotes: (value) {
+                              setState(() {
+                                TrainTickets[index].note = value;
+                                updateFlightTicketsInFirestore(FlightTickets);
                               });
                             },
                           );
@@ -728,9 +810,16 @@ class _OverviewTripsState extends State<OverviewTrips> {
                             price: BusTickets[index].price,
                             operaterHeading: 'BUS OPERATER',
                             index: index,
+                            updateNotes: (value) {
+                              setState(() {
+                                BusTickets[index].note = value;
+                                updateBusTicketsInFirestore(BusTickets);
+                              });
+                            },
                             onDeleted: (index) {
                               setState(() {
                                 BusTickets.removeAt(index);
+                                updateBusTicketsInFirestore(BusTickets);
                               });
                             },
                           );
@@ -764,13 +853,20 @@ class _OverviewTripsState extends State<OverviewTrips> {
                             bottomText: '',
                             toDate: CarTickets[index].toDate,
                             toTime: CarTickets[index].toTime,
-                            transitCarrier: CarTickets[index].carOperater,
+                            transitCarrier: CarTickets[index].carOperator,
                             price: CarTickets[index].price,
                             operaterHeading: 'Car OPERATER',
                             index: index,
                             onDeleted: (index) {
                               setState(() {
                                 CarTickets.removeAt(index);
+                                updateCarDataInFirestore(CarTickets);
+                              });
+                            },
+                            updateNotes: (value) {
+                              setState(() {
+                                CarTickets[index].note = value;
+                                updateFlightTicketsInFirestore(FlightTickets);
                               });
                             },
                           );
@@ -819,6 +915,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                     setState(() {
                       notes.add(Item(
                           heading: 'Note ${notes.length + 1}', notes: null));
+                      updateNotesInFirestore(notes);
                     });
                   },
                 ),
@@ -866,6 +963,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                                       _isEditing = false;
                                       item.isEditing = false;
                                       item.heading = value;
+                                      updateNotesInFirestore(notes);
                                     });
                                   })
                               : Text(
@@ -892,6 +990,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                                   setState(() {
                                     notes.removeWhere((Item currentItem) =>
                                         item == currentItem);
+                                    updateNotesInFirestore(notes);
                                   });
                                 },
                               ),
@@ -914,6 +1013,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                       onSubmitted: (value) {
                         setState(() {
                           item.notes = value;
+                          updateNotesInFirestore(notes);
                         });
                       }),
                   isExpanded: item.isExpanded,

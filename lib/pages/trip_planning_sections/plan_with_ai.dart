@@ -26,7 +26,6 @@ class _PlanWithAIState extends State<PlanWithAI> {
   DateTime? departure;
   DateTime? arrival;
   String? tripMateKind;
-  
 
   @override
   void dispose() {
@@ -105,11 +104,11 @@ class _PlanWithAIState extends State<PlanWithAI> {
                 _showErrorSnackbar('Please select your destination.');
                 _controller.jumpToPage(0);
               }
-              if(index>1 && (departure==null || arrival==null)){
+              if (index > 1 && (departure == null || arrival == null)) {
                 _showErrorSnackbar('Please select the Start or End date.');
                 _controller.jumpToPage(1);
               }
-              if(index>2 && tripMateKind==null){
+              if (index > 2 && tripMateKind == null) {
                 _showErrorSnackbar('Please select Yout tripmate kind.');
                 _controller.jumpToPage(2);
               }
@@ -125,25 +124,22 @@ class _PlanWithAIState extends State<PlanWithAI> {
                   });
                 },
               ),
-              tripLength(
-                onDatesSelected: (DepartureDate,ArrivalDate) {
-                  setState(() {
-                    departure=DepartureDate;
-                    arrival=ArrivalDate;
-                  });
-                }
-              ),
-              TripMateKind(
-                onTripMateSelected:(tripMateKind){
-                  setState(() {
-                    this.tripMateKind=tripMateKind;
-                  });
-                }
-              ),
+              tripLength(onDatesSelected: (DepartureDate, ArrivalDate) {
+                setState(() {
+                  departure = DepartureDate;
+                  arrival = ArrivalDate;
+                });
+              }),
+              TripMateKind(onTripMateSelected: (tripMateKind) {
+                setState(() {
+                  this.tripMateKind = tripMateKind;
+                });
+              }),
               TypesOfPlaces(
                 locationSelected: selectedLocation,
                 StartDate: departure,
-                EndDate: arrival, 
+                EndDate: arrival,
+                tripmateKind: tripMateKind,
               ),
             ],
           ),

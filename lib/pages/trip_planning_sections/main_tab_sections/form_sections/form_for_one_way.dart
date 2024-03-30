@@ -59,7 +59,7 @@ class _FormForOneWayState extends State<FormForOneWay> {
                   Navigator.of(context).pop();
                   if (Arrival) {
                     setDate(null);
-                  }else{
+                  } else {
                     setDate(null);
                   }
                 },
@@ -106,6 +106,7 @@ class _FormForOneWayState extends State<FormForOneWay> {
       toDate: '',
       fromTime: '',
       toTime: '',
+      note: '',
     ),
   ];
   List<DateTime?> selectedDepartureDates = [null];
@@ -239,6 +240,7 @@ class _FormForOneWayState extends State<FormForOneWay> {
                               toDate: '',
                               fromTime: '',
                               toTime: '',
+                              note: '',
                             ));
                             selectedDepartureDates.add(null);
                             selectedArrivalDates.add(null);
@@ -380,7 +382,7 @@ class _FormForOneWayState extends State<FormForOneWay> {
                   physics: ClampingScrollPhysics(),
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.fromLTRB(20.0,2,20,0),
+                      padding: const EdgeInsets.fromLTRB(20.0, 2, 20, 0),
                       child: Column(
                         children: [
                           if (index != 0)
@@ -696,7 +698,8 @@ class _FormForOneWayState extends State<FormForOneWay> {
                             ],
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(18.0,15,18,10),
+                            padding:
+                                const EdgeInsets.fromLTRB(18.0, 15, 18, 10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -739,7 +742,7 @@ class _FormForOneWayState extends State<FormForOneWay> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(18.0,0,18,10),
+                            padding: const EdgeInsets.fromLTRB(18.0, 0, 18, 10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -790,7 +793,7 @@ class _FormForOneWayState extends State<FormForOneWay> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(18.0,0,18,10),
+                            padding: const EdgeInsets.fromLTRB(18.0, 0, 18, 10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -1036,6 +1039,7 @@ class TicketData {
   final String toDate;
   final String fromTime;
   final String toTime;
+  String? note;
 
   TicketData({
     required this.fromAirport,
@@ -1052,6 +1056,7 @@ class TicketData {
     required this.toDate,
     required this.fromTime,
     required this.toTime,
+    this.note,
   });
 
   Map<String, dynamic> toJson() {
@@ -1070,6 +1075,7 @@ class TicketData {
       'toDate': toDate,
       'fromTime': fromTime,
       'toTime': toTime,
+      'note': note,
     };
   }
 }

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables, unused_import, must_be_immutable, unnecessary_import, non_constant_identifier_names, prefer_final_fields, use_super_parameters, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -10,32 +10,101 @@ import 'package:voyager/pages/trip_planning_sections/main_tab_sections/expenses.
 import 'package:voyager/pages/trip_planning_sections/main_tab_sections/explore.dart';
 import 'package:voyager/pages/trip_planning_sections/main_tab_sections/itinerary.dart';
 import 'package:voyager/pages/trip_planning_sections/main_tab_sections/overview.dart';
+import 'package:voyager/pages/trip_planning_sections/trips_form_input/tripmate_kind_input.dart';
 import 'package:voyager/utils/constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class NewTrip extends StatefulWidget {
   String? locationSelected;
   DateTime? StartDate;
   DateTime? EndDate;
-
+  String? tripmateKind;
+  List<String>? tripPreferences;
+  bool? isManual;
   NewTrip(
       {Key? key,
       required this.locationSelected,
       required this.StartDate,
-      required this.EndDate})
+      required this.EndDate,
+      required this.isManual,
+      this.tripmateKind,
+      this.tripPreferences})
       : super(key: key);
-
   @override
   State<NewTrip> createState() => _NewTripState();
 }
 
 class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
+  final db = FirebaseFirestore.instance;
+  List<Item>? notes;
+  late String tripId;
+  late DocumentReference tripRef;
+  final _firebaseauth = FirebaseAuth.instance;
   late TabController _tabController;
   double screenHeight = 0;
   TextEditingController _HeadingTextController = TextEditingController();
+  void addTripToFirestore(
+      String? title,
+      DateTime? startDate,
+      DateTime? endDate,
+      String? location,
+      String? creator,
+      List<String?> collaborators,
+      List<String>? tripPreferences,
+      String? tripmateKind,
+      bool? isManual) async {
+    await tripRef.collection("attachments").doc("notes").set({});
+    await tripRef.collection("attachments").doc("flightTickets").set({});
+    await tripRef.collection("attachments").doc("trainTickets").set({});
+    await tripRef.collection("attachments").doc("busTickets").set({});
+    await tripRef.collection("attachments").doc("carTickets").set({});
+    await tripRef.collection("attachments").doc("images").set({});
+    await tripRef.set({
+      'title': title,
+      'startDate': startDate,
+      'endDate': endDate,
+      'location': location,
+      'creator': creator,
+      'collaborators': collaborators,
+      'isManual': isManual,
+      'tripPreferences': tripPreferences,
+      'notes': notes,
+      'tripmateKind': tripmateKind,
+    });
+    tripId = tripRef.id;
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(_firebaseauth.currentUser?.uid)
+        .update({
+      'trips': FieldValue.arrayUnion([tripId]),
+    }).then((_) {
+      print("Trip ID added to user's document successfully!");
+    }).catchError((error) {
+      print("Failed to add trip ID to user's document: $error");
+    });
+  }
+
+  void updateTitle(String title) async {
+    await tripRef.update({
+      'title': title,
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+    tripRef = db.collection("trips").doc();
+    addTripToFirestore(
+        widget.locationSelected,
+        widget.StartDate,
+        widget.EndDate,
+        widget.locationSelected,
+        _firebaseauth.currentUser?.uid,
+        [_firebaseauth.currentUser?.uid],
+        widget.tripPreferences,
+        widget.tripmateKind,
+        widget.isManual);
     _tabController = TabController(length: 4, vsync: this);
     _tabController.addListener(() {
       setState(() {});
@@ -78,7 +147,7 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
                       ),
                       textAlign: TextAlign.center,
                       onChanged: (newValue) {
-                        // Update the value in yourTextEditingController or handle the change as needed
+                        updateTitle(newValue);
                       },
                       decoration: null,
                     ),
@@ -136,7 +205,9 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
                       child: TabBarView(
                         controller: _tabController,
                         children: [
-                          OverviewTrips(),
+                          OverviewTrips(
+                            tripRef: tripRef,
+                          ),
                           ExploreTrips(),
                           ItineraryTrips(
                               startDate: widget.StartDate,

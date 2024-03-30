@@ -14,7 +14,6 @@ import 'package:voyager/utils/constants.dart';
 
 class PlanManual extends StatefulWidget {
   PlanManual({super.key});
-
   @override
   State<PlanManual> createState() => _PlanManualState();
 }
@@ -27,7 +26,6 @@ class _PlanManualState extends State<PlanManual> {
   DateTime? departure;
   DateTime? arrival;
   //String? tripMateKind;
-  
 
   @override
   void dispose() {
@@ -44,9 +42,9 @@ class _PlanManualState extends State<PlanManual> {
           child: Text(
             Error,
             style: TextStyle(
-              fontSize: 16, 
+              fontSize: 16,
               fontFamily: 'ProductSans',
-              color: Colors.white, 
+              color: Colors.white,
             ),
           ),
         ),
@@ -105,7 +103,7 @@ class _PlanManualState extends State<PlanManual> {
                 _showErrorSnackbar('Please select your destination.');
                 _controller.jumpToPage(0);
               }
-              if(index>1 && (departure==null || arrival==null)){
+              if (index > 1 && (departure == null || arrival == null)) {
                 _showErrorSnackbar('Please select the Start or End date.');
                 _controller.jumpToPage(1);
               }
@@ -122,14 +120,13 @@ class _PlanManualState extends State<PlanManual> {
                 },
               ),
               tripLengthManual(
-                locationSelected: selectedLocation?? '',
-                onDatesSelected: (DepartureDate,ArrivalDate) {
-                  setState(() {
-                    departure=DepartureDate;
-                    arrival=ArrivalDate;
-                  });
-                }
-              ),
+                  locationSelected: selectedLocation ?? '',
+                  onDatesSelected: (DepartureDate, ArrivalDate) {
+                    setState(() {
+                      departure = DepartureDate;
+                      arrival = ArrivalDate;
+                    });
+                  }),
             ],
           ),
         ),

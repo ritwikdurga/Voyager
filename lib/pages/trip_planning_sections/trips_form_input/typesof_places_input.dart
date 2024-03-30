@@ -5,13 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/pages/trip_planning_sections/new_trip_page.dart';
+import 'package:voyager/pages/trip_planning_sections/trips_form_input/tripmate_kind_input.dart';
 import 'package:voyager/utils/constants.dart';
 
 class TypesOfPlaces extends StatefulWidget {
   String? locationSelected;
   DateTime? StartDate;
   DateTime? EndDate;
-  TypesOfPlaces({super.key,required this.locationSelected,required this.StartDate,required this.EndDate,});
+  String? tripmateKind;
+  TypesOfPlaces({
+    super.key,
+    required this.locationSelected,
+    required this.StartDate,
+    required this.EndDate,
+    required this.tripmateKind,
+  });
 
   @override
   State<TypesOfPlaces> createState() => _TypesOfPlacesState();
@@ -53,7 +61,7 @@ class _TypesOfPlacesState extends State<TypesOfPlaces> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(1,0,0,0),
+          padding: const EdgeInsets.fromLTRB(1, 0, 0, 0),
           child: Wrap(
             alignment: WrapAlignment.start,
             spacing: 8.0,
@@ -148,11 +156,15 @@ class _TypesOfPlacesState extends State<TypesOfPlaces> {
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => NewTrip(
-                      locationSelected: widget.locationSelected,
-                      StartDate: widget.StartDate,
-                      EndDate: widget.EndDate,
-                    )));
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NewTrip(
+                            locationSelected: widget.locationSelected,
+                            StartDate: widget.StartDate,
+                            EndDate: widget.EndDate,
+                            isManual: false,
+                            tripmateKind: widget.tripmateKind,
+                            tripPreferences: selectedTypes)));
               },
             ),
           ),

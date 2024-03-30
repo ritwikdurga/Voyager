@@ -62,6 +62,7 @@ dependencies:
   cloud_firestore: ^4.15.9
   date_time_picker_selector: ^2.1.0
   image_picker: ^1.0.7
+  firebase_storage: ^11.6.11
 
 
 dev_dependencies:

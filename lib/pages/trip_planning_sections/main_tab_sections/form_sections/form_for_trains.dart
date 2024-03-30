@@ -638,6 +638,7 @@ class TrainData {
   late final String toDate;
   late final String fromTime;
   late final String toTime;
+  String? note;
 
   TrainData({
     required this.fromStation,
@@ -651,5 +652,23 @@ class TrainData {
     required this.toDate,
     required this.fromTime,
     required this.toTime,
+    this.note,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'fromStation': fromStation,
+      'toStation': toStation,
+      'topText': topText,
+      'bottomText': bottomText,
+      'price': price,
+      'trainNumber': trainNumber,
+      'trainOperater': trainOperater,
+      'fromDate': fromDate,
+      'toDate': toDate,
+      'fromTime': fromTime,
+      'toTime': toTime,
+      'note': note,
+    };
+  }
 }

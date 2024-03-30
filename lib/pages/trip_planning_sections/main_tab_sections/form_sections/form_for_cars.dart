@@ -22,7 +22,7 @@ class FormForCars extends StatefulWidget {
 class _FormForCarsState extends State<FormForCars> {
   TextEditingController fromPlacecontroller = TextEditingController();
   TextEditingController toPlacecontroller = TextEditingController();
-  TextEditingController CarOperater = TextEditingController();
+  TextEditingController carOperator = TextEditingController();
   TextEditingController priceController = TextEditingController();
   DateTime? selectedDepartureDate = null;
   DateTime? selectedArrivalDate = null;
@@ -298,7 +298,7 @@ class _FormForCarsState extends State<FormForCars> {
                       ),
                       Spacer(),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(0,0,30,0),
+                        padding: const EdgeInsets.fromLTRB(0, 0, 30, 0),
                         child: SizedBox(
                           width: 80,
                           child: DateTimePicker(
@@ -329,7 +329,7 @@ class _FormForCarsState extends State<FormForCars> {
                       ),
                       Spacer(),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(0,0,30,0),
+                        padding: const EdgeInsets.fromLTRB(0, 0, 30, 0),
                         child: SizedBox(
                           width: 80,
                           child: DateTimePicker(
@@ -360,7 +360,7 @@ class _FormForCarsState extends State<FormForCars> {
                   SizedBox(
                     width: 0.95 * screenWidth,
                     child: TextField(
-                      controller: CarOperater,
+                      controller: carOperator,
                       decoration: InputDecoration(
                         prefixIcon: Icon(
                           Iconsax.car5,
@@ -386,7 +386,7 @@ class _FormForCarsState extends State<FormForCars> {
                       },
                       onChanged: (value) {
                         setState(() {
-                          CarName = CarOperater.text;
+                          CarName = carOperator.text;
                         });
                       },
                     ),
@@ -467,7 +467,7 @@ class _FormForCarsState extends State<FormForCars> {
                         fromPlace: selectedFromPlace!,
                         toPlace: selectedToPlace!,
                         price: Price!,
-                        carOperater: CarName!,
+                        carOperator: CarName!,
                         fromDate:
                             DateFormat('dd MMM').format(selectedDepartureDate!),
                         toDate:
@@ -487,20 +487,35 @@ class CarData {
   late final String fromPlace;
   late final String toPlace;
   late final String price;
-  late final String carOperater;
+  late final String carOperator;
   late final String fromDate;
   late final String toDate;
   late final String fromTime;
   late final String toTime;
+  String? note;
 
   CarData({
     required this.fromPlace,
     required this.toPlace,
     required this.price,
-    required this.carOperater,
+    required this.carOperator,
     required this.fromDate,
     required this.toDate,
     required this.fromTime,
     required this.toTime,
+    this.note,
   });
+  Map<String, dynamic> toMap() {
+    return {
+      'fromPlace': fromPlace,
+      'toPlace': toPlace,
+      'price': price,
+      'carOperator': carOperator,
+      'fromDate': fromDate,
+      'toDate': toDate,
+      'fromTime': fromTime,
+      'toTime': toTime,
+      'note': note,
+    };
+  }
 }

@@ -1,22 +1,25 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TicketContainer extends StatelessWidget {
   final Function(int) onDeleted;
-  String DepartLocation;
-  String topText;
-  String fromDate;
-  String fromTime;
-  String ArrivalLocation;
-  String bottomText;
-  String toDate;
-  String toTime;
-  String transitCarrier;
-  String price;
-  String operaterHeading;
-  int index;
+  final Function(String?) updateNotes;
+  final String DepartLocation;
+  final String topText;
+  final String fromDate;
+  final String fromTime;
+  final String ArrivalLocation;
+  final String bottomText;
+  final String toDate;
+  final String toTime;
+  final String transitCarrier;
+  final String price;
+  final String operaterHeading;
+  final int index;
+  String? note;
+
   TicketContainer({
     super.key,
     required this.DepartLocation,
@@ -31,6 +34,7 @@ class TicketContainer extends StatelessWidget {
     required this.price,
     required this.operaterHeading,
     required this.onDeleted,
+    required this.updateNotes,
     required this.index,
   });
 
@@ -297,6 +301,10 @@ class TicketContainer extends StatelessWidget {
             height: 80,
             alignment: Alignment.center,
             child: TextField(
+              onChanged: (newNote) {
+                note = newNote;
+                updateNotes(note);
+              },
               decoration: InputDecoration(
                 hintText: 'Notes',
                 border: OutlineInputBorder(
@@ -304,12 +312,6 @@ class TicketContainer extends StatelessWidget {
               ),
             ),
           ),
-          // IconButton(
-          //   icon: Icon(Icons.delete),
-          //   onPressed: () {
-          //     onDeleted(index);
-          //   },
-          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

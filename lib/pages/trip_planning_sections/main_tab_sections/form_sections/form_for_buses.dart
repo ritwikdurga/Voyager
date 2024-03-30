@@ -137,7 +137,7 @@ class _FormForBusesState extends State<FormForBuses> {
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
-          onTap:(){
+          onTap: () {
             Navigator.pop(context);
           },
           child: Icon(
@@ -148,7 +148,7 @@ class _FormForBusesState extends State<FormForBuses> {
         title: Text(
           'Add Your Bus Journey',
           style: TextStyle(
-            color:  Colors.blueAccent,
+            color: Colors.blueAccent,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -526,6 +526,7 @@ class BusData {
   late final String toDate;
   late final String fromTime;
   late final String toTime;
+  String? note;
 
   BusData({
     required this.fromBusStop,
@@ -536,5 +537,20 @@ class BusData {
     required this.toDate,
     required this.fromTime,
     required this.toTime,
+    this.note,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'fromBusStop': fromBusStop,
+      'toBusStop': toBusStop,
+      'price': price,
+      'busOperater': busOperater,
+      'fromDate': fromDate,
+      'toDate': toDate,
+      'fromTime': fromTime,
+      'toTime': toTime,
+      'note': note,
+    };
+  }
 }
