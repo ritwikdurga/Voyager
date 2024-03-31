@@ -21,7 +21,7 @@ class FormForBuses extends StatefulWidget {
 class _FormForBusesState extends State<FormForBuses> {
   TextEditingController fromBusStopcontroller = TextEditingController();
   TextEditingController toBusStopcontroller = TextEditingController();
-  TextEditingController BusOperater = TextEditingController();
+  TextEditingController busOperator = TextEditingController();
   TextEditingController priceController = TextEditingController();
   DateTime? selectedDepartureDate = null;
   DateTime? selectedArrivalDate = null;
@@ -394,7 +394,7 @@ class _FormForBusesState extends State<FormForBuses> {
                   SizedBox(
                     width: 0.95 * screenWidth,
                     child: TextField(
-                      controller: BusOperater,
+                      controller: busOperator,
                       decoration: InputDecoration(
                         prefixIcon: Icon(
                           Iconsax.bus5,
@@ -420,7 +420,7 @@ class _FormForBusesState extends State<FormForBuses> {
                       },
                       onChanged: (value) {
                         setState(() {
-                          BusName = BusOperater.text;
+                          BusName = busOperator.text;
                         });
                       },
                     ),
@@ -501,7 +501,7 @@ class _FormForBusesState extends State<FormForBuses> {
                       fromBusStop: selectedFromBusStop!,
                       toBusStop: selectedToBusStop!,
                       price: Price!,
-                      busOperater: BusName!,
+                      busOperator: BusName!,
                       fromDate:
                           DateFormat('dd MMM').format(selectedDepartureDate!),
                       toDate: DateFormat('dd MMM').format(selectedArrivalDate!),
@@ -521,7 +521,7 @@ class BusData {
   late final String fromBusStop;
   late final String toBusStop;
   late final String price;
-  late final String busOperater;
+  late final String busOperator;
   late final String fromDate;
   late final String toDate;
   late final String fromTime;
@@ -532,7 +532,7 @@ class BusData {
     required this.fromBusStop,
     required this.toBusStop,
     required this.price,
-    required this.busOperater,
+    required this.busOperator,
     required this.fromDate,
     required this.toDate,
     required this.fromTime,
@@ -545,7 +545,7 @@ class BusData {
       'fromBusStop': fromBusStop,
       'toBusStop': toBusStop,
       'price': price,
-      'busOperater': busOperater,
+      'busOperator': busOperator,
       'fromDate': fromDate,
       'toDate': toDate,
       'fromTime': fromTime,
@@ -553,4 +553,19 @@ class BusData {
       'note': note,
     };
   }
+
+  factory BusData.fromMap(Map<String, dynamic> map) {
+    return BusData(
+      fromBusStop: map['fromBusStop'],
+      toBusStop: map['toBusStop'],
+      price: map['price'],
+      busOperator: map['busOperator'],
+      fromDate: map['fromDate'],
+      toDate: map['toDate'],
+      fromTime: map['fromTime'],
+      toTime: map['toTime'],
+      note: map['note'],
+    );
+  }
+  
 }

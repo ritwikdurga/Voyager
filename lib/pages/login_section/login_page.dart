@@ -192,7 +192,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Future signInWithGoogle() async {
+  void signInWithGoogle() async {
     showDialog(
       context: context,
       builder: (context) => Loading(),
@@ -205,6 +205,11 @@ class _LoginPageState extends State<LoginPage> {
           instance.currentUser?.displayName ?? 'NaN',
         );
         Navigator.of(context).pop();
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => HomeScreen(),
+          ),
+        );
       }
     } catch (e) {
       if (mounted) {
@@ -454,15 +459,8 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         Center(
                           child: SocialAuth(
-                            onPressGoogle: () async {
-                              await signInWithGoogle();
-                              if (context.mounted) {
-                                Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                    builder: (context) => HomeScreen(),
-                                  ),
-                                );
-                              }
+                            onPressGoogle: () {
+                              signInWithGoogle();
                             },
                             onPressApple: () {
                               // Sign in with apple

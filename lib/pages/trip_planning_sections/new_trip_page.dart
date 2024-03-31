@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables, unused_import, must_be_immutable, unnecessary_import, non_constant_identifier_names, prefer_final_fields, use_super_parameters, avoid_print
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:iconsax/iconsax.dart';
@@ -44,6 +46,7 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
   late TabController _tabController;
   double screenHeight = 0;
   TextEditingController _HeadingTextController = TextEditingController();
+
   void addTripToFirestore(
       String? title,
       DateTime? startDate,
@@ -54,12 +57,13 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
       List<String>? tripPreferences,
       String? tripmateKind,
       bool? isManual) async {
-    await tripRef.collection("attachments").doc("notes").set({});
-    await tripRef.collection("attachments").doc("flightTickets").set({});
-    await tripRef.collection("attachments").doc("trainTickets").set({});
-    await tripRef.collection("attachments").doc("busTickets").set({});
-    await tripRef.collection("attachments").doc("carTickets").set({});
-    await tripRef.collection("attachments").doc("images").set({});
+    // await db.collection("trips").doc(tripRef.id).set({
+    //   'attachments': FieldValue.arrayUnion([]),
+    // }, SetOptions(merge: true));
+
+    // await db.collection("trips").doc(tripRef.id).update({
+    //   'attachments.notes': FieldValue.arrayUnion([]),
+    // });
     await tripRef.set({
       'title': title,
       'startDate': startDate,
@@ -69,7 +73,6 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
       'collaborators': collaborators,
       'isManual': isManual,
       'tripPreferences': tripPreferences,
-      'notes': notes,
       'tripmateKind': tripmateKind,
     });
     tripId = tripRef.id;
@@ -94,26 +97,46 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    tripRef = db.collection("trips").doc();
-    addTripToFirestore(
-        widget.locationSelected,
-        widget.StartDate,
-        widget.EndDate,
-        widget.locationSelected,
-        _firebaseauth.currentUser?.uid,
-        [_firebaseauth.currentUser?.uid],
-        widget.tripPreferences,
-        widget.tripmateKind,
-        widget.isManual);
     _tabController = TabController(length: 4, vsync: this);
     _tabController.addListener(() {
       setState(() {});
     });
     _HeadingTextController.text = widget.locationSelected!;
+    tripRef = db.collection("trips").doc();
+    addTripToFirestore(
+      widget.locationSelected,
+      widget.StartDate,
+      widget.EndDate,
+      widget.locationSelected,
+      _firebaseauth.currentUser?.uid,
+      [_firebaseauth.currentUser?.uid],
+      widget.tripPreferences,
+      widget.tripmateKind,
+      widget.isManual,
+    );
+  }
+
+  late StreamSubscription<DocumentSnapshot> _subscription;
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    _subscription = tripRef.snapshots().listen((snapshot) {
+      if (snapshot.exists) {
+        String title = snapshot['title'];
+        if (title != _HeadingTextController.text) {
+          setState(() {
+            _HeadingTextController.text = title;
+          });
+        }
+      }
+    }, onError: (error) {
+      print("Stream Subscription Error: $error");
+    });
     final themeProvider = Provider.of<ThemeProvider>(context);
     screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -146,8 +169,8 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
                         fontSize: 40,
                       ),
                       textAlign: TextAlign.center,
-                      onChanged: (newValue) {
-                        updateTitle(newValue);
+                      onEditingComplete: () {
+                        updateTitle(_HeadingTextController.text);
                       },
                       decoration: null,
                     ),

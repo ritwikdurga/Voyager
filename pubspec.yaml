@@ -63,6 +63,7 @@ dependencies:
   date_time_picker_selector: ^2.1.0
   image_picker: ^1.0.7
   firebase_storage: ^11.6.11
+  path: ^1.9.0
 
 
 dev_dependencies:

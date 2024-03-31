@@ -23,7 +23,7 @@ class FormForTrain extends StatefulWidget {
 class _FormForTrainState extends State<FormForTrain> {
   TextEditingController fromStationcontroller = TextEditingController();
   TextEditingController toStationcontroller = TextEditingController();
-  TextEditingController TrainOperater = TextEditingController();
+  TextEditingController trainOperator = TextEditingController();
   TextEditingController TrainNumberOperater = TextEditingController();
   TextEditingController priceController = TextEditingController();
   DateTime? selectedDepartureDate = null;
@@ -451,7 +451,7 @@ class _FormForTrainState extends State<FormForTrain> {
                   SizedBox(
                     width: 0.95 * screenWidth,
                     child: TextField(
-                      controller: TrainOperater,
+                      controller: trainOperator,
                       decoration: InputDecoration(
                         prefixIcon: Icon(
                           Icons.train,
@@ -474,12 +474,12 @@ class _FormForTrainState extends State<FormForTrain> {
                       ),
                       onTap: () {
                         setState(() {
-                          TrainName = TrainOperater.text;
+                          TrainName = trainOperator.text;
                         });
                       },
                       onChanged: (value) {
                         setState(() {
-                          TrainName = TrainOperater.text;
+                          TrainName = trainOperator.text;
                         });
                       },
                     ),
@@ -610,7 +610,7 @@ class _FormForTrainState extends State<FormForTrain> {
                       bottomText: selectedToStation!,
                       price: priceController.text,
                       trainNumber: TrainNumber!,
-                      trainOperater: TrainName!,
+                      trainOperator: TrainName!,
                       fromDate:
                           DateFormat('dd MMM').format(selectedDepartureDate!),
                       toDate: DateFormat('dd MMM').format(selectedArrivalDate!),
@@ -633,7 +633,7 @@ class TrainData {
   late final String bottomText;
   late final String price;
   late final String trainNumber;
-  late final String trainOperater;
+  late final String trainOperator;
   late final String fromDate;
   late final String toDate;
   late final String fromTime;
@@ -647,7 +647,7 @@ class TrainData {
     required this.bottomText,
     required this.price,
     required this.trainNumber,
-    required this.trainOperater,
+    required this.trainOperator,
     required this.fromDate,
     required this.toDate,
     required this.fromTime,
@@ -663,12 +663,29 @@ class TrainData {
       'bottomText': bottomText,
       'price': price,
       'trainNumber': trainNumber,
-      'trainOperater': trainOperater,
+      'trainOperator': trainOperator,
       'fromDate': fromDate,
       'toDate': toDate,
       'fromTime': fromTime,
       'toTime': toTime,
       'note': note,
     };
+  }
+
+  factory TrainData.fromMap(Map<String, dynamic> map) {
+    return TrainData(
+      fromStation: map['fromStation'],
+      toStation: map['toStation'],
+      topText: map['topText'],
+      bottomText: map['bottomText'],
+      price: map['price'],
+      trainNumber: map['trainNumber'],
+      trainOperator: map['trainOperator'],
+      fromDate: map['fromDate'],
+      toDate: map['toDate'],
+      fromTime: map['fromTime'],
+      toTime: map['toTime'],
+      note: map['note'],
+    );
   }
 }

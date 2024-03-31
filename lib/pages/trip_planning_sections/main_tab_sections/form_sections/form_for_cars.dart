@@ -518,4 +518,18 @@ class CarData {
       'note': note,
     };
   }
+
+  factory CarData.fromMap(Map<String, dynamic> map) {
+    return CarData(
+      fromPlace: map['fromPlace'],
+      toPlace: map['toPlace'],
+      price: map['price'],
+      carOperator: map['carOperator'],
+      fromDate: map['fromDate'],
+      toDate: map['toDate'],
+      fromTime: map['fromTime'],
+      toTime: map['toTime'],
+      note: map['note'],
+    );
+  }
 }

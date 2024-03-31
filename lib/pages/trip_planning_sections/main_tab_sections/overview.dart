@@ -1,9 +1,10 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_import, must_be_immutable, no_leading_underscores_for_local_identifiers, unused_local_variable, unnecessary_import, non_constant_identifier_names, prefer_is_not_empty
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_import, must_be_immutable, no_leading_underscores_for_local_identifiers, unused_local_variable, unnecessary_import, non_constant_identifier_names, prefer_is_not_empty, avoid_print, unused_field
 
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:iconsax/iconsax.dart';
@@ -23,6 +24,7 @@ import 'package:voyager/pages/trip_planning_sections/main_tab_sections/form_sect
 import 'package:voyager/utils/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart' as path;
 
 class Item {
   String heading;
@@ -43,12 +45,20 @@ class Item {
       'notes': notes,
     };
   }
+
+  factory Item.fromJson(Map<String, dynamic> json) {
+    return Item(
+      heading: json['heading'],
+      notes: json['notes'],
+      isExpanded: false,
+      isEditing: false,
+    );
+  }
 }
 
 class OverviewTrips extends StatefulWidget {
-  DocumentReference? tripRef;
+  DocumentReference tripRef;
   OverviewTrips({required this.tripRef, super.key});
-
   @override
   State<OverviewTrips> createState() => _OverviewTripsState();
 }
@@ -56,60 +66,74 @@ class OverviewTrips extends StatefulWidget {
 class _OverviewTripsState extends State<OverviewTrips> {
   final db = FirebaseFirestore.instance;
   final storage = FirebaseStorage.instance;
-  List<Item> notes = [];
-  List<TicketData> FlightTickets = [];
-  List<TrainData> TrainTickets = [];
-  List<BusData> BusTickets = [];
-  List<CarData> CarTickets = [];
+  late Stream<DocumentSnapshot> _tripStream;
+  List<Item> _notes = [];
+  List<TicketData> _flightTickets = [];
+  List<TrainData> _trainTickets = [];
+  List<BusData> _busTickets = [];
+  List<CarData> _carTickets = [];
   List<XFile?> ImagesList = [];
+  List<String> _imageURLs = [];
   late final MyIndexProvider _indexProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    _tripStream = FirebaseFirestore.instance
+        .collection('trips')
+        .doc(widget.tripRef.id)
+        .snapshots();
+    _indexProvider = Provider.of<MyIndexProvider>(context, listen: false);
+  }
+
   void updateNotesInFirestore(List<Item> notes) async {
     List<Map<String, dynamic>> notesData =
         notes.map((item) => item.toMap()).toList();
-    await widget.tripRef?.collection('attachments').doc('notes').update({
-      'data': notesData,
-    });
+    await db.collection("trips").doc(widget.tripRef.id).set({
+      'attachments': {
+        'notes': notesData,
+      }
+    }, SetOptions(merge: true));
   }
 
-  void updateFlightTicketsInFirestore(List<TicketData> flightTickets) async {
+  void updateflightTicketsInFirestore(List<TicketData> _flightTickets) async {
     List<Map<String, dynamic>> flightData =
-        flightTickets.map((item) => item.toJson()).toList();
-    await widget.tripRef
-        ?.collection('attachments')
-        .doc('flightTickets')
-        .update({
-      'data': flightData,
-    });
+        _flightTickets.map((item) => item.toJson()).toList();
+    await db.collection("trips").doc(widget.tripRef.id).set({
+      'attachments': {
+        'flightTickets': flightData,
+      }
+    }, SetOptions(merge: true));
   }
 
-  void updateTrainTicketsInFirestore(List<TrainData> trainTickets) async {
+  void updatetrainTicketsInFirestore(List<TrainData> _trainTickets) async {
     List<Map<String, dynamic>> trainData =
-        trainTickets.map((item) => item.toMap()).toList();
-    await widget.tripRef?.collection('attachments').doc('trainTickets').update({
-      'data': trainData,
-    });
+        _trainTickets.map((item) => item.toMap()).toList();
+    await db.collection("trips").doc(widget.tripRef.id).set({
+      'attachments': {
+        'trainTickets': trainData,
+      }
+    }, SetOptions(merge: true));
   }
 
-  void updateBusTicketsInFirestore(List<BusData> busTickets) async {
+  void updatebusTicketsInFirestore(List<BusData> _busTickets) async {
     List<Map<String, dynamic>> busDataMap =
-        busTickets.map((item) => item.toMap()).toList();
-    await widget.tripRef?.collection('attachments').doc('busTickets').update({
-      'data': busDataMap,
-    });
+        _busTickets.map((item) => item.toMap()).toList();
+    await db.collection("trips").doc(widget.tripRef.id).set({
+      'attachments': {
+        'busTickets': busDataMap,
+      }
+    }, SetOptions(merge: true));
   }
 
   void updateCarDataInFirestore(List<CarData> carData) async {
     List<Map<String, dynamic>> carDataMap =
         carData.map((item) => item.toMap()).toList();
-    await widget.tripRef?.collection('attachments').doc('carTickets').update({
-      'data': carDataMap,
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _indexProvider = Provider.of<MyIndexProvider>(context, listen: false);
+    await db.collection("trips").doc(widget.tripRef.id).set({
+      'attachments': {
+        'carData': carDataMap,
+      }
+    }, SetOptions(merge: true));
   }
 
   Future _pickImageFromGallery() async {
@@ -118,6 +142,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
     if (returnedImage != null) {
       setState(() {
         ImagesList.add(returnedImage);
+        uploadFile(File(returnedImage.path));
       });
     }
   }
@@ -128,7 +153,31 @@ class _OverviewTripsState extends State<OverviewTrips> {
     if (returnedImage != null) {
       setState(() {
         ImagesList.add(returnedImage);
+        uploadFile(File(returnedImage.path));
       });
+    }
+  }
+
+  Future uploadFile(File photo) async {
+    final String fileName = path.basename(photo.path);
+    final String fileType = path.extension(photo.path).substring(1);
+    final destination =
+        storage.ref().child("trip/${widget.tripRef.id}/images/$fileName");
+    try {
+      await destination.putFile(
+          photo,
+          SettableMetadata(
+            contentType: "image/$fileType",
+          ));
+      var url = await destination.getDownloadURL();
+      _imageURLs.add(url);
+      await db.collection("trips").doc(widget.tripRef.id).set({
+        'attachments': {
+          'images': FieldValue.arrayUnion([url]),
+        }
+      }, SetOptions(merge: true));
+    } catch (e) {
+      print('error occured');
     }
   }
 
@@ -175,10 +224,10 @@ class _OverviewTripsState extends State<OverviewTrips> {
                                       builder: (context) => FormForOneWay(
                                             onTicketAdded: (ticketsData) {
                                               setState(() {
-                                                FlightTickets.addAll(
-                                                    ticketsData!);
-                                                updateFlightTicketsInFirestore(
-                                                    FlightTickets);
+                                                _flightTickets
+                                                    .addAll(ticketsData!);
+                                                updateflightTicketsInFirestore(
+                                                    _flightTickets);
                                               });
                                             },
                                           )));
@@ -331,9 +380,9 @@ class _OverviewTripsState extends State<OverviewTrips> {
                                       builder: (context) => FormForTrain(
                                             onTrainTicketAdded: (traindata) {
                                               setState(() {
-                                                TrainTickets.add(traindata);
-                                                updateTrainTicketsInFirestore(
-                                                    TrainTickets);
+                                                _trainTickets.add(traindata);
+                                                updatetrainTicketsInFirestore(
+                                                    _trainTickets);
                                               });
                                             },
                                           )));
@@ -383,8 +432,252 @@ class _OverviewTripsState extends State<OverviewTrips> {
     );
   }
 
+  bool areNotesEqual(List<Item> list1, List<Item> list2) {
+    if (list1.length != list2.length) {
+      return false;
+    }
+    for (int i = 0; i < list1.length; i++) {
+      if (list1[i].heading != list2[i].heading ||
+          list1[i].notes != list2[i].notes) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  bool areBusDataListsEqual(List<BusData> list1, List<BusData> list2) {
+    if (list1.length != list2.length) {
+      return false;
+    }
+    for (int i = 0; i < list1.length; i++) {
+      if (!areBusDataObjectsEqual(list1[i], list2[i])) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  bool areBusDataObjectsEqual(BusData busData1, BusData busData2) {
+    return busData1.fromBusStop == busData2.fromBusStop &&
+        busData1.toBusStop == busData2.toBusStop &&
+        busData1.price == busData2.price &&
+        busData1.busOperator == busData2.busOperator &&
+        busData1.fromDate == busData2.fromDate &&
+        busData1.toDate == busData2.toDate &&
+        busData1.fromTime == busData2.fromTime &&
+        busData1.toTime == busData2.toTime &&
+        busData1.note == busData2.note;
+  }
+
+  bool areCarDataListsEqual(List<CarData> list1, List<CarData> list2) {
+    if (list1.length != list2.length) {
+      return false;
+    }
+    for (int i = 0; i < list1.length; i++) {
+      if (!areCarDataObjectsEqual(list1[i], list2[i])) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  bool areCarDataObjectsEqual(CarData carData1, CarData carData2) {
+    return carData1.fromPlace == carData2.fromPlace &&
+        carData1.toPlace == carData2.toPlace &&
+        carData1.price == carData2.price &&
+        carData1.carOperator == carData2.carOperator &&
+        carData1.fromDate == carData2.fromDate &&
+        carData1.toDate == carData2.toDate &&
+        carData1.fromTime == carData2.fromTime &&
+        carData1.toTime == carData2.toTime &&
+        carData1.note == carData2.note;
+  }
+
+  bool areTrainDataListsEqual(List<TrainData> list1, List<TrainData> list2) {
+    if (list1.length != list2.length) {
+      return false;
+    }
+    for (int i = 0; i < list1.length; i++) {
+      if (!areTrainDataObjectsEqual(list1[i], list2[i])) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  bool areTrainDataObjectsEqual(TrainData trainData1, TrainData trainData2) {
+    return trainData1.fromStation == trainData2.fromStation &&
+        trainData1.toStation == trainData2.toStation &&
+        trainData1.topText == trainData2.topText &&
+        trainData1.bottomText == trainData2.bottomText &&
+        trainData1.price == trainData2.price &&
+        trainData1.trainNumber == trainData2.trainNumber &&
+        trainData1.trainOperator == trainData2.trainOperator &&
+        trainData1.fromDate == trainData2.fromDate &&
+        trainData1.toDate == trainData2.toDate &&
+        trainData1.fromTime == trainData2.fromTime &&
+        trainData1.toTime == trainData2.toTime &&
+        trainData1.note == trainData2.note;
+  }
+
+  bool areTicketDataListsEqual(List<TicketData> list1, List<TicketData> list2) {
+    if (list1.length != list2.length) {
+      return false;
+    }
+    for (int i = 0; i < list1.length; i++) {
+      if (!areTicketDataObjectsEqual(list1[i], list2[i])) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  bool areTicketDataObjectsEqual(
+      TicketData ticketData1, TicketData ticketData2) {
+    return ticketData1.fromAirport == ticketData2.fromAirport &&
+        ticketData1.toAirport == ticketData2.toAirport &&
+        ticketData1.topText == ticketData2.topText &&
+        ticketData1.bottomText == ticketData2.bottomText &&
+        ticketData1.price == ticketData2.price &&
+        ticketData1.isLastItem == ticketData2.isLastItem &&
+        ticketData1.passengers == ticketData2.passengers &&
+        ticketData1.duration == ticketData2.duration &&
+        ticketData1.flightNumber == ticketData2.flightNumber &&
+        ticketData1.flightOperator == ticketData2.flightOperator &&
+        ticketData1.fromDate == ticketData2.fromDate &&
+        ticketData1.toDate == ticketData2.toDate &&
+        ticketData1.fromTime == ticketData2.fromTime &&
+        ticketData1.toTime == ticketData2.toTime &&
+        ticketData1.note == ticketData2.note;
+  }
+
   @override
   Widget build(BuildContext context) {
+    return StreamBuilder<DocumentSnapshot>(
+        stream: _tripStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const Text('Something went wrong');
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Text("Loading");
+          }
+          if (snapshot.hasData) {
+            var data = snapshot.data;
+            List<Item> notes = [];
+            try {
+              if (data?['attachments'] != null &&
+                  data?['attachments']['notes'] != null) {
+                notes = List<Item>.from(data?['attachments']['notes']
+                    .map((item) => Item.fromJson(item)));
+              }
+            } catch (e) {
+              print('Error parsing data: $e');
+            }
+            if (!areNotesEqual(_notes, notes)) {
+              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                setState(() {
+                  _notes = notes;
+                });
+              });
+            }
+            List<String> imageURLs = [];
+            try {
+              if (data?['attachments'] != null &&
+                  data?['attachments']['images'] != null) {
+                imageURLs = List<String>.from(data?['attachments']['images']);
+              }
+            } catch (e) {
+              print('Error parsing data: $e');
+            }
+            if (!listEquals(_imageURLs, imageURLs)) {
+              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                setState(() {
+                  _imageURLs = imageURLs;
+                });
+              });
+            }
+            List<TicketData> flightTickets = [];
+            try {
+              if (data?['attachments'] != null &&
+                  data?['attachments']['flightTickets'] != null) {
+                flightTickets = List<TicketData>.from(data?['attachments']
+                        ['flightTickets']
+                    .map((item) => TicketData.fromJSON(item)));
+              }
+            } catch (e) {
+              print('Error parsing data: $e');
+            }
+            if (!areTicketDataListsEqual(_flightTickets, flightTickets)) {
+              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                setState(() {
+                  _flightTickets = flightTickets;
+                });
+              });
+            }
+            List<TrainData> trainTickets = [];
+            try {
+              if (data?['attachments'] != null &&
+                  data?['attachments']['trainTickets'] != null) {
+                trainTickets = List<TrainData>.from(data?['attachments']
+                        ['trainTickets']
+                    .map((item) => TrainData.fromMap(item)));
+              }
+            } catch (e) {
+              print('Error parsing data: $e');
+            }
+            if (!areTrainDataListsEqual(_trainTickets, trainTickets)) {
+              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                setState(() {
+                  _trainTickets = trainTickets;
+                });
+              });
+            }
+            List<BusData> busTickets = [];
+            try {
+              if (data?['attachments'] != null &&
+                  data?['attachments']['busTickets'] != null) {
+                busTickets = List<BusData>.from(data?['attachments']
+                        ['busTickets']
+                    .map((item) => BusData.fromMap(item)));
+              }
+            } catch (e) {
+              print('Error parsing data: $e');
+            }
+            if (!areBusDataListsEqual(_busTickets, busTickets)) {
+              print(_busTickets);
+              print(1);
+              print(busTickets);
+              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                setState(() {
+                  _busTickets = busTickets;
+                });
+              });
+            }
+            List<CarData> carTickets = [];
+            try {
+              if (data?['attachments'] != null &&
+                  data?['attachments']['carData'] != null) {
+                carTickets = List<CarData>.from(data?['attachments']['carData']
+                    .map((item) => CarData.fromMap(item)));
+              }
+            } catch (e) {
+              print('Error parsing data: $e');
+            }
+            if (!areCarDataListsEqual(_carTickets, carTickets)) {
+              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                setState(() {
+                  _carTickets = carTickets;
+                });
+              });
+            }
+            return buildWidgetTree(context);
+          }
+          return const SizedBox();
+        });
+  }
+
+  Widget buildWidgetTree(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     final themeProvider = Provider.of<ThemeProvider>(context);
     return SingleChildScrollView(
@@ -555,9 +848,9 @@ class _OverviewTripsState extends State<OverviewTrips> {
                                     builder: (context) => FormForBuses(
                                           onBusAdded: (busdata) {
                                             setState(() {
-                                              BusTickets.add(busdata);
-                                              updateBusTicketsInFirestore(
-                                                  BusTickets);
+                                              _busTickets.add(busdata);
+                                              updatebusTicketsInFirestore(
+                                                  _busTickets);
                                             });
                                           },
                                         )));
@@ -607,9 +900,9 @@ class _OverviewTripsState extends State<OverviewTrips> {
                                     builder: (context) => FormForCars(
                                           onCarAdded: (cardata) {
                                             setState(() {
-                                              CarTickets.add(cardata);
+                                              _carTickets.add(cardata);
                                               updateCarDataInFirestore(
-                                                  CarTickets);
+                                                  _carTickets);
                                             });
                                           },
                                         )));
@@ -686,7 +979,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                 ],
               ),
             ),
-            if (!FlightTickets.isEmpty)
+            if (!_flightTickets.isEmpty)
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ExpansionTile(
@@ -699,32 +992,32 @@ class _OverviewTripsState extends State<OverviewTrips> {
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
-                        itemCount: FlightTickets.length,
+                        itemCount: _flightTickets.length,
                         itemBuilder: (context, index) {
                           return TicketContainer(
-                            DepartLocation: FlightTickets[index].fromAirport,
-                            topText: FlightTickets[index].topText,
-                            fromDate: FlightTickets[index].fromDate,
-                            fromTime: FlightTickets[index].fromTime,
-                            ArrivalLocation: FlightTickets[index].toAirport,
-                            bottomText: FlightTickets[index].bottomText,
-                            toDate: FlightTickets[index].toDate,
-                            toTime: FlightTickets[index].toTime,
+                            DepartLocation: _flightTickets[index].fromAirport,
+                            topText: _flightTickets[index].topText,
+                            fromDate: _flightTickets[index].fromDate,
+                            fromTime: _flightTickets[index].fromTime,
+                            ArrivalLocation: _flightTickets[index].toAirport,
+                            bottomText: _flightTickets[index].bottomText,
+                            toDate: _flightTickets[index].toDate,
+                            toTime: _flightTickets[index].toTime,
                             transitCarrier:
-                                '${FlightTickets[index].flightOperator}-${FlightTickets[index].flightNumber}',
-                            price: FlightTickets[index].price,
+                                '${_flightTickets[index].flightOperator}-${_flightTickets[index].flightNumber}',
+                            price: _flightTickets[index].price,
                             operaterHeading: 'FLIGHT OPERATER',
                             index: index,
                             onDeleted: (index) {
                               setState(() {
-                                FlightTickets.removeAt(index);
-                                updateFlightTicketsInFirestore(FlightTickets);
+                                _flightTickets.removeAt(index);
+                                updateflightTicketsInFirestore(_flightTickets);
                               });
                             },
                             updateNotes: (value) {
                               setState(() {
-                                FlightTickets[index].note = value;
-                                updateFlightTicketsInFirestore(FlightTickets);
+                                _flightTickets[index].note = value;
+                                updateflightTicketsInFirestore(_flightTickets);
                               });
                             },
                           );
@@ -734,7 +1027,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                   ],
                 ),
               ),
-            if (!TrainTickets.isEmpty)
+            if (!_trainTickets.isEmpty)
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ExpansionTile(
@@ -747,32 +1040,32 @@ class _OverviewTripsState extends State<OverviewTrips> {
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
-                        itemCount: TrainTickets.length,
+                        itemCount: _trainTickets.length,
                         itemBuilder: (context, index) {
                           return TicketContainer(
-                            DepartLocation: TrainTickets[index].fromStation,
-                            topText: TrainTickets[index].topText,
-                            fromDate: TrainTickets[index].fromDate,
-                            fromTime: TrainTickets[index].fromTime,
-                            ArrivalLocation: TrainTickets[index].toStation,
-                            bottomText: TrainTickets[index].bottomText,
-                            toDate: TrainTickets[index].toDate,
-                            toTime: TrainTickets[index].toTime,
+                            DepartLocation: _trainTickets[index].fromStation,
+                            topText: _trainTickets[index].topText,
+                            fromDate: _trainTickets[index].fromDate,
+                            fromTime: _trainTickets[index].fromTime,
+                            ArrivalLocation: _trainTickets[index].toStation,
+                            bottomText: _trainTickets[index].bottomText,
+                            toDate: _trainTickets[index].toDate,
+                            toTime: _trainTickets[index].toTime,
                             transitCarrier:
-                                '${TrainTickets[index].trainOperater}-${TrainTickets[index].trainNumber}',
-                            price: TrainTickets[index].price,
+                                '${_trainTickets[index].trainOperator}-${_trainTickets[index].trainNumber}',
+                            price: _trainTickets[index].price,
                             operaterHeading: 'TRAIN OPERATER',
                             index: index,
                             onDeleted: (index) {
                               setState(() {
-                                TrainTickets.removeAt(index);
-                                updateTrainTicketsInFirestore(TrainTickets);
+                                _trainTickets.removeAt(index);
+                                updatetrainTicketsInFirestore(_trainTickets);
                               });
                             },
                             updateNotes: (value) {
                               setState(() {
-                                TrainTickets[index].note = value;
-                                updateFlightTicketsInFirestore(FlightTickets);
+                                _trainTickets[index].note = value;
+                                updatetrainTicketsInFirestore(_trainTickets);
                               });
                             },
                           );
@@ -782,7 +1075,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                   ],
                 ),
               ),
-            if (!BusTickets.isEmpty)
+            if (!_busTickets.isEmpty)
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ExpansionTile(
@@ -795,31 +1088,31 @@ class _OverviewTripsState extends State<OverviewTrips> {
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
-                        itemCount: BusTickets.length,
+                        itemCount: _busTickets.length,
                         itemBuilder: (context, index) {
                           return TicketContainer(
-                            DepartLocation: BusTickets[index].fromBusStop,
+                            DepartLocation: _busTickets[index].fromBusStop,
                             topText: '',
-                            fromDate: BusTickets[index].fromDate,
-                            fromTime: BusTickets[index].fromTime,
-                            ArrivalLocation: BusTickets[index].toBusStop,
+                            fromDate: _busTickets[index].fromDate,
+                            fromTime: _busTickets[index].fromTime,
+                            ArrivalLocation: _busTickets[index].toBusStop,
                             bottomText: '',
-                            toDate: BusTickets[index].toDate,
-                            toTime: BusTickets[index].toTime,
-                            transitCarrier: BusTickets[index].busOperater,
-                            price: BusTickets[index].price,
+                            toDate: _busTickets[index].toDate,
+                            toTime: _busTickets[index].toTime,
+                            transitCarrier: _busTickets[index].busOperator,
+                            price: _busTickets[index].price,
                             operaterHeading: 'BUS OPERATER',
                             index: index,
                             updateNotes: (value) {
                               setState(() {
-                                BusTickets[index].note = value;
-                                updateBusTicketsInFirestore(BusTickets);
+                                _busTickets[index].note = value;
+                                updatebusTicketsInFirestore(_busTickets);
                               });
                             },
                             onDeleted: (index) {
                               setState(() {
-                                BusTickets.removeAt(index);
-                                updateBusTicketsInFirestore(BusTickets);
+                                _busTickets.removeAt(index);
+                                updatebusTicketsInFirestore(_busTickets);
                               });
                             },
                           );
@@ -829,7 +1122,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                   ],
                 ),
               ),
-            if (!CarTickets.isEmpty)
+            if (!_carTickets.isEmpty)
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ExpansionTile(
@@ -842,31 +1135,31 @@ class _OverviewTripsState extends State<OverviewTrips> {
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
-                        itemCount: CarTickets.length,
+                        itemCount: _carTickets.length,
                         itemBuilder: (context, index) {
                           return TicketContainer(
-                            DepartLocation: CarTickets[index].fromPlace,
+                            DepartLocation: _carTickets[index].fromPlace,
                             topText: '',
-                            fromDate: CarTickets[index].fromDate,
-                            fromTime: CarTickets[index].fromTime,
-                            ArrivalLocation: CarTickets[index].toPlace,
+                            fromDate: _carTickets[index].fromDate,
+                            fromTime: _carTickets[index].fromTime,
+                            ArrivalLocation: _carTickets[index].toPlace,
                             bottomText: '',
-                            toDate: CarTickets[index].toDate,
-                            toTime: CarTickets[index].toTime,
-                            transitCarrier: CarTickets[index].carOperator,
-                            price: CarTickets[index].price,
+                            toDate: _carTickets[index].toDate,
+                            toTime: _carTickets[index].toTime,
+                            transitCarrier: _carTickets[index].carOperator,
+                            price: _carTickets[index].price,
                             operaterHeading: 'Car OPERATER',
                             index: index,
                             onDeleted: (index) {
                               setState(() {
-                                CarTickets.removeAt(index);
-                                updateCarDataInFirestore(CarTickets);
+                                _carTickets.removeAt(index);
+                                updateCarDataInFirestore(_carTickets);
                               });
                             },
                             updateNotes: (value) {
                               setState(() {
-                                CarTickets[index].note = value;
-                                updateFlightTicketsInFirestore(FlightTickets);
+                                _carTickets[index].note = value;
+                                updateCarDataInFirestore(_carTickets);
                               });
                             },
                           );
@@ -876,7 +1169,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                   ],
                 ),
               ),
-            if (!ImagesList.isEmpty)
+            if (_imageURLs.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ExpansionTile(
@@ -889,10 +1182,10 @@ class _OverviewTripsState extends State<OverviewTrips> {
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
-                        itemCount: ImagesList.length,
+                        itemCount: _imageURLs.length,
                         itemBuilder: (context, index) {
-                          return Image.file(
-                            File(ImagesList[index]!.path),
+                          return Image.network(
+                            _imageURLs[index],
                             height: 350,
                             width: 0.95 * screenWidth,
                             fit: BoxFit.cover,
@@ -913,9 +1206,9 @@ class _OverviewTripsState extends State<OverviewTrips> {
                   ),
                   onPressed: () {
                     setState(() {
-                      notes.add(Item(
-                          heading: 'Note ${notes.length + 1}', notes: null));
-                      updateNotesInFirestore(notes);
+                      _notes.add(Item(
+                          heading: 'Note ${_notes.length + 1}', notes: null));
+                      updateNotesInFirestore(_notes);
                     });
                   },
                 ),
@@ -924,15 +1217,15 @@ class _OverviewTripsState extends State<OverviewTrips> {
             ExpansionPanelList(
               expansionCallback: (int index, bool isExpanded) {
                 setState(() {
-                  notes[index].isExpanded = isExpanded;
+                  _notes[index].isExpanded = isExpanded;
                   if (isExpanded == false) {
-                    notes[index].isEditing = false;
+                    _notes[index].isEditing = false;
                   }
                 });
               },
               elevation: 0,
               materialGapSize: 5,
-              children: notes.asMap().entries.map<ExpansionPanel>((entry) {
+              children: _notes.asMap().entries.map<ExpansionPanel>((entry) {
                 Item item = entry.value;
                 TextEditingController _controller =
                     TextEditingController(text: item.heading);
@@ -963,7 +1256,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                                       _isEditing = false;
                                       item.isEditing = false;
                                       item.heading = value;
-                                      updateNotesInFirestore(notes);
+                                      updateNotesInFirestore(_notes);
                                     });
                                   })
                               : Text(
@@ -988,9 +1281,9 @@ class _OverviewTripsState extends State<OverviewTrips> {
                                 icon: Icon(Icons.delete),
                                 onPressed: () {
                                   setState(() {
-                                    notes.removeWhere((Item currentItem) =>
+                                    _notes.removeWhere((Item currentItem) =>
                                         item == currentItem);
-                                    updateNotesInFirestore(notes);
+                                    updateNotesInFirestore(_notes);
                                   });
                                 },
                               ),
@@ -1013,7 +1306,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                       onSubmitted: (value) {
                         setState(() {
                           item.notes = value;
-                          updateNotesInFirestore(notes);
+                          updateNotesInFirestore(_notes);
                         });
                       }),
                   isExpanded: item.isExpanded,

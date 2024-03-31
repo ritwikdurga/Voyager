@@ -1078,4 +1078,24 @@ class TicketData {
       'note': note,
     };
   }
+
+  factory TicketData.fromJSON(Map<String, dynamic> json) {
+    return TicketData(
+      fromAirport: json['fromAirport'],
+      toAirport: json['toAirport'],
+      topText: json['topText'],
+      bottomText: json['bottomText'],
+      price: json['price'],
+      isLastItem: json['isLastItem'],
+      passengers: json['passengers'],
+      duration: json['duration'],
+      flightNumber: json['flightNumber'],
+      flightOperator: json['flightOperator'],
+      fromDate: json['fromDate'],
+      toDate: json['toDate'],
+      fromTime: json['fromTime'],
+      toTime: json['toTime'],
+      note: json['note'],
+    );
+  }
 }
