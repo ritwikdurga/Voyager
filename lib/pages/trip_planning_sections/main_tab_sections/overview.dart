@@ -204,9 +204,24 @@ class _OverviewTripsState extends State<OverviewTrips> {
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(18.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Some Random Question?',
+                      'Add Flights',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: Text(
+                      'Import your flight reservation details',
+                      style: TextStyle(
+                          fontFamily: 'ProductSans',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w200),
                     ),
                   ),
                   Padding(
@@ -234,6 +249,9 @@ class _OverviewTripsState extends State<OverviewTrips> {
                             },
                             child: Text(
                               'Add Manually',
+                              style: TextStyle(
+                                color: Colors.blueAccent,
+                              ),
                             ),
                           ),
                         ),
@@ -253,6 +271,9 @@ class _OverviewTripsState extends State<OverviewTrips> {
                             },
                             child: Text(
                               'Search for Flights',
+                              style: TextStyle(
+                                color: Colors.blueAccent,
+                              ),
                             ),
                           ),
                         ),
@@ -291,13 +312,28 @@ class _OverviewTripsState extends State<OverviewTrips> {
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(18.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Some Random Question?',
+                      'Add Attachments',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent,
+                        fontSize: 20,
+                      ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(5.0),
+                    padding: const EdgeInsets.all(3.0),
+                    child: Text(
+                      'Take a Photo or Import your photos from the gallery',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w200,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(5.0, 25, 5, 5),
                     child: Row(
                       children: [
                         ElevatedButton(
@@ -309,6 +345,9 @@ class _OverviewTripsState extends State<OverviewTrips> {
                             padding: const EdgeInsets.all(7.0),
                             child: Text(
                               'Take Photo',
+                              style: TextStyle(
+                                color: Colors.blueAccent,
+                              ),
                             ),
                           ),
                         ),
@@ -322,6 +361,9 @@ class _OverviewTripsState extends State<OverviewTrips> {
                             padding: const EdgeInsets.all(7.0),
                             child: Text(
                               'Add Photo from Gallery',
+                              style: TextStyle(
+                                color: Colors.blueAccent,
+                              ),
                             ),
                           ),
                         ),
@@ -360,9 +402,24 @@ class _OverviewTripsState extends State<OverviewTrips> {
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(18.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Some Random Question?',
+                      'Add Trains',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: Text(
+                      'Import your train reservation details',
+                      style: TextStyle(
+                          fontFamily: 'ProductSans',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w200),
                     ),
                   ),
                   Padding(
@@ -389,6 +446,9 @@ class _OverviewTripsState extends State<OverviewTrips> {
                             },
                             child: Text(
                               'Add Manually',
+                              style: TextStyle(
+                                color: Colors.blueAccent,
+                              ),
                             ),
                           ),
                         ),
@@ -416,6 +476,9 @@ class _OverviewTripsState extends State<OverviewTrips> {
                               },
                               child: Text(
                                 'Search for Trains',
+                                style: TextStyle(
+                                  color: Colors.blueAccent,
+                                ),
                               ),
                             ),
                           ),
@@ -689,6 +752,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
               padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
               child: Row(
                 children: [
+                  
                   Text(
                     'Your Tripmates',
                     style: TextStyle(
@@ -724,7 +788,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(8.0, 0, 8, 4),
+                    padding: const EdgeInsets.fromLTRB(15.0, 0, 8, 4),
                     child: SizedBox(
                       height: 85,
                       width: screenWidth - 50,
@@ -771,7 +835,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                           child: Column(
                             children: [
                               Icon(
-                                Icons.flight_takeoff,
+                                Iconsax.airplane,
                                 size: 40,
                                 color: themeProvider.themeMode == ThemeMode.dark
                                     ? Colors.white
@@ -809,8 +873,8 @@ class _OverviewTripsState extends State<OverviewTrips> {
                           child: Column(
                             children: [
                               Icon(
-                                Icons.train,
-                                size: 40,
+                                Icons.train_outlined,
+                                size: 42,
                                 color: themeProvider.themeMode == ThemeMode.dark
                                     ? Colors.white
                                     : Colors.black,
@@ -858,7 +922,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                           child: Column(
                             children: [
                               Icon(
-                                Iconsax.bus5,
+                                Iconsax.bus,
                                 size: 38,
                                 color: themeProvider.themeMode == ThemeMode.dark
                                     ? Colors.white
@@ -910,7 +974,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                           child: Column(
                             children: [
                               Icon(
-                                Iconsax.car5,
+                                Iconsax.car,
                                 size: 35,
                                 color: themeProvider.themeMode == ThemeMode.dark
                                     ? Colors.white
@@ -951,7 +1015,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                           child: Column(
                             children: [
                               Icon(
-                                Icons.attachment_outlined,
+                                Iconsax.attach_square4,
                                 size: 40,
                                 color: themeProvider.themeMode == ThemeMode.dark
                                     ? Colors.white
@@ -979,28 +1043,46 @@ class _OverviewTripsState extends State<OverviewTrips> {
                 ],
               ),
             ),
+            SizedBox(height: 10),
             if (!_flightTickets.isEmpty)
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ExpansionTile(
-                  title: Text('Your Flight Tickets'),
-                  initiallyExpanded: false,
+              ExpansionTile(
+                title: Row(
                   children: [
+                    Icon(Icons.flight, color: Colors.blueAccent),
                     SizedBox(
-                      height: 384,
-                      width: screenWidth,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemCount: _flightTickets.length,
-                        itemBuilder: (context, index) {
-                          return TicketContainer(
+                      width: 5,
+                    ),
+                    Text(
+                      'Your Flight Tickets',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
+                ),
+                initiallyExpanded: false,
+                children: [
+                  SizedBox(
+                    height: 395,
+                    width: screenWidth,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: _flightTickets.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 0.025 * screenWidth,
+                          ),
+                          child: TicketContainer(
                             DepartLocation: _flightTickets[index].fromAirport,
-                            topText: _flightTickets[index].topText,
+                            topText: '',
                             fromDate: _flightTickets[index].fromDate,
                             fromTime: _flightTickets[index].fromTime,
                             ArrivalLocation: _flightTickets[index].toAirport,
-                            bottomText: _flightTickets[index].bottomText,
+                            bottomText: '',
                             toDate: _flightTickets[index].toDate,
                             toTime: _flightTickets[index].toTime,
                             transitCarrier:
@@ -1020,35 +1102,52 @@ class _OverviewTripsState extends State<OverviewTrips> {
                                 updateflightTicketsInFirestore(_flightTickets);
                               });
                             },
-                          );
-                        },
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            if (!_trainTickets.isEmpty)
+              ExpansionTile(
+                title: Row(
+                  children: [
+                    Icon(Icons.train, color: Colors.blueAccent),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      'Your Train Tickets',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent,
+                        fontSize: 18,
                       ),
                     ),
                   ],
                 ),
-              ),
-            if (!_trainTickets.isEmpty)
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ExpansionTile(
-                  title: Text('Your Train Tickets'),
-                  initiallyExpanded: false,
-                  children: [
-                    SizedBox(
-                      height: 384,
-                      width: screenWidth,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemCount: _trainTickets.length,
-                        itemBuilder: (context, index) {
-                          return TicketContainer(
+                initiallyExpanded: false,
+                children: [
+                  SizedBox(
+                    height: 395,
+                    width: screenWidth,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: _trainTickets.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 0.025 * screenWidth,
+                          ),
+                          child: TicketContainer(
                             DepartLocation: _trainTickets[index].fromStation,
-                            topText: _trainTickets[index].topText,
+                            topText: '',
                             fromDate: _trainTickets[index].fromDate,
                             fromTime: _trainTickets[index].fromTime,
                             ArrivalLocation: _trainTickets[index].toStation,
-                            bottomText: _trainTickets[index].bottomText,
+                            bottomText: '',
                             toDate: _trainTickets[index].toDate,
                             toTime: _trainTickets[index].toTime,
                             transitCarrier:
@@ -1068,29 +1167,46 @@ class _OverviewTripsState extends State<OverviewTrips> {
                                 updatetrainTicketsInFirestore(_trainTickets);
                               });
                             },
-                          );
-                        },
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            if (!_busTickets.isEmpty)
+              ExpansionTile(
+                title: Row(
+                  children: [
+                    Icon(Iconsax.bus, color: Colors.blueAccent),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      'Your Bus Tickets',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent,
+                        fontSize: 18,
                       ),
                     ),
                   ],
                 ),
-              ),
-            if (!_busTickets.isEmpty)
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ExpansionTile(
-                  title: Text('Your Bus Tickets'),
-                  initiallyExpanded: false,
-                  children: [
-                    SizedBox(
-                      height: 384,
-                      width: screenWidth,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemCount: _busTickets.length,
-                        itemBuilder: (context, index) {
-                          return TicketContainer(
+                initiallyExpanded: false,
+                children: [
+                  SizedBox(
+                    height: 395,
+                    width: screenWidth,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: _busTickets.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 0.025 * screenWidth,
+                          ),
+                          child: TicketContainer(
                             DepartLocation: _busTickets[index].fromBusStop,
                             topText: '',
                             fromDate: _busTickets[index].fromDate,
@@ -1115,29 +1231,46 @@ class _OverviewTripsState extends State<OverviewTrips> {
                                 updatebusTicketsInFirestore(_busTickets);
                               });
                             },
-                          );
-                        },
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            if (!_carTickets.isEmpty)
+              ExpansionTile(
+                title: Row(
+                  children: [
+                    Icon(Iconsax.car, color: Colors.blueAccent),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      'Your Car Tickets',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent,
+                        fontSize: 18,
                       ),
                     ),
                   ],
                 ),
-              ),
-            if (!_carTickets.isEmpty)
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ExpansionTile(
-                  title: Text('Your Car Tickets'),
-                  initiallyExpanded: false,
-                  children: [
-                    SizedBox(
-                      height: 384,
-                      width: screenWidth,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemCount: _carTickets.length,
-                        itemBuilder: (context, index) {
-                          return TicketContainer(
+                initiallyExpanded: false,
+                children: [
+                  SizedBox(
+                    height: 395,
+                    width: screenWidth,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: _carTickets.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 0.025 * screenWidth,
+                          ),
+                          child: TicketContainer(
                             DepartLocation: _carTickets[index].fromPlace,
                             topText: '',
                             fromDate: _carTickets[index].fromDate,
@@ -1162,156 +1295,208 @@ class _OverviewTripsState extends State<OverviewTrips> {
                                 updateCarDataInFirestore(_carTickets);
                               });
                             },
-                          );
-                        },
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            if (_imageURLs.isNotEmpty)
+              ExpansionTile(
+                title: Row(
+                  children: [
+                    Icon(Iconsax.attach_square4, color: Colors.blueAccent),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      'Your Attachments',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent,
+                        fontSize: 18,
                       ),
                     ),
                   ],
                 ),
-              ),
-            if (_imageURLs.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ExpansionTile(
-                  title: Text('Your Attachments'),
-                  initiallyExpanded: false,
-                  children: [
-                    SizedBox(
-                      height: 384,
-                      width: screenWidth,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemCount: _imageURLs.length,
-                        itemBuilder: (context, index) {
-                          return Image.network(
+                initiallyExpanded: false,
+                children: [
+                  SizedBox(
+                    height: 395,
+                    width: screenWidth,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: _imageURLs.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 0.025 * screenWidth,
+                          ),
+                          child: Image.network(
                             _imageURLs[index],
                             height: 350,
                             width: 0.95 * screenWidth,
                             fit: BoxFit.cover,
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
                     ),
-                  ],
-                ),
-              ),
-            Row(
-              children: [
-                Text('Notes'),
-                Spacer(),
-                IconButton(
-                  icon: Icon(
-                    Icons.add,
                   ),
-                  onPressed: () {
-                    setState(() {
-                      _notes.add(Item(
-                          heading: 'Note ${_notes.length + 1}', notes: null));
-                      updateNotesInFirestore(_notes);
-                    });
-                  },
-                ),
-              ],
+                ],
+              ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.notes,
+                    color: Colors.blueAccent,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'Notes',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blueAccent,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Spacer(),
+                  IconButton(
+                    icon: Icon(
+                      Icons.add,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _notes.add(Item(
+                            heading: 'Note ${_notes.length + 1}', notes: null));
+                        updateNotesInFirestore(_notes);
+                      });
+                    },
+                  ),
+                ],
+              ),
             ),
-            ExpansionPanelList(
-              expansionCallback: (int index, bool isExpanded) {
-                setState(() {
-                  _notes[index].isExpanded = isExpanded;
-                  if (isExpanded == false) {
-                    _notes[index].isEditing = false;
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: ExpansionPanelList(
+                expansionCallback: (int index, bool isExpanded) {
+                  setState(() {
+                    _notes[index].isExpanded = isExpanded;
+                    if (isExpanded == false) {
+                      _notes[index].isEditing = false;
+                    }
+                  });
+                },
+                elevation: 0,
+                materialGapSize: 5,
+                children: _notes.asMap().entries.map<ExpansionPanel>((entry) {
+                  Item item = entry.value;
+                  TextEditingController _controller =
+                      TextEditingController(text: item.heading);
+                  bool _isEditing = item.isEditing;
+                  TextEditingController _controllerForBody =
+                      TextEditingController();
+                  if (item.notes != null) {
+                    _controllerForBody.text = item.notes!;
                   }
-                });
-              },
-              elevation: 0,
-              materialGapSize: 5,
-              children: _notes.asMap().entries.map<ExpansionPanel>((entry) {
-                Item item = entry.value;
-                TextEditingController _controller =
-                    TextEditingController(text: item.heading);
-                bool _isEditing = item.isEditing;
-                TextEditingController _controllerForBody =
-                    TextEditingController();
-                if (item.notes != null) {
-                  _controllerForBody.text = item.notes!;
-                }
-                return ExpansionPanel(
-                  canTapOnHeader: true,
-                  backgroundColor: Colors.grey[800],
-                  headerBuilder: (BuildContext context, bool isExpanded) {
-                    return Row(
-                      children: [
-                        Expanded(
-                          child: _isEditing
-                              ? TextFormField(
-                                  initialValue: item.heading,
-                                  textInputAction: TextInputAction.done,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10))),
+                  return ExpansionPanel(
+                    canTapOnHeader: true,
+                    backgroundColor: themeProvider.themeMode == ThemeMode.dark
+                        ? Colors.grey.shade800
+                        : Colors.grey.shade100,
+                    headerBuilder: (BuildContext context, bool isExpanded) {
+                      return Row(
+                        children: [
+                          Expanded(
+                            child: _isEditing
+                                ? Padding(
+                                    padding: const EdgeInsets.only(left: 38.0),
+                                    child: TextFormField(
+                                        initialValue: item.heading,
+                                        textInputAction: TextInputAction.done,
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                        ),
+                                        onFieldSubmitted: (value) {
+                                          setState(() {
+                                            _isEditing = false;
+                                            item.isEditing = false;
+                                            item.heading = value;
+                                            updateNotesInFirestore(_notes);
+                                          });
+                                        }),
+                                  )
+                                : Padding(
+                                    padding: const EdgeInsets.only(left: 38.0),
+                                    child: Text(
+                                      item.heading,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontFamily: 'ProductSans',
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
+                                    ),
                                   ),
-                                  onFieldSubmitted: (value) {
+                          ),
+                          if (isExpanded)
+                            Row(
+                              children: [
+                                IconButton(
+                                  icon: Icon(Icons.edit),
+                                  onPressed: () {
                                     setState(() {
-                                      _isEditing = false;
-                                      item.isEditing = false;
-                                      item.heading = value;
+                                      _isEditing = !_isEditing;
+                                      item.isEditing = !item.isEditing;
+                                    });
+                                  },
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.delete),
+                                  onPressed: () {
+                                    setState(() {
+                                      _notes.removeWhere((Item currentItem) =>
+                                          item == currentItem);
                                       updateNotesInFirestore(_notes);
                                     });
-                                  })
-                              : Text(
-                                  item.heading,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
+                                  },
                                 ),
+                              ],
+                            ),
+                        ],
+                      );
+                    },
+                    body: TextField(
+                        controller: _controllerForBody,
+                        textInputAction: TextInputAction.done,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          hintText:
+                              item.notes != null ? null : 'Tap to write notes',
                         ),
-                        if (isExpanded)
-                          Row(
-                            children: [
-                              IconButton(
-                                icon: Icon(Icons.edit),
-                                onPressed: () {
-                                  setState(() {
-                                    _isEditing = !_isEditing;
-                                    item.isEditing = !item.isEditing;
-                                  });
-                                },
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.delete),
-                                onPressed: () {
-                                  setState(() {
-                                    _notes.removeWhere((Item currentItem) =>
-                                        item == currentItem);
-                                    updateNotesInFirestore(_notes);
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                      ],
-                    );
-                  },
-                  body: TextField(
-                      controller: _controllerForBody,
-                      textInputAction: TextInputAction.done,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
-                        hintText:
-                            item.notes != null ? null : 'Tap to write notes',
-                      ),
-                      maxLines: null,
-                      onSubmitted: (value) {
-                        setState(() {
-                          item.notes = value;
-                          updateNotesInFirestore(_notes);
-                        });
-                      }),
-                  isExpanded: item.isExpanded,
-                );
-              }).toList(),
+                        maxLines: null,
+                        onSubmitted: (value) {
+                          setState(() {
+                            item.notes = value;
+                            updateNotesInFirestore(_notes);
+                          });
+                        }),
+                    isExpanded: item.isExpanded,
+                  );
+                }).toList(),
+              ),
             ),
           ],
         ),
@@ -1323,6 +1508,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
 void _showBottomSheet(BuildContext context) {
   double screenWidth = MediaQuery.of(context).size.width;
   double screenHeight = MediaQuery.of(context).size.height;
+  final themeProvider = Provider.of<ThemeProvider>(context);
   showModalBottomSheet(
     context: context,
     builder: (BuildContext bc) {

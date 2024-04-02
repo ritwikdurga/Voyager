@@ -1,7 +1,10 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names, avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:voyager/utils/constants.dart';
 
 class TicketContainer extends StatelessWidget {
   final Function(int) onDeleted;
@@ -41,13 +44,22 @@ class TicketContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 5.0),
       width: 0.95 * screenWidth,
       padding: EdgeInsets.all(10.0),
       decoration: BoxDecoration(
-        color: Colors.grey[800],
+        color: themeProvider.themeMode == ThemeMode.dark
+            ? Colors.black
+            : Colors.white,
         borderRadius: BorderRadius.circular(10.0),
+        border: Border.all(
+          color: themeProvider.themeMode == ThemeMode.dark
+              ? Colors.white
+              : Colors.black,
+          width: 0.5,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,11 +72,18 @@ class TicketContainer extends StatelessWidget {
                 children: [
                   Text(
                     'DEPART',
+                    style: TextStyle(
+                      color: Colors.blueAccent,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'ProductSans',
+                    ),
                   ),
                   Container(
                     width: 0.5 * screenWidth,
                     decoration: BoxDecoration(
-                      color: Colors.grey[900],
+                      color: themeProvider.themeMode == ThemeMode.dark
+                          ? Colors.grey.shade900
+                          : Colors.grey.shade300,
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: Padding(
@@ -90,11 +109,18 @@ class TicketContainer extends StatelessWidget {
                 children: [
                   Text(
                     'DATE',
+                    style: TextStyle(
+                      color: Colors.blueAccent,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'ProductSans',
+                    ),
                   ),
                   Container(
                     width: 0.17 * screenWidth,
                     decoration: BoxDecoration(
-                      color: Colors.grey[900],
+                      color: themeProvider.themeMode == ThemeMode.dark
+                          ? Colors.grey.shade900
+                          : Colors.grey.shade300,
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: Padding(
@@ -118,11 +144,18 @@ class TicketContainer extends StatelessWidget {
                 children: [
                   Text(
                     'TIME',
+                    style: TextStyle(
+                      color: Colors.blueAccent,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'ProductSans',
+                    ),
                   ),
                   Container(
                     width: 0.22 * screenWidth,
                     decoration: BoxDecoration(
-                      color: Colors.grey[900],
+                      color: themeProvider.themeMode == ThemeMode.dark
+                          ? Colors.grey.shade900
+                          : Colors.grey.shade300,
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: Padding(
@@ -148,11 +181,18 @@ class TicketContainer extends StatelessWidget {
                 children: [
                   Text(
                     'ARRIVE',
+                    style: TextStyle(
+                      color: Colors.blueAccent,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'ProductSans',
+                    ),
                   ),
                   Container(
                     width: 0.5 * screenWidth,
                     decoration: BoxDecoration(
-                      color: Colors.grey[900],
+                      color: themeProvider.themeMode == ThemeMode.dark
+                          ? Colors.grey.shade900
+                          : Colors.grey.shade300,
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: Padding(
@@ -178,11 +218,18 @@ class TicketContainer extends StatelessWidget {
                 children: [
                   Text(
                     'DATE',
+                    style: TextStyle(
+                      color: Colors.blueAccent,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'ProductSans',
+                    ),
                   ),
                   Container(
                     width: 0.17 * screenWidth,
                     decoration: BoxDecoration(
-                      color: Colors.grey[900],
+                      color: themeProvider.themeMode == ThemeMode.dark
+                          ? Colors.grey.shade900
+                          : Colors.grey.shade300,
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: Padding(
@@ -206,11 +253,18 @@ class TicketContainer extends StatelessWidget {
                 children: [
                   Text(
                     'TIME',
+                    style: TextStyle(
+                      color: Colors.blueAccent,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'ProductSans',
+                    ),
                   ),
                   Container(
                     width: 0.22 * screenWidth,
                     decoration: BoxDecoration(
-                      color: Colors.grey[900],
+                      color: themeProvider.themeMode == ThemeMode.dark
+                          ? Colors.grey.shade900
+                          : Colors.grey.shade300,
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: Padding(
@@ -236,11 +290,18 @@ class TicketContainer extends StatelessWidget {
                 children: [
                   Text(
                     operaterHeading,
+                    style: TextStyle(
+                      color: Colors.blueAccent,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'ProductSans',
+                    ),
                   ),
                   Container(
                     width: 0.58 * screenWidth,
                     decoration: BoxDecoration(
-                      color: Colors.grey[900],
+                      color: themeProvider.themeMode == ThemeMode.dark
+                          ? Colors.grey.shade900
+                          : Colors.grey.shade300,
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: Padding(
@@ -266,11 +327,18 @@ class TicketContainer extends StatelessWidget {
                 children: [
                   Text(
                     'COST',
+                    style: TextStyle(
+                      color: Colors.blueAccent,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'ProductSans',
+                    ),
                   ),
                   Container(
                     width: 0.3 * screenWidth,
                     decoration: BoxDecoration(
-                      color: Colors.grey[900],
+                      color: themeProvider.themeMode == ThemeMode.dark
+                          ? Colors.grey.shade900
+                          : Colors.grey.shade300,
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: Padding(
@@ -294,7 +362,9 @@ class TicketContainer extends StatelessWidget {
           ),
           Divider(
             thickness: 0.25,
-            color: Colors.white,
+            color: themeProvider.themeMode == ThemeMode.dark
+                ? Colors.white
+                : Colors.black,
           ),
           Container(
             width: 0.9 * screenWidth,
@@ -311,6 +381,9 @@ class TicketContainer extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(10))),
               ),
             ),
+          ),
+          SizedBox(
+            height: 10,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

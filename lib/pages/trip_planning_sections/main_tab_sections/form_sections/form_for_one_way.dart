@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/components/search_section/calender_picker.dart';
@@ -193,7 +194,7 @@ class _FormForOneWayState extends State<FormForOneWay> {
             Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.fromLTRB(20.0, 20, 20, 0),
                   child: Row(
                     children: [
                       Text(
@@ -285,568 +286,104 @@ class _FormForOneWayState extends State<FormForOneWay> {
                 ),
                 Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: 0.8 * screenWidth,
-                          child: TextField(
-                            controller: fromAirportcontroller,
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.near_me,
-                              ),
-                              hintText: 'From',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(
-                                  color:
-                                      themeProvider.themeMode == ThemeMode.dark
-                                          ? Colors.white
-                                          : Colors.black,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(
-                                  color: kGreenColor,
-                                ),
-                              ),
-                            ),
-                            onTap: () {
-                              setState(() {
-                                isListViewVisibleForDeparture = true;
-                              });
-                            },
-                            onChanged: (value) {
-                              setState(() {});
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    if (isListViewVisibleForDeparture)
-                      SizedBox(
-                        height: 200,
-                        child: Stack(
-                          children: [
-                            ListView.builder(
-                              itemCount: getFilteredAirports(
-                                      fromAirportcontroller.text)
-                                  .length,
-                              itemBuilder: (context, index) {
-                                final airport = getFilteredAirports(
-                                    fromAirportcontroller.text)[index];
-                                return ConstrainedBox(
-                                  constraints: BoxConstraints(
-                                      maxWidth: 0.8 * screenWidth),
-                                  child: ListTile(
-                                    title: SizedBox(
-                                      width: 0.8 * screenWidth,
-                                      child: Row(
-                                        children: [
-                                          Text('${airport['code']}'),
-                                          SizedBox(width: 5),
-                                          ConstrainedBox(
-                                              constraints: BoxConstraints(
-                                                  maxWidth: 0.65 * screenWidth),
-                                              child: Text(
-                                                '${airport['name']}',
-                                                overflow: TextOverflow.ellipsis,
-                                              ))
-                                        ],
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      setState(() {
-                                        fromAirportcontroller.text =
-                                            airport['name'] ?? '';
-                                        isListViewVisibleForDeparture = false;
-                                        selectedFromAirport = airport;
-                                        FocusManager.instance.primaryFocus
-                                            ?.unfocus();
-                                      });
-                                    },
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                  ],
-                ),
-                ListView.builder(
-                  itemCount: stopCount + 1,
-                  shrinkWrap: true,
-                  physics: ClampingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.fromLTRB(20.0, 2, 20, 0),
-                      child: Column(
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          if (index != 0)
-                            Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      width: 0.8 * screenWidth,
-                                      child: TextField(
-                                        controller:
-                                            intermediateAirportController[
-                                                index - 1],
-                                        decoration: InputDecoration(
-                                          prefixIcon: Icon(
-                                            Icons.near_me,
-                                          ),
-                                          hintText:
-                                              'Intermediate Airport $index',
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            borderSide: BorderSide(
-                                              color: themeProvider.themeMode ==
-                                                      ThemeMode.dark
-                                                  ? Colors.white
-                                                  : Colors.black,
-                                            ),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            borderSide: BorderSide(
-                                              color: kGreenColor,
-                                            ),
-                                          ),
-                                        ),
-                                        onTap: () {
-                                          setState(() {
-                                            isVisibleforIntermediateAirports[
-                                                index - 1] = true;
-                                          });
-                                        },
-                                        onChanged: (value) {
-                                          setState(() {});
-                                        },
-                                      ),
-                                    ),
-                                  ],
+                          SizedBox(
+                            width: 0.8 * screenWidth,
+                            child: TextField(
+                              controller: fromAirportcontroller,
+                              decoration: InputDecoration(
+                                prefixIcon: Icon(
+                                  Icons.near_me,
                                 ),
-                                if (isVisibleforIntermediateAirports[index - 1])
-                                  SizedBox(
-                                    height: 200,
-                                    child: Stack(
-                                      children: [
-                                        ListView.builder(
-                                          itemCount: getFilteredAirports(
-                                                  intermediateAirportController[
-                                                          index - 1]
-                                                      .text)
-                                              .length,
-                                          itemBuilder: (context, index1) {
-                                            final airport = getFilteredAirports(
-                                                intermediateAirportController[
-                                                        index - 1]
-                                                    .text)[index1];
-                                            return ConstrainedBox(
-                                              constraints: BoxConstraints(
-                                                  maxWidth: 0.8 * screenWidth),
-                                              child: ListTile(
-                                                title: SizedBox(
-                                                  width: 0.8 * screenWidth,
-                                                  child: Row(
-                                                    children: [
-                                                      Text(
-                                                          '${airport['code']}'),
-                                                      SizedBox(width: 5),
-                                                      ConstrainedBox(
-                                                          constraints:
-                                                              BoxConstraints(
-                                                                  maxWidth: 0.65 *
-                                                                      screenWidth),
-                                                          child: Text(
-                                                            '${airport['name']}',
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                          ))
-                                                    ],
-                                                  ),
-                                                ),
-                                                onTap: () {
-                                                  setState(() {
-                                                    intermediateAirportController[
-                                                                index - 1]
-                                                            .text =
-                                                        airport['name'] ?? '';
-                                                    isVisibleforIntermediateAirports[
-                                                        index - 1] = false;
-                                                    selectedIntermediateAirports[
-                                                        index - 1] = airport;
-                                                    FocusManager
-                                                        .instance.primaryFocus
-                                                        ?.unfocus();
-                                                  });
-                                                },
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                              ],
-                            ),
-                          Row(
-                            children: [
-                              if (stopCount == 0)
-                                Text(
-                                  'Departure Date',
-                                  style: TextStyle(
-                                    color: Colors.blueAccent,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
-                                )
-                              else
-                                Text(
-                                  'Departure Date for flight ${index + 1}',
-                                  style: TextStyle(
-                                    color: Colors.blueAccent,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
+                                hintText: 'From',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(
+                                    color: themeProvider.themeMode ==
+                                            ThemeMode.dark
+                                        ? Colors.white
+                                        : Colors.black,
                                   ),
                                 ),
-                              Spacer(),
-                              if (selectedDepartureDates[index] != null)
-                                DateDisplayer(
-                                  Date: selectedDepartureDates[index]!
-                                      .day
-                                      .toString(),
-                                  Day: selectedDepartureDates[index]!.weekday,
-                                  month: selectedDepartureDates[index]!.month,
-                                  Year: selectedDepartureDates[index]!
-                                      .year
-                                      .toString(),
-                                  valid: true,
-                                )
-                              else
-                                DateDisplayer(
-                                  Date: 'Month',
-                                  Day: 0,
-                                  month: 0,
-                                  Year: '',
-                                  valid: false,
-                                ),
-                              IconButton(
-                                icon: Icon(Icons.calendar_month),
-                                onPressed: () {
-                                  _showDatePickerDialog(context, false,
-                                      (DateTime? date) {
-                                    setState(() {
-                                      selectedDepartureDates[index] = date;
-                                      debugPrint(selectedDepartureDates[index]
-                                          .toString());
-                                      debugPrint(date.toString());
-                                    });
-                                  });
-                                },
-                              )
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              if (stopCount == 0)
-                                Text(
-                                  'Arrival Date',
-                                  style: TextStyle(
-                                    color: Colors.blueAccent,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
-                                )
-                              else
-                                Text(
-                                  'Arrival Date for flight ${index + 1}',
-                                  style: TextStyle(
-                                    color: Colors.blueAccent,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              Spacer(),
-                              if (selectedArrivalDates[index] != null)
-                                DateDisplayer(
-                                  Date: selectedArrivalDates[index]!
-                                      .day
-                                      .toString(),
-                                  Day: selectedArrivalDates[index]!.weekday,
-                                  month: selectedArrivalDates[index]!.month,
-                                  Year: selectedArrivalDates[index]!
-                                      .year
-                                      .toString(),
-                                  valid: true,
-                                )
-                              else
-                                DateDisplayer(
-                                  Date: 'Month',
-                                  Day: 0,
-                                  month: 0,
-                                  Year: '',
-                                  valid: false,
-                                ),
-                              IconButton(
-                                icon: Icon(Icons.calendar_month),
-                                onPressed: () {
-                                  _showDatePickerDialog(context, true,
-                                      (DateTime? date) {
-                                    setState(() {
-                                      selectedArrivalDates[index] = date;
-                                      debugPrint(selectedArrivalDates[index]
-                                          .toString());
-                                      debugPrint(date.toString());
-                                    });
-                                  });
-                                },
-                              )
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              if (stopCount == 0)
-                                Text(
-                                  'Departure Time',
-                                  style: TextStyle(
-                                    color: Colors.blueAccent,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
-                                )
-                              else
-                                Text(
-                                  'Departure Time for flight ${index + 1}',
-                                  style: TextStyle(
-                                    color: Colors.blueAccent,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              Spacer(),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 30, 0),
-                                child: SizedBox(
-                                  width: 80,
-                                  child: DateTimePicker(
-                                    type: DateTimePickerType.time,
-                                    onChanged: (val) {
-                                      setState(() {
-                                        selectedDepartureTimes[index] = val;
-                                        debugPrint('hi');
-                                      });
-                                    },
-                                    validator: (val) {
-                                      return null;
-                                    },
-                                    onSaved: (val) {},
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(
+                                    color: kGreenColor,
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              if (stopCount == 0)
-                                Text(
-                                  'Arrival Time',
-                                  style: TextStyle(
-                                    color: Colors.blueAccent,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
-                                )
-                              else
-                                Text(
-                                  'Arrival Time for flight ${index + 1}',
-                                  style: TextStyle(
-                                    color: Colors.blueAccent,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              Spacer(),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 30, 0),
-                                child: SizedBox(
-                                  width: 80,
-                                  child: DateTimePicker(
-                                    type: DateTimePickerType.time,
-                                    onChanged: (val) {
-                                      setState(() {
-                                        selectedArrivalTimes[index] = val;
-                                      });
-                                    },
-                                    validator: (val) {
-                                      print(val);
-                                      return null;
-                                    },
-                                    onSaved: (val) {},
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(18.0, 15, 18, 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  width: 0.8 * screenWidth,
-                                  child: TextField(
-                                    controller: FlightOperator[index],
-                                    decoration: InputDecoration(
-                                      prefixIcon: Icon(
-                                        Icons.near_me,
-                                      ),
-                                      hintText: stopCount == 0
-                                          ? 'Flight Operator'
-                                          : 'Flight Operator for ${index + 1}',
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                        borderSide: BorderSide(
-                                          color: themeProvider.themeMode ==
-                                                  ThemeMode.dark
-                                              ? Colors.white
-                                              : Colors.black,
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                        borderSide: BorderSide(
-                                          color: kGreenColor,
-                                        ),
-                                      ),
-                                    ),
-                                    onTap: () {},
-                                    onChanged: (value) {
-                                      setState(() {
-                                        FlightOperators[index] = value;
-                                      });
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(18.0, 0, 18, 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  width: 0.8 * screenWidth,
-                                  child: TextField(
-                                    controller: FlightNumber[index],
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter.digitsOnly,
-                                      LengthLimitingTextInputFormatter(5),
-                                    ],
-                                    decoration: InputDecoration(
-                                      prefixIcon: Icon(
-                                        Icons.near_me,
-                                      ),
-                                      hintText: stopCount == 0
-                                          ? 'Flight Number'
-                                          : 'Flight Number for ${index + 1}',
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                        borderSide: BorderSide(
-                                          color: themeProvider.themeMode ==
-                                                  ThemeMode.dark
-                                              ? Colors.white
-                                              : Colors.black,
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                        borderSide: BorderSide(
-                                          color: kGreenColor,
-                                        ),
-                                      ),
-                                    ),
-                                    onEditingComplete: () {
-                                      FocusScope.of(context).unfocus();
-                                    },
-                                    onTap: () {},
-                                    onChanged: (value) {
-                                      setState(() {
-                                        FlightNumbers[index] = value;
-                                      });
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(18.0, 0, 18, 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  width: 0.8 * screenWidth,
-                                  child: TextField(
-                                    controller: Price[index],
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter.digitsOnly,
-                                      LengthLimitingTextInputFormatter(5),
-                                    ],
-                                    decoration: InputDecoration(
-                                      prefixIcon: Icon(
-                                        Icons.near_me,
-                                      ),
-                                      hintText: stopCount == 0
-                                          ? 'Flight Price'
-                                          : 'Flight Price for ${index + 1}',
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                        borderSide: BorderSide(
-                                          color: themeProvider.themeMode ==
-                                                  ThemeMode.dark
-                                              ? Colors.white
-                                              : Colors.black,
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                        borderSide: BorderSide(
-                                          color: kGreenColor,
-                                        ),
-                                      ),
-                                    ),
-                                    onEditingComplete: () {
-                                      FocusScope.of(context).unfocus();
-                                    },
-                                    onTap: () {},
-                                    onChanged: (value) {
-                                      setState(() {
-                                        Prices[index] = value;
-                                      });
-                                    },
-                                  ),
-                                ),
-                              ],
+                              onTap: () {
+                                setState(() {
+                                  isListViewVisibleForDeparture = true;
+                                });
+                              },
+                              onChanged: (value) {
+                                setState(() {});
+                              },
                             ),
                           ),
                         ],
                       ),
-                    );
-                  },
+                    ),
+                    if (isListViewVisibleForDeparture)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: SizedBox(
+                          height: 200,
+                          child: Stack(
+                            children: [
+                              ListView.builder(
+                                itemCount: getFilteredAirports(
+                                        fromAirportcontroller.text)
+                                    .length,
+                                itemBuilder: (context, index) {
+                                  final airport = getFilteredAirports(
+                                      fromAirportcontroller.text)[index];
+                                  return ConstrainedBox(
+                                    constraints: BoxConstraints(
+                                        maxWidth: 0.8 * screenWidth),
+                                    child: ListTile(
+                                      title: SizedBox(
+                                        width: 0.8 * screenWidth,
+                                        child: Row(
+                                          children: [
+                                            Text('${airport['code']}'),
+                                            SizedBox(width: 5),
+                                            ConstrainedBox(
+                                                constraints: BoxConstraints(
+                                                    maxWidth:
+                                                        0.65 * screenWidth),
+                                                child: Text(
+                                                  '${airport['name']}',
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ))
+                                          ],
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          fromAirportcontroller.text =
+                                              airport['name'] ?? '';
+                                          isListViewVisibleForDeparture = false;
+                                          selectedFromAirport = airport;
+                                          FocusManager.instance.primaryFocus
+                                              ?.unfocus();
+                                        });
+                                      },
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
                 Column(
                   children: [
@@ -940,6 +477,503 @@ class _FormForOneWayState extends State<FormForOneWay> {
                         ),
                       ),
                   ],
+                ),
+                ListView.builder(
+                  itemCount: stopCount + 1,
+                  shrinkWrap: true,
+                  physics: ClampingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(20.0, 0, 20, 0),
+                      child: Column(
+                        children: [
+                          if (index != 0)
+                            Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        width: 0.8 * screenWidth,
+                                        child: TextField(
+                                          controller:
+                                              intermediateAirportController[
+                                                  index - 1],
+                                          decoration: InputDecoration(
+                                            prefixIcon: Icon(
+                                              Icons.near_me,
+                                            ),
+                                            hintText:
+                                                'Intermediate Airport $index',
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              borderSide: BorderSide(
+                                                color:
+                                                    themeProvider.themeMode ==
+                                                            ThemeMode.dark
+                                                        ? Colors.white
+                                                        : Colors.black,
+                                              ),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              borderSide: BorderSide(
+                                                color: kGreenColor,
+                                              ),
+                                            ),
+                                          ),
+                                          onTap: () {
+                                            setState(() {
+                                              isVisibleforIntermediateAirports[
+                                                  index - 1] = true;
+                                            });
+                                          },
+                                          onChanged: (value) {
+                                            setState(() {});
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                if (isVisibleforIntermediateAirports[index - 1])
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0),
+                                    child: SizedBox(
+                                      height: 200,
+                                      child: Stack(
+                                        children: [
+                                          ListView.builder(
+                                            itemCount: getFilteredAirports(
+                                                    intermediateAirportController[
+                                                            index - 1]
+                                                        .text)
+                                                .length,
+                                            itemBuilder: (context, index1) {
+                                              final airport = getFilteredAirports(
+                                                  intermediateAirportController[
+                                                          index - 1]
+                                                      .text)[index1];
+                                              return ConstrainedBox(
+                                                constraints: BoxConstraints(
+                                                    maxWidth:
+                                                        0.8 * screenWidth),
+                                                child: ListTile(
+                                                  title: SizedBox(
+                                                    width: 0.8 * screenWidth,
+                                                    child: Row(
+                                                      children: [
+                                                        Text(
+                                                            '${airport['code']}'),
+                                                        SizedBox(width: 5),
+                                                        ConstrainedBox(
+                                                            constraints: BoxConstraints(
+                                                                maxWidth: 0.65 *
+                                                                    screenWidth),
+                                                            child: Text(
+                                                              '${airport['name']}',
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                            ))
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  onTap: () {
+                                                    setState(() {
+                                                      intermediateAirportController[
+                                                                  index - 1]
+                                                              .text =
+                                                          airport['name'] ?? '';
+                                                      isVisibleforIntermediateAirports[
+                                                          index - 1] = false;
+                                                      selectedIntermediateAirports[
+                                                          index - 1] = airport;
+                                                      FocusManager
+                                                          .instance.primaryFocus
+                                                          ?.unfocus();
+                                                    });
+                                                  },
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Row(
+                              children: [
+                                if (stopCount == 0)
+                                  Text(
+                                    'Departure Date',
+                                    style: TextStyle(
+                                      color: Colors.blueAccent,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
+                                  )
+                                else
+                                  Text(
+                                    'Departure Date for flight ${index + 1}',
+                                    style: TextStyle(
+                                      color: Colors.blueAccent,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                Spacer(),
+                                if (selectedDepartureDates[index] != null)
+                                  DateDisplayer(
+                                    Date: selectedDepartureDates[index]!
+                                        .day
+                                        .toString(),
+                                    Day: selectedDepartureDates[index]!.weekday,
+                                    month: selectedDepartureDates[index]!.month,
+                                    Year: selectedDepartureDates[index]!
+                                        .year
+                                        .toString(),
+                                    valid: true,
+                                  )
+                                else
+                                  DateDisplayer(
+                                    Date: 'Month',
+                                    Day: 0,
+                                    month: 0,
+                                    Year: '',
+                                    valid: false,
+                                  ),
+                                IconButton(
+                                  icon: Icon(Icons.calendar_month),
+                                  onPressed: () {
+                                    _showDatePickerDialog(context, false,
+                                        (DateTime? date) {
+                                      setState(() {
+                                        selectedDepartureDates[index] = date;
+                                        debugPrint(selectedDepartureDates[index]
+                                            .toString());
+                                        debugPrint(date.toString());
+                                      });
+                                    });
+                                  },
+                                )
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Row(
+                              children: [
+                                if (stopCount == 0)
+                                  Text(
+                                    'Arrival Date',
+                                    style: TextStyle(
+                                      color: Colors.blueAccent,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
+                                  )
+                                else
+                                  Text(
+                                    'Arrival Date for flight ${index + 1}',
+                                    style: TextStyle(
+                                      color: Colors.blueAccent,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                Spacer(),
+                                if (selectedArrivalDates[index] != null)
+                                  DateDisplayer(
+                                    Date: selectedArrivalDates[index]!
+                                        .day
+                                        .toString(),
+                                    Day: selectedArrivalDates[index]!.weekday,
+                                    month: selectedArrivalDates[index]!.month,
+                                    Year: selectedArrivalDates[index]!
+                                        .year
+                                        .toString(),
+                                    valid: true,
+                                  )
+                                else
+                                  DateDisplayer(
+                                    Date: 'Month',
+                                    Day: 0,
+                                    month: 0,
+                                    Year: '',
+                                    valid: false,
+                                  ),
+                                IconButton(
+                                  icon: Icon(Icons.calendar_month),
+                                  onPressed: () {
+                                    _showDatePickerDialog(context, true,
+                                        (DateTime? date) {
+                                      setState(() {
+                                        selectedArrivalDates[index] = date;
+                                        debugPrint(selectedArrivalDates[index]
+                                            .toString());
+                                        debugPrint(date.toString());
+                                      });
+                                    });
+                                  },
+                                )
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Row(
+                              children: [
+                                if (stopCount == 0)
+                                  Text(
+                                    'Departure Time',
+                                    style: TextStyle(
+                                      color: Colors.blueAccent,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
+                                  )
+                                else
+                                  Text(
+                                    'Departure Time for flight ${index + 1}',
+                                    style: TextStyle(
+                                      color: Colors.blueAccent,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                Spacer(),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 0, 30, 0),
+                                  child: SizedBox(
+                                    width: 80,
+                                    child: DateTimePicker(
+                                      type: DateTimePickerType.time,
+                                      onChanged: (val) {
+                                        setState(() {
+                                          selectedDepartureTimes[index] = val;
+                                          //debugPrint('hi');
+                                        });
+                                      },
+                                      validator: (val) {
+                                        return null;
+                                      },
+                                      onSaved: (val) {},
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Row(
+                              children: [
+                                if (stopCount == 0)
+                                  Text(
+                                    'Arrival Time',
+                                    style: TextStyle(
+                                      color: Colors.blueAccent,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
+                                  )
+                                else
+                                  Text(
+                                    'Arrival Time for flight ${index + 1}',
+                                    style: TextStyle(
+                                      color: Colors.blueAccent,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                Spacer(),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 0, 30, 0),
+                                  child: SizedBox(
+                                    width: 80,
+                                    child: DateTimePicker(
+                                      type: DateTimePickerType.time,
+                                      onChanged: (val) {
+                                        setState(() {
+                                          selectedArrivalTimes[index] = val;
+                                        });
+                                      },
+                                      validator: (val) {
+                                        print(val);
+                                        return null;
+                                      },
+                                      onSaved: (val) {},
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(18.0, 20, 18, 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: 0.8 * screenWidth,
+                                  child: TextField(
+                                    controller: FlightOperator[index],
+                                    decoration: InputDecoration(
+                                      prefixIcon: Icon(
+                                        Icons.flight,
+                                      ),
+                                      hintText: stopCount == 0
+                                          ? 'Flight Operator'
+                                          : 'Flight Operator for ${index + 1}',
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                        borderSide: BorderSide(
+                                          color: themeProvider.themeMode ==
+                                                  ThemeMode.dark
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                        borderSide: BorderSide(
+                                          color: kGreenColor,
+                                        ),
+                                      ),
+                                    ),
+                                    onTap: () {},
+                                    onChanged: (value) {
+                                      setState(() {
+                                        FlightOperators[index] = value;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(18.0, 10, 18, 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: 0.8 * screenWidth,
+                                  child: TextField(
+                                    controller: FlightNumber[index],
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.digitsOnly,
+                                      LengthLimitingTextInputFormatter(5),
+                                    ],
+                                    decoration: InputDecoration(
+                                      prefixIcon: Icon(
+                                        Icons.numbers,
+                                      ),
+                                      hintText: stopCount == 0
+                                          ? 'Flight Number'
+                                          : 'Flight Number for ${index + 1}',
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                        borderSide: BorderSide(
+                                          color: themeProvider.themeMode ==
+                                                  ThemeMode.dark
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                        borderSide: BorderSide(
+                                          color: kGreenColor,
+                                        ),
+                                      ),
+                                    ),
+                                    onEditingComplete: () {
+                                      FocusScope.of(context).unfocus();
+                                    },
+                                    onTap: () {},
+                                    onChanged: (value) {
+                                      setState(() {
+                                        FlightNumbers[index] = value;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(18.0, 10, 18, 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: 0.8 * screenWidth,
+                                  child: TextField(
+                                    controller: Price[index],
+                                     keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.digitsOnly,
+                                      LengthLimitingTextInputFormatter(5),
+                                    ],
+                                    textInputAction: TextInputAction.done,
+                                    decoration: InputDecoration(
+                                      prefixIcon: Icon(
+                                        Iconsax.dollar_circle,
+                                      ),
+                                      hintText: stopCount == 0
+                                          ? 'Flight Price'
+                                          : 'Flight Price for ${index + 1}',
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                        borderSide: BorderSide(
+                                          color: themeProvider.themeMode ==
+                                                  ThemeMode.dark
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                        borderSide: BorderSide(
+                                          color: kGreenColor,
+                                        ),
+                                      ),
+                                    ),
+                                    onEditingComplete: () {
+                                      FocusScope.of(context).unfocus();
+                                    },
+                                    onTap: () {},
+                                    onChanged: (value) {
+                                      setState(() {
+                                        Prices[index] = value;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

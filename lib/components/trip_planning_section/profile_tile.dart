@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:voyager/utils/constants.dart';
 
 class ProfileTile extends StatelessWidget {
   const ProfileTile({super.key});
@@ -8,6 +10,7 @@ class ProfileTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.height;
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return SizedBox(
       height: 60,
       child: Row(
@@ -19,7 +22,9 @@ class ProfileTile extends StatelessWidget {
               width: 50,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.grey[800],
+                color: themeProvider.themeMode == ThemeMode.dark
+                    ? Colors.grey.shade300
+                    : Colors.grey.shade300,
               ),
               child: Center(
                 child: Text(

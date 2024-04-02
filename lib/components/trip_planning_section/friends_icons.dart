@@ -9,12 +9,44 @@ class FriendsIcons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return ListView.builder(
       scrollDirection: Axis.horizontal,
       itemCount: 15,
       shrinkWrap: true,
       physics: ClampingScrollPhysics(),
       itemBuilder: (BuildContext context, index) {
+        if (index == 0) {
+          return Row(
+            children: [
+              Container(
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: themeProvider.themeMode == ThemeMode.dark
+                      ? Colors.black
+                      : Colors.white,
+                  border: Border.all(
+                    color: themeProvider.themeMode == ThemeMode.dark
+                        ? Colors.white
+                        : Colors.black,
+                    width: 0.5,
+                  ),
+                ),
+                child: Center(
+                  child: Icon(
+                    Icons.add,
+                    color: kGreenColor,
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 8,
+              ),
+            ],
+          );
+        }
         return Row(
           children: [
             GestureDetector(
@@ -26,7 +58,9 @@ class FriendsIcons extends StatelessWidget {
                 width: 50,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.grey[800],
+                  color: themeProvider.themeMode == ThemeMode.dark
+                      ? Colors.grey.shade800
+                      : Colors.grey.shade300,
                 ),
                 child: Center(
                   child: Text('N',

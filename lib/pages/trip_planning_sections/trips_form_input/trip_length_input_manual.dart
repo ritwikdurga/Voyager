@@ -142,7 +142,9 @@ class _tripLengthManualState extends State<tripLengthManual>
             height: 80,
             width: screenWidth - 20,
             decoration: BoxDecoration(
-              color: Colors.grey[800],
+              color: themeProvider.themeMode == ThemeMode.dark
+                  ? Colors.grey[800]
+                  : Colors.grey[300],
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.circular(25),
             ),
