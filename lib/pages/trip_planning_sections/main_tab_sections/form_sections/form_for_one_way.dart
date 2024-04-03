@@ -39,6 +39,26 @@ class _FormForOneWayState extends State<FormForOneWay> {
     return allFilled;
   }
 
+  void _showErrorSnackbar(String Error) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: kRedColor,
+        // Change the background color of the snackbar
+        content: Center(
+          child: Text(
+            Error,
+            style: TextStyle(
+              fontSize: 16, // Change the font size as needed
+              fontFamily: 'ProductSans', // Change the font family as needed
+              color: Colors.white, // Change the text color
+            ),
+          ),
+        ),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
   void _showDatePickerDialog(
       BuildContext context, bool Arrival, Function(DateTime?) setDate) {
     showDialog(
@@ -87,8 +107,13 @@ class _FormForOneWayState extends State<FormForOneWay> {
   bool isListViewVisibleForDeparture = false;
   bool isListViewVisibleForArrival = false;
   TextEditingController fromAirportcontroller = TextEditingController();
-
   TextEditingController toAirportcontroller = TextEditingController();
+  List<TextEditingController> DepartutureTimesController = [
+    TextEditingController()
+  ];
+  List<TextEditingController> ArrivalTimesController = [
+    TextEditingController()
+  ];
 
   int stopCount = 0;
   List<TicketData> ticketsData = [
@@ -256,10 +281,12 @@ class _FormForOneWayState extends State<FormForOneWay> {
                             FlightNumber.add(TextEditingController());
                             FlightNumbers.add(null);
                             Price.add(TextEditingController());
+                            DepartutureTimesController.add(
+                                TextEditingController());
+                            ArrivalTimesController.add(TextEditingController());
                             Prices.add(null);
                           }
                           for (int i = stopCount; i > count.toInt(); i--) {
-                            //debugPrint('j: $i');
                             ticketsData.removeLast();
                             selectedDepartureDates.removeLast();
                             selectedArrivalDates.removeLast();
@@ -272,6 +299,8 @@ class _FormForOneWayState extends State<FormForOneWay> {
                             FlightOperators.removeLast();
                             FlightNumbers.removeLast();
                             Price.removeLast();
+                            DepartutureTimesController.removeLast();
+                            ArrivalTimesController.removeLast();
                             Prices.removeLast();
                           }
                           setState(() {
@@ -371,6 +400,45 @@ class _FormForOneWayState extends State<FormForOneWay> {
                                               airport['name'] ?? '';
                                           isListViewVisibleForDeparture = false;
                                           selectedFromAirport = airport;
+                                          if (stopCount == 0) {
+                                            if (selectedToAirport != null &&
+                                                toAirportcontroller.text ==
+                                                    fromAirportcontroller
+                                                        .text) {
+                                              _showErrorSnackbar(
+                                                  'The From Airport cannot be equal to To Airport');
+                                              selectedFromAirport = null;
+                                              fromAirportcontroller.clear();
+                                            }
+                                          } else {
+                                            if (selectedToAirport != null &&
+                                                toAirportcontroller.text ==
+                                                    fromAirportcontroller
+                                                        .text) {
+                                              _showErrorSnackbar(
+                                                  'The From Airport cannot be equal to To Airport');
+                                              selectedFromAirport = null;
+                                              fromAirportcontroller.clear();
+                                            }
+                                            for (int i = 0;
+                                                i < stopCount;
+                                                i++) {
+                                              if (selectedIntermediateAirports[
+                                                          i] !=
+                                                      null &&
+                                                  intermediateAirportController[
+                                                              i]
+                                                          .text ==
+                                                      fromAirportcontroller
+                                                          .text) {
+                                                _showErrorSnackbar(
+                                                    'The From Airport cannot be equal to Intermediate Airport ${i + 1}');
+                                                selectedFromAirport = null;
+                                                fromAirportcontroller.clear();
+                                                break;
+                                              }
+                                            }
+                                          }
                                           FocusManager.instance.primaryFocus
                                               ?.unfocus();
                                         });
@@ -396,7 +464,7 @@ class _FormForOneWayState extends State<FormForOneWay> {
                             controller: toAirportcontroller,
                             decoration: InputDecoration(
                               prefixIcon: Icon(
-                                Icons.near_me,
+                                Icons.location_on,
                               ),
                               hintText: 'To',
                               border: OutlineInputBorder(
@@ -465,6 +533,45 @@ class _FormForOneWayState extends State<FormForOneWay> {
                                             airport['name'] ?? '';
                                         isListViewVisibleForArrival = false;
                                         selectedToAirport = airport;
+                                        if (stopCount == 0) {
+                                          if (selectedFromAirport != null &&
+                                              toAirportcontroller.text ==
+                                                  fromAirportcontroller.text) {
+                                            _showErrorSnackbar(
+                                                'The From Airport cannot be equal to To Airport');
+                                            selectedToAirport = null;
+                                            toAirportcontroller.clear();
+                                          }
+                                        } else {
+                                          if (selectedFromAirport != null &&
+                                              toAirportcontroller.text ==
+                                                  fromAirportcontroller.text) {
+                                            _showErrorSnackbar(
+                                                'The From Airport cannot be equal to To Airport');
+                                            selectedToAirport = null;
+                                            toAirportcontroller.clear();
+                                          }
+                                          if (selectedToAirport != null) {
+                                            for (int i = 0;
+                                                i < stopCount;
+                                                i++) {
+                                              if (selectedIntermediateAirports[
+                                                          i] !=
+                                                      null &&
+                                                  intermediateAirportController[
+                                                              i]
+                                                          .text ==
+                                                      toAirportcontroller
+                                                          .text) {
+                                                _showErrorSnackbar(
+                                                    'The To Airport cannot be equal to Intermediate Airport ${i + 1}');
+                                                selectedToAirport = null;
+                                                toAirportcontroller.clear();
+                                                break;
+                                              }
+                                            }
+                                          }
+                                        }
                                         FocusManager.instance.primaryFocus
                                             ?.unfocus();
                                       });
@@ -659,9 +766,41 @@ class _FormForOneWayState extends State<FormForOneWay> {
                                         (DateTime? date) {
                                       setState(() {
                                         selectedDepartureDates[index] = date;
-                                        debugPrint(selectedDepartureDates[index]
-                                            .toString());
-                                        debugPrint(date.toString());
+                                        if (index > 0 &&
+                                            selectedArrivalDates[index - 1] !=
+                                                null) {
+                                          if (selectedDepartureDates[index]!
+                                              .isBefore(selectedArrivalDates[
+                                                  index - 1]!)) {
+                                            Navigator.of(context).pop();
+                                            _showErrorSnackbar(
+                                                'The Departure Date for flight ${index + 1} should be after the Arrival date for flight $index');
+                                            selectedDepartureDates[index] =
+                                                null;
+                                          }
+                                        }
+                                        if (selectedDepartureDates[index] !=
+                                            null) {
+                                          if (selectedArrivalDates[index] !=
+                                              null) {
+                                            if (selectedArrivalDates[index]!
+                                                .isBefore(
+                                                    selectedDepartureDates[
+                                                        index]!)) {
+                                              if (stopCount > 0) {
+                                                Navigator.of(context).pop();
+                                                _showErrorSnackbar(
+                                                    'The Departure Date for flight ${index + 1} should be before the Arrival date for flight ${index + 1}');
+                                              } else {
+                                                Navigator.of(context).pop();
+                                                _showErrorSnackbar(
+                                                    'The Departure Date should be before the Arrival date');
+                                              }
+                                              selectedDepartureDates[index] =
+                                                  null;
+                                            }
+                                          }
+                                        }
                                       });
                                     });
                                   },
@@ -719,9 +858,40 @@ class _FormForOneWayState extends State<FormForOneWay> {
                                         (DateTime? date) {
                                       setState(() {
                                         selectedArrivalDates[index] = date;
-                                        debugPrint(selectedArrivalDates[index]
-                                            .toString());
-                                        debugPrint(date.toString());
+                                        if (index < stopCount - 1 &&
+                                            selectedDepartureDates[index + 1] !=
+                                                null) {
+                                          if (selectedDepartureDates[index + 1]!
+                                              .isBefore(selectedArrivalDates[
+                                                  index]!)) {
+                                            Navigator.of(context).pop();
+                                            _showErrorSnackbar(
+                                                'The Departure Date for flight ${index + 2} should be after the Arrival date for flight ${index + 1}');
+                                            selectedArrivalDates[index] = null;
+                                          }
+                                        }
+                                        if (selectedArrivalDates[index] !=
+                                            null) {
+                                          if (selectedDepartureDates[index] !=
+                                              null) {
+                                            if (selectedArrivalDates[index]!
+                                                .isBefore(
+                                                    selectedDepartureDates[
+                                                        index]!)) {
+                                              if (stopCount > 0) {
+                                                Navigator.of(context).pop();
+                                                _showErrorSnackbar(
+                                                    'The Departure Date for flight ${index + 1} should be before the Arrival date for flight ${index + 1}');
+                                              } else {
+                                                Navigator.of(context).pop();
+                                                _showErrorSnackbar(
+                                                    'The Departure Date should be before the Arrival date');
+                                              }
+                                              selectedArrivalDates[index] =
+                                                  null;
+                                            }
+                                          }
+                                        }
                                       });
                                     });
                                   },
@@ -759,10 +929,77 @@ class _FormForOneWayState extends State<FormForOneWay> {
                                     width: 80,
                                     child: DateTimePicker(
                                       type: DateTimePickerType.time,
+                                      controller:
+                                          DepartutureTimesController[index],
                                       onChanged: (val) {
                                         setState(() {
                                           selectedDepartureTimes[index] = val;
-                                          //debugPrint('hi');
+                                          if (selectedArrivalDates[index] ==
+                                                  null ||
+                                              selectedDepartureDates[index] ==
+                                                  null) {
+                                            selectedDepartureTimes[index] =
+                                                null;
+                                            DepartutureTimesController[index]
+                                                .clear();
+                                            if (stopCount == 0) {
+                                              _showErrorSnackbar(
+                                                  'Please select the Departure and Arrival Dates before selecting the Departure time');
+                                            } else {
+                                              _showErrorSnackbar(
+                                                  'Please select the Departure and Arrival Dates for flight ${index + 1} before selecting the Departure time');
+                                            }
+                                          } else {
+                                            if (selectedDepartureDates[index] ==
+                                                    selectedArrivalDates[
+                                                        index] &&
+                                                selectedArrivalTimes[index] !=
+                                                    null) {
+                                              if (DateTime.parse(
+                                                          "2024-04-03 ${selectedArrivalTimes[index]!}:00")
+                                                      .compareTo(DateTime.parse(
+                                                          "2024-04-03 ${selectedDepartureTimes[index]!}:00")) <=
+                                                  0) {
+                                                selectedDepartureTimes[index] =
+                                                    null;
+                                                DepartutureTimesController[
+                                                        index]
+                                                    .clear();
+                                                _showErrorSnackbar(
+                                                    'The Departure Time must be before the Arrival time');
+                                              }
+                                            }
+                                            if (selectedDepartureTimes[index] !=
+                                                null) {
+                                              if (index > 0 &&
+                                                  selectedArrivalDates[
+                                                          index - 1] !=
+                                                      null &&
+                                                  selectedArrivalDates[
+                                                          index - 1] ==
+                                                      selectedDepartureDates[
+                                                          index]) {
+                                                if (selectedArrivalTimes[
+                                                        index - 1] !=
+                                                    null) {
+                                                  debugPrint('hi');
+                                                  if (DateTime.parse(
+                                                              "2024-04-03 ${selectedArrivalTimes[index - 1]!}:00")
+                                                          .compareTo(DateTime.parse(
+                                                              "2024-04-03 ${selectedDepartureTimes[index]!}:00")) >
+                                                      0) {
+                                                    selectedDepartureTimes[
+                                                        index] = null;
+                                                    DepartutureTimesController[
+                                                            index]
+                                                        .clear();
+                                                    _showErrorSnackbar(
+                                                        'The Departure Time for flight ${index + 1} must be after the Arrival time $index');
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
                                         });
                                       },
                                       validator: (val) {
@@ -805,9 +1042,73 @@ class _FormForOneWayState extends State<FormForOneWay> {
                                     width: 80,
                                     child: DateTimePicker(
                                       type: DateTimePickerType.time,
+                                      controller: ArrivalTimesController[index],
                                       onChanged: (val) {
                                         setState(() {
                                           selectedArrivalTimes[index] = val;
+                                          if (selectedArrivalDates[index] ==
+                                                  null ||
+                                              selectedDepartureDates[index] ==
+                                                  null) {
+                                            selectedArrivalTimes[index] = null;
+                                            ArrivalTimesController[index]
+                                                .clear();
+                                            if (stopCount == 0) {
+                                              _showErrorSnackbar(
+                                                  'Please select the Departure and Arrival Dates before selecting the Arrival time');
+                                            } else {
+                                              _showErrorSnackbar(
+                                                  'Please select the Departure and Arrival Dates for flight ${index + 1} before selecting the Arrival time');
+                                            }
+                                          } else {
+                                            if (selectedDepartureDates[index] ==
+                                                    selectedArrivalDates[
+                                                        index] &&
+                                                selectedDepartureTimes[index] !=
+                                                    null) {
+                                              if (DateTime.parse(
+                                                          "2024-04-03 ${selectedArrivalTimes[index]!}:00")
+                                                      .compareTo(DateTime.parse(
+                                                          "2024-04-03 ${selectedDepartureTimes[index]!}:00")) <=
+                                                  0) {
+                                                selectedArrivalTimes[index] =
+                                                    null;
+                                                ArrivalTimesController[index]
+                                                    .clear();
+                                                _showErrorSnackbar(
+                                                    'The Departure Time must be before the Arrival time');
+                                              }
+                                            }
+                                            if (selectedArrivalTimes[index] !=
+                                                null) {
+                                              if (index < stopCount - 1 &&
+                                                  selectedDepartureDates[
+                                                          index + 1] !=
+                                                      null &&
+                                                  selectedDepartureDates[
+                                                          index + 1] ==
+                                                      selectedArrivalDates[
+                                                          index]) {
+                                                if (selectedDepartureTimes[
+                                                        index + 1] !=
+                                                    null) {
+                                                  if (DateTime.parse(
+                                                              "2024-04-03 ${selectedDepartureTimes[index + 1]!}:00")
+                                                          .compareTo(DateTime.parse(
+                                                              "2024-04-03 ${selectedArrivalTimes[index]!}:00")) >
+                                                      0) {
+                                                    selectedArrivalTimes[
+                                                        index] = null;
+                                                    ArrivalTimesController[
+                                                            index]
+                                                        .clear();
+                                                    _showErrorSnackbar(
+                                                        'The Departure Time for flight ${index + 2} must be after the Arrival time ${index + 1}');
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
                                         });
                                       },
                                       validator: (val) {
@@ -875,11 +1176,14 @@ class _FormForOneWayState extends State<FormForOneWay> {
                                   width: 0.8 * screenWidth,
                                   child: TextField(
                                     controller: FlightNumber[index],
-                                    keyboardType: TextInputType.number,
+                                    keyboardType:
+                                        TextInputType.numberWithOptions(
+                                            signed: true, decimal: true),
                                     inputFormatters: <TextInputFormatter>[
                                       FilteringTextInputFormatter.digitsOnly,
                                       LengthLimitingTextInputFormatter(5),
                                     ],
+                                    textInputAction: TextInputAction.done,
                                     decoration: InputDecoration(
                                       prefixIcon: Icon(
                                         Icons.numbers,
@@ -918,8 +1222,7 @@ class _FormForOneWayState extends State<FormForOneWay> {
                             ),
                           ),
                           Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(18.0, 10, 18, 10),
+                            padding: const EdgeInsets.fromLTRB(18.0, 10, 18, 0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -927,7 +1230,9 @@ class _FormForOneWayState extends State<FormForOneWay> {
                                   width: 0.8 * screenWidth,
                                   child: TextField(
                                     controller: Price[index],
-                                     keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
+                                    keyboardType:
+                                        TextInputType.numberWithOptions(
+                                            signed: true, decimal: true),
                                     inputFormatters: <TextInputFormatter>[
                                       FilteringTextInputFormatter.digitsOnly,
                                       LengthLimitingTextInputFormatter(5),
@@ -975,82 +1280,67 @@ class _FormForOneWayState extends State<FormForOneWay> {
                     );
                   },
                 ),
-              ],
-            ),
-            if (areTextFieldsFilled())
-              GestureDetector(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                        color: Colors.grey[800],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(18.0),
-                        child: Text('Add To Trip',
-                            style: TextStyle(
-                              color: Colors.white,
-                            )),
+                GestureDetector(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 20.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                          color: Colors.grey[800],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(18.0),
+                          child: Text('Add To Trip',
+                              style: TextStyle(
+                                color: Colors.white,
+                              )),
+                        ),
                       ),
                     ),
-                  ),
-                  onTap: () {
-                    for (int i = 0; i <= stopCount; i++) {
-                      TicketData newTicket = TicketData(
-                        fromAirport: i == 0
-                            ? selectedFromAirport!['name']!
-                            : selectedIntermediateAirports[i - 1]!['name']!,
-                        toAirport: i == stopCount
-                            ? selectedToAirport!['name']!
-                            : selectedIntermediateAirports[i]!['name']!,
-                        topText: i == 0
-                            ? selectedFromAirport!['code']!
-                            : selectedIntermediateAirports[i - 1]!['code']!,
-                        bottomText: i == stopCount
-                            ? selectedToAirport!['code']!
-                            : selectedIntermediateAirports[i]!['code']!,
-                        price: Prices[i]!,
-                        isLastItem: false,
-                        passengers: 0,
-                        duration: calculateDuration(
-                            selectedDepartureDates[i],
-                            selectedDepartureTimes[i],
-                            selectedArrivalDates[i],
-                            selectedArrivalTimes[i]),
-                        flightNumber: FlightNumbers[i]!,
-                        flightOperator: FlightOperators[i]!,
-                        fromDate: DateFormat('dd MMM')
-                            .format(selectedDepartureDates[i]!),
-                        toDate: DateFormat('dd MMM')
-                            .format(selectedArrivalDates[i]!),
-                        fromTime: selectedDepartureTimes[i]!,
-                        toTime: selectedArrivalTimes[i]!,
-                      );
-                      ticketsData[i] = newTicket;
-                    }
-                    widget.onTicketAdded(ticketsData);
-                    Navigator.pop(context);
-                    // for (int i = 0; i < ticketsData.length; i++) {
-                    //   TicketData ticket = ticketsData[i];
-                    //   print('Ticket $i:');
-                    //   print('From Airport: ${ticket.fromAirport}');
-                    //   print('To Airport: ${ticket.toAirport}');
-                    //   print('Top Text: ${ticket.topText}');
-                    //   print('Bottom Text: ${ticket.bottomText}');
-                    //   print('Price: ${ticket.price}');
-                    //   print('Is Last Item: ${ticket.isLastItem}');
-                    //   print('Passengers: ${ticket.passengers}');
-                    //   print('Duration: ${ticket.duration}');
-                    //   print('Flight Number: ${ticket.flightNumber}');
-                    //   print('Flight Operator: ${ticket.flightOperator}');
-                    //   print('From Date: ${ticket.fromDate}');
-                    //   print('To Date: ${ticket.toDate}');
-                    //   print('From Time: ${ticket.fromTime}');
-                    //   print('To Time: ${ticket.toTime}');
-                    //   print('------------------');
-                    // }
-                  }),
+                    onTap: () {
+                      if (areTextFieldsFilled()) {
+                        for (int i = 0; i <= stopCount; i++) {
+                          TicketData newTicket = TicketData(
+                            fromAirport: i == 0
+                                ? selectedFromAirport!['name']!
+                                : selectedIntermediateAirports[i - 1]!['name']!,
+                            toAirport: i == stopCount
+                                ? selectedToAirport!['name']!
+                                : selectedIntermediateAirports[i]!['name']!,
+                            topText: i == 0
+                                ? selectedFromAirport!['code']!
+                                : selectedIntermediateAirports[i - 1]!['code']!,
+                            bottomText: i == stopCount
+                                ? selectedToAirport!['code']!
+                                : selectedIntermediateAirports[i]!['code']!,
+                            price: Prices[i]!,
+                            isLastItem: false,
+                            passengers: 0,
+                            duration: calculateDuration(
+                                selectedDepartureDates[i],
+                                selectedDepartureTimes[i],
+                                selectedArrivalDates[i],
+                                selectedArrivalTimes[i]),
+                            flightNumber: FlightNumbers[i]!,
+                            flightOperator: FlightOperators[i]!,
+                            fromDate: DateFormat('dd MMM')
+                                .format(selectedDepartureDates[i]!),
+                            toDate: DateFormat('dd MMM')
+                                .format(selectedArrivalDates[i]!),
+                            fromTime: selectedDepartureTimes[i]!,
+                            toTime: selectedArrivalTimes[i]!,
+                          );
+                          ticketsData[i] = newTicket;
+                        }
+                        widget.onTicketAdded(ticketsData);
+                        Navigator.pop(context);
+                      } else {
+                        _showErrorSnackbar(
+                            'Please fill all fields to add to trip');
+                      }
+                    }),
+              ],
+            ),
           ],
         ),
       ),

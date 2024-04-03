@@ -1,11 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/utils/constants.dart';
 
 class FriendsIcons extends StatelessWidget {
-  const FriendsIcons({super.key});
+  FriendsIcons({super.key});
+  String photoURL =
+      'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80';
 
   @override
   Widget build(BuildContext context) {
@@ -19,25 +22,55 @@ class FriendsIcons extends StatelessWidget {
         if (index == 0) {
           return Row(
             children: [
-              Container(
-                height: 50,
-                width: 50,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: themeProvider.themeMode == ThemeMode.dark
-                      ? Colors.black
-                      : Colors.white,
-                  border: Border.all(
+              GestureDetector(
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Send Invitation'),
+                          content: TextField(
+                            decoration: InputDecoration(
+                              hintText: 'Enter your friend\'s email address',
+                            ),
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('Send Invitation'),
+                            ),
+                          ],
+                        );
+                      });
+                },
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
                     color: themeProvider.themeMode == ThemeMode.dark
-                        ? Colors.white
-                        : Colors.black,
-                    width: 0.5,
+                        ? Colors.black
+                        : Colors.white,
+                    border: Border.all(
+                      color: themeProvider.themeMode == ThemeMode.dark
+                          ? Colors.white
+                          : Colors.black,
+                      width: 0.5,
+                    ),
                   ),
-                ),
-                child: Center(
-                  child: Icon(
-                    Icons.add,
-                    color: kGreenColor,
+                  child: Center(
+                    child: Icon(
+                      Icons.add,
+                      color: kGreenColor,
+                    ),
                   ),
                 ),
               ),
@@ -53,21 +86,9 @@ class FriendsIcons extends StatelessWidget {
               onTap: () {
                 _showNameContainer(context);
               },
-              child: Container(
-                height: 50,
-                width: 50,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: themeProvider.themeMode == ThemeMode.dark
-                      ? Colors.grey.shade800
-                      : Colors.grey.shade300,
-                ),
-                child: Center(
-                  child: Text('N',
-                      style: TextStyle(
-                        fontSize: 18,
-                      )),
-                ),
+              child: CircleAvatar(
+                radius: 25,
+                backgroundImage: NetworkImage(photoURL),
               ),
             ),
             if (index != 14)

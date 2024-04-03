@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, curly_braces_in_flow_control_structures
 
 import 'package:customizable_counter/customizable_counter.dart';
 import 'package:flutter/material.dart';

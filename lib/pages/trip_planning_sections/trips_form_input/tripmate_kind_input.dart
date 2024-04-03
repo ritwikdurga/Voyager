@@ -137,8 +137,8 @@ class _TripMateKindState extends State<TripMateKind>
         decoration: BoxDecoration(
           border: Border.all(
             color: selectedContainerIndex == index
-                ? Colors.grey.shade600
-                : Colors.grey.shade900,
+                ? Colors.grey.shade900
+                : Colors.grey.shade400,
             width: 2.0,
           ),
           borderRadius: BorderRadius.circular(25),

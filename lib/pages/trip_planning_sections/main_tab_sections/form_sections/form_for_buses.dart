@@ -23,6 +23,8 @@ class _FormForBusesState extends State<FormForBuses> {
   TextEditingController toBusStopcontroller = TextEditingController();
   TextEditingController busOperator = TextEditingController();
   TextEditingController priceController = TextEditingController();
+  TextEditingController DepartureTimeController = TextEditingController();
+  TextEditingController ArrivalTimeController = TextEditingController();
   DateTime? selectedDepartureDate = null;
   DateTime? selectedArrivalDate = null;
   String? selectedFromBusStop = null;
@@ -105,21 +107,22 @@ class _FormForBusesState extends State<FormForBuses> {
                 setState(() {
                   if (Arrival) {
                     selectedArrivalDate = date;
-                    // print(selectedArrivalDate);
-                    // print(selectedDepartureDate);
-                    // DateTime departureDate=DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day);
-                    // if(selectedDepartureDate!=null) departureDate=selectedDepartureDate!;
-                    // DateTime ArrivalDate=date;
-                    // if(selectedDepartureDate!=null && (departureDate.isBefore(ArrivalDate) || departureDate.isAtSameMomentAs(ArrivalDate))){
-                    //   _showErrorSnackbar('The Arrival Date must be after Departure Date');
-                    //   selectedArrivalDate=null;
-                    // }
+                    if (selectedDepartureDate != null &&
+                        selectedDepartureDate!.isAfter(selectedArrivalDate!)) {
+                      Navigator.of(context).pop();
+                      selectedArrivalDate = null;
+                      _showErrorSnackbar(
+                          'Arrival Date must be after the Departure Date');
+                    }
                   } else {
                     selectedDepartureDate = date;
-                    // if(selectedArrivalDate!=null && selectedArrivalDate!.isAfter(selectedDepartureDate!)){
-                    //   _showErrorSnackbar('The Departure Date must be before Arrival Date');
-                    //   selectedDepartureDate=null;
-                    // }
+                    if (selectedArrivalDate != null &&
+                        selectedDepartureDate!.isAfter(selectedArrivalDate!)) {
+                      Navigator.of(context).pop();
+                      selectedDepartureDate = null;
+                      _showErrorSnackbar(
+                          'Arrival Date must be after the Departure Date');
+                    }
                   }
                 });
               },
@@ -333,14 +336,39 @@ class _FormForBusesState extends State<FormForBuses> {
                         width: 80,
                         child: DateTimePicker(
                           type: DateTimePickerType.time,
+                          controller: DepartureTimeController,
                           onChanged: (val) {
-                            setState(() {
-                              selectedDepartureTime = val;
-                              // if(selectedArrivalTime!=null && selectedArrivalDate!=null && selectedArrivalDate==selectedArrivalDate && DateTime.parse('1970-01-01 $selectedDepartureTime').isBefore(DateTime.parse('1970-01-01 $selectedArrivalTime'))){
-                              //   selectedDepartureTime=null;
-                              //   _showErrorSnackbar('Selected Departure Time must be before the Selected arrival Time.');
-                              // }
-                            });
+                            selectedDepartureTime = val;
+                            if (selectedDepartureDate == null &&
+                                selectedArrivalDate == null) {
+                              setState(() {
+                                selectedDepartureTime = null;
+                                DepartureTimeController.clear();
+                              });
+                              _showErrorSnackbar(
+                                  'Please first select Departure Date and Arrival Date');
+                            } else {
+                              if (selectedArrivalTime != null) {
+                                if (selectedArrivalDate !=
+                                    selectedDepartureDate) {
+                                } else {
+                                  if (DateTime.parse(
+                                              "2024-04-03 ${selectedArrivalTime!}:00")
+                                          .compareTo(DateTime.parse(
+                                              "2024-04-03 ${selectedDepartureTime!}:00")) >
+                                      0) {
+                                  } else {
+                                    setState(() {
+                                      selectedDepartureTime = null;
+                                      DepartureTimeController.clear();
+                                    });
+                                    _showErrorSnackbar(
+                                        'The departure time must be before the arrival time');
+                                  }
+                                }
+                              }
+                            }
+                            setState(() {});
                           },
                           validator: (val) {
                             return null;
@@ -365,14 +393,39 @@ class _FormForBusesState extends State<FormForBuses> {
                         width: 80,
                         child: DateTimePicker(
                           type: DateTimePickerType.time,
+                          controller: ArrivalTimeController,
                           onChanged: (val) {
-                            setState(() {
-                              selectedArrivalTime = val;
-                              //  if(selectedDepartureTime!=null && selectedArrivalDate!=null && selectedArrivalDate==selectedArrivalDate && DateTime.parse('1970-01-01 $selectedDepartureTime').isBefore(DateTime.parse('1970-01-01 $selectedArrivalTime'))){
-                              //   selectedArrivalTime=null;
-                              //   _showErrorSnackbar('Selected Arrival Time must be after the Selected Departure Time.');
-                              // }
-                            });
+                            selectedArrivalTime = val;
+                            if (selectedDepartureDate == null &&
+                                selectedArrivalDate == null) {
+                              setState(() {
+                                selectedArrivalTime = null;
+                                ArrivalTimeController.clear();
+                              });
+                              _showErrorSnackbar(
+                                  'Please first select Departure Date and Arrival Date');
+                            } else {
+                              if (selectedDepartureTime != null) {
+                                if (selectedArrivalDate !=
+                                    selectedDepartureDate) {
+                                } else {
+                                  if (DateTime.parse(
+                                              "2024-04-03 ${selectedArrivalTime!}:00")
+                                          .compareTo(DateTime.parse(
+                                              "2024-04-03 ${selectedDepartureTime!}:00")) >
+                                      0) {
+                                  } else {
+                                    setState(() {
+                                      selectedArrivalTime = null;
+                                      ArrivalTimeController.clear();
+                                    });
+                                    _showErrorSnackbar(
+                                        'The departure time must be before the arrival time');
+                                  }
+                                }
+                              }
+                            }
+                            setState(() {});
                           },
                           validator: (val) {
                             print(val);
@@ -436,11 +489,13 @@ class _FormForBusesState extends State<FormForBuses> {
                   SizedBox(
                     width: 0.95 * screenWidth,
                     child: TextField(
-                      keyboardType: TextInputType.number,
+                      keyboardType: TextInputType.numberWithOptions(
+                          signed: true, decimal: true),
                       inputFormatters: <TextInputFormatter>[
                         FilteringTextInputFormatter.digitsOnly,
-                        LengthLimitingTextInputFormatter(6),
+                        LengthLimitingTextInputFormatter(5),
                       ],
+                      textInputAction: TextInputAction.done,
                       controller: priceController,
                       decoration: InputDecoration(
                         prefixIcon: Icon(
@@ -477,25 +532,25 @@ class _FormForBusesState extends State<FormForBuses> {
                 ],
               ),
             ),
-            if (areTextFieldsFilled())
-              GestureDetector(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                        color: Colors.grey[800],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(18.0),
-                        child: Text('Add To Trip',
-                            style: TextStyle(
-                              color: Colors.white,
-                            )),
-                      ),
+            GestureDetector(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                      color: Colors.grey[800],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: Text('Add To Trip',
+                          style: TextStyle(
+                            color: Colors.white,
+                          )),
                     ),
                   ),
-                  onTap: () {
+                ),
+                onTap: () {
+                  if (areTextFieldsFilled()) {
                     Navigator.pop(context);
                     BusData busData = BusData(
                       fromBusStop: selectedFromBusStop!,
@@ -509,7 +564,10 @@ class _FormForBusesState extends State<FormForBuses> {
                       toTime: selectedArrivalTime!,
                     );
                     widget.onBusAdded(busData);
-                  }),
+                  } else {
+                    _showErrorSnackbar('Please fill all fields to add to trip');
+                  }
+                }),
           ],
         ),
       ),
@@ -567,5 +625,4 @@ class BusData {
       note: map['note'],
     );
   }
-  
 }
