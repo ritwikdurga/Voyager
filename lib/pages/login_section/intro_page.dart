@@ -1,7 +1,16 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables, prefer_const_literals_to_create_immutables
 
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:provider/provider.dart';
 import 'package:voyager/auth/login_or_register.dart';
+import 'package:widget_circular_animator/widget_circular_animator.dart';
+
+import '../../utils/circular_animator.dart';
+import '../../utils/constants.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -19,226 +28,167 @@ class IntroPage extends StatefulWidget {
 
 class _IntroPageState extends State<IntroPage>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<Alignment> _topAlignmentAnimation;
-  late Animation<Alignment> _bottomAlignmentAnimation;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: const Duration(seconds: 20),
-      vsync: this,
-    );
-    _topAlignmentAnimation = TweenSequence<Alignment>(
-      [
-        TweenSequenceItem(
-          tween: Tween(
-            begin: Alignment.topLeft,
-            end: Alignment.topRight,
-          ),
-          weight: 1,
-        ),
-        TweenSequenceItem(
-          tween: Tween(
-            begin: Alignment.topRight,
-            end: Alignment.bottomRight,
-          ),
-          weight: 1,
-        ),
-        TweenSequenceItem(
-          tween: Tween(
-            begin: Alignment.bottomRight,
-            end: Alignment.bottomLeft,
-          ),
-          weight: 1,
-        ),
-        TweenSequenceItem(
-          tween: Tween(
-            begin: Alignment.bottomLeft,
-            end: Alignment.topLeft,
-          ),
-          weight: 1,
-        ),
-      ],
-    ).animate(_controller);
-
-    _bottomAlignmentAnimation = TweenSequence<Alignment>(
-      [
-        TweenSequenceItem(
-          tween: Tween(
-            begin: Alignment.bottomRight,
-            end: Alignment.bottomLeft,
-          ),
-          weight: 1,
-        ),
-        TweenSequenceItem(
-          tween: Tween(
-            begin: Alignment.bottomLeft,
-            end: Alignment.topLeft,
-          ),
-          weight: 1,
-        ),
-        TweenSequenceItem(
-          tween: Tween(
-            begin: Alignment.topLeft,
-            end: Alignment.topRight,
-          ),
-          weight: 1,
-        ),
-        TweenSequenceItem(
-          tween: Tween(
-            begin: Alignment.topRight,
-            end: Alignment.bottomRight,
-          ),
-          weight: 1,
-        ),
-      ],
-    ).animate(_controller);
-    _controller.repeat();
   }
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Stack(
+        backgroundColor: themeProvider.themeMode == ThemeMode.dark
+            ? Colors.black
+            : Colors.white,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            AnimatedBuilder(
-              animation: _controller,
-              builder: (context, _) {
-                return Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: _topAlignmentAnimation.value,
-                      end: _bottomAlignmentAnimation.value,
-                      colors: [
-                        Colors.blueAccent,
-                        Colors.white60,
-                        Colors.black45,
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
             Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Center(
-                  child: SafeArea(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 28.0),
-                      child: Text(
-                        'Lets Plan Your Trip!',
-                        style: TextStyle(
-                          fontSize: 60,
-                          fontFamily: 'ProductSans',
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                    child: CircularAnimator(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle, color: themeProvider.themeMode == ThemeMode.dark ? Colors.black : Colors.white),
+                        child: Icon(
+                          Icons.travel_explore,
+                          color: Colors.blueAccent,
+                          size: 60,
                         ),
                       ),
+                    )),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Voyager',
+                  style: TextStyle(
+                    fontSize: 60,
+                    fontFamily: GoogleFonts.pacifico().fontFamily,
+                    fontWeight: FontWeight.bold,
+                    color: themeProvider.themeMode == ThemeMode.dark
+                        ? Colors.white
+                        : Colors.black,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'Explore, Plan, Experience',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'ProductSans',
+                    fontWeight: FontWeight.bold,
+                    color: themeProvider.themeMode == ThemeMode.dark
+                        ? Colors.grey[400]
+                        : Colors.grey[700],
+                  ),
+                ),
+              ],
+            ),
+
+
+            SizedBox(
+              height: 50,
+            ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 130, // Adjust the width as per your requirement
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginOrRegister()));
+
+                      // Navigate to the second screen using a named route.
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.blueAccent,
+                      backgroundColor: Colors.white,
+                      elevation: 10,
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            25), // Button border radius
+                      ),
+                    ),
+                    child: Text(
+                      'Login',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
                 SizedBox(
-                  height: 200,
+                  width: 20,
                 ),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 150, // Adjust the width as per your requirement
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginOrRegister()));
-
-                          // Navigate to the second screen using a named route.
-                        },
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.black,
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                25), // Button border radius
-                          ),
-                        ),
-                        child: Text(
-                          'Login',
-                          style: TextStyle(fontSize: 18),
-                        ),
+                SizedBox(
+                  width: 130, // Adjust the width as per your requirement
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // check if user is logged in or not
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  LoginOrRegister(noReg: true)));
+                      // Navigate to the second screen using a named route.
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.blueAccent,
+                      backgroundColor: Colors.white,
+                      elevation: 10,
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            25), // Button border radius
                       ),
                     ),
-                    SizedBox(
-                      width: 20,
+                    child: Text(
+                      'Signup',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(
-                      width: 150, // Adjust the width as per your requirement
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // check if user is logged in or not
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      LoginOrRegister(noReg: true)));
-                          // Navigate to the second screen using a named route.
-                        },
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.black,
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                25), // Button border radius
-                          ),
-                        ),
-                        child: Text(
-                          'Signup',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-
-                // SizedBox(
-                //   width: 200, // Adjust the width as per your requirement
-                //   child: ElevatedButton(
-                //     onPressed: () {
-                //       // Navigate to the second screen using a named route.
-                //     },
-                //     style: ElevatedButton.styleFrom(
-                //       elevation: 5, // Add shadow elevation
-                //       padding: EdgeInsets.symmetric(vertical: 15),
-                //       shape: RoundedRectangleBorder(
-                //         borderRadius:
-                //             BorderRadius.circular(25), // Button border radius
-                //       ),
-                //     ),
-                //     child: Row(
-                //       mainAxisAlignment: MainAxisAlignment.center,
-                //       children: [
-                //         Text(
-                //           'Get Started',
-                //           style: TextStyle(fontSize: 18),
-                //         ),
-                //         SizedBox(width: 10),
-                //         // Space between text and arrow icon
-                //         Icon(Icons.arrow_forward)
-                //         // Arrow icon
-                //       ],
-                //     ),
-                //   ),
-                // ),
+                  ),
+                ),
               ],
-            ),
+            )
+
+            // SizedBox(
+            //   width: 200, // Adjust the width as per your requirement
+            //   child: ElevatedButton(
+            //     onPressed: () {
+            //       // Navigate to the second screen using a named route.
+            //     },
+            //     style: ElevatedButton.styleFrom(
+            //       elevation: 5, // Add shadow elevation
+            //       padding: EdgeInsets.symmetric(vertical: 15),
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius:
+            //             BorderRadius.circular(25), // Button border radius
+            //       ),
+            //     ),
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.center,
+            //       children: [
+            //         Text(
+            //           'Get Started',
+            //           style: TextStyle(fontSize: 18),
+            //         ),
+            //         SizedBox(width: 10),
+            //         // Space between text and arrow icon
+            //         Icon(Icons.arrow_forward)
+            //         // Arrow icon
+            //       ],
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

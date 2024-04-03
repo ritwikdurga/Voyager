@@ -1,11 +1,10 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
+import 'package:voyager/utils/constants.dart';
+import 'package:flutter_bounceable/flutter_bounceable.dart'; // Import Bounceable package
 
-import "package:flutter/material.dart";
-import "package:lottie/lottie.dart";
-import "package:provider/provider.dart";
-import "package:voyager/utils/constants.dart";
-
-import "../../utils/colors.dart";
+import '../../utils/colors.dart';
 
 class trips extends StatefulWidget {
   trips({
@@ -52,8 +51,7 @@ class _tripsState extends State<trips> with SingleTickerProviderStateMixin {
           ? Colors.black
           : Colors.white,
       elevation: 0,
-      child: InkWell(
-        splashColor: Colors.blueAccent,
+      child: Bounceable( // Wrap InkWell with Bounceable
         onTap: () {
           // redirect to planning page.
         },

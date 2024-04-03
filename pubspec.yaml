@@ -40,6 +40,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_slidable:
   customizable_counter: ^1.0.4
+  animated_text_kit: ^4.2.2
+  widget_circular_animator:
+  google_fonts:
+  flutter_bounceable: ^1.1.0
   avatar_glow: ^3.0.1
   lottie: ^3.1.0
   firebase_core: ^2.26.0
