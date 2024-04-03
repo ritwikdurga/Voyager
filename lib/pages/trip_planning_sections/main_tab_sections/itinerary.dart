@@ -14,11 +14,15 @@ class ItineraryTrips extends StatefulWidget {
   State<ItineraryTrips> createState() => _ItineraryTripsState();
 }
 
-class _ItineraryTripsState extends State<ItineraryTrips> {
+class _ItineraryTripsState extends State<ItineraryTrips>
+    with AutomaticKeepAliveClientMixin {
   late BlockIti _blockIti; // Declare _blockIti variable without initialization
 
   late DateTime _selectedStartDate;
   late DateTime _selectedEndDate;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {

@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:voyager/components/explore_section/travel_info_icon.dart';
 
 class TravelInfoList extends StatelessWidget {
@@ -13,7 +14,7 @@ class TravelInfoList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        TravelInfoIcon(icon: Icon(Icons.history, size: 30), text: 'History'),
+        TravelInfoIcon(icon: Icon(Icons.account_balance, size: 30), text: 'Understand'),
         SizedBox(
             width: 5,
             child: Padding(
@@ -23,7 +24,7 @@ class TravelInfoList extends StatelessWidget {
               ),
             )),
         TravelInfoIcon(
-            icon: Icon(Icons.apartment, size: 30), text: 'Districts'),
+            icon: Icon(Icons.flight, size: 30), text: 'Travel'),
         SizedBox(
             width: 5,
             child: Padding(
@@ -53,7 +54,7 @@ class TravelInfoList extends StatelessWidget {
               ),
             )),
         TravelInfoIcon(
-            icon: Icon(Icons.account_balance, size: 30), text: 'Understand'),
+            icon: Icon(Icons.safety_check, size: 30), text: 'Safety'),
       ],
     );
   }
