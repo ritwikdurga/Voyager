@@ -3,11 +3,11 @@
 <plist version="1.0">
   <dict>
     <key>io.flutter.embedded_views_preview</key>
-        <true/>
-        <key>MGLMapboxAccessToken</key>
-        <string>YOUR MAPBOX API KEY</string>
-    	<key>NSLocationWhenInUseUsageDescription</key>
-    	<string>Allow location access</string>
+    <true/>
+    <key>MGLMapboxAccessToken</key>
+    <string>YOUR MAPBOX API KEY</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Allow location access</string>
     <!-- Put me in the [my_project]/ios/Runner/Info.plist file -->
     <!-- Google Sign-in Section -->
     <key>CFBundleURLTypes</key>
@@ -27,9 +27,9 @@
     <key>NSPhotoLibraryUsageDescription</key>
     <string>Used to demonstrate image picker plugin</string>
     <key>NSCameraUsageDescription</key>
-     <string>Use to demonstrate image picker plugin</string>
+    <string>Use to demonstrate image picker plugin</string>
     <key>NSMicrophoneUsageDescription</key>
-     <string>Use to capture audio for image picker plugin</string>
+    <string>Use to capture audio for image picker plugin</string>
     <key>CFBundleDevelopmentRegion</key>
     <string>$(DEVELOPMENT_LANGUAGE)</string>
     <key>CFBundleDisplayName</key>
@@ -74,9 +74,10 @@
     <key>UIApplicationSupportsIndirectInputEvents</key>
     <true/>
     <key>LSApplicationQueriesSchemes</key>
-<array>
-  <string>sms</string>
-  <string>tel</string>
-</array>
+    <array>
+      <string>sms</string>
+      <string>tel</string>
+      <string>mailto</string>
+    </array>
   </dict>
 </plist>
