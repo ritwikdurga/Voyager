@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import '../../../components/trip_planning_section/horizontal_calendar.dart';
@@ -64,6 +66,27 @@ class _ItineraryTripsState extends State<ItineraryTrips>
               ],
             ),
           ),
+          // add an add icon
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.auto_fix_normal,
+                color: Colors.blueAccent,
+                size: 18.0,
+              ),
+              Text('Autofill Itinerary',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'ProductSans',
+                    color: Colors.blueAccent,
+                    fontWeight: FontWeight.bold,
+                  ),
+              ),
+            ],
+          ),
+
+
           Padding(
             padding: const EdgeInsets.only(bottom: 15.0),
             child: Slidable(

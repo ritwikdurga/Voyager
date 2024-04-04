@@ -18,9 +18,20 @@ class Booking extends StatefulWidget {
 }
 
 class _BookingState extends State<Booking> with TickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(() {
+      Provider.of<TabIndexProvider>(context, listen: false)
+          .setTabIndex(_tabController.index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    TabController _tabController = TabController(length: 2, vsync: this);
     final themeProvider = Provider.of<ThemeProvider>(context);
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(

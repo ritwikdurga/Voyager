@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:provider/provider.dart';
+import 'package:voyager/utils/constants.dart';
 
 import 'date_picker.dart';
 
@@ -41,8 +44,9 @@ class _CustomStartEndCalState extends State<CustomStartEndCal> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Container(
-      height: 80,
+      height: 90,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 18.0),
         child: Row(
@@ -51,7 +55,11 @@ class _CustomStartEndCalState extends State<CustomStartEndCal> {
               onTap: () {
                 _selectDate(context, isStartDate: true);
               },
-              child: Icon(Icons.calendar_today),
+              child: Icon(Iconsax.calendar5,
+              color: themeProvider.themeMode == ThemeMode.dark
+                            ? Colors.white
+                            : Colors.black,
+              ),
             ),
             SizedBox(width: 10),
             Expanded(
@@ -72,6 +80,7 @@ class _CustomStartEndCalState extends State<CustomStartEndCal> {
                   return Container(
                     margin: EdgeInsets.symmetric(horizontal: 5),
                     padding: EdgeInsets.all(10),
+                    width:80,
                     decoration: BoxDecoration(
                       color: isSelected
                           ? Colors.blueAccent ??
@@ -83,19 +92,22 @@ class _CustomStartEndCalState extends State<CustomStartEndCal> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          '${_getWeekdayAbbreviation(currentDate)}',
+                          '${_getWeekdayAbbreviation(currentDate)}'.toUpperCase(),
                           style: TextStyle(
                             color: isSelected
                                 ? Colors.white
                                 : widget.textColor ?? Colors.black,
                             fontWeight: FontWeight.bold,
+                            fontFamily: GoogleFonts.rubik80sFade().fontFamily
                           ),
                         ),
                         SizedBox(height: 5),
                         Text(
-                          '${_getMonthAbbreviation(currentDate.month)} ${currentDate.day}',
+                          '${_getMonthAbbreviation(currentDate.month)} ${currentDate.day}'.toUpperCase(),
                           style: TextStyle(
                             color: isSelected ? Colors.white : widget.textColor,
+                            fontFamily: GoogleFonts.rubik().fontFamily,
+                            fontWeight: FontWeight.w600
                           ),
                         ),
                       ],

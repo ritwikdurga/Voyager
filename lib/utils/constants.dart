@@ -12,6 +12,17 @@ const kGreenColor = Color(0xFF1ED760);
 const kRedColor = Color(0xFFD32F2F);
 const kBlackColor = Color(0xFF18181B);
 
+class TabIndexProvider extends ChangeNotifier {
+  int _selectedIndex = 0;
+
+  int get selectedIndex => _selectedIndex;
+
+  void setTabIndex(int index) {
+    _selectedIndex = index;
+    notifyListeners();
+  }
+}
+
 class ThemeProvider extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.dark;
   ThemeMode get themeMode => _themeMode;

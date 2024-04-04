@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/pages/login_section/login_page.dart';
+import 'package:voyager/pages/profile_sections/about_us_page.dart';
 import 'package:voyager/pages/profile_sections/faq_page.dart';
 import 'package:voyager/pages/profile_sections/favourite_page.dart';
 import 'package:voyager/pages/profile_sections/feedback_page.dart';
@@ -157,6 +158,7 @@ class _ProfileState extends State<Profile> {
               Center(
                 child: SizedBox(
                   width: 170,
+                  height: 50,
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -167,12 +169,19 @@ class _ProfileState extends State<Profile> {
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
                       backgroundColor: Colors.blue,
+                      elevation: 15,
                       // Change text color
                       shape: RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.circular(25)), // Rounded corners
                     ),
-                    child: Text('Edit Profile'),
+                    child: Text('Edit Profile',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'ProductSans',
+                          fontWeight: FontWeight.bold,
+                        )
+                    ),
                   ),
                 ),
               ),
@@ -183,7 +192,7 @@ class _ProfileState extends State<Profile> {
                 leading: Container(
                   decoration: BoxDecoration(),
                   child: Icon(
-                    Iconsax.map,
+                    Iconsax.map_15,
                     size: 30,
                     color: themeProvider.themeMode == ThemeMode.dark
                         ? Colors.white
@@ -273,7 +282,7 @@ class _ProfileState extends State<Profile> {
                       ? Colors.white
                       : Colors.black,
                 ),
-                title: Text('About',
+                title: Text('About us',
                     style: TextStyle(
                       color: themeProvider.themeMode == ThemeMode.dark
                           ? Colors.white
@@ -281,6 +290,9 @@ class _ProfileState extends State<Profile> {
                     )),
                 onTap: () {
                   // Navigate to About page
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return AboutUsPage();
+                  }));
                 },
                 trailing: Icon(
                   Icons.arrow_forward_ios,
@@ -325,7 +337,7 @@ class _ProfileState extends State<Profile> {
                 indent: 20,
                 endIndent: 20,
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 5),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

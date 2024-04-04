@@ -35,7 +35,6 @@ class _SearchRoundFlightsState extends State<SearchRoundFlights> {
   void initState() {
     _selectedDate = DateTime.parse(widget.DepartureDate);
     super.initState();
-    getFlights();
   }
 
   late DateTime _selectedDate;
@@ -43,12 +42,12 @@ class _SearchRoundFlightsState extends State<SearchRoundFlights> {
 
   // call the api to get the flights
 
-  Future<void> getFlights() async {
+  Future<List<dynamic>?> getFlights() async {
     var url = Uri.parse(
         'https://sky-scanner3.p.rapidapi.com/flights/search-roundtrip');
 
     var headers = {
-      'X-RapidAPI-Key': '<YOUR API KEY>',
+      'X-RapidAPI-Key': '<Your API key here>',
       'X-RapidAPI-Host': 'sky-scanner3.p.rapidapi.com'
     };
 
@@ -65,13 +64,10 @@ class _SearchRoundFlightsState extends State<SearchRoundFlights> {
 
     if (response.statusCode == 200) {
       var responseBody = json.decode(response.body);
-      setState(() {
-        itineraries = responseBody['data']['itineraries'];
-      });
-      print(itineraries);
-      //print(response.body.itineraries.toString());
+      return responseBody['data']['itineraries'];
     } else {
       print('Request failed with status: ${response.statusCode}.');
+      return null;
     }
   }
 
@@ -90,53 +86,72 @@ class _SearchRoundFlightsState extends State<SearchRoundFlights> {
             Navigator.pop(context);
           },
         ),
-        title: Text('Search Flights'),
+        title: Text('Search Flights',style: TextStyle(color: Colors.blueAccent,fontWeight:FontWeight.bold),),
       ),
       body: SafeArea(
-        child: ListView(
-          scrollDirection: Axis.vertical,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+        child: FutureBuilder<List<dynamic>?>(
+          future: getFlights(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text('Error: ${snapshot.error}'),
+              );
+            } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+              return ListView(
+                scrollDirection: Axis.vertical,
                 children: [
-                  Text(
-                    'Flights from ${widget.selectedFromAirport?['place']} to ${widget.selectedToAirport?['place']} and back',
-                    style: TextStyle(
-                      fontFamily: 'ProductSans',
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Flights from ${widget.selectedFromAirport?['place']} to ${widget.selectedToAirport?['place']} and back',
+                            style: TextStyle(
+                              fontFamily: 'ProductSans',
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                          ),
+                        ],
+                      ),
                     ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
                   ),
-                ],
-              ),
-            ),
-            itineraries != null
-                ? ListView.builder(
+                  ListView.builder(
                     scrollDirection: Axis.vertical,
-                    itemCount: itineraries.length,
+                    itemCount: snapshot.data!.length,
                     shrinkWrap: true,
                     physics: ClampingScrollPhysics(),
                     itemBuilder: (context, index) {
                       return Column(
                         children: [
                           MultipleTicketsWidget(
-                            ticketsData: [itineraries[index]],
+                            ticketsData: [snapshot.data![index]],
                             passengerCount: widget.PassengerCount,
                           ),
                           SizedBox(height: 10),
                         ],
                       );
                     },
-                  )
-                : SizedBox(),
-          ],
+                  ),
+                ],
+              );
+            } else {
+              return Center(
+                child: Text('No flights available.'),
+              );
+            }
+          },
         ),
       ),
-      //body:  MultipleTicketsWidget(),
     );
   }
 }

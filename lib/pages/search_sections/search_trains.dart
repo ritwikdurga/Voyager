@@ -123,7 +123,7 @@ class _SearchTrainsState extends State<SearchTrains> {
             Navigator.pop(context);
           },
         ),
-        title: Text('Search Trains'),
+        title: Text('Search Trains',style: TextStyle(color: Colors.blueAccent,fontWeight:FontWeight.bold)),
       ),
       body: SafeArea(
         child: Column(
@@ -228,7 +228,6 @@ class _SearchTrainsState extends State<SearchTrains> {
                                             .parse(train['to_sta'])),
                                     duration: formatDuration(train['duration']),
                                     fareData: fareData ?? {},
-                                    // Use default if fareData is null
                                     classes: classTypes,
                                     symbol: Icons.train,
                                     width: width,

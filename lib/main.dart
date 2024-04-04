@@ -28,6 +28,7 @@ Future main() async {
         ),
         ChangeNotifierProvider(create: (_) => MyIndexProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => TabIndexProvider()),
       ],
       child: MyApp(),
     ),

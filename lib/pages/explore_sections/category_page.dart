@@ -96,40 +96,120 @@ class CategoryPage extends StatelessWidget {
                   var website = place['website'];
                   var latitude = place['latitude'];
                   var longitude = place['longitude'];
-                  return ListTile(
-                    title: Text(name),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(address),
-                        Text('Phone: $phone'),
-                        GestureDetector(
-                            child: Text('Website: $website'),
-                            onTap: () {
-                              Uri uri = Uri.parse(website);
-                              launchUrl(uri);
-                            }),
-                      ],
-                    ),
-                    trailing: IconButton(
-                      icon: Icon(Iconsax.map),
-                      onPressed: () async {
-                        final availableMaps = await MapLauncher.installedMaps;
-                        print(availableMaps);
-
-                        if (availableMaps.isNotEmpty) {
-                          try {
-                            await availableMaps.first.showMarker(
-                              coords: Coords(latitude, longitude),
-                              title: name,
-                            );
-                          } catch (e) {
-                            print('Error showing marker: $e');
-                          }
-                        } else {
-                          print('No maps available');
-                        }
-                      },
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: themeProvider.themeMode == ThemeMode.dark
+                              ? Colors.white
+                              : Colors.black,
+                              
+                        ),
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      child: ListTile(
+                        title: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              Text(name,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.deepOrange[400],
+                                    fontFamily: 'ProductSans',
+                                    fontSize: 20,
+                                  ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(address,
+                                style: TextStyle(
+                                  color: Colors.grey[500],
+                                  fontFamily: 'ProductSans',
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                            ),
+                            Row(
+                              children: [
+                                Text('Phone: ',
+                                    style: TextStyle(
+                                      color: themeProvider.themeMode == ThemeMode.dark
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontFamily: 'ProductSans',
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                ),
+                                Text(phone,
+                                    style: TextStyle(
+                                      color: Colors.blueAccent,
+                                      fontFamily: 'ProductSans',
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ), 
+                                ),
+                              ],
+                            ),
+                            GestureDetector(
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    children: [
+                                      Text('Website: ',
+                                          style: TextStyle(
+                                            color: themeProvider.themeMode == ThemeMode.dark
+                                                ? Colors.white
+                                                : Colors.black,
+                                            fontFamily: 'ProductSans',
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                      ),
+                                      Text(website,
+                                          style: TextStyle(
+                                            color: Colors.blueAccent,
+                                            fontFamily: 'ProductSans',
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                onTap: () {
+                                  Uri uri = Uri.parse(website);
+                                  launchUrl(uri);
+                                }),
+                          ],
+                        ),
+                        trailing: IconButton(
+                          icon: Icon(Iconsax.map),
+                          onPressed: () async {
+                            final availableMaps = await MapLauncher.installedMaps;
+                            print(availableMaps);
+                      
+                            if (availableMaps.isNotEmpty) {
+                              try {
+                                await availableMaps.first.showMarker(
+                                  coords: Coords(latitude, longitude),
+                                  title: name,
+                                );
+                              } catch (e) {
+                                print('Error showing marker: $e');
+                              }
+                            } else {
+                              print('No maps available');
+                            }
+                          },
+                        ),
+                      ),
                     ),
                   );
                 },

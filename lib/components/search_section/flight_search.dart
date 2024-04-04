@@ -534,12 +534,12 @@ class _FlightSearchState extends State<FlightSearch> {
                             builder: (context) => SearchFlights(
                                   selectedFromAirport: selectedFromAirport,
                                   selectedToAirport: selectedToAirport,
-                                  DepartureDate:
+                                  departureDate:
                                       '${selectedDepartureDate?.year}-${selectedDepartureDate?.month.toString().padLeft(2, '0')}-${selectedDepartureDate!.day.toString().padLeft(2, '0')}',
-                                  Class: selectedStrings.isNotEmpty
+                                  flightClass: selectedStrings.isNotEmpty
                                       ? selectedStrings[0]
                                       : null,
-                                  PassengerCount: counterCount.toInt(),
+                                  passengerCount: counterCount.toInt(),
                                 )));
                   }
                   else {

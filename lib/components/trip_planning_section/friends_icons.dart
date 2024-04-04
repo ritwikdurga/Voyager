@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -27,27 +28,38 @@ class FriendsIcons extends StatelessWidget {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return AlertDialog(
+                        return CupertinoAlertDialog(
                           title: Text('Send Invitation'),
-                          content: TextField(
-                            decoration: InputDecoration(
-                              hintText: 'Enter your friend\'s email address',
+                          content: Material(
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  fillColor: Colors.transparent,
+                                  hintText: 'Enter email of your friend',
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey,
+                                  ),
+                                  
+                                ),
+                              ),
                             ),
                           ),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
+                          actions: [
+                            CupertinoDialogAction(
                               child: Text('Cancel'),
-                            ),
-                            TextButton(
                               onPressed: () {
-                                Navigator.of(context).pop();
+                                Navigator.pop(context);
                               },
-                              child: Text('Send Invitation'),
                             ),
-                          ],
+                            CupertinoDialogAction(
+                              child: Text('Send'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ]
                         );
                       });
                 },

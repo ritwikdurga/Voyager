@@ -72,6 +72,7 @@ dependencies:
   webview_flutter:
   map_launcher: ^3.2.0
   maps_launcher: ^2.2.1
+  flutter_svg:
 
 
 dev_dependencies:

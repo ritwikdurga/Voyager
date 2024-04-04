@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:iconsax/iconsax.dart';
@@ -158,6 +159,33 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
               child: Column(
                 children: [
                   Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          child: Icon(
+                            Icons.arrow_back_ios,
+                            color: themeProvider.themeMode == ThemeMode.dark
+                                ? Colors.black
+                                : Colors.white,
+                          ),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        Spacer(),
+                        GestureDetector(
+                            child: Icon(
+                              Icons.delete,
+                              color: themeProvider.themeMode == ThemeMode.dark
+                                  ? Colors.black
+                                  : Colors.white,
+                            ),
+                            onTap: () {}),
+                      ],
+                    ),
+                  ),
+                  Padding(
                     padding: const EdgeInsets.only(top: 10.0),
                     child: TextField(
                       controller: _HeadingTextController,
@@ -171,6 +199,7 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
                       textAlign: TextAlign.center,
                       onEditingComplete: () {
                         updateTitle(_HeadingTextController.text);
+                        FocusManager.instance.primaryFocus?.unfocus();
                       },
                       decoration: null,
                     ),
@@ -191,8 +220,8 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
             padding: EdgeInsets.only(
                 top: _tabController.index == 0 ? screenHeight / 3 - 20 : 30),
             child: AnimatedSize(
-              curve: Curves.easeIn,
-              duration: Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+              duration: Duration(milliseconds: 600),
               child: Container(
                 height: _tabController.index == 0
                     ? 2 * screenHeight / 3 + 20
@@ -225,8 +254,8 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
                       ),
                     ),
                     Expanded(
-                      child: TabBarView(
-                        controller: _tabController,
+                      child: IndexedStack(
+                        index: _tabController.index,
                         children: [
                           OverviewTrips(
                             tripRef: tripRef,
