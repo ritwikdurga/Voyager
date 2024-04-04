@@ -44,3 +44,5 @@ app.*.map.json
 
 /.vscode
 /assets/.env
+/ios/Podfile.lock
+ios/Podfile.lock

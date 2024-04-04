@@ -50,36 +50,120 @@ class MyIndexProvider with ChangeNotifier {
 }
 
 final List<Map<String, dynamic>> Categories = [
-  {'icon': Icons.restaurant_menu, 'text': 'Restaurant'},
-  {'icon': Icons.attractions_outlined, 'text': 'Attractions'},
-  {'icon': Icons.coffee_maker_outlined, 'text': 'Cafes'},
-  {'icon': Icons.photo_camera, 'text': 'Photo Spots'},
-  {'icon': Icons.fastfood_outlined, 'text': 'Fast Foods'},
-  {'icon': Icons.bakery_dining_outlined, 'text': 'Bakeries'},
-  {'icon': Icons.sports_bar_outlined, 'text': 'Breweries'},
-  {'icon': Icons.favorite, 'text': 'Romantic Places'},
-  {'icon': Icons.shopping_bag_outlined, 'text': 'Shopping'},
-  {'icon': Icons.museum_outlined, 'text': 'Museums'},
-  {'icon': Icons.nightlife_rounded, 'text': 'Night Life'},
-  {'icon': Icons.rocket_launch_sharp, 'text': 'Space Museuems'},
-  //{'icon': Icons., 'text': 'Zoos'},
-  //{'icon': Icons.access_alarm, 'text': 'Theme Parks'},
-  {'icon': Icons.location_city_outlined, 'text': 'Historic Building'},
-  //{'icon': Icons.access_alarm, 'text': 'Water Parks'},
-  {'icon': Icons.hiking_outlined, 'text': 'Hiking'},
-  //{'icon': Icons.access_alarm, 'text': 'Waterfalls'},
-  {'icon': Icons.forest, 'text': 'Nature'},
-  //{'icon': Icons.access_alarm, 'text': 'Vegan Restaurants'},
-  //{'icon': Icons.access_alarm, 'text': 'Spas'},
-  //{'icon': Icons.access_alarm, 'text': 'Street markets'},
-  //{'icon': Icons.access_alarm, 'text': 'Aquarium'},
-  {'icon': Icons.church, 'text': 'Churches'},
-  //{'icon': Icons.access_alarm, 'text': 'Beaches'},
-  {'icon': Icons.temple_hindu_outlined, 'text': 'Temples'},
-  {'icon': Icons.mosque_outlined, 'text': 'Mosques'},
-  {'icon': Icons.local_mall_outlined, 'text': 'Malls'},
-  //{'icon': Icons.access_alarm, 'text': 'Parks'},
-  //{'icon': Icons.access_alarm, 'text': 'Gardens'},
+  {
+    'icon': Icons.restaurant,
+    'text': 'Restaurant',
+    'category_id': 'restaurant'
+  }, // restaurant
+  {
+    'icon': Icons.attractions,
+    'text': 'Attractions',
+    'category_id': 'tourist_attraction'
+  }, //tourist_attractions
+  {
+    'icon': Icons.coffee_maker_outlined,
+    'text': 'Cafes',
+    'category_id': 'cafe'
+  }, //cafe
+  {
+    'icon': Icons.medical_services,
+    'text': 'Hospital',
+    'category_id': 'hospital'
+  }, //hospital
+  {
+    'icon': Icons.local_pharmacy,
+    'text': 'Pharmacy',
+    'category_id': 'pharmacy'
+  }, // pharmacy
+  {'icon': Icons.attach_money, 'text': 'ATM', 'category_id': 'atm'}, //atm
+  {
+    'icon': Icons.local_gas_station,
+    'text': 'Petrol Bunk',
+    'category_id': 'gas_station'
+  }, //gas_station
+  {'icon': Icons.hotel, 'text': 'Lodging', 'category_id': 'lodging'}, //lodging
+  {
+    'icon': Icons.fastfood_outlined,
+    'text': 'Fast Foods',
+    'category_id': 'food_and_drink'
+  }, // food_and_drink
+  {
+    'icon': Icons.bakery_dining_outlined,
+    'text': 'Bakeries',
+    'category_id': 'bakery'
+  }, //bakery
+  {
+    'icon': Icons.sports_bar_outlined,
+    'text': 'Breweries',
+    'category_id': 'bar'
+  }, //bar
+  {
+    'icon': Icons.car_rental,
+    'text': 'Car Rental',
+    'category_id': 'car_rental'
+  }, //car_rental
+  {
+    'icon': Icons.two_wheeler,
+    'text': 'Bike Rental',
+    'category_id': 'bike_rental'
+  }, //bike_rental
+  {
+    'icon': Icons.movie,
+    'text': 'Recreation',
+    'category_id': 'entertainment'
+  }, //entertainment
+  {
+    'icon': Icons.shopping_cart,
+    'text': 'Shopping',
+    'category_id': 'shopping'
+  }, // shopping
+  {
+    'icon': Icons.local_mall,
+    'text': 'Malls',
+    'category_id': 'shopping_mall'
+  }, //shopping_mall
+  {
+    'icon': Icons.nightlife,
+    'text': 'Night Life',
+    'category_id': 'nightlife'
+  }, //nightlife
+  {
+    'icon': Icons.casino_outlined,
+    'text': 'Casino',
+    'category_id': 'casino'
+  }, //casino
+  {'icon': Icons.museum, 'text': 'Museums', 'category_id': 'museum'}, //museum
+  {
+    'icon': Icons.waves_outlined,
+    'text': 'Beaches',
+    'category_id': 'beach'
+  }, //beach
+  {'icon': Icons.park, 'text': 'Parks', 'category_id': 'park'}, //park
+  {
+    'icon': Icons.location_city_outlined,
+    'text': 'Historic Sites',
+    'category_id': 'historic_site'
+  }, //historic_site
+  {
+    'icon': Icons.hiking_outlined,
+    'text': 'Hiking',
+    'category_id': 'climbing'
+  }, //climbing
+  {
+    'icon': Icons.temple_hindu,
+    'text': 'Temple',
+    'category_id': 'temple'
+  }, //temple
+  {
+    'icon': Icons.mosque_outlined,
+    'text': 'Mosques',
+    'category_id': 'mosque'
+  }, //mosque
+  {
+    'icon': Icons.church_outlined,
+    'text': 'Church',
+    'category_id': 'church'
+  }, //church
 ];
 
 final List<Map<String, String>> Stations = [

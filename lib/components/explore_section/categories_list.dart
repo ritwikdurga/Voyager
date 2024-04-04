@@ -9,7 +9,8 @@ import 'package:voyager/utils/constants.dart';
 class CatListTile extends StatelessWidget {
   late Icon icon;
   late String text;
-  CatListTile({super.key, required this.icon, required this.text});
+  late String category_id;
+  CatListTile({super.key, required this.icon, required this.text,required this.category_id,});
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +48,7 @@ class CatListTile extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => CategoryPage(heading: text)));
+                builder: (context) => CategoryPage(heading: text,category_id: category_id,)));
       },
     );
   }

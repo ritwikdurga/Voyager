@@ -16,52 +16,44 @@ class CatIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    return GestureDetector(
-      child: SizedBox(
-        width: 90,
-        height: 105,
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                height: 60,
-                width: 60,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: themeProvider.themeMode == ThemeMode.dark
-                      ? Colors.grey[900]
-                      : Colors.grey[100],
-                ),
-                child: icon,
+    return SizedBox(
+      width: 90,
+      height: 105,
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              height: 60,
+              width: 60,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: themeProvider.themeMode == ThemeMode.dark
+                    ? Colors.grey[900]
+                    : Colors.grey[100],
               ),
-              SizedBox(
-                height: 5,
+              child: icon,
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Center(
+              child: Text(
+                text,
+                maxLines: 3,
+                textAlign: TextAlign.center,
+                softWrap: true,
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: themeProvider.themeMode == ThemeMode.dark
+                        ? Colors.white
+                        : Colors.black),
               ),
-              Center(
-                child: Text(
-                  text,
-                  maxLines: 3,
-                  textAlign: TextAlign.center,
-                  softWrap: true,
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: themeProvider.themeMode == ThemeMode.dark
-                          ? Colors.white
-                          : Colors.black),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => CategoryPage(heading: text)));
-      },
     );
   }
 }

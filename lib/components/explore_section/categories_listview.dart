@@ -29,6 +29,7 @@ class CatList extends StatelessWidget {
               CatListTile(
                 icon: Icon(iconsData[index]['icon'], size: 30),
                 text: iconsData[index]['text'],
+                category_id: iconsData[index]['category_id'],
               ),
               if (index != iconsData.length - 1)
                 SizedBox(

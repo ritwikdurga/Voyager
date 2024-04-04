@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:voyager/components/explore_section/category_icon.dart';
+import 'package:voyager/pages/explore_sections/category_page.dart';
 import 'package:voyager/utils/constants.dart';
 
 class CatIconsListView extends StatelessWidget {
@@ -16,26 +17,34 @@ class CatIconsListView extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       itemCount: iconsData.length,
       itemBuilder: (BuildContext context, int index) {
-        return Padding(
-          padding: const EdgeInsets.only(right: 5),
-          child: Row(
-            children: [
-              CatIcon(
-                icon: Icon(iconsData[index]['icon'], size: 25),
-                text: iconsData[index]['text'],
+        return GestureDetector(
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Row(
+                children: [
+                  CatIcon(
+                    icon: Icon(iconsData[index]['icon'], size: 25),
+                    text: iconsData[index]['text'],
+                  ),
+                  if (index != iconsData.length - 1)
+                    SizedBox(
+                        width: 5,
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(0, 8, 0, 34.0),
+                          child: VerticalDivider(
+                            thickness: 0.25,
+                          ),
+                        )),
+                ],
               ),
-              if (index != iconsData.length - 1)
-                SizedBox(
-                    width: 5,
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(0, 8, 0, 34.0),
-                      child: VerticalDivider(
-                        thickness: 0.25,
-                      ),
-                    )),
-            ],
-          ),
-        );
+            ),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          CategoryPage(heading: iconsData[index]['text'],category_id:iconsData[index]['category_id'])));
+            });
       },
     );
   }

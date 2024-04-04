@@ -1016,6 +1016,8 @@ PODS:
   - image_picker_ios (0.0.1):
     - Flutter
   - leveldb-library (1.22.4)
+  - map_launcher (0.0.1):
+    - Flutter
   - Mapbox-iOS-SDK (6.4.1):
     - MapboxMobileEvents (~> 0.10.12)
   - mapbox_gl (0.0.1):
@@ -1032,6 +1034,8 @@ PODS:
     - MapboxCoreMaps (= 11.2.0)
     - Turf (= 2.8.0)
   - MapboxMobileEvents (0.10.14)
+  - maps_launcher (0.0.1):
+    - Flutter
   - nanopb (2.30909.1):
     - nanopb/decode (= 2.30909.1)
     - nanopb/encode (= 2.30909.1)
@@ -1048,6 +1052,8 @@ PODS:
   - sign_in_with_apple (0.0.1):
     - Flutter
   - Turf (2.8.0)
+  - url_launcher_ios (0.0.1):
+    - Flutter
   - webview_flutter_wkwebview (0.0.1):
     - Flutter
 
@@ -1060,11 +1066,14 @@ DEPENDENCIES:
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/darwin`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
+  - map_launcher (from `.symlinks/plugins/map_launcher/ios`)
   - mapbox_gl (from `.symlinks/plugins/mapbox_gl/ios`)
   - MapboxMaps (= 11.2.0)
+  - maps_launcher (from `.symlinks/plugins/maps_launcher/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
+  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
 
 SPEC REPOS:
@@ -1118,14 +1127,20 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/google_sign_in_ios/darwin"
   image_picker_ios:
     :path: ".symlinks/plugins/image_picker_ios/ios"
+  map_launcher:
+    :path: ".symlinks/plugins/map_launcher/ios"
   mapbox_gl:
     :path: ".symlinks/plugins/mapbox_gl/ios"
+  maps_launcher:
+    :path: ".symlinks/plugins/maps_launcher/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
   sign_in_with_apple:
     :path: ".symlinks/plugins/sign_in_with_apple/ios"
+  url_launcher_ios:
+    :path: ".symlinks/plugins/url_launcher_ios/ios"
   webview_flutter_wkwebview:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
@@ -1159,6 +1174,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 0e876eea9782ec6462e91ab872711c357322c94f
   image_picker_ios: b545a5f16c0fa88e3ecbbce3ed4de45567a8ec18
   leveldb-library: 06a69cc7582d64b29424a63e085e683cc188230a
+  map_launcher: e325db1261d029ff33e08e03baccffe09593ffea
   Mapbox-iOS-SDK: f870f83cbdc7aa4a74afcee143aafb0dae390c82
   mapbox_gl: 33c5ab6306cbfa72289bb3606d2cd2e8baee9ff0
   MapboxAnnotationExtension: 4eee6c26349ef6d909f1a23a7eae2d0f7ca5fa7d
@@ -1166,6 +1182,7 @@ SPEC CHECKSUMS:
   MapboxCoreMaps: 4294d3178201702a95f2ae316bc4ad419f5fa16a
   MapboxMaps: 413cb886e75b6703c0a3084ce84c29cd681d916f
   MapboxMobileEvents: 5a172cc9bbf8ac0e45ba86095cbee685ede248cc
+  maps_launcher: 2e5b6a2d664ec6c27f82ffa81b74228d770ab203
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
   path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
@@ -1173,6 +1190,7 @@ SPEC CHECKSUMS:
   shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695
   sign_in_with_apple: f3bf75217ea4c2c8b91823f225d70230119b8440
   Turf: aa2ede4298009639d10db36aba1a7ebaad072a5e
+  url_launcher_ios: 6116280ddcfe98ab8820085d8d76ae7449447586
   webview_flutter_wkwebview: be0f0d33777f1bfd0c9fdcb594786704dbf65f36
 
 PODFILE CHECKSUM: 062dcd75ecb6cb2b859fcbb57281afea72fdcb53

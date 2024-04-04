@@ -60,6 +60,7 @@ dependencies:
   intl: ^0.18.1
   mapbox_gl:
   html:
+  url_launcher: ^6.0.9
   flutter_localizations:
     sdk: flutter
   flutter_dotenv: ^5.1.0
@@ -69,6 +70,8 @@ dependencies:
   firebase_storage: ^11.6.11
   path: ^1.9.0
   webview_flutter:
+  map_launcher: ^3.2.0
+  maps_launcher: ^2.2.1
 
 
 dev_dependencies:
