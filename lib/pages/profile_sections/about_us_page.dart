@@ -665,7 +665,7 @@ class AboutUsPage extends StatelessWidget {
                                   ),
                                   onTap: () {
                                     Uri uri = Uri.parse(
-                                        'https://github.com/'); // add here
+                                        'https://github.com/Bharath348'); // add here
                                     launchUrl(uri);
                                   }),
                               SizedBox(width: 8.0),
@@ -676,9 +676,9 @@ class AboutUsPage extends StatelessWidget {
                                   width: 20.0,
                                 ),
                                 onTap: () {
-                                  Uri uri = Uri.parse(
-                                      'https://github.com/abhijitch1'); // add here
-                                  launchUrl(uri);
+                                 SnackBar(
+                                      content: Text(
+                                          'Developer has not provided LinkedIn profile link'));
                                 },
                               ),
                             ],
