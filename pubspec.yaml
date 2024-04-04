@@ -51,6 +51,7 @@ dependencies:
   google_sign_in: ^6.2.1
   sign_in_with_apple: ^6.0.0
   iconsax: ^0.0.8
+  table_calendar: ^3.0.2
   rename_app: ^1.3.2
   smooth_page_indicator: 
   provider: ^6.0.2
