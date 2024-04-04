@@ -165,9 +165,7 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
                         GestureDetector(
                           child: Icon(
                             Icons.arrow_back_ios,
-                            color: themeProvider.themeMode == ThemeMode.dark
-                                ? Colors.black
-                                : Colors.white,
+                            color: Colors.white,
                           ),
                           onTap: () {
                             Navigator.pop(context);
@@ -177,9 +175,7 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
                         GestureDetector(
                             child: Icon(
                               Icons.delete,
-                              color: themeProvider.themeMode == ThemeMode.dark
-                                  ? Colors.black
-                                  : Colors.white,
+                              color: Colors.white,
                             ),
                             onTap: () {}),
                       ],

@@ -1,5 +1,10 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // Import the shared_preferences package
+import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:voyager/utils/constants.dart'; // Import the shared_preferences package
 
 class PaidByPage extends StatefulWidget {
   String? selectedPaidBy;
@@ -9,6 +14,9 @@ class PaidByPage extends StatefulWidget {
 }
 
 class _PaidByPageState extends State<PaidByPage> {
+  String photoURL =
+      'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80';
+
   final List<String> items = [
     'John Doe',
     'Jane Smith',
@@ -23,7 +31,7 @@ class _PaidByPageState extends State<PaidByPage> {
   void initState() {
     super.initState();
     // Retrieve previously selected option from shared preferences
-    selectedPaidBy=widget.selectedPaidBy;
+    selectedPaidBy = widget.selectedPaidBy;
     //_loadSelectedOption();
   }
 
@@ -36,28 +44,66 @@ class _PaidByPageState extends State<PaidByPage> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Paid By'),
-      ),
-      body: ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (BuildContext context, int index) {
-          final item = items[index];
-          final isSelected = selectedPaidBy == item;
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Row(
+              children: [
+                IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(Icons.arrow_back_ios, size: 20)),
+                SizedBox(width: screenWidth * 0.25),
+                Text(
+                  'Paid By',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: 'ProductSans',
+                    color: Colors.blueAccent,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          ListView.builder(
+            shrinkWrap: true,
+            physics: ClampingScrollPhysics(),
+            itemCount: items.length,
+            itemBuilder: (BuildContext context, int index) {
+              final item = items[index];
+              final isSelected = selectedPaidBy == item;
 
-          return ListTile(
-            title: Text(item),
-            onTap: () {
-              setState(() {
-                selectedPaidBy = item;
-              });
-              // Save selected option to shared preferences
-              _saveSelectedOption();
+              return ListTile(
+                leading: CircleAvatar(
+                  radius: 16,
+                  backgroundImage: NetworkImage(photoURL),
+                ),
+                title: Text(item,
+                    style: TextStyle(
+                      fontFamily: 'ProductSans',
+                      fontWeight: FontWeight.bold,
+                      color: themeProvider.themeMode == ThemeMode.dark
+                          ? Colors.white
+                          : Colors.black,
+                    )),
+                onTap: () {
+                  setState(() {
+                    selectedPaidBy = item;
+                  });
+                  // Save selected option to shared preferences
+                  _saveSelectedOption();
+                },
+                trailing: isSelected ? Icon(Icons.check) : null,
+              );
             },
-            trailing: isSelected ? Icon(Icons.check) : null,
-          );
-        },
+          ),
+        ],
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16.0),

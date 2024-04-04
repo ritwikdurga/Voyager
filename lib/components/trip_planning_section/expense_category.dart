@@ -1,4 +1,8 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:voyager/utils/constants.dart';
 
 class ExpenseCategoryPage extends StatefulWidget {
   final Function(Map<String, dynamic>?) onCategorySelected;
@@ -26,30 +30,42 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Expense Category'),
-      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Text(
-                'Expense Category',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Row(
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(Icons.arrow_back_ios, size: 20)),
+                  SizedBox(width: screenWidth * 0.15),
+                  Text(
+                    'Expense Category',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: 'ProductSans',
+                      color: Colors.blueAccent,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+            Center(
               child: Text(
                 'Select a category',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 16,
+                  fontFamily: 'ProductSans',
+                  color: Colors.deepOrange,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -76,10 +92,11 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> {
                       Text(
                         category,
                         style: TextStyle(
-                          color: selectedCategory == category
-                              ? Colors
-                                  .blue // Change color for selected category
-                              : Colors.black,
+                          fontFamily: 'ProductSans',
+                          fontWeight: FontWeight.bold,
+                          color: themeProvider.themeMode == ThemeMode.dark
+                                  ? Colors.white
+                                  : Colors.black,
                         ),
                       ),
                     ],
@@ -107,11 +124,11 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> {
       case 'Food':
         return Icon(Icons.restaurant);
       case 'Drinks':
-        return Icon(Icons.local_drink);
+        return Icon(Icons.local_bar);
       case 'Sightseeing':
         return Icon(Icons.landscape);
       case 'Activities':
-        return Icon(Icons.sports);
+        return Icon(Icons.local_activity);
       case 'Shopping':
         return Icon(Icons.shopping_bag);
       case 'Gas':

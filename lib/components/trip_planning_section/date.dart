@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:voyager/utils/constants.dart';
 
 class DatePage extends StatefulWidget {
   final Function(DateTime?) onDateSelected;
   DateTime? selectedDay;
   DateTime? focusedDay;
-  DatePage({required this.onDateSelected,required this.focusedDay,required this.selectedDay});
+  DatePage(
+      {required this.onDateSelected,
+      required this.focusedDay,
+      required this.selectedDay});
 
   @override
   _DatePageState createState() => _DatePageState();
@@ -28,17 +33,38 @@ class _DatePageState extends State<DatePage> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Select Date'),
-      ),
       body: Center(
         child: Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Row(
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(Icons.arrow_back_ios, size: 20)),
+                  SizedBox(width: screenWidth * 0.20),
+                  Text(
+                    'Select Date',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: 'ProductSans',
+                      color: Colors.blueAccent,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
             TableCalendar(
               firstDay: DateTime.utc(2020, 1, 1),
               lastDay: DateTime.utc(2030, 12, 31),
-              focusedDay: _focusedDay!=null ? _focusedDay! : DateTime.now(),
+              focusedDay: _focusedDay != null ? _focusedDay! : DateTime.now(),
               calendarFormat: _calendarFormat,
               selectedDayPredicate: (day) {
                 return isSameDay(_selectedDay, day);
