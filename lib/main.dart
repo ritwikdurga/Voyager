@@ -15,6 +15,7 @@ import 'map_section/normal__map_page.dart';
 import 'map_section/search_functionality.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:voyager/pages/profile_sections/user_provider.dart';
+import 'package:voyager/pages/trip_planning_sections/trip_provider.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +30,7 @@ Future main() async {
         ChangeNotifierProvider(create: (_) => MyIndexProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => TabIndexProvider()),
+        ChangeNotifierProvider(create: (context) => TripsProvider()),
       ],
       child: MyApp(),
     ),

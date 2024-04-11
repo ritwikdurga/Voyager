@@ -1,17 +1,21 @@
+// ignore_for_file: unused_import, camel_case_types, prefer_const_constructors_in_immutables, prefer_const_constructors, must_be_immutable
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/utils/constants.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart'; // Import Bounceable package
-
+import 'package:firebase_storage/firebase_storage.dart';
 import '../../utils/colors.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:voyager/models/trip_model.dart';
+import 'package:intl/intl.dart';
+import 'package:voyager/pages/trip_planning_sections/continue_planning.dart';
 
 class trips extends StatefulWidget {
-  trips({
-    super.key,
-    required this.screenWidth,
-  });
-
+  late Trip? trip;
+  trips({super.key, required this.screenWidth, this.trip});
   final double screenWidth;
 
   @override
@@ -25,7 +29,8 @@ class _tripsState extends State<trips> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this, duration: Duration(milliseconds: 2300));
+    _controller = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 2300));
   }
 
   @override
@@ -41,6 +46,12 @@ class _tripsState extends State<trips> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final dateFormat = DateFormat('d MMM');
+    final startDateFormatted =
+        dateFormat.format(widget.trip?.startDate ?? DateTime.now());
+    final endDateFormatted =
+        dateFormat.format(widget.trip?.endDate ?? DateTime.now());
+
     return Card(
       clipBehavior: Clip.hardEdge,
       shape: shape,
@@ -51,9 +62,20 @@ class _tripsState extends State<trips> with SingleTickerProviderStateMixin {
           ? Colors.black
           : Colors.white,
       elevation: 0,
-      child: Bounceable( // Wrap InkWell with Bounceable
+      child: Bounceable(
+        // Wrap InkWell with Bounceable
         onTap: () {
-          // redirect to planning page.
+          print(
+            widget.trip?.tripId ?? "NaN",
+          );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ContinuePlanning(
+                tripId: widget.trip?.tripId ?? "NaN",
+              ),
+            ),
+          );
         },
         child: SizedBox(
           height: widget.screenWidth / 3 + 20,
@@ -75,7 +97,7 @@ class _tripsState extends State<trips> with SingleTickerProviderStateMixin {
                     Row(
                       children: [
                         Text(
-                          '31 Mar - 4 Apr',
+                          '$startDateFormatted - $endDateFormatted',
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 14,
@@ -106,7 +128,7 @@ class _tripsState extends State<trips> with SingleTickerProviderStateMixin {
                     ),
                     Spacer(),
                     Text(
-                      'Paris Trip',
+                      widget.trip?.title ?? "NaN",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,

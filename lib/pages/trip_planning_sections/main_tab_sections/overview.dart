@@ -635,7 +635,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                     .map((item) => Item.fromJson(item)));
               }
             } catch (e) {
-              print('Error parsing data: $e');
+              notes = [];
             }
             if (!areNotesEqual(_notes, notes)) {
               WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -651,7 +651,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                 imageURLs = List<String>.from(data?['attachments']['images']);
               }
             } catch (e) {
-              print('Error parsing data: $e');
+              _imageURLs = [];
             }
             if (!listEquals(_imageURLs, imageURLs)) {
               WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -669,7 +669,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                     .map((item) => TicketData.fromJSON(item)));
               }
             } catch (e) {
-              print('Error parsing data: $e');
+              _flightTickets = [];
             }
             if (!areTicketDataListsEqual(_flightTickets, flightTickets)) {
               WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -687,7 +687,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                     .map((item) => TrainData.fromMap(item)));
               }
             } catch (e) {
-              print('Error parsing data: $e');
+              _trainTickets = [];
             }
             if (!areTrainDataListsEqual(_trainTickets, trainTickets)) {
               WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -705,7 +705,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                     .map((item) => BusData.fromMap(item)));
               }
             } catch (e) {
-              print('Error parsing data: $e');
+              _busTickets = [];
             }
             if (!areBusDataListsEqual(_busTickets, busTickets)) {
               print(_busTickets);
@@ -725,7 +725,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                     .map((item) => CarData.fromMap(item)));
               }
             } catch (e) {
-              print('Error parsing data: $e');
+              _carTickets = [];
             }
             if (!areCarDataListsEqual(_carTickets, carTickets)) {
               WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -752,7 +752,6 @@ class _OverviewTripsState extends State<OverviewTrips> {
               padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
               child: Row(
                 children: [
-                  
                   Text(
                     'Your Tripmates',
                     style: TextStyle(

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -9,8 +9,10 @@ class ItineraryTrips extends StatefulWidget {
   final startDate;
   final endDate;
 
-  const ItineraryTrips({Key? key, this.startDate, this.endDate})
-      : super(key: key); // Corrected the syntax for the constructor
+  const ItineraryTrips(
+      {super.key,
+      this.startDate,
+      this.endDate}); // Corrected the syntax for the constructor
 
   @override
   State<ItineraryTrips> createState() => _ItineraryTripsState();
@@ -40,6 +42,7 @@ class _ItineraryTripsState extends State<ItineraryTrips>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -75,17 +78,17 @@ class _ItineraryTripsState extends State<ItineraryTrips>
                 color: Colors.blueAccent,
                 size: 18.0,
               ),
-              Text('Autofill Itinerary',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'ProductSans',
-                    color: Colors.blueAccent,
-                    fontWeight: FontWeight.bold,
-                  ),
+              Text(
+                'Autofill Itinerary',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontFamily: 'ProductSans',
+                  color: Colors.blueAccent,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
-
 
           Padding(
             padding: const EdgeInsets.only(bottom: 15.0),

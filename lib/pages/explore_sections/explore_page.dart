@@ -1,5 +1,8 @@
-// ignore_for_file:  prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file:  prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -7,11 +10,14 @@ import 'package:voyager/components/explore_section/destinations.dart';
 import 'package:voyager/components/explore_section/past_searches.dart';
 import 'package:voyager/components/explore_section/search_bar.dart';
 import 'package:voyager/components/explore_section/trips_cards.dart';
+import 'package:voyager/models/trip_model.dart';
 import 'package:voyager/pages/explore_sections/continue_planning_page.dart';
 import 'package:voyager/pages/explore_sections/for_you_expanded.dart';
 import 'package:voyager/pages/explore_sections/popular_destinations_expanded.dart';
+import 'package:voyager/pages/trip_planning_sections/trip_provider.dart';
 import 'package:voyager/utils/constants.dart';
 import '../../utils/colors.dart';
+import 'package:voyager/services/fetch_userdata.dart';
 
 class Explore extends StatefulWidget {
   const Explore({super.key});
@@ -21,9 +27,21 @@ class Explore extends StatefulWidget {
 }
 
 class _ExploreState extends State<Explore> {
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  FirebaseFirestore db = FirebaseFirestore.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      fetchUserData(context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final tripsProvider = Provider.of<TripsProvider>(context);
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: themeProvider.themeMode == ThemeMode.dark
@@ -94,12 +112,15 @@ class _ExploreState extends State<Explore> {
                 ),
                 SizedBox(
                   height: screenWidth / 3 + 20,
-                  child: ListView(
+                  child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    children: [
-                      trips(screenWidth: screenWidth),
-                      trips(screenWidth: screenWidth),
-                    ],
+                    itemCount: tripsProvider.tripList.length > 5
+                        ? 5
+                        : tripsProvider.tripList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      Trip trip = tripsProvider.tripList[index];
+                      return trips(screenWidth: screenWidth, trip: trip);
+                    },
                   ),
                 ),
                 SizedBox(
