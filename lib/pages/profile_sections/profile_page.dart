@@ -4,16 +4,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:voyager/pages/login_section/login_page.dart';
 import 'package:voyager/pages/profile_sections/about_us_page.dart';
 import 'package:voyager/pages/profile_sections/faq_page.dart';
 import 'package:voyager/pages/profile_sections/favourite_page.dart';
 import 'package:voyager/pages/profile_sections/feedback_page.dart';
+import 'package:voyager/pages/profile_sections/invitations.dart';
 import 'package:voyager/pages/profile_sections/trips_page.dart';
 import '../../utils/colors.dart';
 import '../../utils/constants.dart';
 import 'edit_profile_page.dart';
 import 'user_provider.dart';
+import 'package:path_provider/path_provider.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -89,7 +92,7 @@ class _ProfileState extends State<Profile> {
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
               _indexProvider.setMyIndex(0);
-              
+
               if (context.mounted) {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
@@ -180,8 +183,7 @@ class _ProfileState extends State<Profile> {
                           fontSize: 16,
                           fontFamily: 'ProductSans',
                           fontWeight: FontWeight.bold,
-                        )
-                    ),
+                        )),
                   ),
                 ),
               ),
@@ -218,7 +220,34 @@ class _ProfileState extends State<Profile> {
                       : Colors.black,
                 ),
               ),
-
+              ListTile(
+                leading: Icon(
+                  Icons.question_answer,
+                  size: 30,
+                  color: themeProvider.themeMode == ThemeMode.dark
+                      ? Colors.white
+                      : Colors.black,
+                ),
+                title: Text('Invitations',
+                    style: TextStyle(
+                      color: themeProvider.themeMode == ThemeMode.dark
+                          ? Colors.white
+                          : Colors.black,
+                    )),
+                onTap: () {
+                  // Navigate to FAQ page
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return InvitationListPage();
+                  }));
+                },
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  size: 20,
+                  color: themeProvider.themeMode == ThemeMode.dark
+                      ? Colors.white
+                      : Colors.black,
+                ),
+              ),
               ListTile(
                 leading: Icon(
                   Icons.favorite,

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables,, avoid_print
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables,, avoid_print, use_build_context_synchronously
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +8,11 @@ import 'package:voyager/components/back_ground/animatedbck.dart';
 import 'package:voyager/components/auth_section/my_button.dart';
 import 'package:voyager/components/auth_section/third_party.dart';
 import 'package:voyager/home_screen.dart';
+import 'package:voyager/pages/trip_planning_sections/trip_provider.dart';
 import 'package:voyager/services/auth_service.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:voyager/pages/profile_sections/user_provider.dart';
+import 'package:voyager/services/fetch_userdata.dart';
 import '../../components/loading.dart';
 import '../../utils/constants.dart';
 
@@ -81,6 +83,7 @@ class _RegisterPageState extends State<RegisterPage> {
         // Close the dialog
         if (mounted) {
           Navigator.pop(context);
+          fetchUserData(context);
         }
         Navigator.pushReplacement(
           context,
@@ -241,6 +244,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final tripProvider = Provider.of<TripsProvider>(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -540,6 +544,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       children: [
                         SocialAuth(
                           onPressGoogle: () async {
+                            tripProvider.tripList.clear();
                             signInWithGoogle();
                           },
                           onPressApple: () {

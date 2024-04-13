@@ -2,55 +2,75 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:voyager/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:path_provider/path_provider.dart';
+
+Future<void> clearCache() async {
+  try {
+    final directory = await getApplicationSupportDirectory();
+    if (directory.existsSync()) {
+      directory.deleteSync(recursive: true);
+    }
+  } catch (e) {
+    print('Error clearing cache: $e');
+  }
+}
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final db = FirebaseFirestore.instance;
 
   void createUserEntry(User user, String name, String photoURL) async {
-    UserModel userDerived = UserModel(name, user.email, user.uid,
-        user.metadata.creationTime!.toIso8601String(), photoURL);
-    await db.collection('users').doc(user.uid).set(userDerived.toMap());
+    final userDoc =
+        FirebaseFirestore.instance.collection('users').doc(user.uid);
+    final userDocSnapshot = await userDoc.get();
+    if (!userDocSnapshot.exists) {
+      UserModel userDerived = UserModel(name, user.email, user.uid,
+          user.metadata.creationTime!.toIso8601String(), photoURL);
+      await db.collection('users').doc(user.uid).set(userDerived.toMap());
+      await db.collection("email").doc(user.email).set({'uid': user.uid});
+    }
+  }
+
+  Future<void> clearCache() async {
+    try {
+      final directory = await getApplicationSupportDirectory();
+      if (directory.existsSync()) {
+        directory.deleteSync(recursive: true);
+      }
+    } catch (e) {
+      print('Error clearing cache: $e');
+    }
   }
 
   // Function to sign out from Google
   Future<void> signOutFromGoogle() async {
+    clearCache();
     await GoogleSignIn().signOut();
   }
 
 // Function to sign in with Google
   signInWithGoogle() async {
-    // Sign out the user first to ensure the account chooser dialog is shown
     await signOutFromGoogle();
-
-    // Sign in with Google
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-    // Get Google authentication details
     final GoogleSignInAuthentication googleAuth =
         await googleUser!.authentication;
-
-    // Create a new credential for the user
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
 
-    // Sign in the user with the credential
     await FirebaseAuth.instance.signInWithCredential(credential);
 
-    // Retrieve user details
     final currentUser = FirebaseAuth.instance.currentUser;
 
-    // If the current user is not null, create a user entry
     if (currentUser != null) {
       createUserEntry(currentUser, currentUser.displayName as String,
           currentUser.photoURL as String);
     }
-
     return currentUser;
   }
 

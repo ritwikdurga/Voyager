@@ -8,8 +8,10 @@ import 'package:voyager/components/loading.dart';
 import 'package:voyager/components/auth_section/my_button.dart';
 import 'package:voyager/home_screen.dart';
 import 'package:voyager/pages/login_section/register_page.dart';
+import 'package:voyager/pages/trip_planning_sections/trip_provider.dart';
 import 'package:voyager/services/auth_service.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:voyager/services/fetch_userdata.dart';
 import '../../components/auth_section/third_party.dart';
 import '../../utils/constants.dart';
 import 'forgot_pw_page.dart';
@@ -66,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
           // Update user name
           Provider.of<UserProvider>(context, listen: false)
               .updateName(user.displayName ?? 'NaN');
-
+          fetchUserData(context);
           // Navigate to the home screen
           Navigator.pushReplacement(
             context,
@@ -230,6 +232,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final tripProvider = Provider.of<TripsProvider>(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -460,6 +463,7 @@ class _LoginPageState extends State<LoginPage> {
                         Center(
                           child: SocialAuth(
                             onPressGoogle: () {
+                              tripProvider.tripList.clear();
                               signInWithGoogle();
                             },
                             onPressApple: () {

@@ -686,7 +686,9 @@ class _OverviewTripsState extends State<OverviewTrips> {
                     child: SizedBox(
                       height: 85,
                       width: screenWidth - 50,
-                      child: FriendsIcons(),
+                      child: FriendsIcons(
+                        tripId: widget.tripRef.id,
+                      ),
                     ),
                   ),
                 ),
@@ -1411,7 +1413,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
 void _showBottomSheet(BuildContext context) {
   double screenWidth = MediaQuery.of(context).size.width;
   double screenHeight = MediaQuery.of(context).size.height;
-  final themeProvider = Provider.of<ThemeProvider>(context);
+  final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
   showModalBottomSheet(
     context: context,
     builder: (BuildContext bc) {
@@ -1429,7 +1431,7 @@ void _showBottomSheet(BuildContext context) {
           SizedBox(
             height: screenHeight / 2 - 10,
             child: ListView.builder(
-              itemCount: 100,
+              itemCount: 1,
               shrinkWrap: true,
               physics: ClampingScrollPhysics(),
               itemBuilder: (bc, index) {
