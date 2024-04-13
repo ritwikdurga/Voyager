@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables, unused_import, must_be_immutable, unnecessary_import, non_constant_identifier_names, prefer_final_fields, use_super_parameters, avoid_print
 
 import 'dart:async';
+import 'dart:typed_data';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -24,6 +26,7 @@ class NewTrip extends StatefulWidget {
   DateTime? EndDate;
   String? tripmateKind;
   List<String>? tripPreferences;
+  List<String> collaborators;
   bool? isManual;
   NewTrip(
       {Key? key,
@@ -32,7 +35,8 @@ class NewTrip extends StatefulWidget {
       required this.EndDate,
       required this.isManual,
       this.tripmateKind,
-      this.tripPreferences})
+      this.tripPreferences,
+      required this.collaborators})
       : super(key: key);
   @override
   State<NewTrip> createState() => _NewTripState();
@@ -54,17 +58,10 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
       DateTime? endDate,
       String? location,
       String? creator,
-      List<String?> collaborators,
+      List<String> collaborators,
       List<String>? tripPreferences,
       String? tripmateKind,
       bool? isManual) async {
-    // await db.collection("trips").doc(tripRef.id).set({
-    //   'attachments': FieldValue.arrayUnion([]),
-    // }, SetOptions(merge: true));
-
-    // await db.collection("trips").doc(tripRef.id).update({
-    //   'attachments.notes': FieldValue.arrayUnion([]),
-    // });
     await tripRef.set({
       'title': title,
       'startDate': startDate,
@@ -77,22 +74,51 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
       'tripmateKind': tripmateKind,
     });
     tripId = tripRef.id;
+    print("Test 1");
     await FirebaseFirestore.instance
         .collection("users")
         .doc(_firebaseauth.currentUser?.uid)
         .update({
-      'trips': FieldValue.arrayUnion([tripId]),
+      'trips': FieldValue.arrayUnion([
+        {'tripId': tripId.toString(), 'isBookmarked': false}
+      ]),
     }).then((_) {
       print("Trip ID added to user's document successfully!");
     }).catchError((error) {
       print("Failed to add trip ID to user's document: $error");
     });
+    print("Test 2");
+
+    FirebaseStorage.instance
+        .ref()
+        .child("trips/$tripId")
+        .child('.placeholder')
+        .putData(Uint8List(0));
   }
 
   void updateTitle(String title) async {
     await tripRef.update({
       'title': title,
     });
+  }
+
+  void deleteTrip() async {
+    try {
+      for (int index = 0; index < widget.collaborators.length; index++) {
+        final DocumentReference user =
+            db.collection("users").doc(widget.collaborators[index]);
+        await user.update({
+          'trips': FieldValue.arrayRemove([
+            {'tripId': tripId, 'isBookmarked': false}
+          ]),
+        });
+      }
+      await tripRef.delete();
+      // final destination = FirebaseStorage.instance.ref().child("trips/{$tripId}");
+      // await destination.delete();
+    } catch (error) {
+      print(error);
+    }
   }
 
   @override
@@ -110,7 +136,7 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
       widget.EndDate,
       widget.locationSelected,
       _firebaseauth.currentUser?.uid,
-      [_firebaseauth.currentUser?.uid],
+      [_firebaseauth.currentUser!.uid],
       widget.tripPreferences,
       widget.tripmateKind,
       widget.isManual,
@@ -159,28 +185,31 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Row(
-                      children: [
-                        GestureDetector(
-                          child: Icon(
-                            Icons.arrow_back_ios,
-                            color: Colors.white,
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.white,
+                            ),
                           ),
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                        Spacer(),
-                        GestureDetector(
+                          Spacer(),
+                          GestureDetector(
+                            onTap: () {
+                              deleteTrip();
+                              Navigator.pop(context);
+                            },
                             child: Icon(
                               Icons.delete,
                               color: Colors.white,
                             ),
-                            onTap: () {}),
-                      ],
-                    ),
-                  ),
+                          ),
+                        ],
+                      )),
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0),
                     child: TextField(

@@ -7,7 +7,7 @@ class Trip {
   late DateTime startDate;
   late DateTime endDate;
   String? bgImageURL;
-  bool? isBookmarked;
+  bool isBookmarked;
 
   Trip({
     required this.tripId,
@@ -16,10 +16,10 @@ class Trip {
     required this.startDate,
     required this.endDate,
     this.bgImageURL,
-    this.isBookmarked,
+    required this.isBookmarked,
   });
 
-  factory Trip.fromFirestore(DocumentSnapshot doc) {
+  factory Trip.fromFirestore(DocumentSnapshot doc, bool bookmarked) {
     Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
 
     return Trip(
@@ -33,7 +33,7 @@ class Trip {
           ? (data?['endDate']).toDate()
           : DateTime.now(),
       bgImageURL: data?['bg_image_url'] ?? 'No Image URL',
-      isBookmarked: data?['is_bookmarked'] ?? false,
+      isBookmarked: bookmarked,
     );
   }
 }

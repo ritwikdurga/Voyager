@@ -8,6 +8,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/components/search_section/calender_picker.dart';
 import 'package:voyager/pages/trip_planning_sections/new_trip_page.dart';
+import 'package:voyager/services/fetch_userdata.dart';
 import 'package:voyager/utils/constants.dart';
 
 class tripLengthManual extends StatefulWidget {
@@ -280,6 +281,7 @@ class _tripLengthManualState extends State<tripLengthManual>
                               StartDate: selectedDepartureDate,
                               EndDate: selectedArrivalDate,
                               isManual: true,
+                              collaborators: [firebaseAuth.currentUser!.uid],
                             )));
               },
             ),

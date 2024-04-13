@@ -5,7 +5,6 @@ import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 import "package:voyager/components/explore_section/trips_cards.dart";
-import "package:voyager/models/trip_model.dart";
 import "package:voyager/pages/trip_planning_sections/trip_provider.dart";
 import "package:voyager/services/fetch_userdata.dart";
 import "package:voyager/utils/colors.dart";
@@ -71,8 +70,12 @@ class _ContPlanningState extends State<ContPlanning> {
                   return Column(
                     children: [
                       trips(
-                          screenWidth: screenWidth,
-                          trip: tripsProvider.tripList[index]),
+                        screenWidth: screenWidth,
+                        trip: tripsProvider.tripList[index],
+                        isNewTripPage: false,
+                        isBookmarked:
+                            tripsProvider.tripList[index].isBookmarked,
+                      ),
                       SizedBox(height: 10),
                     ],
                   );

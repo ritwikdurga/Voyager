@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/pages/trip_planning_sections/new_trip_page.dart';
 import 'package:voyager/pages/trip_planning_sections/trips_form_input/tripmate_kind_input.dart';
+import 'package:voyager/services/fetch_userdata.dart';
 import 'package:voyager/utils/constants.dart';
 
 class TypesOfPlaces extends StatefulWidget {
@@ -159,12 +160,14 @@ class _TypesOfPlacesState extends State<TypesOfPlaces> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => NewTrip(
-                            locationSelected: widget.locationSelected,
-                            StartDate: widget.StartDate,
-                            EndDate: widget.EndDate,
-                            isManual: false,
-                            tripmateKind: widget.tripmateKind,
-                            tripPreferences: selectedTypes)));
+                              locationSelected: widget.locationSelected,
+                              StartDate: widget.StartDate,
+                              EndDate: widget.EndDate,
+                              isManual: false,
+                              tripmateKind: widget.tripmateKind,
+                              tripPreferences: selectedTypes,
+                              collaborators: [firebaseAuth.currentUser!.uid],
+                            )));
               },
             ),
           ),

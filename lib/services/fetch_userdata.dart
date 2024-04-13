@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,25 +14,44 @@ void fetchUserData(BuildContext context) async {
   final tripsProvider = Provider.of<TripsProvider>(context, listen: false);
   try {
     var uid = firebaseAuth.currentUser!.uid;
-    var docSnapshot = db.collection("users").doc(uid).snapshots();
-    docSnapshot.listen((doc) async {
-      if (doc.exists) {
-        List<dynamic> dataArray = doc.data()!['trips'];
-        List<Trip> trips = [];
-        for (var tripId in dataArray) {
+    var docSnapshot = await db.collection("users").doc(uid).get();
+    if (docSnapshot.exists) {
+      List<dynamic> dataArray = docSnapshot.data()!['trips'];
+      List<Trip> trips = [];
+      for (var tripData in dataArray) {
+        String tripId = tripData['tripId'];
+        bool isBookmarked = tripData['isBookmarked'];
+        var tripSnapshot = await db.collection("trips").doc(tripId).get();
+        if (tripSnapshot.exists) {
+          Trip trip = Trip.fromFirestore(tripSnapshot, isBookmarked);
+          trips.add(
+            trip,
+          );
+        } else {
+          print("Trip with ID $tripId does not exist!");
+        }
+      }
+      tripsProvider.tripList = trips;
+
+      db.collection("users").doc(uid).snapshots().listen((snapshot) async {
+        List<dynamic> updatedDataArray = snapshot.data()!['trips'];
+        List<Trip> updatedTrips = [];
+        for (var tripData in updatedDataArray) {
+          String tripId = tripData['tripId'];
+          bool isBookmarked = tripData['isBookmarked'];
           var tripSnapshot = await db.collection("trips").doc(tripId).get();
           if (tripSnapshot.exists) {
-            Trip trip = Trip.fromFirestore(tripSnapshot);
-            trips.insert(0, trip);
+            Trip trip = Trip.fromFirestore(tripSnapshot, isBookmarked);
+            updatedTrips.add(trip);
           } else {
             print("Trip with ID $tripId does not exist!");
           }
         }
-        tripsProvider.tripList = trips;
-      } else {
-        print("Document does not exist!");
-      }
-    });
+        tripsProvider.tripList = updatedTrips;
+      });
+    } else {
+      print("Document does not exist!");
+    }
   } catch (e) {
     print("Error fetching user data: $e");
   }

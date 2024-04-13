@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:voyager/pages/trip_planning_sections/trip_provider.dart';
 import 'package:voyager/utils/colors.dart';
 
 import '../../components/explore_section/trips_cards.dart';
@@ -10,6 +11,7 @@ class FavouritePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tripsProvider = Provider.of<TripsProvider>(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -45,20 +47,28 @@ class FavouritePage extends StatelessWidget {
         child: SafeArea(
           child: Column(
             children: [
-              // display the trips
-              trips(screenWidth: screenWidth),
-              SizedBox(height: 10),
-              trips(screenWidth: screenWidth),
-              SizedBox(height: 10),
-              trips(screenWidth: screenWidth),
-              SizedBox(height: 10),
-              trips(screenWidth: screenWidth),
-              SizedBox(height: 10),
-              trips(screenWidth: screenWidth),
-              SizedBox(height: 10),
-              trips(screenWidth: screenWidth),
-              SizedBox(height: 10),
-              trips(screenWidth: screenWidth),
+              const SizedBox(height: 10),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: tripsProvider.tripList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  if (tripsProvider.tripList[index].isBookmarked) {
+                    return Column(
+                      children: [
+                        trips(
+                          screenWidth: screenWidth,
+                          trip: tripsProvider.tripList[index],
+                          isNewTripPage: false,
+                          isBookmarked:
+                              tripsProvider.tripList[index].isBookmarked,
+                        ),
+                        const SizedBox(height: 10),
+                      ],
+                    );
+                  }
+                },
+              ),
             ],
           ),
         ),

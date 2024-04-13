@@ -9,6 +9,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/pages/explore_sections/explore_page.dart';
+import 'package:voyager/pages/trip_planning_sections/add_trips_page.dart';
 import 'package:voyager/pages/trip_planning_sections/main_tab_sections/expenses.dart';
 import 'package:voyager/pages/trip_planning_sections/main_tab_sections/explore.dart';
 import 'package:voyager/pages/trip_planning_sections/main_tab_sections/itinerary.dart';
@@ -25,11 +26,15 @@ class ContinuePlanning extends StatefulWidget {
   String? tripmateKind;
   List<String>? tripPreferences;
   bool? isManual;
+  late List<dynamic> collaborators;
   late String tripId;
-
+  bool isNewTripPage = false;
+  bool isBookmarked = false;
   ContinuePlanning({
     Key? key,
     required this.tripId,
+    required this.isNewTripPage,
+    required this.isBookmarked,
   }) : super(key: key);
 
   @override
@@ -44,7 +49,6 @@ class _ContinuePlanningState extends State<ContinuePlanning>
   double screenHeight = 0;
   TextEditingController _HeadingTextController = TextEditingController();
   bool _dataFetched = false;
-
   @override
   void initState() {
     super.initState();
@@ -74,6 +78,8 @@ class _ContinuePlanningState extends State<ContinuePlanning>
           Timestamp tempEndDate = tripDoc['endDate'];
           widget.endDate = tempEndDate.toDate();
           widget.locationSelected = tripDoc['location'];
+          widget.collaborators = tripDoc['collaborators'];
+          print("hi");
           if (tripDoc['tripPreferences'] != null) {
             widget.tripPreferences =
                 List<String>.from(tripDoc['tripPreferences']);
@@ -87,6 +93,23 @@ class _ContinuePlanningState extends State<ContinuePlanning>
       }
     } catch (error) {
       print("Error fetching trip data: $error");
+    }
+  }
+
+  void deleteTrip() async {
+    try {
+      for (int index = 0; index < widget.collaborators.length; index++) {
+        final DocumentReference user =
+            db.collection("users").doc(widget.collaborators[index]);
+        await user.update({
+          'trips': FieldValue.arrayRemove([
+            {'tripId': widget.tripId, 'isBookmarked': widget.isBookmarked}
+          ])
+        });
+      }
+      await tripRef.delete();
+    } catch (error) {
+      print(error);
     }
   }
 
@@ -157,7 +180,20 @@ class _ContinuePlanningState extends State<ContinuePlanning>
                                 Icons.delete,
                                 color: Colors.white,
                               ),
-                              onTap: () {}),
+                              onTap: () {
+                                deleteTrip();
+                                if (widget.isNewTripPage) {
+                                  Navigator.popUntil(context, (route) {
+                                    if (route.isFirst) {
+                                      return true;
+                                    } else {
+                                      return false;
+                                    }
+                                  });
+                                } else {
+                                  Navigator.pop(context);
+                                }
+                              }),
                         ],
                       ),
                     ),

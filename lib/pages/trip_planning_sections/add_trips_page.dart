@@ -16,7 +16,6 @@ import 'package:voyager/pages/trip_planning_sections/trip_provider.dart';
 
 class AddTrips extends StatefulWidget {
   const AddTrips({Key? key}) : super(key: key);
-
   @override
   State<AddTrips> createState() => _AddTripsState();
 }
@@ -24,7 +23,6 @@ class AddTrips extends StatefulWidget {
 class _AddTripsState extends State<AddTrips> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   FirebaseFirestore db = FirebaseFirestore.instance;
-
   @override
   void initState() {
     super.initState();
@@ -37,7 +35,6 @@ class _AddTripsState extends State<AddTrips> {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     final tripsProvider = Provider.of<TripsProvider>(context);
-
     return Scaffold(
       backgroundColor: themeProvider.themeMode == ThemeMode.dark
           ? darkColorScheme.background
@@ -102,7 +99,10 @@ class _AddTripsState extends State<AddTrips> {
 }
 
 void _showBottomSheetForContinuePlanning(
-    BuildContext context, int length, List<Trip> tripList) {
+  BuildContext context,
+  int length,
+  List<Trip> tripList,
+) {
   double screenWidth = MediaQuery.of(context).size.width;
   double screenHeight = MediaQuery.of(context).size.height;
   showModalBottomSheet(
@@ -131,6 +131,8 @@ void _showBottomSheetForContinuePlanning(
                     child: trips(
                       screenWidth: screenWidth,
                       trip: tripList[index],
+                      isNewTripPage: true,
+                      isBookmarked: tripList[index].isBookmarked,
                     ),
                   );
                 }),

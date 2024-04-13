@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/components/explore_section/destinations.dart';
 import 'package:voyager/components/explore_section/past_searches.dart';
@@ -16,7 +15,6 @@ import 'package:voyager/pages/explore_sections/for_you_expanded.dart';
 import 'package:voyager/pages/explore_sections/popular_destinations_expanded.dart';
 import 'package:voyager/pages/trip_planning_sections/trip_provider.dart';
 import 'package:voyager/utils/constants.dart';
-import '../../utils/colors.dart';
 import 'package:voyager/services/fetch_userdata.dart';
 
 class Explore extends StatefulWidget {
@@ -119,7 +117,13 @@ class _ExploreState extends State<Explore> {
                         : tripsProvider.tripList.length,
                     itemBuilder: (BuildContext context, int index) {
                       Trip trip = tripsProvider.tripList[index];
-                      return trips(screenWidth: screenWidth, trip: trip);
+                      return trips(
+                        screenWidth: screenWidth,
+                        trip: trip,
+                        isNewTripPage: false,
+                        isBookmarked:
+                            tripsProvider.tripList[index].isBookmarked,
+                      );
                     },
                   ),
                 ),
