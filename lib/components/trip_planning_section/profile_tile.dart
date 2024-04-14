@@ -1,11 +1,14 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/utils/constants.dart';
 
 class ProfileTile extends StatelessWidget {
-  const ProfileTile({super.key});
+  String name;
+  String photoURL;
+  ProfileTile({super.key, required this.name, required this.photoURL});
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +30,10 @@ class ProfileTile extends StatelessWidget {
                     : Colors.grey.shade300,
               ),
               child: Center(
-                child: Text(
-                  'N',
-                  style: TextStyle(
-                    fontSize: 18,
+                child: CircleAvatar(
+                  radius: 25,
+                  backgroundImage: CachedNetworkImageProvider(
+                    photoURL,
                   ),
                 ),
               ),
@@ -42,7 +45,7 @@ class ProfileTile extends StatelessWidget {
             child: SizedBox(
               width: screenWidth - 550,
               child: Text(
-                'Nithin',
+                name,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(

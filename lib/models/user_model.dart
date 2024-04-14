@@ -4,7 +4,19 @@ class UserModel {
   final String? email;
   final String? creationTime;
   final String? photoURL;
-  UserModel(this.name, this.email, this.uid, this.creationTime, this.photoURL);
+
+  UserModel(
+      {this.name, this.email, this.uid, this.creationTime, this.photoURL});
+
+  factory UserModel.fromMap(Map<String, dynamic> map) {
+    return UserModel(
+      name: map['name'],
+      email: map['email'],
+      uid: map['uid'],
+      creationTime: map['creationTime'],
+      photoURL: map['photoURL'],
+    );
+  }
 
   Map<String, dynamic> toMap() {
     return {

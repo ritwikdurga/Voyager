@@ -6,9 +6,9 @@ import 'package:voyager/utils/constants.dart';
 
 class ExpenseCategoryPage extends StatefulWidget {
   final Function(Map<String, dynamic>?) onCategorySelected;
-  ExpenseCategoryPage({required this.onCategorySelected});
+  const ExpenseCategoryPage({super.key, required this.onCategorySelected});
   @override
-  _ExpenseCategoryPageState createState() => _ExpenseCategoryPageState();
+  State<ExpenseCategoryPage> createState() => _ExpenseCategoryPageState();
 }
 
 class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> {
@@ -95,8 +95,8 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> {
                           fontFamily: 'ProductSans',
                           fontWeight: FontWeight.bold,
                           color: themeProvider.themeMode == ThemeMode.dark
-                                  ? Colors.white
-                                  : Colors.black,
+                              ? Colors.white
+                              : Colors.black,
                         ),
                       ),
                     ],
@@ -110,7 +110,6 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> {
     );
   }
 
-  // Function to get icon for category
   Icon _getIconForCategory(String category) {
     switch (category) {
       case 'Flights':

@@ -1,51 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:voyager/utils/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:voyager/models/user_model.dart';
 
 class SplitPage extends StatefulWidget {
-  final Function(List<String>?) onSelectedItemsChanged;
-  List<String>? selectedItems;
-  bool noOneSelected;
-  SplitPage(
-      {required this.onSelectedItemsChanged,
-      required this.noOneSelected,
-      required this.selectedItems});
+  final Function(List<Map<String, dynamic>>?) onSelectedItemsChanged;
+  final List<Map<String, dynamic>>? selectedItems;
+  final bool noOneSelected;
+  final List<UserModel> userData;
+
+  const SplitPage({
+    super.key,
+    required this.onSelectedItemsChanged,
+    required this.noOneSelected,
+    required this.selectedItems,
+    required this.userData,
+  });
 
   @override
-  _SplitPageState createState() => _SplitPageState();
+  State<SplitPage> createState() => _SplitPageState();
 }
 
 class _SplitPageState extends State<SplitPage> {
-  List<String>? selectedItems;
+  List<Map<String, dynamic>>? selectedItems;
   late bool noOneSelected;
-  String photoURL =
-      'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80';
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    selectedItems = widget.selectedItems;
+    selectedItems = widget.selectedItems ?? [];
     noOneSelected = widget.noOneSelected;
   }
 
-  final List<String> items = [
-    'John Doe',
-    'Jane Smith',
-    'Alice Johnson',
-    'Bob Williams',
-    'Emma Brown',
-    'NO ONE'
-  ];
-
   @override
   Widget build(BuildContext context) {
-    final ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+    final List<Map<String, dynamic>> items = [
+      {
+        'name': 'None',
+        'photoURL': '',
+        'uid': FirebaseAuth.instance.currentUser?.uid ?? '',
+      },
+      ...widget.userData.map((user) {
+        return {
+          'name': user.name ?? '',
+          'photoURL': user.photoURL ?? '',
+          'uid': user.uid ?? '',
+        };
+      })
+    ];
+
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('split'),
-      // ),
       body: Column(
         children: [
           Padding(
@@ -53,12 +57,13 @@ class _SplitPageState extends State<SplitPage> {
             child: Row(
               children: [
                 IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: Icon(Icons.arrow_back_ios, size: 20)),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.arrow_back_ios, size: 20),
+                ),
                 SizedBox(width: screenWidth * 0.30),
-                Text(
+                const Text(
                   'Split',
                   style: TextStyle(
                     fontSize: 20,
@@ -70,50 +75,51 @@ class _SplitPageState extends State<SplitPage> {
               ],
             ),
           ),
-          ListView.builder(
-            shrinkWrap: true,
-            physics: ClampingScrollPhysics(),
-            itemCount: items.length,
-            itemBuilder: (BuildContext context, int index) {
-              final item = items[index];
-              final isSelected =
-                  selectedItems != null ? selectedItems!.contains(item) : false;
+          Expanded(
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: items.length,
+              itemBuilder: (BuildContext context, int index) {
+                final Map<String, dynamic> item = items[index];
+                final String name = item['name'];
+                final String uid = item['uid'];
+                final String photoURL = item['photoURL'] ??
+                    ''; // Provide default value for photoURL
 
-              return ListTile(
-                leading: CircleAvatar(
-                  radius: 16,
-                  backgroundImage: NetworkImage(photoURL),
-                ),
-                title: Text(item),
-                onTap: () {
-                  setState(() {
-                    if (item == 'NO ONE' && !isSelected) {
-                      // If 'NO ONE' is clicked, deselect all other items
-                      if (selectedItems != null) {
-                        selectedItems!.clear();
-                      } else {
-                        selectedItems = [];
+                final bool isSelected = selectedItems != null
+                    ? selectedItems!
+                        .any((selectedItem) => selectedItem['name'] == name)
+                    : false;
+
+                return ListTile(
+                  leading: CircleAvatar(
+                    radius: 16,
+                    backgroundImage: NetworkImage(photoURL),
+                  ),
+                  title: Text(name),
+                  onTap: () {
+                    setState(() {
+                      if (name == 'None' && !isSelected) {
+                        selectedItems = [
+                          {'name': 'None', 'uid': 'None'}
+                        ];
+                        noOneSelected = true;
+                      } else if (isSelected) {
+                        selectedItems!
+                            .removeWhere((item) => item['name'] == name);
+                        if (name == 'None') {
+                          noOneSelected = false;
+                        }
+                      } else if (!noOneSelected) {
+                        selectedItems!.add({'name': name, 'uid': uid});
                       }
-                      selectedItems!.add('NO ONE');
-                      noOneSelected = true;
-                    } else if (isSelected) {
-                      if (item == 'NO ONE') {
-                        noOneSelected = false;
-                      }
-                      selectedItems!.remove(item);
-                    } else if (!noOneSelected) {
-                      if (selectedItems == null) {
-                        selectedItems = [];
-                      }
-                      selectedItems!.add(item);
-                    }
-                  });
-                  widget.onSelectedItemsChanged(
-                      selectedItems); // Invoke the callback
-                },
-                trailing: isSelected ? Icon(Icons.check) : null,
-              );
-            },
+                    });
+                    widget.onSelectedItemsChanged(selectedItems);
+                  },
+                  trailing: isSelected ? const Icon(Icons.check) : null,
+                );
+              },
+            ),
           ),
         ],
       ),
@@ -124,10 +130,9 @@ class _SplitPageState extends State<SplitPage> {
           children: [
             TextButton(
               onPressed: () {
-                // Pass selected items back to the previous page
                 Navigator.of(context).pop(selectedItems);
               },
-              child: Text(
+              child: const Text(
                 'Done',
                 style: TextStyle(fontSize: 18),
               ),

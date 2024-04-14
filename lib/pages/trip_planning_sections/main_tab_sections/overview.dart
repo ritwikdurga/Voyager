@@ -18,6 +18,7 @@ import 'package:voyager/components/trip_planning_section/friends_icons.dart';
 import 'package:voyager/components/trip_planning_section/profile_tile.dart';
 import 'package:voyager/components/trip_planning_section/ticket_container.dart';
 import 'package:voyager/home_screen.dart';
+import 'package:voyager/models/user_model.dart';
 import 'package:voyager/pages/trip_planning_sections/main_tab_sections/form_sections/form_for_buses.dart';
 import 'package:voyager/pages/trip_planning_sections/main_tab_sections/form_sections/form_for_cars.dart';
 import 'package:voyager/pages/trip_planning_sections/main_tab_sections/form_sections/form_for_one_way.dart';
@@ -76,6 +77,8 @@ class _OverviewTripsState extends State<OverviewTrips> {
   List<CarData> _carTickets = [];
   List<XFile?> ImagesList = [];
   List<String> _imageURLs = [];
+  List<UserModel> userData = [];
+  List<dynamic> _collabList = [];
   late final MyIndexProvider _indexProvider;
 
   @override
@@ -86,6 +89,24 @@ class _OverviewTripsState extends State<OverviewTrips> {
         .doc(widget.tripRef.id)
         .snapshots();
     _indexProvider = Provider.of<MyIndexProvider>(context, listen: false);
+  }
+
+  void fetchUserData(List<dynamic> uids) async {
+    for (String uid in uids) {
+      try {
+        DocumentSnapshot userDocRef =
+            await FirebaseFirestore.instance.collection('users').doc(uid).get();
+        if (userDocRef.exists) {
+          UserModel user =
+              UserModel.fromMap(userDocRef.data() as Map<String, dynamic>);
+          setState(() {
+            userData.add(user);
+          });
+        }
+      } catch (e) {
+        print('Error fetching user data: $e');
+      }
+    }
   }
 
   void updateNotesInFirestore(List<Item> notes) async {
@@ -523,6 +544,24 @@ class _OverviewTripsState extends State<OverviewTrips> {
           }
           if (snapshot.hasData) {
             var data = snapshot.data;
+            List<dynamic> collabList = [];
+            try {
+              if (data!.get('collaborators') != null) {
+                collabList = data.get('collaborators');
+              }
+            } catch (error) {
+              print(error);
+              collabList = [];
+            }
+            if (!areArraysEqual(collabList, _collabList)) {
+              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                setState(() {
+                  _collabList = collabList;
+                  userData.clear();
+                  fetchUserData(collabList);
+                });
+              });
+            }
             List<Item> notes = [];
             try {
               if (data?['attachments'] != null &&
@@ -629,6 +668,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                 });
               });
             }
+
             return buildWidgetTree(context);
           }
           return const SizedBox();
@@ -658,7 +698,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                   Spacer(),
                   GestureDetector(
                     onTap: () {
-                      _showBottomSheet(context);
+                      _showBottomSheet(context, userData);
                     },
                     child: Row(
                       children: [
@@ -688,6 +728,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                       width: screenWidth - 50,
                       child: FriendsIcons(
                         tripId: widget.tripRef.id,
+                        userData: userData,
                       ),
                     ),
                   ),
@@ -1358,7 +1399,10 @@ class _OverviewTripsState extends State<OverviewTrips> {
                             Row(
                               children: [
                                 GestureDetector(
-                                  child: Icon(Icons.edit,size: 20,),
+                                  child: Icon(
+                                    Icons.edit,
+                                    size: 20,
+                                  ),
                                   onTap: () {
                                     setState(() {
                                       _isEditing = !_isEditing;
@@ -1366,9 +1410,12 @@ class _OverviewTripsState extends State<OverviewTrips> {
                                     });
                                   },
                                 ),
-                                SizedBox(width:10),
+                                SizedBox(width: 10),
                                 GestureDetector(
-                                  child: Icon(Icons.delete,size: 20,),
+                                  child: Icon(
+                                    Icons.delete,
+                                    size: 20,
+                                  ),
                                   onTap: () {
                                     setState(() {
                                       _notes.removeWhere((Item currentItem) =>
@@ -1411,7 +1458,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
   }
 }
 
-void _showBottomSheet(BuildContext context) {
+void _showBottomSheet(BuildContext context, List<UserModel> userData) {
   double screenWidth = MediaQuery.of(context).size.width;
   double screenHeight = MediaQuery.of(context).size.height;
   final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
@@ -1420,23 +1467,30 @@ void _showBottomSheet(BuildContext context) {
     builder: (BuildContext bc) {
       return Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-            child: IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: Icon(Icons.close),
+          Align(
+            // Align the IconButton to the right
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(
+                  0, 8, 8, 0), // Adjust padding as needed
+              child: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(Icons.close),
+              ),
             ),
           ),
-          SizedBox(
-            height: screenHeight / 2 - 10,
+          Expanded(
             child: ListView.builder(
-              itemCount: 1,
+              itemCount: userData.length,
               shrinkWrap: true,
               physics: ClampingScrollPhysics(),
               itemBuilder: (bc, index) {
-                return ProfileTile();
+                return ProfileTile(
+                  name: userData[index].name as String,
+                  photoURL: userData[index].photoURL as String,
+                );
               },
             ),
           ),

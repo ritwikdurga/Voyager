@@ -1,51 +1,45 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:voyager/utils/constants.dart'; // Import the shared_preferences package
+import 'package:voyager/utils/constants.dart';
+import 'package:voyager/models/user_model.dart';
 
 class PaidByPage extends StatefulWidget {
-  String? selectedPaidBy;
-  PaidByPage({required this.selectedPaidBy});
+  final Map<String, dynamic>? selectedPaidBy;
+  final List<UserModel> userdata;
+
+  const PaidByPage({
+    super.key,
+    required this.selectedPaidBy,
+    required this.userdata,
+  });
+
   @override
-  _PaidByPageState createState() => _PaidByPageState();
+  State<PaidByPage> createState() => _PaidByPageState();
 }
 
 class _PaidByPageState extends State<PaidByPage> {
-  String photoURL =
-      'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80';
-
-  final List<String> items = [
-    'John Doe',
-    'Jane Smith',
-    'Alice Johnson',
-    'Bob Williams',
-    'Emma Brown',
-  ];
-
-  String? selectedPaidBy;
+  late Map<String, dynamic> selectedPaidBy;
 
   @override
   void initState() {
     super.initState();
-    // Retrieve previously selected option from shared preferences
-    selectedPaidBy = widget.selectedPaidBy;
-    //_loadSelectedOption();
+    selectedPaidBy = widget.selectedPaidBy ?? {};
   }
-
-  // void _loadSelectedOption() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     selectedPaidBy = prefs.getString('selectedPaidBy');
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
     final ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     final screenWidth = MediaQuery.of(context).size.width;
+    final List<Map<String, dynamic>> items = widget.userdata.map((user) {
+      return {
+        'name': user.name ?? '',
+        'photoURL': user.photoURL ?? '',
+        'uid': user.uid ?? '',
+      };
+    }).toList();
+
     return Scaffold(
       body: Column(
         children: [
@@ -54,12 +48,13 @@ class _PaidByPageState extends State<PaidByPage> {
             child: Row(
               children: [
                 IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: Icon(Icons.arrow_back_ios, size: 20)),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.arrow_back_ios, size: 20),
+                ),
                 SizedBox(width: screenWidth * 0.25),
-                Text(
+                const Text(
                   'Paid By',
                   style: TextStyle(
                     fontSize: 20,
@@ -73,33 +68,41 @@ class _PaidByPageState extends State<PaidByPage> {
           ),
           ListView.builder(
             shrinkWrap: true,
-            physics: ClampingScrollPhysics(),
+            physics: const ClampingScrollPhysics(),
             itemCount: items.length,
             itemBuilder: (BuildContext context, int index) {
-              final item = items[index];
-              final isSelected = selectedPaidBy == item;
-
+              final Map<String, dynamic> item = items[index];
+              final String name = item['name'];
+              final String photoURL = item['photoURL'];
+              final String uid = item['uid'];
+              final bool isSelected = selectedPaidBy['name'] == name &&
+                  selectedPaidBy['uid'] == uid;
               return ListTile(
                 leading: CircleAvatar(
                   radius: 16,
-                  backgroundImage: NetworkImage(photoURL),
+                  backgroundImage: CachedNetworkImageProvider(photoURL),
                 ),
-                title: Text(item,
-                    style: TextStyle(
-                      fontFamily: 'ProductSans',
-                      fontWeight: FontWeight.bold,
-                      color: themeProvider.themeMode == ThemeMode.dark
-                          ? Colors.white
-                          : Colors.black,
-                    )),
+                title: Text(
+                  name,
+                  style: TextStyle(
+                    fontFamily: 'ProductSans',
+                    fontWeight: FontWeight.bold,
+                    color: themeProvider.themeMode == ThemeMode.dark
+                        ? Colors.white
+                        : Colors.black,
+                  ),
+                ),
                 onTap: () {
                   setState(() {
-                    selectedPaidBy = item;
+                    selectedPaidBy = {
+                      'name': name,
+                      'uid': uid,
+                    };
                   });
                   // Save selected option to shared preferences
-                  _saveSelectedOption();
+                  _saveSelectedOption(uid);
                 },
-                trailing: isSelected ? Icon(Icons.check) : null,
+                trailing: isSelected ? const Icon(Icons.check) : null,
               );
             },
           ),
@@ -115,7 +118,7 @@ class _PaidByPageState extends State<PaidByPage> {
                 // Pass the selected person back to the previous page
                 Navigator.of(context).pop(selectedPaidBy);
               },
-              child: Text(
+              child: const Text(
                 'Done',
                 style: TextStyle(fontSize: 18),
               ),
@@ -126,8 +129,9 @@ class _PaidByPageState extends State<PaidByPage> {
     );
   }
 
-  void _saveSelectedOption() async {
+  void _saveSelectedOption(String uid) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('selectedPaidBy', selectedPaidBy ?? '');
+    await prefs.setString('selectedPaidBy', selectedPaidBy['name']);
+    await prefs.setString('selectedPaidByUid', uid);
   }
 }

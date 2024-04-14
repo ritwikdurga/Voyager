@@ -289,7 +289,9 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
                           ItineraryTrips(
                               startDate: widget.StartDate,
                               endDate: widget.EndDate),
-                          ExpensesTrips(),
+                          ExpensesTrips(
+                            tripId: tripId,
+                          ),
                         ],
                       ),
                     ),

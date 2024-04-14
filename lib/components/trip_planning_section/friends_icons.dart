@@ -1,19 +1,19 @@
 // ignore_for_file: avoid_print, must_be_immutable
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:voyager/models/user_model.dart';
 import 'package:voyager/services/fetch_userdata.dart';
 import 'package:voyager/utils/constants.dart';
 
 class FriendsIcons extends StatelessWidget {
   String tripId;
-  FriendsIcons({super.key, required this.tripId});
-  String photoURL =
-      'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80';
+  List<UserModel> userData;
+  FriendsIcons({super.key, required this.tripId, required this.userData});
 
-  // Text controller for capturing the email
   final TextEditingController _emailController = TextEditingController();
 
   void sendInvitation(String email) async {
@@ -42,7 +42,7 @@ class FriendsIcons extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return ListView.builder(
       scrollDirection: Axis.horizontal,
-      itemCount: 15,
+      itemCount: userData.length + 1,
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
       itemBuilder: (BuildContext context, index) {
@@ -126,14 +126,16 @@ class FriendsIcons extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
-                _showNameContainer(context);
+                _showNameContainer(context, userData[index - 1].name as String);
               },
               child: CircleAvatar(
                 radius: 25,
-                backgroundImage: NetworkImage(photoURL),
+                backgroundImage: CachedNetworkImageProvider(
+                  userData[index - 1].photoURL as String,
+                ),
               ),
             ),
-            if (index != 14)
+            if (index != userData.length)
               const SizedBox(
                 width: 8,
               ),
@@ -144,7 +146,7 @@ class FriendsIcons extends StatelessWidget {
   }
 }
 
-void _showNameContainer(BuildContext context) {
+void _showNameContainer(BuildContext context, String name) {
   final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
@@ -153,7 +155,7 @@ void _showNameContainer(BuildContext context) {
           : Colors.black,
       content: Center(
         child: Text(
-          'Nithin',
+          name,
           style: TextStyle(
             fontSize: 18,
             fontFamily: 'ProductSans',

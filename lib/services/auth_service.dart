@@ -2,7 +2,6 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:voyager/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -28,8 +27,12 @@ class AuthService {
         FirebaseFirestore.instance.collection('users').doc(user.uid);
     final userDocSnapshot = await userDoc.get();
     if (!userDocSnapshot.exists) {
-      UserModel userDerived = UserModel(name, user.email, user.uid,
-          user.metadata.creationTime!.toIso8601String(), photoURL);
+      UserModel userDerived = UserModel(
+          name: name,
+          email: user.email,
+          uid: user.uid,
+          creationTime: user.metadata.creationTime!.toIso8601String(),
+          photoURL: photoURL);
       await db.collection('users').doc(user.uid).set(userDerived.toMap());
       await db.collection("email").doc(user.email).set({'uid': user.uid});
     }

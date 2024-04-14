@@ -277,7 +277,9 @@ class _ContinuePlanningState extends State<ContinuePlanning>
                             ItineraryTrips(
                                 startDate: widget.startDate,
                                 endDate: widget.endDate),
-                            ExpensesTrips(),
+                            ExpensesTrips(
+                              tripId: widget.tripId,
+                            ),
                           ],
                         ),
                       ),
