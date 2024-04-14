@@ -119,6 +119,7 @@ class _TripMateKindState extends State<TripMateKind>
 
   Widget buildContainer(
       int index, double screenWidth, Widget icon, String str, Color colour) {
+        final themeProvider = Provider.of<ThemeProvider>(context);
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -136,7 +137,11 @@ class _TripMateKindState extends State<TripMateKind>
         height: screenWidth / 3,
         decoration: BoxDecoration(
           border: Border.all(
-            color: selectedContainerIndex == index
+            color: themeProvider.themeMode == ThemeMode.dark
+            ? selectedContainerIndex == index
+                ? Colors.grey.shade400
+                : Colors.grey.shade900
+            : selectedContainerIndex == index
                 ? Colors.grey.shade900
                 : Colors.grey.shade400,
             width: 2.0,

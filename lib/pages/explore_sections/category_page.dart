@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:maps_launcher/maps_launcher.dart';
@@ -12,6 +13,10 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:voyager/utils/constants.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+_callNumber(String number) async{
+  bool? res = await FlutterPhoneDirectCaller.callNumber(number);
+}
 
 class CategoryPage extends StatelessWidget {
   late String heading;
@@ -147,13 +152,16 @@ class CategoryPage extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                     ),
                                 ),
-                                Text(phone,
-                                    style: TextStyle(
-                                      color: Colors.blueAccent,
-                                      fontFamily: 'ProductSans',
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                    ), 
+                                GestureDetector(
+                                  child: Text(phone,
+                                      style: TextStyle(
+                                        color: Colors.blueAccent,
+                                        fontFamily: 'ProductSans',
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ), 
+                                  ),
+                                  onTap:()=>_callNumber(phone),
                                 ),
                               ],
                             ),

@@ -74,8 +74,10 @@ dependencies:
   map_launcher: ^3.2.0
   maps_launcher: ^2.2.1
   flutter_svg:
+  flutter_email_sender: ^6.0.2
   cached_network_image: ^3.3.1
   path_provider: ^2.0.2
+  flutter_phone_direct_caller: ^2.1.1
 
 
 dev_dependencies:

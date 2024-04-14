@@ -1316,7 +1316,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
                   return ExpansionPanel(
                     canTapOnHeader: true,
                     backgroundColor: themeProvider.themeMode == ThemeMode.dark
-                        ? Colors.grey.shade800
+                        ? Colors.grey.shade900
                         : Colors.grey.shade100,
                     headerBuilder: (BuildContext context, bool isExpanded) {
                       return Row(
@@ -1357,18 +1357,19 @@ class _OverviewTripsState extends State<OverviewTrips> {
                           if (isExpanded)
                             Row(
                               children: [
-                                IconButton(
-                                  icon: Icon(Icons.edit),
-                                  onPressed: () {
+                                GestureDetector(
+                                  child: Icon(Icons.edit,size: 20,),
+                                  onTap: () {
                                     setState(() {
                                       _isEditing = !_isEditing;
                                       item.isEditing = !item.isEditing;
                                     });
                                   },
                                 ),
-                                IconButton(
-                                  icon: Icon(Icons.delete),
-                                  onPressed: () {
+                                SizedBox(width:10),
+                                GestureDetector(
+                                  child: Icon(Icons.delete,size: 20,),
+                                  onTap: () {
                                     setState(() {
                                       _notes.removeWhere((Item currentItem) =>
                                           item == currentItem);

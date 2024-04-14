@@ -1,10 +1,54 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/utils/colors.dart';
 import 'package:voyager/utils/constants.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 
-class FeedbackPage extends StatelessWidget {
+class FeedbackPage extends StatefulWidget {
   const FeedbackPage({Key? key}) : super(key: key);
+
+  @override
+  State<FeedbackPage> createState() => _FeedbackPageState();
+}
+
+class _FeedbackPageState extends State<FeedbackPage> {
+  TextEditingController _controller = TextEditingController();
+
+  Future<void> send(String query) async {
+    final Email email = Email(
+      body: query,
+      subject: 'Feedback',
+      recipients: ["explorewithvoyager@gmail.com"],
+    );
+
+    String platformResponse;
+
+    try {
+      await FlutterEmailSender.send(email);
+      platformResponse = 'success';
+    } catch (error) {
+      print(error);
+      platformResponse = error.toString();
+    }
+
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Submitted Successfully',
+          textAlign: TextAlign.center,
+          style:TextStyle(
+            fontSize: 20,
+          ),
+        ),
+        backgroundColor: Colors.green,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +87,7 @@ class FeedbackPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             TextFormField(
+              controller: _controller,
               style: TextStyle(
                   color: themeProvider.themeMode == ThemeMode.dark
                       ? Colors.white
@@ -53,7 +98,9 @@ class FeedbackPage extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: 'Enter your feedback',
                 hintStyle: TextStyle(
-                    color: Colors.grey.shade800, fontFamily: 'ProductSans'),
+                    color: Colors.grey.shade800,
+                    fontFamily: 'ProductSans',
+                    fontWeight: FontWeight.w400),
                 border: OutlineInputBorder(),
               ),
               maxLines: 5,
@@ -65,6 +112,9 @@ class FeedbackPage extends StatelessWidget {
               ),
               onPressed: () {
                 // Submit feedback logic
+                String text = _controller.text;
+                send(text);
+                FocusManager.instance.primaryFocus?.unfocus();
               },
               child: Text('Submit',
                   style: TextStyle(

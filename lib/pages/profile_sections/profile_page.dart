@@ -92,9 +92,9 @@ class _ProfileState extends State<Profile> {
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
               _indexProvider.setMyIndex(0);
-
               if (context.mounted) {
-                Navigator.of(context).pushReplacement(
+                Navigator.pop(context);
+                Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => LoginPage(
                       onTap: () => {},

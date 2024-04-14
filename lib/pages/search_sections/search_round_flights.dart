@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -47,7 +48,7 @@ class _SearchRoundFlightsState extends State<SearchRoundFlights> {
         'https://sky-scanner3.p.rapidapi.com/flights/search-roundtrip');
 
     var headers = {
-      'X-RapidAPI-Key': '<Your API key here>',
+      'X-RapidAPI-Key': dotenv.env['FLIGHT_KEY']!,
       'X-RapidAPI-Host': 'sky-scanner3.p.rapidapi.com'
     };
 

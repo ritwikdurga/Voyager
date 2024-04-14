@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
@@ -49,7 +50,7 @@ class _SearchTrainsState extends State<SearchTrains> {
     var url = Uri.parse(
         'https://irctc1.p.rapidapi.com/api/v2/getFare?trainNo=${trainNumber}&fromStationCode=${widget.fromStation}&toStationCode=${widget.toStation}');
     var headers = {
-      'X-RapidAPI-Key': '<YOUR API KEY HERE>',
+      'X-RapidAPI-Key': dotenv.env['TRAIN_KEY']!,
       'X-RapidAPI-Host': 'irctc1.p.rapidapi.com'
     };
 
@@ -78,7 +79,7 @@ class _SearchTrainsState extends State<SearchTrains> {
     var url = Uri.parse(
         'https://irctc1.p.rapidapi.com/api/v3/trainBetweenStations?fromStationCode=${widget.fromStation}&toStationCode=${widget.toStation}&dateOfJourney=${widget.date}');
     var headers = {
-      'X-RapidAPI-Key': '<YOUR API KEY HERE>',
+      'X-RapidAPI-Key': dotenv.env['TRAIN_KEY']!,
       'X-RapidAPI-Host': 'irctc1.p.rapidapi.com'
     };
 
@@ -87,6 +88,7 @@ class _SearchTrainsState extends State<SearchTrains> {
       if (response.statusCode == 200) {
         // Decode JSON here
         var jsonResponse = json.decode(response.body);
+        print(jsonResponse['data']);
         return jsonResponse['data'];
       } else {
         print('Request failed with status: ${response.statusCode}');

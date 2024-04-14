@@ -70,6 +70,7 @@ class _LoginPageState extends State<LoginPage> {
               .updateName(user.displayName ?? 'NaN');
           fetchUserData(context);
           // Navigate to the home screen
+          Navigator.pop(context);
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(

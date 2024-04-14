@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/date_symbol_data_local.dart'; // Import date symbol data
 import 'package:intl/intl.dart';
@@ -49,7 +50,7 @@ class _SearchFlightsState extends State<SearchFlights> {
         Uri.parse('https://sky-scanner3.p.rapidapi.com/flights/search-one-way');
 
     var headers = {
-      'X-RapidAPI-Key': '<Your API key here>',
+      'X-RapidAPI-Key': dotenv.env['FLIGHT_KEY']!,
       'X-RapidAPI-Host': 'sky-scanner3.p.rapidapi.com'
     };
 

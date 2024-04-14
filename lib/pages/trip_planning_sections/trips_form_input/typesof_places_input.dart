@@ -176,6 +176,7 @@ class _TypesOfPlacesState extends State<TypesOfPlaces> {
   }
 
   Widget buildContainer(double screenWidth, String str, Color colour) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -198,7 +199,11 @@ class _TypesOfPlacesState extends State<TypesOfPlaces> {
         height: 50,
         decoration: BoxDecoration(
           border: Border.all(
-            color: selectedTypes != null && selectedTypes!.contains(str)
+            color: themeProvider.themeMode == ThemeMode.dark
+            ? selectedTypes != null && selectedTypes!.contains(str)
+                ? Colors.grey.shade400
+                : Colors.grey.shade900
+            : selectedTypes != null && selectedTypes!.contains(str)
                 ? Colors.grey.shade900
                 : Colors.grey.shade400,
             width: 2.0,

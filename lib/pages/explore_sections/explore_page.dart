@@ -57,79 +57,84 @@ class _ExploreState extends State<Explore> {
                 SizedBox(
                   height: 12,
                 ),
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(6, 0, 0, 0),
-                      child: Text(
-                        'Continue Planning',
-                        style: TextStyle(
-                          color: Colors.blueAccent,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22,
-                        ),
-                      ),
-                    ),
-                    Expanded(child: Container()),
-                    GestureDetector(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'View All',
+                if (tripsProvider.tripList.isNotEmpty)
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(6, 0, 0, 0),
+                            child: Text(
+                              'Continue Planning',
                               style: TextStyle(
-                                color: themeProvider.themeMode == ThemeMode.dark
-                                    ? Colors.white
-                                    : Colors.black,
+                                color: Colors.blueAccent,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22,
                               ),
                             ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              color: themeProvider.themeMode == ThemeMode.dark
-                                  ? Colors.white
-                                  : Colors.black,
-                              size: 12,
+                          ),
+                          Expanded(child: Container()),
+                          GestureDetector(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'View All',
+                                    style: TextStyle(
+                                      color: themeProvider.themeMode ==
+                                              ThemeMode.dark
+                                          ? Colors.white
+                                          : Colors.black,
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: themeProvider.themeMode ==
+                                            ThemeMode.dark
+                                        ? Colors.white
+                                        : Colors.black,
+                                    size: 12,
+                                  ),
+                                ],
+                              ),
                             ),
-                          ],
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ContPlanning()));
+                            },
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 6.5,
+                      ),
+                      SizedBox(
+                        height: screenWidth / 3 + 20,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: tripsProvider.tripList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            Trip trip = tripsProvider.tripList[index];
+                            return trips(
+                              screenWidth: screenWidth,
+                              trip: trip,
+                              isNewTripPage: false,
+                              isBookmarked:
+                                  tripsProvider.tripList[index].isBookmarked,
+                            );
+                          },
                         ),
                       ),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ContPlanning()));
-                      },
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 6.5,
-                ),
-                SizedBox(
-                  height: screenWidth / 3 + 20,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: tripsProvider.tripList.length > 5
-                        ? 5
-                        : tripsProvider.tripList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      Trip trip = tripsProvider.tripList[index];
-                      return trips(
-                        screenWidth: screenWidth,
-                        trip: trip,
-                        isNewTripPage: false,
-                        isBookmarked:
-                            tripsProvider.tripList[index].isBookmarked,
-                      );
-                    },
+                      SizedBox(
+                        height: 12,
+                      ),
+                    ],
                   ),
-                ),
-                SizedBox(
-                  height: 12,
-                ),
                 Row(
                   children: [
                     Padding(
