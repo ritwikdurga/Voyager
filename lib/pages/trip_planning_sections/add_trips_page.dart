@@ -133,6 +133,7 @@ void _showBottomSheetForContinuePlanning(
                       trip: tripList[index],
                       isNewTripPage: true,
                       isBookmarked: tripList[index].isBookmarked,
+                      index: 0,
                     ),
                   );
                 }),

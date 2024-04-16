@@ -1,27 +1,24 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, avoid_print
 
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/date_symbol_data_local.dart'; // Import date symbol data
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/components/search_section/flight_ticket_widget.dart';
 import '../../components/search_section/horizontal_cal.dart';
-import '../../components/search_section/ticket_widget.dart';
 import '../../utils/constants.dart';
 
 class SearchFlights extends StatefulWidget {
   SearchFlights(
-      {Key? key,
+      {super.key,
       required this.selectedFromAirport,
       required this.selectedToAirport,
       required this.departureDate,
       required this.flightClass,
-      required this.passengerCount})
-      : super(key: key);
+      required this.passengerCount});
 
   final Map<String, String>? selectedFromAirport;
   final Map<String, String>? selectedToAirport;
@@ -73,6 +70,8 @@ class _SearchFlightsState extends State<SearchFlights> {
       print(_itineraries);
       //print(response.body.itineraries.toString());
     } else {
+      errorSnackBar();
+      print(response.body);
       print('Request failed with status: ${response.statusCode}.');
     }
   }
@@ -92,7 +91,9 @@ class _SearchFlightsState extends State<SearchFlights> {
             Navigator.pop(context);
           },
         ),
-        title: Text('Search Flights',style: TextStyle(color: Colors.blueAccent,fontWeight:FontWeight.bold)),
+        title: Text('Search Flights',
+            style: TextStyle(
+                color: Colors.blueAccent, fontWeight: FontWeight.bold)),
       ),
       body: SafeArea(
         child: FutureBuilder<void>(
@@ -176,6 +177,24 @@ class _SearchFlightsState extends State<SearchFlights> {
               );
             }
           },
+        ),
+      ),
+    );
+  }
+
+  void errorSnackBar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: kRedColor,
+        content: Center(
+          child: Text(
+            'An error occurred. Please try again later.',
+            style: TextStyle(
+              fontSize: 16, // Change the font size as needed
+              fontFamily: 'ProductSans', // Change the font family as needed
+              color: Colors.white, // Change the font color as needed
+            ),
+          ),
         ),
       ),
     );

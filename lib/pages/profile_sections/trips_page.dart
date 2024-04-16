@@ -64,6 +64,7 @@ class ProfileTrips extends StatelessWidget {
                         isNewTripPage: false,
                         isBookmarked:
                             tripsProvider.tripList[index].isBookmarked,
+                        index: 0,
                       ),
                       const SizedBox(height: 10),
                     ],

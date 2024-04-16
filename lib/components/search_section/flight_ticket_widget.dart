@@ -3,6 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:voyager/components/search_section/add_to_trips.dart';
+import 'package:voyager/pages/trip_planning_sections/main_tab_sections/form_sections/form_for_one_way.dart';
+import 'package:voyager/pages/trip_planning_sections/trip_provider.dart';
 
 import '../../utils/constants.dart';
 
@@ -11,32 +14,68 @@ class MultipleTicketsWidget extends StatefulWidget {
   final int passengerCount;
 
   const MultipleTicketsWidget(
-      {Key? key, required this.ticketsData, required this.passengerCount})
-      : super(key: key);
+      {super.key, required this.ticketsData, required this.passengerCount});
 
   @override
   State<MultipleTicketsWidget> createState() => _MultipleTicketsWidgetState();
 }
 
 class _MultipleTicketsWidgetState extends State<MultipleTicketsWidget> {
+  List<TicketData> ticketDataList = [];
   String formatDuration(int durationInMinutes) {
     int hours = durationInMinutes ~/ 60;
     int minutes = durationInMinutes % 60;
     return '${hours}H ${minutes}M';
   }
 
+  List<TicketData> createTicketDataList(List<dynamic> ticketsData) {
+    List<TicketData> ticketDataList = [];
+    for (var ticket in ticketsData) {
+      for (var leg in ticket['legs']) {
+        for (var segment in leg['segments']) {
+          TicketData ticketData = TicketData(
+            fromAirport: segment['origin']['name'],
+            toAirport: segment['destination']['name'],
+            topText: segment['origin']['displayCode'],
+            bottomText: segment['destination']['displayCode'],
+            price: (ticket['price']['formatted'] != null)
+                ? (int.parse(ticket['price']['formatted']
+                            .replaceAll(RegExp(r'[^\d]'), '')) *
+                        83)
+                    .toString()
+                : '0', // Set price to 0 if formatted price is null
+            isLastItem: leg['stopCount'].toInt() ==
+                0, // Assuming stopCount determines the last item
+            passengers: widget.passengerCount,
+            duration: formatDuration(segment['durationInMinutes'].toInt()),
+            flightNumber: segment['flightNumber'],
+            flightOperator: segment['operatingCarrier']['name'],
+            fromDate: DateFormat('dd MMM')
+                .format(DateTime.parse(segment['departure'])),
+            toDate:
+                DateFormat('dd MMM').format(DateTime.parse(segment['arrival'])),
+            fromTime: DateFormat('hh:mm a')
+                .format(DateTime.parse(segment['departure'])),
+            toTime: DateFormat('hh:mm a')
+                .format(DateTime.parse(segment['arrival'])),
+          );
+
+          ticketDataList.add(ticketData);
+        }
+      }
+    }
+
+    return ticketDataList;
+  }
+
   @override
   Widget build(BuildContext context) {
-    //print(widget.ticketsData.toString());
-    //print(widget.ticketsData[0]['legs'][0]['stopCount'].toInt());
-    //print(widget.ticketsData[0]['legs'][0]['segments'][0]['origin']['displayCode']);
-    // print(widget.ticketsData[0]['legs'][0]['segments'][0]['flightNumber'].toInt());
+    ticketDataList = createTicketDataList(widget.ticketsData);
     return ListView.builder(
       itemCount: widget.ticketsData[0]['legs'][0]['stopCount'].toInt() + 1,
       shrinkWrap: true,
       physics: ClampingScrollPhysics(),
       itemBuilder: (context, index) {
-        //print(widget.ticketsData[0]['legs'][0]['segments'][0]['arrival'].toString());
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Column(
@@ -77,6 +116,7 @@ class _MultipleTicketsWidgetState extends State<MultipleTicketsWidget> {
                         ['departure'])),
                 toTime: DateFormat('hh:mm a').format(DateTime.parse(widget
                     .ticketsData[0]['legs'][0]['segments'][index]['arrival'])),
+                ticketDataList: ticketDataList,
               ),
               if (widget.ticketsData[0]['legs'].length == 2)
                 TicketWidget(
@@ -115,6 +155,7 @@ class _MultipleTicketsWidgetState extends State<MultipleTicketsWidget> {
                   toTime: DateFormat('hh:mm a').format(DateTime.parse(
                       widget.ticketsData[0]['legs'][1]['segments'][index]
                           ['arrival'])),
+                  ticketDataList: ticketDataList,
                 ),
             ],
           ),
@@ -126,12 +167,12 @@ class _MultipleTicketsWidgetState extends State<MultipleTicketsWidget> {
 
 class TicketWidget extends StatefulWidget {
   const TicketWidget({
-    Key? key,
+    super.key,
     required this.width,
     required this.height,
     required this.topText,
     required this.bottomText,
-    required this.isLastItem, // Add isLastItem parameter
+    required this.isLastItem,
     this.padding,
     this.margin,
     this.color = Colors.transparent,
@@ -148,7 +189,8 @@ class TicketWidget extends StatefulWidget {
     required this.toDate,
     required this.fromTime,
     required this.toTime,
-  }) : super(key: key);
+    required this.ticketDataList,
+  });
 
   final double width;
   final double height;
@@ -171,15 +213,17 @@ class TicketWidget extends StatefulWidget {
   final String toDate;
   final String fromTime;
   final String toTime;
+  final List<TicketData> ticketDataList;
 
   @override
-  _TicketWidgetState createState() => _TicketWidgetState();
+  State<TicketWidget> createState() => _TicketWidgetState();
 }
 
 class _TicketWidgetState extends State<TicketWidget> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final tripsProvider = Provider.of<TripsProvider>(context);
     return ClipPath(
       clipper: TicketClipper(),
       child: Stack(
@@ -214,7 +258,7 @@ class _TicketWidgetState extends State<TicketWidget> {
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Text(
-                        '${widget.flightOperator}',
+                        widget.flightOperator,
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
@@ -227,7 +271,7 @@ class _TicketWidgetState extends State<TicketWidget> {
                   ],
                 ),
                 Text(
-                  '${widget.flightNumber}',
+                  widget.flightNumber,
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w300,
@@ -240,7 +284,7 @@ class _TicketWidgetState extends State<TicketWidget> {
                     Expanded(
                       child: Column(
                         children: [
-                          Container(
+                          SizedBox(
                             width: 150,
                             // Set the maximum width you want the text to occupy
                             child: SizedBox(
@@ -275,7 +319,7 @@ class _TicketWidgetState extends State<TicketWidget> {
                           ),
                           // date of arrival
                           Text(
-                            '${widget.fromDate}',
+                            widget.fromDate,
                             style: TextStyle(
                               color: themeProvider.themeMode == ThemeMode.dark
                                   ? Colors.black
@@ -286,7 +330,7 @@ class _TicketWidgetState extends State<TicketWidget> {
                           ),
                           // time of arrival
                           Text(
-                            '${widget.fromTime}',
+                            widget.fromTime,
                             style: TextStyle(
                               color: themeProvider.themeMode == ThemeMode.dark
                                   ? Colors.black
@@ -327,7 +371,7 @@ class _TicketWidgetState extends State<TicketWidget> {
                     Expanded(
                       child: Column(
                         children: [
-                          Container(
+                          SizedBox(
                             width: 150,
                             // Set the maximum width you want the text to occupy
                             child: SizedBox(
@@ -361,7 +405,7 @@ class _TicketWidgetState extends State<TicketWidget> {
                           ),
                           // date of arrival
                           Text(
-                            '${widget.toDate}',
+                            widget.toDate,
                             style: TextStyle(
                               color: themeProvider.themeMode == ThemeMode.dark
                                   ? Colors.black
@@ -372,7 +416,7 @@ class _TicketWidgetState extends State<TicketWidget> {
                           ),
                           // time of arrival
                           Text(
-                            '${widget.toTime}',
+                            widget.toTime,
                             style: TextStyle(
                               color: themeProvider.themeMode == ThemeMode.dark
                                   ? Colors.black
@@ -405,8 +449,15 @@ class _TicketWidgetState extends State<TicketWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ElevatedButton(
-                      onPressed: () {},
-                      child: const Text('Add to Trip'),
+                      onPressed: () {
+                        showBottomSheetForSelectingTrips(
+                            context,
+                            tripsProvider.tripList.length,
+                            tripsProvider.tripList,
+                            widget.ticketDataList,
+                            null,
+                            1);
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green,
                         foregroundColor: Colors.white,
@@ -415,6 +466,7 @@ class _TicketWidgetState extends State<TicketWidget> {
                           vertical: 10,
                         ),
                       ),
+                      child: const Text('Add to Trip'),
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -519,8 +571,8 @@ class DashedLinePainter extends CustomPainter {
       ..strokeWidth = 2
       ..strokeCap = StrokeCap.round;
 
-    final double dashWidth = 5;
-    final double dashSpace = 5;
+    const double dashWidth = 5;
+    const double dashSpace = 5;
     double startX = 0;
 
     while (startX < size.width) {

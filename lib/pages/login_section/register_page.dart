@@ -108,8 +108,6 @@ class _RegisterPageState extends State<RegisterPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: kRedColor,
-        // Change the background color of the snackbar
-
         content: Center(
           child: Text(
             'An error occurred. Please try again later.',

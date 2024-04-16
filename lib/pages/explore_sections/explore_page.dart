@@ -126,6 +126,7 @@ class _ExploreState extends State<Explore> {
                               isNewTripPage: false,
                               isBookmarked:
                                   tripsProvider.tripList[index].isBookmarked,
+                              index: 0,
                             );
                           },
                         ),

@@ -69,7 +69,6 @@ class _TrainSearchState extends State<TrainSearch> {
               onDateSelected: (date) {
                 setState(() {
                   selectedDate = date;
-                  print(selectedDate.toString());
                 });
               },
             ),
@@ -363,7 +362,6 @@ class _TrainSearchState extends State<TrainSearch> {
             SizedBox(height: 50),
             ElevatedButton(
                 onPressed: () {
-                  //debugPrint(counterCount.toString());
                   if (selectedFromStation != null &&
                       selectedToStation != null &&
                       selectedDate != null) {

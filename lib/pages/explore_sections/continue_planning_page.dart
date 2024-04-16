@@ -75,6 +75,7 @@ class _ContPlanningState extends State<ContPlanning> {
                         isNewTripPage: false,
                         isBookmarked:
                             tripsProvider.tripList[index].isBookmarked,
+                        index: 0,
                       ),
                       SizedBox(height: 10),
                     ],

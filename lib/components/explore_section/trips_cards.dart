@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:voyager/pages/trip_planning_sections/main_tab_sections/form_sections/form_for_one_way.dart';
+import 'package:voyager/pages/trip_planning_sections/main_tab_sections/form_sections/form_for_trains.dart';
 import 'package:voyager/services/fetch_userdata.dart';
 import 'package:voyager/utils/constants.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart'; // Import Bounceable package
@@ -19,12 +21,18 @@ class trips extends StatefulWidget {
   late Trip trip;
   bool isNewTripPage = false;
   bool isBookmarked;
+  List<TicketData>? flightTicket;
+  TrainData? trainTicket;
+  int index;
   trips(
       {super.key,
       required this.screenWidth,
       required this.trip,
       required this.isNewTripPage,
-      required this.isBookmarked});
+      required this.isBookmarked,
+      required this.index,
+      this.flightTicket,
+      this.trainTicket});
   final double screenWidth;
   @override
   State<trips> createState() => _tripsState();
@@ -63,6 +71,85 @@ class _tripsState extends State<trips> with SingleTickerProviderStateMixin {
     }
   }
 
+  void updateFlightTicketsInFirestore(List<TicketData>? flightTickets) async {
+    if (flightTickets != null && flightTickets.isNotEmpty) {
+      List<Map<String, dynamic>> flightData =
+          flightTickets.map((item) => item.toJson()).toList();
+
+      DocumentReference docRef = FirebaseFirestore.instance
+          .collection("trips")
+          .doc(widget.trip.tripId);
+
+      await docRef.update({
+        'attachments.flightTickets': FieldValue.arrayUnion(flightData),
+      });
+    } else {
+      print('Flight tickets list is null or empty.');
+    }
+  }
+
+  void sucessSnackBar() {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.green,
+          content: Center(
+            child: Text(
+              'Successfully Added',
+              style: TextStyle(
+                fontSize: 16,
+                fontFamily: 'ProductSans',
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+  }
+
+  void errorSnackBar() {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.green,
+          content: Center(
+            child: Text(
+              'Error Occured Please Try Again Later',
+              style: TextStyle(
+                fontSize: 16,
+                fontFamily: 'ProductSans',
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+  }
+
+  void updatetrainTicketsInFirestore(TrainData trainTicket) async {
+    Map<String, dynamic> trainTicketMap = trainTicket.toMap();
+    DocumentSnapshot tripDoc = await FirebaseFirestore.instance
+        .collection("trips")
+        .doc(widget.trip.tripId)
+        .get();
+    Map<String, dynamic>? tripData = tripDoc.data() as Map<String, dynamic>?;
+    List<Map<String, dynamic>> existingTrainTickets =
+        List<Map<String, dynamic>>.from(
+            tripData?['attachments']['trainTickets'] ?? []);
+    existingTrainTickets.add(trainTicketMap);
+    await FirebaseFirestore.instance
+        .collection("trips")
+        .doc(widget.trip.tripId)
+        .set(
+      {
+        'attachments': {
+          'trainTickets': existingTrainTickets,
+        },
+      },
+      SetOptions(merge: true),
+    );
+  }
+
   @override
   void dispose() {
     _controller.dispose();
@@ -91,19 +178,38 @@ class _tripsState extends State<trips> with SingleTickerProviderStateMixin {
           : Colors.white,
       elevation: 0,
       child: Bounceable(
-        // Wrap InkWell with Bounceable
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ContinuePlanning(
-                tripId: widget.trip.tripId,
-                isNewTripPage: widget.isNewTripPage,
-                isBookmarked: widget.isBookmarked,
-                // updateList: widget.updateListCP,
+        onTap: () async {
+          if (widget.index == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ContinuePlanning(
+                  tripId: widget.trip.tripId,
+                  isNewTripPage: widget.isNewTripPage,
+                  isBookmarked: widget.isBookmarked,
+                  // updateList: widget.updateListCP,
+                ),
               ),
-            ),
-          );
+            );
+          } else if (widget.index == 1) {
+            try {
+              updateFlightTicketsInFirestore(widget.flightTicket);
+              Navigator.pop(context);
+              sucessSnackBar();
+            } catch (error) {
+              Navigator.pop(context);
+              errorSnackBar();
+            }
+          } else if (widget.index == 2) {
+            try {
+              updatetrainTicketsInFirestore(widget.trainTicket!);
+              Navigator.pop(context);
+              sucessSnackBar();
+            } catch (error) {
+              Navigator.pop(context);
+              errorSnackBar();
+            }
+          }
         },
         child: SizedBox(
           height: widget.screenWidth / 3 + 20,

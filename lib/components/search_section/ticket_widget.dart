@@ -1,11 +1,16 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:voyager/components/search_section/add_to_trips.dart';
+import 'package:voyager/pages/trip_planning_sections/main_tab_sections/form_sections/form_for_trains.dart';
+import 'package:voyager/pages/trip_planning_sections/trip_provider.dart';
 
 import '../../utils/constants.dart';
 
 class TicketWid extends StatefulWidget {
-  TicketWid({
-    Key? key,
+  const TicketWid({
+    super.key,
     required this.width,
     required this.height,
     required this.topText,
@@ -28,7 +33,7 @@ class TicketWid extends StatefulWidget {
     this.color = Colors.transparent,
     this.isCornerRounded = false,
     this.shadow,
-  }) : super(key: key);
+  });
 
   final double width;
   final double height;
@@ -55,7 +60,7 @@ class TicketWid extends StatefulWidget {
   final List<String> classes;
 
   @override
-  _TicketWidState createState() => _TicketWidState();
+  State<TicketWid> createState() => _TicketWidState();
 }
 
 class _TicketWidState extends State<TicketWid> {
@@ -65,7 +70,7 @@ class _TicketWidState extends State<TicketWid> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-
+    final tripsProvider = Provider.of<TripsProvider>(context);
     return ClipPath(
       clipper: TicketClipper(),
       child: Stack(
@@ -120,13 +125,13 @@ class _TicketWidState extends State<TicketWid> {
                         : Colors.white,
                   ),
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Row(
                   children: [
                     Expanded(
                       child: Column(
                         children: [
-                          Container(
+                          SizedBox(
                             width: 120,
                             // Set the maximum width you want the text to occupy
                             child: SizedBox(
@@ -187,7 +192,7 @@ class _TicketWidState extends State<TicketWid> {
                     Column(
                       children: [
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
                           child: Icon(
                             widget.symbol,
                             size: 20,
@@ -196,7 +201,7 @@ class _TicketWidState extends State<TicketWid> {
                                 : Colors.white,
                           ),
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         // time of travel
                         Text(
                           widget.duration,
@@ -213,7 +218,7 @@ class _TicketWidState extends State<TicketWid> {
                     Expanded(
                       child: Column(
                         children: [
-                          Container(
+                          SizedBox(
                             width: 120,
                             // Set the maximum width you want the text to occupy
                             child: SizedBox(
@@ -281,7 +286,7 @@ class _TicketWidState extends State<TicketWid> {
             left: 0,
             right: 0,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               height: widget.height * 0.3,
               color: themeProvider.themeMode == ThemeMode.dark
                   ? Colors.white
@@ -290,13 +295,30 @@ class _TicketWidState extends State<TicketWid> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
-                    child: Text('Add to Trip',
-                        style: TextStyle(
-                          color: themeProvider.themeMode == ThemeMode.dark
-                              ? Colors.black
-                              : Colors.white,
-                        )),
+                    onPressed: () async {
+                      Map<String, dynamic> trainDataMap = {
+                        'fromStation': widget.fromStationName,
+                        'toStation': widget.toStationName,
+                        'topText': widget.topText,
+                        'bottomText': widget.bottomText,
+                        'price': widget.fareData[_selectedClass!].toString(),
+                        'trainNumber': widget.number,
+                        'trainOperator': widget.name,
+                        'fromDate': widget.fromDate,
+                        'toDate': widget.toDate,
+                        'fromTime': widget.fromTime,
+                        'toTime': widget.toTime,
+                      };
+                      TrainData trainData = TrainData.fromMap(trainDataMap);
+                      print(trainData);
+                      showBottomSheetForSelectingTrips(
+                          context,
+                          tripsProvider.tripList.length,
+                          tripsProvider.tripList,
+                          null,
+                          trainData,
+                          2);
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
                       padding: const EdgeInsets.symmetric(
@@ -304,6 +326,12 @@ class _TicketWidState extends State<TicketWid> {
                         vertical: 10,
                       ),
                     ),
+                    child: Text('Add to Trip',
+                        style: TextStyle(
+                          color: themeProvider.themeMode == ThemeMode.dark
+                              ? Colors.black
+                              : Colors.white,
+                        )),
                   ),
 
                   // dropdown to select the class of travel
@@ -460,8 +488,8 @@ class DashedLinePainter extends CustomPainter {
       ..strokeWidth = 2
       ..strokeCap = StrokeCap.round;
 
-    final double dashWidth = 5;
-    final double dashSpace = 5;
+    const double dashWidth = 5;
+    const double dashSpace = 5;
     double startX = 0;
 
     while (startX < size.width) {
