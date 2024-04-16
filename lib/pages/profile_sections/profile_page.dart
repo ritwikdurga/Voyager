@@ -222,7 +222,8 @@ class _ProfileState extends State<Profile> {
               ),
               ListTile(
                 leading: Icon(
-                  Icons.question_answer,
+                  // add icon for invitations
+                  Icons.person_add_alt_1,
                   size: 30,
                   color: themeProvider.themeMode == ThemeMode.dark
                       ? Colors.white

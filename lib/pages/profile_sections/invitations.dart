@@ -4,6 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+
+import '../../utils/constants.dart';
 
 class Invitation {
   String tripId;
@@ -46,9 +49,20 @@ class _InvitationListPageState extends State<InvitationListPage> {
 
   @override
   Widget build(BuildContext context) {
+    // take the screen height
+    double screenHeight = MediaQuery.of(context).size.height;
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Invitation List'),
+        title: Text('Invitation List',
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black,
+              fontFamily: 'ProductSans'
+          ),
+        ),
+
       ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: FirebaseFirestore.instance
@@ -68,8 +82,28 @@ class _InvitationListPageState extends State<InvitationListPage> {
           }
 
           if (!snapshot.hasData || !snapshot.data!.exists) {
-            return const Center(
-              child: Text('No invitations available.'),
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: screenHeight*0.1,),
+                Text('No invitations available.',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24,
+                      color: themeProvider.themeMode == ThemeMode.dark ? Colors.grey[300] : Colors.grey[700],
+                      fontFamily: 'ProductSans'
+                  ),
+                ),
+                SizedBox(height: screenHeight*0.1,),
+                Center(
+                  child: Image.asset(
+                    'assets/images/sleep.png',
+                    width: 200,
+                    height: 200,
+
+                  ),
+                ),
+              ],
             );
           }
 
@@ -78,13 +112,54 @@ class _InvitationListPageState extends State<InvitationListPage> {
           try {
             invitations = data.get('pendingInvitations') as List<dynamic>?;
           } catch (error) {
-            return const Center(
-              child: Text('No pending invitations.'),
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: screenHeight*0.1,),
+                Text('No pending invitations.',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                    color: themeProvider.themeMode == ThemeMode.dark ? Colors.grey[300] : Colors.grey[700],
+                    fontFamily: 'ProductSans'
+                  ),
+                ),
+                SizedBox(height: screenHeight*0.1,),
+                Center(
+                  child: Image.asset(
+                    'assets/images/sleep.png',
+                    width: 200,
+                    height: 200,
+
+                  ),
+                ),
+
+              ],
             );
           }
           if (invitations == null || invitations.isEmpty) {
-            return const Center(
-              child: Text('No pending invitations.'),
+            return Column(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: screenHeight*0.1,),
+                Text('No pending invitations.',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24,
+                      color: themeProvider.themeMode == ThemeMode.dark ? Colors.grey[300] : Colors.grey[700],
+                      fontFamily: 'ProductSans'
+                  ),
+                ),
+                SizedBox(height: screenHeight*0.1,) ,
+                Center(
+                  child: Image.asset(
+                    'assets/images/sleep.png',
+                    width: 200,
+                    height: 200,
+
+                  ),
+                ),
+              ],
             );
           }
 
@@ -104,8 +179,28 @@ class _InvitationListPageState extends State<InvitationListPage> {
 
               final invitationDataList = snapshot.data!;
               if (invitationDataList.isEmpty) {
-                return const Center(
-                  child: Text('No pending invitations.'),
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: screenHeight*0.1,),
+                    Text('No pending invitations.',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                          color: themeProvider.themeMode == ThemeMode.dark ? Colors.grey[300] : Colors.grey[700],
+                          fontFamily: 'ProductSans'
+                      ),
+                    ),
+                    SizedBox(height: screenHeight*0.1,),
+                    Center(
+                      child: Image.asset(
+                        'assets/images/sleep.png',
+                        width: 200,
+                        height: 200,
+
+                      ),
+                    ),
+                  ],
                 );
               }
 
@@ -114,32 +209,92 @@ class _InvitationListPageState extends State<InvitationListPage> {
                 itemBuilder: (context, index) {
                   final invitation = invitationDataList[index];
                   return ListTile(
-                    title: Text(invitation.title),
+                    title: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          Text(invitation.title,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: Colors.deepOrange,
+                                fontFamily: 'ProductSans'
+                              )
+                          ),
+                        ],
+                      ),
+                    ),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Location: ${invitation.location}'),
-                        Text(
-                          '${DateFormat('dd MMM').format(invitation.startDate)}-${DateFormat('dd MMM').format(invitation.endDate)}',
+                        Text('${DateFormat('dd MMM').format(invitation.startDate)} - ${DateFormat('dd MMM').format(invitation.endDate)}',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                              color: themeProvider.themeMode == ThemeMode.dark ? Colors.grey[300] : Colors.grey[700],
+                              fontFamily: 'ProductSans'
+                          ),
                         ),
-                        Text('Creator: ${invitation.createdBy}')
+                        Row(
+                          children: [
+                            Text('Trip to ',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black,
+                                  fontFamily: 'ProductSans'
+                                )
+                            ),
+                            Text(
+                                '${invitation.location}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black,
+                                  fontFamily: 'ProductSans'
+                                )
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                                'Created By ',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Colors.blueAccent,
+                                  fontFamily: 'ProductSans'
+                                )
+                            ),
+                            Text(
+                                '${invitation.createdBy}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Colors.blueAccent,
+                                  fontFamily: 'ProductSans'
+                                )
+                            ),
+                          ],
+                        ),
+
                       ],
                     ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        ElevatedButton(
-                          onPressed: () async {
-                            await _acceptInvitation(invitation);
+                        IconButton(
+                          icon: const Icon(Icons.check),
+                          onPressed: () {
+                            _acceptInvitation(invitation);
                           },
-                          child: const Text('Accept'),
                         ),
-                        const SizedBox(width: 8),
-                        ElevatedButton(
-                          onPressed: () async {
-                            await _declineInvitation(invitation);
+                        IconButton(
+                          icon: const Icon(Icons.close),
+                          onPressed: () {
+                            _declineInvitation(invitation);
                           },
-                          child: const Text('Decline'),
                         ),
                       ],
                     ),
