@@ -1,16 +1,17 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_declarations
 
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:firebase_auth/firebase_auth.dart";
+import "package:firebase_storage/firebase_storage.dart";
 import "package:flutter/material.dart";
 import "package:iconsax/iconsax.dart";
 import "package:provider/provider.dart";
 import "package:voyager/pages/explore_sections/destination_description.dart";
 import "package:voyager/utils/constants.dart";
 
-import "../../utils/colors.dart";
-
 class Search extends StatefulWidget {
-  const Search({super.key});
-
+  List<dynamic> searchHistory = [];
+  Search({super.key, required this.searchHistory});
   @override
   State<Search> createState() => _SearchState();
 }
@@ -55,7 +56,7 @@ class _SearchState extends State<Search> {
         ),
         viewLeading: IconButton(
             onPressed: () {
-              controller?.clear();
+              controller.clear();
               Navigator.pop(context);
               FocusScope.of(context).unfocus();
               FocusManager.instance.primaryFocus?.unfocus();
@@ -148,13 +149,13 @@ class _SearchState extends State<Search> {
         suggestionsBuilder:
             (BuildContext context, SearchController controller) {
           final List<String> items = [
-            'Paris',
-            'London',
-            'New York',
-            'Tokyo',
-            'Rome',
-            'Berlin'
-          ]; // Example list of items
+            'Manali',
+            'Delhi',
+            'Goa',
+            'Chennai',
+            'Hyderabad',
+            'Bengaluru'
+          ];
           final List<String> filteredItems = items
               .where((item) =>
                   item.toLowerCase().contains(controller.text.toLowerCase()))
@@ -179,11 +180,25 @@ class _SearchState extends State<Search> {
                       fontFamily: 'ProductSans',
                     ),
                   ),
-                  onTap: () {
+                  onTap: () async {
                     controller.clear();
                     controller.closeView(null);
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => DestDesc()));
+                    if (widget.searchHistory.contains(item)) {
+                      widget.searchHistory.remove(item);
+                    }
+                    widget.searchHistory.insert(0, item);
+                    await FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(FirebaseAuth.instance.currentUser?.uid)
+                        .update({'searchHistory': widget.searchHistory});
+                    if (context.mounted) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DestDesc(place: item),
+                        ),
+                      );
+                    }
                   },
                 ),
               ),

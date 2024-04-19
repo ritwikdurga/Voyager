@@ -2,11 +2,11 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/components/explore_section/destinations.dart';
 import 'package:voyager/components/explore_section/past_searches.dart';
+import 'package:voyager/components/explore_section/places.dart';
 import 'package:voyager/components/explore_section/search_bar.dart';
 import 'package:voyager/components/explore_section/trips_cards.dart';
 import 'package:voyager/models/trip_model.dart';
@@ -18,7 +18,8 @@ import 'package:voyager/utils/constants.dart';
 import 'package:voyager/services/fetch_userdata.dart';
 
 class Explore extends StatefulWidget {
-  const Explore({super.key});
+  List<dynamic> searchHistory = [];
+  Explore({super.key});
 
   @override
   State<Explore> createState() => _ExploreState();
@@ -27,10 +28,26 @@ class Explore extends StatefulWidget {
 class _ExploreState extends State<Explore> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   FirebaseFirestore db = FirebaseFirestore.instance;
-
+  List<String> shuffledPlaces = List.from(places);
   @override
   void initState() {
     super.initState();
+    db
+        .collection("users")
+        .doc(firebaseAuth.currentUser!.uid)
+        .snapshots()
+        .listen((snapshot) {
+      if (snapshot.exists) {
+        Map<String, dynamic>? userData = snapshot.data();
+        if (userData != null && mounted) {
+          setState(() {
+            widget.searchHistory =
+                List<dynamic>.from(userData['searchHistory'] ?? []);
+          });
+        }
+      }
+    });
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       fetchUserData(context);
     });
@@ -41,6 +58,7 @@ class _ExploreState extends State<Explore> {
     final themeProvider = Provider.of<ThemeProvider>(context);
     final tripsProvider = Provider.of<TripsProvider>(context);
     double screenWidth = MediaQuery.of(context).size.width;
+    shuffledPlaces.shuffle();
     return Scaffold(
       backgroundColor: themeProvider.themeMode == ThemeMode.dark
           ? Colors.black
@@ -53,7 +71,9 @@ class _ExploreState extends State<Explore> {
             },
             child: Column(
               children: [
-                Search(),
+                Search(
+                  searchHistory: widget.searchHistory,
+                ),
                 SizedBox(
                   height: 12,
                 ),
@@ -181,6 +201,7 @@ class _ExploreState extends State<Explore> {
                             MaterialPageRoute(
                                 builder: (context) => ForYouExp(
                                       heading: 'For You',
+                                      places: shuffledPlaces,
                                     )));
                       },
                     )
@@ -190,58 +211,56 @@ class _ExploreState extends State<Explore> {
                   height: 6.5,
                 ),
                 SizedBox(
-                    height: 150,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        Destinations(screenWidth: screenWidth),
-                        Destinations(screenWidth: screenWidth),
-                        Destinations(screenWidth: screenWidth),
-                        Destinations(screenWidth: screenWidth),
-                        Destinations(screenWidth: screenWidth),
-                        Destinations(screenWidth: screenWidth),
-                        Destinations(screenWidth: screenWidth),
-                        Destinations(screenWidth: screenWidth),
-                      ],
-                    )),
+                  height: 150,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: shuffledPlaces.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Destinations(
+                        place: shuffledPlaces[index],
+                        screenWidth: screenWidth,
+                      );
+                    },
+                  ),
+                ),
                 SizedBox(
                   height: 12,
                 ),
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(6, 0, 0, 0),
-                      child: Text(
-                        'Your Searches',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blueAccent,
-                          fontSize: 22,
+                if (widget.searchHistory.isNotEmpty)
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(6, 0, 0, 0),
+                            child: Text(
+                              'Your Searches',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blueAccent,
+                                fontSize: 22,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 6.5,
+                      ),
+                      SizedBox(
+                        height: 45,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: widget.searchHistory.map((search) {
+                            return PastSearches(textData: search);
+                          }).toList(),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 6.5,
-                ),
-                SizedBox(
-                  height: 45,
-                  child: ListView(scrollDirection: Axis.horizontal, children: [
-                    PastSearches(
-                      textData: 'Paris',
-                    ),
-                    PastSearches(
-                      textData: 'Paris',
-                    ),
-                    PastSearches(
-                      textData: 'Paris',
-                    ),
-                  ]),
-                ),
-                SizedBox(
-                  height: 12,
-                ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                    ],
+                  ),
                 Row(
                   children: [
                     Padding(
@@ -294,20 +313,18 @@ class _ExploreState extends State<Explore> {
                   height: 6.5,
                 ),
                 SizedBox(
-                    height: 150,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        Destinations(screenWidth: screenWidth),
-                        Destinations(screenWidth: screenWidth),
-                        Destinations(screenWidth: screenWidth),
-                        Destinations(screenWidth: screenWidth),
-                        Destinations(screenWidth: screenWidth),
-                        Destinations(screenWidth: screenWidth),
-                        Destinations(screenWidth: screenWidth),
-                        Destinations(screenWidth: screenWidth),
-                      ],
-                    )),
+                  height: 150,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: places.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Destinations(
+                        place: places[index],
+                        screenWidth: screenWidth,
+                      );
+                    },
+                  ),
+                ),
               ],
             ),
           ),

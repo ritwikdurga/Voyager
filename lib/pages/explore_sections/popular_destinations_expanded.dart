@@ -1,10 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
-import "package:flutter/widgets.dart";
 import "package:provider/provider.dart";
 import "package:voyager/components/explore_section/destinations_expanded.dart";
+import "package:voyager/components/explore_section/places.dart";
 import "package:voyager/utils/colors.dart";
 import "package:voyager/utils/constants.dart";
 
@@ -44,26 +43,24 @@ class _PopDestExpState extends State<PopDestExp> {
       ),
       body: SingleChildScrollView(
         child: SafeArea(
-            child: Column(
-          children: [
-            destExp(screenWidth: screenWidth),
-            SizedBox(height: 10),
-            destExp(screenWidth: screenWidth),
-            SizedBox(height: 10),
-            destExp(screenWidth: screenWidth),
-            SizedBox(height: 10),
-            destExp(screenWidth: screenWidth),
-            SizedBox(height: 10),
-            destExp(screenWidth: screenWidth),
-            SizedBox(height: 10),
-            destExp(screenWidth: screenWidth),
-            SizedBox(height: 10),
-            destExp(screenWidth: screenWidth),
-            SizedBox(height: 10),
-            destExp(screenWidth: screenWidth),
-            SizedBox(height: 10),
-          ],
-        )),
+          child: Column(
+            children: [
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: places.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Column(
+                    children: [
+                      destExp(place: places[index], screenWidth: screenWidth),
+                      SizedBox(height: 10),
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

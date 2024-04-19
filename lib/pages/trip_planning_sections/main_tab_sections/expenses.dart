@@ -97,6 +97,7 @@ class _ExpensesTripsState extends State<ExpensesTrips> {
         }
       }
     }
+    debugPrint(currentUserSpending.toString());
     return currentUserSpending;
   }
 
@@ -148,6 +149,8 @@ class _ExpensesTripsState extends State<ExpensesTrips> {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             setState(() {
               expenses = expensesList;
+              currentUserSpendings = calculateCurrentUserSpending(
+                  expenses, firebaseAuth.currentUser!.uid);
             });
           });
         }

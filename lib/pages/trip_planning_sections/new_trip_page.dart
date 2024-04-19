@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/widgets.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:voyager/components/explore_section/places.dart';
 import 'package:voyager/pages/explore_sections/explore_page.dart';
 import 'package:voyager/pages/trip_planning_sections/main_tab_sections/expenses.dart';
 import 'package:voyager/pages/trip_planning_sections/main_tab_sections/explore.dart';
@@ -73,8 +75,6 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
       'tripPreferences': tripPreferences,
       'tripmateKind': tripmateKind,
     });
-    tripId = tripRef.id;
-    print("Test 1");
     await FirebaseFirestore.instance
         .collection("users")
         .doc(_firebaseauth.currentUser?.uid)
@@ -87,8 +87,6 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
     }).catchError((error) {
       print("Failed to add trip ID to user's document: $error");
     });
-    print("Test 2");
-
     FirebaseStorage.instance
         .ref()
         .child("trips/$tripId")
@@ -141,6 +139,7 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
       widget.tripmateKind,
       widget.isManual,
     );
+    tripId = tripRef.id;
   }
 
   late StreamSubscription<DocumentSnapshot> _subscription;
@@ -175,8 +174,8 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
             SizedBox(
               height: screenHeight / 3,
               width: double.infinity,
-              child: Image.asset(
-                'assets/images/a.png',
+              child: CachedNetworkImage(
+                imageUrl: placeImgURL[widget.locationSelected] as String,
                 fit: BoxFit.cover,
               ),
             ),
@@ -285,7 +284,9 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
                           OverviewTrips(
                             tripRef: tripRef,
                           ),
-                          ExploreTrips(),
+                          ExploreTrips(
+                            place: widget.locationSelected as String,
+                          ),
                           ItineraryTrips(
                               startDate: widget.StartDate,
                               endDate: widget.EndDate),

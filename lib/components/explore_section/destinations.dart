@@ -1,14 +1,18 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:voyager/components/explore_section/places.dart';
 import 'package:voyager/pages/explore_sections/destination_description.dart';
 import 'package:voyager/utils/constants.dart';
-import 'package:flutter_bounceable/flutter_bounceable.dart'; // Import Bounceable package
+import 'package:flutter_bounceable/flutter_bounceable.dart';
 
 class Destinations extends StatelessWidget {
+  final String place;
   const Destinations({
-    Key? key,
+    super.key,
     required this.screenWidth,
-  }) : super(key: key);
+    required this.place,
+  });
 
   final double screenWidth;
 
@@ -16,7 +20,7 @@ class Destinations extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Container(
-      margin: EdgeInsets.all(3),
+      margin: const EdgeInsets.all(3),
       child: Card(
         color: themeProvider.themeMode == ThemeMode.dark
             ? Colors.black
@@ -24,18 +28,20 @@ class Destinations extends StatelessWidget {
         clipBehavior: Clip.hardEdge,
         child: Bounceable(
           onTap: () {
-            // Add a delay before navigating
-            Future.delayed(Duration(milliseconds: 250), () {
-              //redirect to trip page
+            Future.delayed(const Duration(milliseconds: 250), () {
               Navigator.push(
                 context,
                 PageRouteBuilder(
                   pageBuilder: (context, animation, secondaryAnimation) =>
-                      DestDesc(),
+                      DestDesc(
+                    place: place,
+                  ),
                   transitionsBuilder:
                       (context, animation, secondaryAnimation, child) {
-                    var begin = Offset(0.0, 1.0); // Start animation from bottom of the card
-                    var end = Offset.zero; // End animation at the top of the screen
+                    var begin = const Offset(
+                        0.0, 1.0); // Start animation from bottom of the card
+                    var end =
+                        Offset.zero; // End animation at the top of the screen
                     var curve = Curves.ease;
 
                     var tween = Tween(begin: begin, end: end)
@@ -50,8 +56,6 @@ class Destinations extends StatelessWidget {
                   },
                 ),
               );
-
-
             });
           },
           child: InkWell(
@@ -61,8 +65,8 @@ class Destinations extends StatelessWidget {
               height: screenWidth * 2 / 3,
               child: Stack(
                 children: [
-                  Image.asset(
-                    'assets/images/a.png',
+                  CachedNetworkImage(
+                    imageUrl: placeImgURL[place] as String,
                     width: screenWidth / 3 - 12,
                     height: screenWidth * 2 / 3,
                     fit: BoxFit.cover,
@@ -74,8 +78,8 @@ class Destinations extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: Text(
-                            'Paris',
-                            style: TextStyle(
+                            place,
+                            style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: 24,

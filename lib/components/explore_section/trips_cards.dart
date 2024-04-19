@@ -1,10 +1,12 @@
 // ignore_for_file: unused_import, camel_case_types, prefer_const_constructors_in_immutables, prefer_const_constructors, must_be_immutable, avoid_print
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:voyager/components/explore_section/places.dart';
 import 'package:voyager/pages/trip_planning_sections/main_tab_sections/form_sections/form_for_one_way.dart';
 import 'package:voyager/pages/trip_planning_sections/main_tab_sections/form_sections/form_for_trains.dart';
 import 'package:voyager/services/fetch_userdata.dart';
@@ -216,8 +218,8 @@ class _tripsState extends State<trips> with SingleTickerProviderStateMixin {
           width: widget.screenWidth - 10,
           child: Stack(
             children: [
-              Image.asset(
-                'assets/images/a.png',
+              CachedNetworkImage(
+                imageUrl: placeImgURL[widget.trip.location] as String,
                 fit: BoxFit.cover,
                 height: widget.screenWidth / 3 + 20,
                 width: widget.screenWidth - 10,

@@ -128,7 +128,8 @@ bool areExpenseDataListsEqual(
   }
 
   for (int i = 0; i < list1.length; i++) {
-    if (!list1[i].isEqualTo(list2[i])) {
+    if (list1[i].creationTime != (list2[i].creationTime) ||
+        list1[i].PaidBy['uid'] != list2[i].PaidBy['uid']) {
       return false;
     }
   }

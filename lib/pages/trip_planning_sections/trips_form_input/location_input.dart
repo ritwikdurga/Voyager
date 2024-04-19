@@ -145,6 +145,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
+import 'package:voyager/components/explore_section/places.dart';
 import 'package:voyager/utils/constants.dart';
 
 class LocationInput extends StatefulWidget {
@@ -159,7 +160,7 @@ class LocationInput extends StatefulWidget {
 
 class _LocationInputState extends State<LocationInput>
     with AutomaticKeepAliveClientMixin {
-  List<String> suggestions = ['Roorkee']; // Initialize with default value
+  List<String> suggestions = places;
   TextEditingController _searchController = TextEditingController();
 
   @override

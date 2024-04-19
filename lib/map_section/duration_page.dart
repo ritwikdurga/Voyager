@@ -9,10 +9,10 @@ class Directions extends StatefulWidget {
 }
 
 class _DirectionsState extends State<Directions> {
-  TextEditingController _originController = TextEditingController();
-  TextEditingController _destinationController = TextEditingController();
-  List<String> _originSuggestions = [];
-  List<String> _destinationSuggestions = [];
+  final TextEditingController _originController = TextEditingController();
+  final TextEditingController _destinationController = TextEditingController();
+  final List<String> _originSuggestions = [];
+  final List<String> _destinationSuggestions = [];
   bool _showOriginSuggestions = false;
   bool _showDestinationSuggestions = false;
   Map<String, dynamic>? _responseDetails;

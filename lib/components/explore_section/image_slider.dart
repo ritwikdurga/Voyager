@@ -39,16 +39,16 @@ class _ComplicatedImageState extends State<ComplicatedImage> {
                                 end: Alignment.topCenter,
                               ),
                             ),
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 20.0),
-                            child: Text(
-                              'No. ${imgList.indexOf(item)} image',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                            // padding: EdgeInsets.symmetric(
+                            //     vertical: 10.0, horizontal: 20.0),
+                            // child: Text(
+                            //   'No. ${imgList.indexOf(item) + 1} image',
+                            //   style: TextStyle(
+                            //     color: Colors.white,
+                            //     fontSize: 20.0,
+                            //     fontWeight: FontWeight.bold,
+                            //   ),
+                            // ),
                           ),
                         ),
                       ],

@@ -7,13 +7,11 @@ import "package:voyager/pages/explore_sections/destination_description.dart";
 import "../../utils/constants.dart";
 
 class PastSearches extends StatelessWidget {
+  final String textData;
   const PastSearches({
     super.key,
     required this.textData,
   });
-
-  final textData;
-
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
@@ -33,7 +31,11 @@ class PastSearches extends StatelessWidget {
         onTap: () {
           //searchState.performSearch("Search Term");
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => DestDesc()));
+              context,
+              MaterialPageRoute(
+                  builder: (context) => DestDesc(
+                        place: textData,
+                      )));
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 12),

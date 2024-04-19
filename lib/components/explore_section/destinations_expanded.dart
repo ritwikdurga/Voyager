@@ -2,12 +2,15 @@
 
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
+import "package:voyager/components/explore_section/places.dart";
 import "package:voyager/pages/explore_sections/destination_description.dart";
 import "package:voyager/utils/constants.dart";
 
 class destExp extends StatelessWidget {
+  final String place;
   destExp({
     super.key,
+    required this.place,
     required this.screenWidth,
   });
 
@@ -28,12 +31,16 @@ class destExp extends StatelessWidget {
       surfaceTintColor: themeProvider.themeMode == ThemeMode.dark
           ? kBlackColor
           : Colors.grey.shade200,
-          elevation: 0,
+      elevation: 0,
       child: InkWell(
         splashColor: Colors.blueAccent,
         onTap: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => DestDesc()));
+              context,
+              MaterialPageRoute(
+                  builder: (context) => DestDesc(
+                        place: place,
+                      )));
         },
         child: SizedBox(
           height: screenWidth / 3,
@@ -47,9 +54,7 @@ class destExp extends StatelessWidget {
                     maxHeight: (screenWidth / 3) - 16,
                     maxWidth: screenWidth / 3,
                   ),
-                  child: Image.asset(
-                    'assets/images/a.png',
-                  ),
+                  child: Image.network(placeImgURL[place] as String),
                 ),
                 SizedBox(
                   width: screenWidth / 20,
@@ -59,7 +64,7 @@ class destExp extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Paris',
+                      place,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: themeProvider.themeMode == ThemeMode.dark
@@ -74,7 +79,7 @@ class destExp extends StatelessWidget {
                     ConstrainedBox(
                       constraints: BoxConstraints(maxWidth: screenWidth / 2),
                       child: Text(
-                        'Paris is an amazing place to visit this Summer. Paris is known for it romantic view.',
+                        descrption[place] ?? '',
                         style: TextStyle(
                           color: themeProvider.themeMode == ThemeMode.dark
                               ? Colors.white

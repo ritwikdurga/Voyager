@@ -2,12 +2,14 @@
 
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:voyager/components/explore_section/places.dart';
 import 'package:voyager/pages/explore_sections/explore_page.dart';
 import 'package:voyager/pages/trip_planning_sections/add_trips_page.dart';
 import 'package:voyager/pages/trip_planning_sections/main_tab_sections/expenses.dart';
@@ -73,7 +75,6 @@ class _ContinuePlanningState extends State<ContinuePlanning>
       final tripDoc = await tripRef.get();
       if (tripDoc.exists) {
         setState(() {
-          print("object");
           _HeadingTextController.text = tripDoc['title'];
           Timestamp tempStartDate = tripDoc['startDate'];
           widget.startDate = tempStartDate.toDate();
@@ -110,6 +111,7 @@ class _ContinuePlanningState extends State<ContinuePlanning>
         });
       }
       await tripRef.delete();
+      if (mounted) Navigator.pop(context);
     } catch (error) {
       print(error);
     }
@@ -155,8 +157,8 @@ class _ContinuePlanningState extends State<ContinuePlanning>
               SizedBox(
                 height: screenHeight / 3,
                 width: double.infinity,
-                child: Image.asset(
-                  'assets/images/a.png',
+                child: CachedNetworkImage(
+                  imageUrl: placeImgURL[widget.locationSelected] as String,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -213,18 +215,7 @@ class _ContinuePlanningState extends State<ContinuePlanning>
                                           child: Text("Delete"),
                                           onPressed: () {
                                             deleteTrip();
-                                            if (widget.isNewTripPage) {
-                                              Navigator.popUntil(context,
-                                                  (route) {
-                                                if (route.isFirst) {
-                                                  return true;
-                                                } else {
-                                                  return false;
-                                                }
-                                              });
-                                            } else {
-                                              Navigator.pop(context);
-                                            }
+                                            Navigator.pop(context);
                                           },
                                         ),
                                       ],
@@ -311,7 +302,9 @@ class _ContinuePlanningState extends State<ContinuePlanning>
                             OverviewTrips(
                               tripRef: tripRef,
                             ),
-                            ExploreTrips(),
+                            ExploreTrips(
+                              place: widget.locationSelected as String,
+                            ),
                             ItineraryTrips(
                                 startDate: widget.startDate,
                                 endDate: widget.endDate),
