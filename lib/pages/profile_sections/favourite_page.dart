@@ -14,6 +14,7 @@ class FavouritePage extends StatelessWidget {
     final tripsProvider = Provider.of<TripsProvider>(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: themeProvider.themeMode == ThemeMode.dark
           ? darkColorScheme.background
@@ -45,33 +46,54 @@ class FavouritePage extends StatelessWidget {
       // display the trips
       body: SingleChildScrollView(
         child: SafeArea(
-          child: Column(
-            children: [
-              const SizedBox(height: 10),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: tripsProvider.tripList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  if (tripsProvider.tripList[index].isBookmarked) {
-                    return Column(
-                      children: [
-                        trips(
-                          screenWidth: screenWidth,
-                          trip: tripsProvider.tripList[index],
-                          isNewTripPage: false,
-                          isBookmarked:
-                              tripsProvider.tripList[index].isBookmarked,
-                          index: 0,
-                        ),
-                        const SizedBox(height: 10),
-                      ],
-                    );
-                  }
-                },
+          child: tripsProvider.tripList.isNotEmpty
+              ? Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: tripsProvider.tripList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        if (tripsProvider.tripList[index].isBookmarked) {
+                          return Column(
+                            children: [
+                              trips(
+                                screenWidth: screenWidth,
+                                trip: tripsProvider.tripList[index],
+                                isNewTripPage: false,
+                                isBookmarked:
+                                    tripsProvider.tripList[index].isBookmarked,
+                                index: 0,
+                              ),
+                              const SizedBox(height: 10),
+                            ],
+                          );
+                        }
+                      },
+                    ),
+                  ],
+                )
+              : SizedBox(
+                height:screenHeight-200,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Text(
+                        'No trips in wishlist.',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
+                            color: themeProvider.themeMode == ThemeMode.dark
+                                ? Colors.grey[300]
+                                : Colors.grey[700],
+                            fontFamily: 'ProductSans'),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
         ),
       ),
     );

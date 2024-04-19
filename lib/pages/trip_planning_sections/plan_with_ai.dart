@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:voyager/pages/trip_planning_sections/trips_form_input/budget_input.dart';
 import 'package:voyager/pages/trip_planning_sections/trips_form_input/location_input.dart';
 import 'package:voyager/pages/trip_planning_sections/trips_form_input/trip_length_input.dart';
 import 'package:voyager/pages/trip_planning_sections/trips_form_input/tripmate_kind_input.dart';
@@ -26,6 +27,7 @@ class _PlanWithAIState extends State<PlanWithAI> {
   DateTime? departure;
   DateTime? arrival;
   String? tripMateKind;
+  String? budget;
 
   @override
   void dispose() {
@@ -57,6 +59,8 @@ class _PlanWithAIState extends State<PlanWithAI> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -80,7 +84,7 @@ class _PlanWithAIState extends State<PlanWithAI> {
             child: Center(
               child: SmoothPageIndicator(
                 controller: _controller,
-                count: 4,
+                count: 5,
                 effect: SlideEffect(
                   spacing: 8,
                   radius: 4,
@@ -108,10 +112,15 @@ class _PlanWithAIState extends State<PlanWithAI> {
                 _showErrorSnackbar('Please select the Start or End date.');
                 _controller.jumpToPage(1);
               }
-              if (index > 2 && tripMateKind == null) {
-                _showErrorSnackbar('Please select Yout tripmate kind.');
+              if (index > 2 && budget == null) {
+                _showErrorSnackbar('Please select Budget.');
                 _controller.jumpToPage(2);
               }
+              if (index > 3 && tripMateKind == null) {
+                _showErrorSnackbar('Please select Your tripmate kind.');
+                _controller.jumpToPage(3);
+              }
+              setState(() {});
             },
             children: [
               LocationInput(
@@ -128,6 +137,11 @@ class _PlanWithAIState extends State<PlanWithAI> {
                 setState(() {
                   departure = DepartureDate;
                   arrival = ArrivalDate;
+                });
+              }),
+              BudInp(budgetselected: (budget1) {
+                setState(() {
+                  budget = budget1;
                 });
               }),
               TripMateKind(onTripMateSelected: (tripMateKind) {

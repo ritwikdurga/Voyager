@@ -133,7 +133,7 @@ class _AddTripsState extends State<AddTrips> {
                 height: 6.5,
               ),
               SizedBox(
-                height: screenHeight / 1.55,
+                height: screenHeight / 1.7,
                 child: tripsProvider.tripList.isEmpty
                     ? Center(
                   child: Text(

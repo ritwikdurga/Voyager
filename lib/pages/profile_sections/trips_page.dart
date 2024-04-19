@@ -15,6 +15,7 @@ class ProfileTrips extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
     final tripsProvider = Provider.of<TripsProvider>(context);
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: themeProvider.themeMode == ThemeMode.dark
           ? darkColorScheme.background
@@ -48,31 +49,52 @@ class ProfileTrips extends StatelessWidget {
       // display the trips
       body: SingleChildScrollView(
         child: SafeArea(
-          child: Column(
-            children: [
-              const SizedBox(height: 10),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: tripsProvider.tripList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Column(
+          child: tripsProvider.tripList.length != 0
+              ? Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: tripsProvider.tripList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Column(
+                          children: [
+                            trips(
+                              screenWidth: screenWidth,
+                              trip: tripsProvider.tripList[index],
+                              isNewTripPage: false,
+                              isBookmarked:
+                                  tripsProvider.tripList[index].isBookmarked,
+                              index: 0,
+                            ),
+                            const SizedBox(height: 10),
+                          ],
+                        );
+                      },
+                    ),
+                  ],
+                )
+              : SizedBox(
+                  height: screenHeight - 200,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      trips(
-                        screenWidth: screenWidth,
-                        trip: tripsProvider.tripList[index],
-                        isNewTripPage: false,
-                        isBookmarked:
-                            tripsProvider.tripList[index].isBookmarked,
-                        index: 0,
+                      Center(
+                        child: Text(
+                          'No active trips.',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24,
+                              color: themeProvider.themeMode == ThemeMode.dark
+                                  ? Colors.grey[300]
+                                  : Colors.grey[700],
+                              fontFamily: 'ProductSans'),
+                        ),
                       ),
-                      const SizedBox(height: 10),
                     ],
-                  );
-                },
-              ),
-            ],
-          ),
+                  ),
+                ),
         ),
       ),
     );

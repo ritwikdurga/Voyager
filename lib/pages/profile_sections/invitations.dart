@@ -54,15 +54,16 @@ class _InvitationListPageState extends State<InvitationListPage> {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Invitation List',
+        title: Text(
+          'Invitation List',
           style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,
-              color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black,
-              fontFamily: 'ProductSans'
-          ),
+              color: themeProvider.themeMode == ThemeMode.dark
+                  ? Colors.white
+                  : Colors.black,
+              fontFamily: 'ProductSans'),
         ),
-
       ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: FirebaseFirestore.instance
@@ -85,22 +86,16 @@ class _InvitationListPageState extends State<InvitationListPage> {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: screenHeight*0.1,),
-                Text('No invitations available.',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24,
-                      color: themeProvider.themeMode == ThemeMode.dark ? Colors.grey[300] : Colors.grey[700],
-                      fontFamily: 'ProductSans'
-                  ),
-                ),
-                SizedBox(height: screenHeight*0.1,),
                 Center(
-                  child: Image.asset(
-                    'assets/images/sleep.png',
-                    width: 200,
-                    height: 200,
-
+                  child: Text(
+                    'No invitations available.',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                        color: themeProvider.themeMode == ThemeMode.dark
+                            ? Colors.grey[300]
+                            : Colors.grey[700],
+                        fontFamily: 'ProductSans'),
                   ),
                 ),
               ],
@@ -115,48 +110,36 @@ class _InvitationListPageState extends State<InvitationListPage> {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: screenHeight*0.1,),
-                Text('No pending invitations.',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                    color: themeProvider.themeMode == ThemeMode.dark ? Colors.grey[300] : Colors.grey[700],
-                    fontFamily: 'ProductSans'
-                  ),
-                ),
-                SizedBox(height: screenHeight*0.1,),
                 Center(
-                  child: Image.asset(
-                    'assets/images/sleep.png',
-                    width: 200,
-                    height: 200,
-
+                  child: Text(
+                    'No pending invitations.',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                        color: themeProvider.themeMode == ThemeMode.dark
+                            ? Colors.grey[300]
+                            : Colors.grey[700],
+                        fontFamily: 'ProductSans'),
                   ),
                 ),
-
               ],
             );
           }
           if (invitations == null || invitations.isEmpty) {
             return Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: screenHeight*0.1,),
-                Text('No pending invitations.',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24,
-                      color: themeProvider.themeMode == ThemeMode.dark ? Colors.grey[300] : Colors.grey[700],
-                      fontFamily: 'ProductSans'
-                  ),
-                ),
-                SizedBox(height: screenHeight*0.1,) ,
                 Center(
-                  child: Image.asset(
-                    'assets/images/sleep.png',
-                    width: 200,
-                    height: 200,
-
+                  child: Text(
+                    'No pending invitations.',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                        color: themeProvider.themeMode == ThemeMode.dark
+                            ? Colors.grey[300]
+                            : Colors.grey[700],
+                        fontFamily: 'ProductSans'),
                   ),
                 ),
               ],
@@ -182,22 +165,27 @@ class _InvitationListPageState extends State<InvitationListPage> {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: screenHeight*0.1,),
-                    Text('No pending invitations.',
+                    SizedBox(
+                      height: screenHeight * 0.1,
+                    ),
+                    Text(
+                      'No pending invitations.',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 24,
-                          color: themeProvider.themeMode == ThemeMode.dark ? Colors.grey[300] : Colors.grey[700],
-                          fontFamily: 'ProductSans'
-                      ),
+                          color: themeProvider.themeMode == ThemeMode.dark
+                              ? Colors.grey[300]
+                              : Colors.grey[700],
+                          fontFamily: 'ProductSans'),
                     ),
-                    SizedBox(height: screenHeight*0.1,),
+                    SizedBox(
+                      height: screenHeight * 0.1,
+                    ),
                     Center(
                       child: Image.asset(
                         'assets/images/sleep.png',
                         width: 200,
                         height: 200,
-
                       ),
                     ),
                   ],
@@ -215,70 +203,64 @@ class _InvitationListPageState extends State<InvitationListPage> {
                         children: [
                           Text(invitation.title,
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                color: Colors.deepOrange,
-                                fontFamily: 'ProductSans'
-                              )
-                          ),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                  color: Colors.deepOrange,
+                                  fontFamily: 'ProductSans')),
                         ],
                       ),
                     ),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('${DateFormat('dd MMM').format(invitation.startDate)} - ${DateFormat('dd MMM').format(invitation.endDate)}',
+                        Text(
+                          '${DateFormat('dd MMM').format(invitation.startDate)} - ${DateFormat('dd MMM').format(invitation.endDate)}',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 13,
-                              color: themeProvider.themeMode == ThemeMode.dark ? Colors.grey[300] : Colors.grey[700],
-                              fontFamily: 'ProductSans'
-                          ),
+                              color: themeProvider.themeMode == ThemeMode.dark
+                                  ? Colors.grey[300]
+                                  : Colors.grey[700],
+                              fontFamily: 'ProductSans'),
                         ),
                         Row(
                           children: [
                             Text('Trip to ',
                                 style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black,
-                                  fontFamily: 'ProductSans'
-                                )
-                            ),
-                            Text(
-                                '${invitation.location}',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                    color: themeProvider.themeMode ==
+                                            ThemeMode.dark
+                                        ? Colors.white
+                                        : Colors.black,
+                                    fontFamily: 'ProductSans')),
+                            Text('${invitation.location}',
                                 style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black,
-                                  fontFamily: 'ProductSans'
-                                )
-                            ),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                    color: themeProvider.themeMode ==
+                                            ThemeMode.dark
+                                        ? Colors.white
+                                        : Colors.black,
+                                    fontFamily: 'ProductSans')),
                           ],
                         ),
                         Row(
                           children: [
-                            Text(
-                                'Created By ',
+                            Text('Created By ',
                                 style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  color: Colors.blueAccent,
-                                  fontFamily: 'ProductSans'
-                                )
-                            ),
-                            Text(
-                                '${invitation.createdBy}',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                    color: Colors.blueAccent,
+                                    fontFamily: 'ProductSans')),
+                            Text('${invitation.createdBy}',
                                 style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  color: Colors.blueAccent,
-                                  fontFamily: 'ProductSans'
-                                )
-                            ),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                    color: Colors.blueAccent,
+                                    fontFamily: 'ProductSans')),
                           ],
                         ),
-
                       ],
                     ),
                     trailing: Row(

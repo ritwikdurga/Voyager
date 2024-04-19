@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:voyager/utils/constants.dart';
 import '../../../components/trip_planning_section/horizontal_calendar.dart';
 import '../../../components/trip_planning_section/itinerary_block.dart';
 
@@ -75,7 +76,7 @@ class _ItineraryTripsState extends State<ItineraryTrips>
             children: [
               Icon(
                 Icons.auto_fix_normal,
-                color: Colors.blueAccent,
+                color: kGreenColor,
                 size: 18.0,
               ),
               Text(
@@ -83,7 +84,7 @@ class _ItineraryTripsState extends State<ItineraryTrips>
                 style: TextStyle(
                   fontSize: 18,
                   fontFamily: 'ProductSans',
-                  color: Colors.blueAccent,
+                  color: kGreenColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),

@@ -12,7 +12,7 @@ class ProfileTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
     final themeProvider = Provider.of<ThemeProvider>(context);
     return SizedBox(
       height: 60,
@@ -43,7 +43,7 @@ class ProfileTile extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: SizedBox(
-              width: screenWidth - 550,
+              width: screenWidth-100,
               child: Text(
                 name,
                 maxLines: 1,

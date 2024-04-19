@@ -402,6 +402,28 @@ class _OverviewTripsState extends State<OverviewTrips> {
     );
   }
 
+  int _currentPage=0;
+
+  Widget _buildIndicator(int count) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(count, (index) {
+        return Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 300),
+            width: _currentPage == index ? 10 : 8,
+            height: 8,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: _currentPage == index ? Colors.blue : Colors.grey,
+            ),
+          ),
+        );
+      }),
+    );
+  }
+
   void AttachForTrains(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -674,6 +696,7 @@ class _OverviewTripsState extends State<OverviewTrips> {
           return const SizedBox();
         });
   }
+
 
   Widget buildWidgetTree(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -1259,36 +1282,48 @@ class _OverviewTripsState extends State<OverviewTrips> {
                 ),
                 initiallyExpanded: false,
                 children: [
-                  SizedBox(
-                    height: 395,
-                    width: screenWidth,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemCount: _imageURLs.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 0.025 * screenWidth,
-                          ),
-                          child: CachedNetworkImage(
-                            imageUrl: _imageURLs[index],
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) =>
-                                    CircularProgressIndicator(
-                              value: downloadProgress.progress,
-                            ),
-                            errorWidget: (context, url, error) {
-                              print("Error loading image: $error");
-                              return Icon(Icons.error);
-                            },
-                            height: 350,
-                            width: 0.95 * screenWidth,
-                            fit: BoxFit.cover,
-                          ),
-                        );
-                      },
-                    ),
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: 395,
+                        width: screenWidth,
+                        child: PageView.builder(
+                          scrollDirection: Axis.horizontal,
+                          // shrinkWrap: true,
+                          onPageChanged: (int page) {
+                            setState(() {
+                              _currentPage = page;
+                            });
+                          },
+                          itemCount: _imageURLs.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 0.025 * screenWidth,
+                              ),
+                              child: CachedNetworkImage(
+                                imageUrl: _imageURLs[index],
+                                progressIndicatorBuilder:
+                                    (context, url, downloadProgress) =>
+                                        CircularProgressIndicator(
+                                  value: downloadProgress.progress,
+                                ),
+                                errorWidget: (context, url, error) {
+                                  print("Error loading image: $error");
+                                  return Icon(Icons.error);
+                                },
+                                height: 350,
+                                width: 0.95 * screenWidth,
+                                fit: BoxFit.cover,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      _buildIndicator(_imageURLs.length),
+                      SizedBox(height:10),
+                    ],
                   ),
                 ],
               ),
