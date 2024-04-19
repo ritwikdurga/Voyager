@@ -103,7 +103,7 @@ class _IntroPageState extends State<IntroPage>
                   width: 130, // Adjust the width as per your requirement
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => LoginOrRegister()));
@@ -134,7 +134,7 @@ class _IntroPageState extends State<IntroPage>
                   child: ElevatedButton(
                     onPressed: () {
                       // check if user is logged in or not
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>

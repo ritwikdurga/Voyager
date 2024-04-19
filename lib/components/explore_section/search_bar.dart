@@ -107,12 +107,12 @@ class _SearchState extends State<Search> {
                 hintText: 'Where To?',
                 backgroundColor: MaterialStateColor.resolveWith(
                   (states) => themeProvider.themeMode == ThemeMode.dark
-                      ? Colors.grey.shade800
+                      ? Colors.grey.shade900
                       : Colors.grey.shade300,
                 ),
                 surfaceTintColor: MaterialStateColor.resolveWith(
                   (states) => themeProvider.themeMode == ThemeMode.dark
-                      ? Colors.grey.shade800
+                      ? Colors.grey.shade900
                       : Colors.grey.shade300,
                 ),
                 // shadowColor: MaterialStateColor.resolveWith((states) => Colors.white),

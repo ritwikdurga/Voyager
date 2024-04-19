@@ -31,7 +31,7 @@ final List<FAQItem> _data = [
   FAQItem(
       title: 'Will I receive personalized alerts?',
       answer:
-          'Yes, you\'ll get alerts for any kind of travel updates and reminders, weather updates, and reminders.'),
+          'Yes, you\'ll get alerts for any kind of travel updates and reminders.'),
   FAQItem(
       title: 'Can I categorize my expenses?',
       answer:

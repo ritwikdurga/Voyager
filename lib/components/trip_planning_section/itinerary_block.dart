@@ -396,6 +396,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:map_launcher/map_launcher.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/utils/constants.dart';
 
@@ -595,32 +596,6 @@ class _BlockWidgetState extends State<BlockWidget>
             ),
           ),
           if (_expanded) ...[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  GestureDetector(
-                    onTap: () {},
-                    child: Icon(
-                      Icons.route,
-                      size: 15.0,
-                      color: Colors.blue,
-                    ),
-                  ),
-                  Text(
-                    'Optimize Route',
-                    style: TextStyle(
-                      fontSize: 15.0,
-                      fontFamily: 'ProductSans',
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 10.0),
             for (var location in widget.blockData.locations) ...[
               Container(
                 padding: EdgeInsets.all(10.0),
@@ -728,58 +703,16 @@ class _BlockWidgetState extends State<BlockWidget>
                         ),
                       ],
                     ),
+
                     SizedBox(height: 10.0),
-                    Row(
-                      children: [
-                        Icon(Icons.link, color: Colors.blueAccent),
-                        SizedBox(width: 10.0),
-                        Expanded(
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Text(
-                              'www.example.com',
-                              style: TextStyle(
-                                fontSize: 14.0,
-                                color: themeProvider.themeMode == ThemeMode.dark
-                            ? Colors.grey.shade400
-                            : Colors.grey[700],
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10.0),
-                    Row(
-                      children: [
-                        Icon(Icons.phone, color: Colors.blueAccent),
-                        SizedBox(width: 10.0),
-                        Expanded(
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Text(
-                              '+91 1234567890',
-                              style: TextStyle(
-                                fontSize: 14.0,
-                                color: themeProvider.themeMode == ThemeMode.dark
-                            ? Colors.grey.shade400
-                            : Colors.grey[700],
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10.0),
+
                     Row(
                       children: [
                         Expanded(
                           child: TextButton(
                             onPressed: () {},
                             child: Text(
-                              'Get Directions',
+                              'View on Map',
                               style: TextStyle(
                                 fontSize: 14.0,
                                 color: Colors.deepOrange[500],
@@ -788,12 +721,29 @@ class _BlockWidgetState extends State<BlockWidget>
                             ),
                           ),
                         ),
+
                         SizedBox(width: 10.0),
                         Expanded(
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed:  () async {
+                              final availableMaps = await MapLauncher.installedMaps;
+                              print(availableMaps);
+
+                              if (availableMaps.isNotEmpty) {
+                                try {
+                                  await availableMaps.first.showMarker(
+                                    coords: Coords(37.759392, -122.510733), // to be changed
+                                    title: 'Title', // to be changed
+                                  );
+                                } catch (e) {
+                                  print('Error showing marker: $e');
+                                }
+                              } else {
+                                print('No maps available');
+                              }
+                            },
                             child: Text(
-                              'View on Map',
+                              'Get Directions',
                               style: TextStyle(
                                 fontSize: 14.0,
                                 color: Colors.deepOrange[500],
@@ -833,6 +783,7 @@ class _BlockWidgetState extends State<BlockWidget>
                   IconButton(
                     icon: Icon(Icons.add),
                     onPressed: () {
+                      FocusManager.instance.primaryFocus?.unfocus();
                       if (_locationController.text.isNotEmpty)
                         setState(() {
                           widget.blockData.locations

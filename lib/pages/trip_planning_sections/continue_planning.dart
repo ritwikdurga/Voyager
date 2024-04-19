@@ -30,6 +30,7 @@ class ContinuePlanning extends StatefulWidget {
   late String tripId;
   bool isNewTripPage = false;
   bool isBookmarked = false;
+
   ContinuePlanning({
     Key? key,
     required this.tripId,
@@ -49,6 +50,7 @@ class _ContinuePlanningState extends State<ContinuePlanning>
   double screenHeight = 0;
   TextEditingController _HeadingTextController = TextEditingController();
   bool _dataFetched = false;
+
   @override
   void initState() {
     super.initState();
@@ -114,6 +116,7 @@ class _ContinuePlanningState extends State<ContinuePlanning>
   }
 
   late StreamSubscription<DocumentSnapshot> _subscription;
+
   @override
   void dispose() {
     _subscription.cancel();
@@ -181,18 +184,53 @@ class _ContinuePlanningState extends State<ContinuePlanning>
                                 color: Colors.white,
                               ),
                               onTap: () {
-                                deleteTrip();
-                                if (widget.isNewTripPage) {
-                                  Navigator.popUntil(context, (route) {
-                                    if (route.isFirst) {
-                                      return true;
-                                    } else {
-                                      return false;
-                                    }
-                                  });
-                                } else {
-                                  Navigator.pop(context);
-                                }
+                                // cupertino alert dialog
+                                showCupertinoDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return CupertinoAlertDialog(
+                                      title: Text("Delete Trip",
+                                          style: TextStyle(
+                                              fontFamily: 'ProductSans',
+                                              fontSize: 22)
+                                          // Changed color to black for better visibility
+                                          ),
+                                      content: Text(
+                                          "Are you sure you want to delete this trip?",
+                                          style: TextStyle(
+                                              fontFamily: 'ProductSans',
+                                              fontSize: 18)
+                                          // Changed color to black for better visibility
+                                          ),
+                                      actions: [
+                                        CupertinoDialogAction(
+                                          child: Text("Cancel"),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                        CupertinoDialogAction(
+                                          child: Text("Delete"),
+                                          onPressed: () {
+                                            deleteTrip();
+                                            if (widget.isNewTripPage) {
+                                              Navigator.popUntil(context,
+                                                  (route) {
+                                                if (route.isFirst) {
+                                                  return true;
+                                                } else {
+                                                  return false;
+                                                }
+                                              });
+                                            } else {
+                                              Navigator.pop(context);
+                                            }
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
                               }),
                         ],
                       ),

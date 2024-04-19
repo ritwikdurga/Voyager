@@ -94,15 +94,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(
-                      Iconsax.airplane_square,
+                      Iconsax.search_status,
                     ),
-                    label: 'Booking',
+                    label: 'Search',
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(
                       Iconsax.route_square,
                     ),
-                    label: 'Add trips',
+                    label: 'Trips',
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(
