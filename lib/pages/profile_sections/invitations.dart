@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -49,7 +47,6 @@ class _InvitationListPageState extends State<InvitationListPage> {
 
   @override
   Widget build(BuildContext context) {
-    // take the screen height
     double screenHeight = MediaQuery.of(context).size.height;
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
@@ -202,7 +199,7 @@ class _InvitationListPageState extends State<InvitationListPage> {
                       child: Row(
                         children: [
                           Text(invitation.title,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,
                                   color: Colors.deepOrange,
@@ -234,7 +231,7 @@ class _InvitationListPageState extends State<InvitationListPage> {
                                         ? Colors.white
                                         : Colors.black,
                                     fontFamily: 'ProductSans')),
-                            Text('${invitation.location}',
+                            Text(invitation.location,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 15,
@@ -247,14 +244,14 @@ class _InvitationListPageState extends State<InvitationListPage> {
                         ),
                         Row(
                           children: [
-                            Text('Created By ',
+                            const Text('Created By ',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 15,
                                     color: Colors.blueAccent,
                                     fontFamily: 'ProductSans')),
-                            Text('${invitation.createdBy}',
-                                style: TextStyle(
+                            Text(invitation.createdBy,
+                                style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 15,
                                     color: Colors.blueAccent,
@@ -309,8 +306,6 @@ class _InvitationListPageState extends State<InvitationListPage> {
                 .get();
             invitationData.createdBy = creatorDoc.get('name');
             invitationDataList.add(invitationData);
-          } else {
-            print("Document does not exist for trip ID: $invitationId");
           }
         } catch (error) {
           print(
@@ -351,7 +346,7 @@ class _InvitationListPageState extends State<InvitationListPage> {
         'pendingInvitations': FieldValue.arrayRemove([invitation.tripId])
       });
     } catch (error) {
-      print("Error removing declined invitation: $error");
+      errorSnackBar();
     }
   }
 
@@ -367,7 +362,26 @@ class _InvitationListPageState extends State<InvitationListPage> {
         'pendingInvitations': FieldValue.arrayRemove([invitation.tripId])
       });
     } catch (error) {
-      print("Error removing declined invitation: $error");
+      errorSnackBar();
+    }
+  }
+
+  void errorSnackBar() {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.red,
+          content: Center(
+            child: Text(
+              'Error Occured, Please Try Again Later',
+              style: TextStyle(
+                fontSize: 16,
+                fontFamily: 'ProductSans',
+              ),
+            ),
+          ),
+        ),
+      );
     }
   }
 }

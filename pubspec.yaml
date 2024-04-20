@@ -78,6 +78,7 @@ dependencies:
   cached_network_image: ^3.3.1
   path_provider: ^2.0.2
   flutter_phone_direct_caller: ^2.1.1
+  google_generative_ai: ^0.3.1
 
 
 dev_dependencies:

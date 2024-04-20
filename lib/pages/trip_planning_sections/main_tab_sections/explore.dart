@@ -70,7 +70,7 @@ class _ExploreTripsState extends State<ExploreTrips> {
                   color: Colors.grey[400],
                 ),
               ),
-              Row(
+              const Row(
                 children: [
                   Padding(
                     padding: const EdgeInsets.fromLTRB(12.0, 0, 12, 0),

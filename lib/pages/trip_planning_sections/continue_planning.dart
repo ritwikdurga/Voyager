@@ -158,7 +158,8 @@ class _ContinuePlanningState extends State<ContinuePlanning>
                 height: screenHeight / 3,
                 width: double.infinity,
                 child: CachedNetworkImage(
-                  imageUrl: placeImgURL[widget.locationSelected] as String,
+                  imageUrl: placeImgURL[widget.locationSelected ?? "Manali"]
+                      as String,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -303,11 +304,14 @@ class _ContinuePlanningState extends State<ContinuePlanning>
                               tripRef: tripRef,
                             ),
                             ExploreTrips(
-                              place: widget.locationSelected as String,
+                              place: widget.locationSelected ?? "N/A",
                             ),
                             ItineraryTrips(
-                                startDate: widget.startDate,
-                                endDate: widget.endDate),
+                              startDate: widget.startDate,
+                              endDate: widget.endDate,
+                              location: widget.locationSelected,
+                              tripId: widget.tripId,
+                            ),
                             ExpensesTrips(
                               tripId: widget.tripId,
                             ),

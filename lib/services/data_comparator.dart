@@ -1,3 +1,4 @@
+import 'package:voyager/components/trip_planning_section/itinerary_block.dart';
 import 'package:voyager/models/expense_model.dart';
 import 'package:voyager/pages/trip_planning_sections/main_tab_sections/form_sections/form_for_buses.dart';
 import 'package:voyager/pages/trip_planning_sections/main_tab_sections/form_sections/form_for_cars.dart';
@@ -131,6 +132,24 @@ bool areExpenseDataListsEqual(
     if (list1[i].creationTime != (list2[i].creationTime) ||
         list1[i].PaidBy['uid'] != list2[i].PaidBy['uid']) {
       return false;
+    }
+  }
+
+  return true;
+}
+
+bool areBlockDataListsEqual(List<BlockData> list1, List<BlockData> list2) {
+  if (list1.length != list2.length) {
+    return false;
+  }
+
+  for (int i = 0; i < list1.length; i++) {
+    if (list1[i].date != list2[i].date) {
+      return false;
+    }
+    if (list1[i].locations.length != list2[i].locations.length) return false;
+    for (int j = 0; j < list1[i].locations.length; j++) {
+      if (list1[i].locations[j] != list2[i].locations[j]) return false;
     }
   }
 

@@ -9,11 +9,14 @@ import '../../../components/trip_planning_section/itinerary_block.dart';
 class ItineraryTrips extends StatefulWidget {
   final startDate;
   final endDate;
-
+  final location;
+  final tripId;
   const ItineraryTrips(
       {super.key,
       this.startDate,
-      this.endDate}); // Corrected the syntax for the constructor
+      this.endDate,
+      required this.location,
+      required this.tripId});
 
   @override
   State<ItineraryTrips> createState() => _ItineraryTripsState();
@@ -21,7 +24,7 @@ class ItineraryTrips extends StatefulWidget {
 
 class _ItineraryTripsState extends State<ItineraryTrips>
     with AutomaticKeepAliveClientMixin {
-  late BlockIti _blockIti; // Declare _blockIti variable without initialization
+  late BlockIti _blockIti;
 
   late DateTime _selectedStartDate;
   late DateTime _selectedEndDate;
@@ -32,12 +35,13 @@ class _ItineraryTripsState extends State<ItineraryTrips>
   @override
   void initState() {
     super.initState();
-    // Initialize _blockIti, _selectedStartDate, and _selectedEndDate in initState
     _selectedStartDate = widget.startDate;
     _selectedEndDate = widget.endDate;
     _blockIti = BlockIti(
       startDate: _selectedStartDate,
       endDate: _selectedEndDate,
+      location: widget.location,
+      tripId: widget.tripId,
     );
   }
 
@@ -123,6 +127,8 @@ class _ItineraryTripsState extends State<ItineraryTrips>
       _blockIti = BlockIti(
         startDate: _selectedStartDate,
         endDate: _selectedEndDate,
+        location: widget.location,
+        tripId: widget.tripId,
       );
     });
   }
