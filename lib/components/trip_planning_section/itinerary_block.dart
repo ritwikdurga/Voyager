@@ -149,6 +149,7 @@ class _BlockItiState extends State<BlockIti>
                       onDelete: () {
                         setState(() {
                           blockDataList.remove(blockDataList[i]);
+                          updateBlocDataInFirebase();
                         });
                       },
                     ),
@@ -164,6 +165,7 @@ class _BlockItiState extends State<BlockIti>
   void _onDeleteBlock(BlockData blockData) {
     setState(() {
       blockDataList.remove(blockData);
+      updateBlocDataInFirebase();
     });
   }
 }
@@ -171,7 +173,6 @@ class _BlockItiState extends State<BlockIti>
 class BlockData {
   final DateTime date;
   List<dynamic> locations;
-
   BlockData({required this.date, required this.locations});
 
   Map<String, dynamic> toMap() {
@@ -216,7 +217,7 @@ class _BlockWidgetState extends State<BlockWidget>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
-
+  Map<String, Map<String, dynamic>> _locationInfoDataMap = {};
   late TextEditingController _locationController;
   bool _expanded = false;
   late AnimationController _controller;
@@ -224,32 +225,44 @@ class _BlockWidgetState extends State<BlockWidget>
   String apiKey = dotenv.env['KEY']!;
 
   Future<Map<String, dynamic>> fetchLocationData(String loc) async {
-    try {
-      final model = GenerativeModel(
-        model: 'gemini-pro',
-        apiKey: 'AIzaSyAdTLdQjPK_GFd-8agz8XYeJ6A79lZBL1Y',
-      );
-      final content = [
-        Content.text(
-            'Provide the "rating", "description", and "timings" of $loc, ${widget.loc} in HH MM format as a string in JSON map format')
-      ];
-      final response = await model.generateContent(content);
-      final responseText = response.text!;
-      final trimmedResponse = responseText.substring(
-          responseText.indexOf('{'), responseText.lastIndexOf('}') + 1);
-      final jsonResponseMap = json.decode(trimmedResponse);
-      print(jsonResponseMap);
-      final description = jsonResponseMap['description'];
-      final rating = jsonResponseMap['rating'];
-      final timings = jsonResponseMap['timings'];
-      return {
-        'description': description,
-        'rating': rating,
-        'timings': timings,
-      };
-    } catch (e) {
-      print('Error fetching location data: $e');
-      rethrow;
+    if (_locationInfoDataMap.containsKey(loc)) {
+      // If data for the location is already present, return it directly
+      return _locationInfoDataMap[loc]!;
+    } else {
+      try {
+        // Fetch data from Firestore instead of making a request to Google Generative AI
+        // You need to replace this logic with your Firestore data fetching logic
+        final firestoreData = await FirebaseFirestore.instance
+            .collection('locations')
+            .doc(loc)
+            .get();
+        if (firestoreData.exists) {
+          // If data exists in Firestore, add it to the cache and return
+          final data = firestoreData.data()!;
+          _locationInfoDataMap[loc] = data;
+          return data;
+        } else {
+          // If data doesn't exist in Firestore, fetch it from Google Generative AI
+          final model = GenerativeModel(
+            model: 'gemini-pro',
+            apiKey: 'AIzaSyAdTLdQjPK_GFd-8agz8XYeJ6A79lZBL1Y',
+          );
+          final content = [
+            Content.text(
+                'Provide the "rating", "description", and "timings" of $loc, ${widget.loc} in HH MM format as a string in JSON map format')
+          ];
+          final response = await model.generateContent(content);
+          final responseText = response.text!;
+          final trimmedResponse = responseText.substring(
+              responseText.indexOf('{'), responseText.lastIndexOf('}') + 1);
+          final jsonResponseMap = json.decode(trimmedResponse);
+          _locationInfoDataMap[loc] = jsonResponseMap;
+          return jsonResponseMap;
+        }
+      } catch (e) {
+        print('Error fetching location data: $e');
+        rethrow;
+      }
     }
   }
 
@@ -361,7 +374,7 @@ class _BlockWidgetState extends State<BlockWidget>
           ),
           if (_expanded) ...[
             for (var location in widget.blockData.locations) ...[
-              buildLocationWidget(themeProvider, location),
+              buildLocationInfoWidget(themeProvider, location),
             ],
             SizedBox(height: 10.0),
             buildAddLocationWidget(widget.callbackUpdateFunc),
@@ -371,7 +384,36 @@ class _BlockWidgetState extends State<BlockWidget>
     );
   }
 
-  Widget buildLocationWidget(ThemeProvider themeProvider, String location) {
+  Widget buildLocationInfoWidget(ThemeProvider themeProvider, String loc) {
+    return FutureBuilder<Map<String, dynamic>>(
+      future: fetchLocationData(loc),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else if (snapshot.hasData) {
+          var data = snapshot.data!;
+          if (_locationInfoDataMap.containsKey(loc)) {
+            var existingData = _locationInfoDataMap[loc]!;
+            existingData.addAll(data);
+          } else {
+            _locationInfoDataMap[loc] = data;
+          }
+          return _buildLocationInfoWidgetWithData(themeProvider, loc, data);
+        } else {
+          return SizedBox.shrink();
+        }
+      },
+    );
+  }
+
+  Widget _buildLocationInfoWidgetWithData(
+      ThemeProvider themeProvider, String location, Map<String, dynamic> data) {
+    var description = data['description'];
+    var rating = data['rating'];
+    var timings = data['timings'];
+
     return Container(
       padding: EdgeInsets.all(10.0),
       margin: EdgeInsets.symmetric(vertical: 5.0),
@@ -404,89 +446,63 @@ class _BlockWidgetState extends State<BlockWidget>
             ],
           ),
           SizedBox(height: 10.0),
-          buildLocationInfoWidget(themeProvider, location),
-          SizedBox(height: 10.0),
-          buildAddressWidget(themeProvider),
-          SizedBox(height: 10),
-          buildDirectionWidgets(),
-        ],
-      ),
-    );
-  }
-
-  Widget buildLocationInfoWidget(ThemeProvider themeProvider, String loc) {
-    return FutureBuilder<Map<String, dynamic>>(
-      future: fetchLocationData(loc),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        } else if (snapshot.hasData) {
-          var data = snapshot.data!;
-          var description = data['description'];
-          var rating = data['rating'];
-          var timings = data['timings'];
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
             children: [
-              Row(
-                children: [
-                  Icon(Icons.access_time, color: Colors.blueAccent),
-                  SizedBox(width: 10.0),
-                  Text(
-                    timings,
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      color: themeProvider.themeMode == ThemeMode.dark
-                          ? Colors.grey.shade400
-                          : Colors.grey[700],
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 10.0),
-              Row(
-                children: [
-                  Icon(Icons.star, color: Colors.blueAccent),
-                  SizedBox(width: 10.0),
-                  Text(
-                    rating.toString(),
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      color: themeProvider.themeMode == ThemeMode.dark
-                          ? Colors.grey.shade400
-                          : Colors.grey[700],
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(width: 10.0),
-                  Icon(
-                    Ionicons.logo_google,
-                    size: 15,
-                    color: Colors.green,
-                  ),
-                ],
-              ),
-              SizedBox(height: 10.0),
+              Icon(Icons.access_time, color: Colors.blueAccent),
+              SizedBox(width: 10.0),
               Text(
-                description,
+                timings ?? "N/A",
                 style: TextStyle(
-                  fontSize: 16.0,
-                  fontFamily: 'ProductSans',
-                  fontWeight: FontWeight.bold,
+                  fontSize: 14.0,
                   color: themeProvider.themeMode == ThemeMode.dark
                       ? Colors.grey.shade400
                       : Colors.grey[700],
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],
-          );
-        } else {
-          return Text('No data available');
-        }
-      },
+          ),
+          SizedBox(height: 10.0),
+          Row(
+            children: [
+              Icon(Icons.star, color: Colors.blueAccent),
+              SizedBox(width: 10.0),
+              Text(
+                rating.toString(),
+                style: TextStyle(
+                  fontSize: 14.0,
+                  color: themeProvider.themeMode == ThemeMode.dark
+                      ? Colors.grey.shade400
+                      : Colors.grey[700],
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(width: 10.0),
+              Icon(
+                Ionicons.logo_google,
+                size: 15,
+                color: Colors.green,
+              ),
+            ],
+          ),
+          SizedBox(height: 10.0),
+          Text(
+            description ?? "N/A",
+            style: TextStyle(
+              fontSize: 16.0,
+              fontFamily: 'ProductSans',
+              fontWeight: FontWeight.bold,
+              color: themeProvider.themeMode == ThemeMode.dark
+                  ? Colors.grey.shade400
+                  : Colors.grey[700],
+            ),
+          ),
+          SizedBox(height: 10.0),
+          buildAddressWidget(themeProvider),
+          SizedBox(height: 10.0),
+          buildDirectionWidgets(),
+        ],
+      ),
     );
   }
 
