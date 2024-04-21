@@ -13,9 +13,12 @@ import 'package:intl/intl.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:provider/provider.dart';
+import 'package:voyager/pages/trip_planning_sections/main_tab_sections/normalmap.dart';
 import 'package:voyager/services/data_comparator.dart';
 import 'package:voyager/utils/constants.dart';
 import 'package:http/http.dart' as http;
+
+import '../../map_section/normal__map_page.dart';
 
 class BlockIti extends StatefulWidget {
   final DateTime startDate;
@@ -571,7 +574,14 @@ class _BlockWidgetState extends State<BlockWidget>
       children: [
         Expanded(
           child: TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MarkingMap(),
+                ),
+              );
+            },
             child: Text(
               'View on Map',
               style: TextStyle(
