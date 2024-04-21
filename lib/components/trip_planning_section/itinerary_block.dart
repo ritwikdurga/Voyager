@@ -22,9 +22,11 @@ class BlockIti extends StatefulWidget {
   final DateTime endDate;
   final String location;
   final String tripId;
+  final List<String> suggestions;
 
   const BlockIti(
       {super.key,
+      required this.suggestions,
       required this.startDate,
       required this.endDate,
       required this.location,
@@ -140,6 +142,7 @@ class _BlockItiState extends State<BlockIti>
                       ],
                     ),
                     child: BlockWidget(
+                      suggestions: widget.suggestions,
                       startDate: widget.startDate,
                       endDate: widget.endDate,
                       blockDataList: blockDataList,
@@ -199,7 +202,9 @@ class BlockWidget extends StatefulWidget {
   final DateTime startDate;
   final DateTime endDate;
   final String loc;
+  final List<String> suggestions;
   BlockWidget({
+    required this.suggestions,
     required this.callbackUpdateFunc,
     required this.blockDataList,
     required this.indx,
@@ -377,7 +382,11 @@ class _BlockWidgetState extends State<BlockWidget>
               buildLocationInfoWidget(themeProvider, location),
             ],
             SizedBox(height: 10.0),
-            buildAddLocationWidget(widget.callbackUpdateFunc),
+            AddLocationWidget(
+              callbackFunc: widget.callbackUpdateFunc,
+              locations: widget.suggestions,
+              blockUpd: BlockUpd,
+            ),
           ],
         ],
       ),
@@ -594,59 +603,262 @@ class _BlockWidgetState extends State<BlockWidget>
     );
   }
 
-  Widget buildAddLocationWidget(Function callbackFunc) {
+  void BlockUpd(String location){
+    setState(() {
+      widget.blockData.locations.add(location);
+    });
+  }
+
+  // List<String> getFilteredSuggestions(String text) {
+  //   return widget.suggestions
+  //       .where((suggestion) =>
+  //           suggestion.toLowerCase().contains(text.toLowerCase()))
+  //       .toList();
+  // }
+
+  // bool isListViewVisible = false;
+  // String selectedLoc = '';
+  // Widget buildAddLocationWidget(Function callbackFunc) {
+  //   return Padding(
+  //     padding: const EdgeInsets.all(8.0),
+  //     child: Column(
+  //       children: [
+  //         Row(
+  //           children: [
+  //             Expanded(
+  //               child: TextField(
+  //                 controller: _locationController,
+  //                 decoration: InputDecoration(
+  //                   hintText: 'Add a location',
+  //                   focusedBorder: OutlineInputBorder(
+  //                     borderSide: BorderSide(color: Colors.blue),
+  //                     borderRadius: BorderRadius.circular(10.0),
+  //                   ),
+  //                   enabledBorder: OutlineInputBorder(
+  //                     borderSide: BorderSide(color: Colors.grey),
+  //                     borderRadius: BorderRadius.circular(10.0),
+  //                   ),
+  //                   contentPadding: EdgeInsets.symmetric(horizontal: 15.0),
+  //                 ),
+  //                 onTap: () {
+  //                   setState(() {
+  //                     isListViewVisible = true;
+  //                   });
+  //                 },
+  //                 onChanged: (value) {
+  //                   setState(() {});
+  //                 },
+  //               ),
+  //             ),
+  //             IconButton(
+  //               icon: Icon(Icons.add),
+  //               onPressed: () {
+  //                 FocusManager.instance.primaryFocus?.unfocus();
+  //                 if (_locationController.text.isNotEmpty) {
+  //                   setState(() {
+  //                     widget.blockData.locations.add(_locationController.text);
+  //                     callbackFunc();
+  //                     _locationController.clear();
+  //                   });
+  //                 } else {
+  //                   FocusManager.instance.primaryFocus?.unfocus();
+  //                   ScaffoldMessenger.of(context).showSnackBar(
+  //                     SnackBar(
+  //                       backgroundColor: kRedColor,
+  //                       content: Center(
+  //                         child: Text(
+  //                           'Please enter a location',
+  //                           style: TextStyle(
+  //                             fontSize: 16,
+  //                             fontFamily: 'ProductSans',
+  //                             color: Colors.white,
+  //                           ),
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   );
+  //                 }
+  //               },
+  //             ),
+  //           ],
+  //         ),
+  //         if (isListViewVisible)
+  //           SizedBox(
+  //             height: 200,
+  //             child: Stack(
+  //               children: [
+  //                 ListView.builder(
+  //                   itemCount:
+  //                       getFilteredSuggestions(_locationController.text).length,
+  //                   itemBuilder: (context, index) {
+  //                     final suggestion = getFilteredSuggestions(
+  //                         _locationController.text)[index];
+  //                     return ListTile(
+  //                       title: Row(
+  //                         children: [
+  //                           Text(suggestion),
+  //                         ],
+  //                       ),
+  //                       onTap: () {
+  //                         setState(() {
+  //                           _locationController.text = suggestion;
+  //                           selectedLoc = _locationController.text;
+  //                           isListViewVisible = false;
+  //                           FocusManager.instance.primaryFocus?.unfocus();
+  //                         });
+  //                       },
+  //                     );
+  //                   },
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //       ],
+  //     ),
+  //   );
+  // }
+}
+
+class AddLocationWidget extends StatefulWidget {
+  final Function callbackFunc;
+  final List<String> locations;
+  final void Function(String) blockUpd;
+
+  AddLocationWidget({required this.callbackFunc, required this.locations,required this.blockUpd});
+
+  @override
+  _AddLocationWidgetState createState() => _AddLocationWidgetState();
+}
+
+class _AddLocationWidgetState extends State<AddLocationWidget> {
+  final TextEditingController _locationController = TextEditingController();
+  bool isListViewVisible = false;
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Row(
+      child: Column(
         children: [
-          Expanded(
-            child: TextField(
-              controller: _locationController,
-              decoration: InputDecoration(
-                hintText: 'Add a location',
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue),
-                  borderRadius: BorderRadius.circular(10.0),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _locationController,
+                  decoration: InputDecoration(
+                    hintText: 'Add a location',
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 15.0),
+                  ),
+                  onTap: () {
+                    setState(() {
+                      isListViewVisible = true;
+                    });
+                  },
+                  onChanged: (value) {
+                    setState(() {});
+                  },
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                contentPadding: EdgeInsets.symmetric(horizontal: 15.0),
               ),
-            ),
-          ),
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              FocusManager.instance.primaryFocus?.unfocus();
-              if (_locationController.text.isNotEmpty) {
-                setState(() {
-                  widget.blockData.locations.add(_locationController.text);
-                  callbackFunc();
-                  _locationController.clear();
-                });
-              } else {
-                FocusManager.instance.primaryFocus?.unfocus();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    backgroundColor: kRedColor,
-                    content: Center(
-                      child: Text(
-                        'Please enter a location',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'ProductSans',
-                          color: Colors.white,
+              IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  if (_locationController.text.isNotEmpty) {
+                    setState(() {
+                      //widget.locations.add(_locationController.text);
+                      widget.blockUpd(_locationController.text);
+                      widget.callbackFunc();
+                      _locationController.clear();
+                    });
+                  } else {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: kRedColor,
+                        content: Center(
+                          child: Text(
+                            'Please enter a location',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'ProductSans',
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                );
-              }
-            },
+                    );
+                  }
+                },
+              ),
+            ],
           ),
+          if (isListViewVisible)
+            LocationSuggestions(
+              locationController: _locationController,
+              suggestions: widget.locations,
+              callback: (String suggestion) {
+                setState(() {
+                  _locationController.text = suggestion;
+                  isListViewVisible = false;
+                  FocusManager.instance.primaryFocus?.unfocus();
+                });
+              },
+            ),
         ],
+      ),
+    );
+  }
+}
+
+class LocationSuggestions extends StatelessWidget {
+  final TextEditingController locationController;
+  final Function(String) callback;
+  List<String> suggestions;
+
+  LocationSuggestions({
+    required this.locationController,
+    required this.callback,
+    required this.suggestions,
+  });
+
+  List<String> getFilteredSuggestions(String text) {
+    return suggestions
+        .where((suggestion) =>
+            suggestion.toLowerCase().contains(text.toLowerCase()))
+        .toList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 200,
+      child: ListView.builder(
+        itemCount: getFilteredSuggestions(locationController.text).length,
+        itemBuilder: (context, index) {
+          final suggestion =
+              getFilteredSuggestions(locationController.text)[index];
+          return ListTile(
+            title: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  Text(suggestion),
+                ],
+              ),
+            ),
+            onTap: () {
+              callback(suggestion);
+            },
+          );
+        },
       ),
     );
   }

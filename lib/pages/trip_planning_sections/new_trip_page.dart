@@ -30,6 +30,7 @@ class NewTrip extends StatefulWidget {
   List<String>? tripPreferences;
   List<String> collaborators;
   bool? isManual;
+  String? budget;
   NewTrip(
       {Key? key,
       required this.locationSelected,
@@ -38,6 +39,7 @@ class NewTrip extends StatefulWidget {
       required this.isManual,
       this.tripmateKind,
       this.tripPreferences,
+      required this.budget,
       required this.collaborators})
       : super(key: key);
   @override
@@ -63,6 +65,7 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
       List<String> collaborators,
       List<String>? tripPreferences,
       String? tripmateKind,
+      String? budget,
       bool? isManual) async {
     await tripRef.set({
       'title': title,
@@ -74,6 +77,7 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
       'isManual': isManual,
       'tripPreferences': tripPreferences,
       'tripmateKind': tripmateKind,
+      'budget':budget,
     });
     await FirebaseFirestore.instance
         .collection("users")
@@ -137,6 +141,7 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
       [_firebaseauth.currentUser!.uid],
       widget.tripPreferences,
       widget.tripmateKind,
+      widget.budget,
       widget.isManual,
     );
     tripId = tripRef.id;
@@ -292,6 +297,10 @@ class _NewTripState extends State<NewTrip> with TickerProviderStateMixin {
                             endDate: widget.EndDate,
                             location: widget.locationSelected,
                             tripId: tripId,
+                            budget: widget.budget,
+                            tripPreferences: widget.tripPreferences,
+                            tripMateKind: widget.tripmateKind,
+                            isManual: widget.isManual,
                           ),
                           ExpensesTrips(
                             tripId: tripId,

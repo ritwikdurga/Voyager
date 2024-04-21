@@ -1,0 +1,50 @@
+PID,Place,shows and concerts,scenic,Local Experience,Religious,History and culture,Museum,Food and Drinks,Adventure,Shopping
+POI1,India Gate,0,4,2,0,5,0,0,0,0
+POI2,Qutub Minar,0,4,3,0,5,0,1,3,0
+POI3,Akshardham Temple Delhi,0,3,0,5,4,0,1,0,0
+POI4,Humayun's Tomb,0,4,3,0,5,0,1,0,0
+POI5,Hauz Khas Village,0,0,3,4,0,0,1,0,5
+POI6,Museum of Illusions,0,0,0,0,5,4,1,0,0
+POI7,"National Gallery Of Modern Art, Delhi",0,5,4,0,0,0,1,0,0
+POI8,Lotus Temple,3,0,4,5,2,0,0,0,0
+POI9,Red Fort,0,4,3,5,0,0,0,0,0
+POI10,Agrasen ki Baoli,0,5,4,0,0,0,0,0,3
+POI12,Garden of Five Senses,4,5,0,0,0,0,0,0,0
+POI13,Lodhi Garden,4,5,0,0,0,0,0,0,0
+POI14,Waste to Wonder Park,0,4,0,0,0,0,0,5,0
+POI15,Chandni Chowk,0,2,5,0,0,0,0,0,4
+POI16,Dilli Haat,0,3,5,0,0,0,0,0,4
+POI17,Bharat Darshan Park,0,5,4,0,0,0,0,0,0
+POI18,Gurudwara Bangla Sahib,0,4,5,0,4,0,0,0,3
+POI19,Pradhanmantri Sangrahalaya,0,2,3,0,4,5,0,0,0
+POI20,"Rail Museum, Delhi",0,2,3,0,4,5,0,0,3
+POI21,Nizamuddin Dargah,0,4,3,0,5,0,2,0,0
+POI22,"Jantar Mantar, Delhi",0,4,0,0,3,0,3,5,0
+POI23,Delhi Zoo,0,4,0,0,4,0,3,5,0
+POI24,Mehrauli Archaeological Park,0,4,3,4,0,5,0,0,0
+POI25,Kingdom of Dreams,0,0,3,0,0,0,4,5,4
+POI26,"Mughal Gardens, Delhi",0,4,0,0,4,5,0,0,0
+POI27,Rashtrapati Bhavan,2,4,3,0,5,0,1,0,3
+POI28,Jama Masjid Delhi,0,0,3,5,4,0,1,0,0
+POI29,Sarojini Market,0,3,4,0,0,0,1,0,5
+POI30,Connaught Place,1,3,4,0,0,0,2,0,5
+POI32,ISKCON Temple Delhi,0,4,3,5,0,0,4,0,0
+POI33,Khan Market,2,0,5,0,0,0,1,0,4
+POI34,Paharganj,2,0,5,0,0,0,1,0,4
+POI35,Birla Mandir Delhi,0,4,3,5,0,0,1,0,0
+POI36,Lajpat Nagar,3,0,4,0,0,0,1,0,5
+POI37,Safdarjung Tomb,0,4,3,0,5,0,2,0,0
+POI38,Purana Qila,0,4,3,0,5,0,2,0,0
+POI39,Adventure Island,0,4,2,0,0,0,3,5,0
+POI40,Pragati Maidan,0,5,3,0,4,0,0,0,0
+POI41,Rajghat,0,3,0,4,5,0,0,0,0
+POI42,"National Museum, Delhi",0,0,3,0,4,5,0,0,0
+POI44,Crafts Museum,0,0,3,0,4,5,0,0,0
+POI45,Tughlaqabad Fort,0,4,0,0,5,0,0,0,0
+POI46,Teen Murti Bhavan,0,5,4,0,0,0,0,0,0
+POI47,Rajpath,3,0,2,0,4,5,0,0,0
+POI48,Sulabh International Museum of Toilets,0,2,3,0,4,5,0,0,0
+POI49,Nicholson Cemetery,0,4,0,0,5,0,0,0,0
+POI50,Iron Pillar,0,4,0,0,5,0,0,0,0
+POI51,Nehru Memorial Museum and Library,0,0,0,0,4,5,0,0,0
+POI52,Chhatarpur Mandir,0,0,4,5,3,0,0,0,0

@@ -14,12 +14,14 @@ class TypesOfPlaces extends StatefulWidget {
   DateTime? StartDate;
   DateTime? EndDate;
   String? tripmateKind;
+  String? budget;
   TypesOfPlaces({
     super.key,
     required this.locationSelected,
     required this.StartDate,
     required this.EndDate,
     required this.tripmateKind,
+    required this.budget,
   });
 
   @override
@@ -70,63 +72,35 @@ class _TypesOfPlacesState extends State<TypesOfPlaces> {
             children: [
               buildContainer(
                 screenWidth,
-                'History and Culture',
+                'Adventure and Outdoors',
                 themeProvider.themeMode == ThemeMode.dark
                     ? Colors.white
                     : Colors.black,
               ),
               buildContainer(
                 screenWidth,
-                'Museum',
+                'Spiritual',
                 themeProvider.themeMode == ThemeMode.dark
                     ? Colors.white
                     : Colors.black,
               ),
               buildContainer(
                 screenWidth,
-                'Local Experiences',
+                'Relaxing',
                 themeProvider.themeMode == ThemeMode.dark
                     ? Colors.white
                     : Colors.black,
               ),
               buildContainer(
                 screenWidth,
-                'Scenic',
+                'City Life',
                 themeProvider.themeMode == ThemeMode.dark
                     ? Colors.white
                     : Colors.black,
               ),
               buildContainer(
                 screenWidth,
-                'Adventure',
-                themeProvider.themeMode == ThemeMode.dark
-                    ? Colors.white
-                    : Colors.black,
-              ),
-              buildContainer(
-                screenWidth,
-                'Food and Drinks',
-                themeProvider.themeMode == ThemeMode.dark
-                    ? Colors.white
-                    : Colors.black,
-              ),
-              buildContainer(
-                screenWidth,
-                'Religious',
-                themeProvider.themeMode == ThemeMode.dark
-                    ? Colors.white
-                    : Colors.black,
-              ),
-              buildContainer(
-                screenWidth,
-                'Shows and concerts',
-                themeProvider.themeMode == ThemeMode.dark
-                    ? Colors.white
-                    : Colors.black,
-              ),
-              buildContainer(
-                screenWidth,
-                'Shopping',
+                'Cultural',
                 themeProvider.themeMode == ThemeMode.dark
                     ? Colors.white
                     : Colors.black,
@@ -167,6 +141,7 @@ class _TypesOfPlacesState extends State<TypesOfPlaces> {
                               tripmateKind: widget.tripmateKind,
                               tripPreferences: selectedTypes,
                               collaborators: [firebaseAuth.currentUser!.uid],
+                              budget:widget.budget,
                             )));
               },
             ),

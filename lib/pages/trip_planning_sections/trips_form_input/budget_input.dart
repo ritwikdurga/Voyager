@@ -47,24 +47,27 @@ class _BudInpState extends State<BudInp> with AutomaticKeepAliveClientMixin {
           ),
         ),
         SizedBox(
-          width: 0.25 * screenWidth,
-          child: TextField(
-            decoration: InputDecoration(
-              alignLabelWithHint: true,
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
-              hintText: '0.00',
+          width: 0.5 * screenWidth,
+          child: Center(
+            child: TextField(
+              decoration: InputDecoration(
+                alignLabelWithHint: true,
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+                hintText: '0.00',
+              ),
+              textAlign: TextAlign.center,
+              keyboardType:
+                  TextInputType.numberWithOptions(signed: true, decimal: true),
+              inputFormatters: <TextInputFormatter>[
+                CustomTextInputFormatter(),
+                LengthLimitingTextInputFormatter(5),
+              ],
+              textInputAction: TextInputAction.done,
+              onSubmitted: (val) {
+                widget.budgetselected(val);
+              },
             ),
-            keyboardType:
-                TextInputType.numberWithOptions(signed: true, decimal: true),
-            inputFormatters: <TextInputFormatter>[
-              CustomTextInputFormatter(),
-              LengthLimitingTextInputFormatter(5),
-            ],
-            textInputAction: TextInputAction.done,
-            onSubmitted: (val) {
-              widget.budgetselected(val);
-            },
           ),
         ),
       ],

@@ -154,6 +154,7 @@ class _PlanWithAIState extends State<PlanWithAI> {
                 StartDate: departure,
                 EndDate: arrival,
                 tripmateKind: tripMateKind,
+                budget:budget,
               ),
             ],
           ),

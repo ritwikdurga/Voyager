@@ -281,6 +281,7 @@ class _tripLengthManualState extends State<tripLengthManual>
                               StartDate: selectedDepartureDate,
                               EndDate: selectedArrivalDate,
                               isManual: true,
+                              budget:null,
                               collaborators: [firebaseAuth.currentUser!.uid],
                             )));
               },
