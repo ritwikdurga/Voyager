@@ -23,7 +23,6 @@ class BlockIti extends StatefulWidget {
   final String location;
   final String tripId;
   final List<String> suggestions;
-
   const BlockIti(
       {super.key,
       required this.suggestions,
@@ -229,35 +228,61 @@ class _BlockWidgetState extends State<BlockWidget>
   late Animation<double> _animation;
   String apiKey = dotenv.env['KEY']!;
 
+  Future<Map<String, dynamic>> getLatAndLongForLoc(
+      String loc, String place) async {
+    var url = Uri.parse(
+        'https://api.mapbox.com/search/geocode/v6/forward?q=$loc,$place&access_token=$apiKey&proximity=28.7041,77.1025');
+
+    var response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      var responseBody = json.decode(response.body);
+      var features = responseBody['features'] as List<dynamic>;
+      var fullAddress = features.isNotEmpty
+          ? features[0]['properties']['full_address']
+          : null;
+      print(fullAddress);
+      var geometry = features.isNotEmpty ? features[0]['geometry'] : null;
+      var coordinates = geometry != null ? geometry['coordinates'] : null;
+      var latitude = coordinates != null ? coordinates[1] : null;
+      var longitude = coordinates != null ? coordinates[0] : null;
+
+      return {
+        'latitude': latitude,
+        'longitude': longitude,
+        'full_address': fullAddress,
+      };
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+      return {};
+    }
+  }
+
   Future<Map<String, dynamic>> fetchLocationData(String loc) async {
     if (_locationInfoDataMap.containsKey(loc)) {
-      // If data for the location is already present, return it directly
       return _locationInfoDataMap[loc]!;
     } else {
       try {
-        // Fetch data from Firestore instead of making a request to Google Generative AI
-        // You need to replace this logic with your Firestore data fetching logic
         final firestoreData = await FirebaseFirestore.instance
             .collection('locations')
             .doc(loc)
             .get();
         if (firestoreData.exists) {
-          // If data exists in Firestore, add it to the cache and return
           final data = firestoreData.data()!;
           _locationInfoDataMap[loc] = data;
           return data;
         } else {
-          // If data doesn't exist in Firestore, fetch it from Google Generative AI
           final model = GenerativeModel(
             model: 'gemini-pro',
             apiKey: 'AIzaSyAdTLdQjPK_GFd-8agz8XYeJ6A79lZBL1Y',
           );
           final content = [
             Content.text(
-                'Provide the "rating", "description", and "timings" of $loc, ${widget.loc} in HH MM format as a string in JSON map format')
+                'Provide the "rating", "description","address", "coordinates"coordinates should not contains oE,oN and should be in nested format and "timings" of $loc, ${widget.loc} in HH MM format as a string in JSON map format')
           ];
           final response = await model.generateContent(content);
           final responseText = response.text!;
+          print(responseText);
           final trimmedResponse = responseText.substring(
               responseText.indexOf('{'), responseText.lastIndexOf('}') + 1);
           final jsonResponseMap = json.decode(trimmedResponse);
@@ -275,17 +300,16 @@ class _BlockWidgetState extends State<BlockWidget>
     String endpoint =
         'https://api.mapbox.com/search/geocode/v6/reverse?access_token=$apiKey&longitude=$longitude&latitude=$latitude';
     try {
-      //var response = await http.get(Uri.parse(endpoint));
-      // if (response.statusCode == 200) {
-      //   var data = json.decode(response.body);
-      //   print(data['features'][0]['properties']['full_address']);
-      //   String address = data['features'][0]['properties']['full_address'];
-      //   //print('hi123342');
-      //   return address;
-      // } else {
-      //   throw Exception('Failed to load suggestions');
-      // }
-      return '';
+      var response = await http.get(Uri.parse(endpoint));
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        print(data);
+        print(data['features'][0]['properties']['full_address']);
+        String address = data['features'][0]['properties']['full_address'];
+        return address;
+      } else {
+        throw Exception('Failed to load suggestions');
+      }
     } catch (e) {
       print('Error: $e');
       return '';
@@ -328,7 +352,6 @@ class _BlockWidgetState extends State<BlockWidget>
     if (widget.blockDataList.isNotEmpty) {
       widget.blockData = widget.blockDataList[widget.indx];
     }
-    //widget.callbackUpdateFunc();
     return AnimatedSize(
       alignment: Alignment.topCenter,
       duration: Duration(milliseconds: 750), // Adjust duration as needed
@@ -422,6 +445,9 @@ class _BlockWidgetState extends State<BlockWidget>
     var description = data['description'];
     var rating = data['rating'];
     var timings = data['timings'];
+    var address = data['address'];
+    var latitude = double.parse(data['coordinates']['latitude'].toString());
+    var longitude = double.parse(data['coordinates']['longitude'].toString());
 
     return Container(
       padding: EdgeInsets.all(10.0),
@@ -507,15 +533,15 @@ class _BlockWidgetState extends State<BlockWidget>
             ),
           ),
           SizedBox(height: 10.0),
-          buildAddressWidget(themeProvider),
+          buildAddressWidget(themeProvider, address),
           SizedBox(height: 10.0),
-          buildDirectionWidgets(),
+          buildDirectionWidgets(location, latitude, longitude),
         ],
       ),
     );
   }
 
-  Widget buildAddressWidget(ThemeProvider themeProvider) {
+  Widget buildAddressWidget(ThemeProvider themeProvider, String address) {
     return Row(
       children: [
         Icon(Icons.location_on, color: Colors.blueAccent),
@@ -523,29 +549,15 @@ class _BlockWidgetState extends State<BlockWidget>
         Expanded(
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: FutureBuilder<String>(
-              future: getAddress('-73.989', '40.733'),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else if (snapshot.hasData) {
-                  var addressData = snapshot.data!;
-                  return Text(
-                    addressData,
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      color: themeProvider.themeMode == ThemeMode.dark
-                          ? Colors.grey.shade400
-                          : Colors.grey[700],
-                      fontWeight: FontWeight.bold,
-                    ),
-                  );
-                } else {
-                  return Text('No data available');
-                }
-              },
+            child: Text(
+              address,
+              style: TextStyle(
+                fontSize: 14.0,
+                color: themeProvider.themeMode == ThemeMode.dark
+                    ? Colors.grey.shade400
+                    : Colors.grey[700],
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
@@ -553,7 +565,8 @@ class _BlockWidgetState extends State<BlockWidget>
     );
   }
 
-  Widget buildDirectionWidgets() {
+  Widget buildDirectionWidgets(
+      String title, double latitude, double longitude) {
     return Row(
       children: [
         Expanded(
@@ -579,8 +592,8 @@ class _BlockWidgetState extends State<BlockWidget>
               if (availableMaps.isNotEmpty) {
                 try {
                   await availableMaps.first.showMarker(
-                    coords: Coords(37.759392, -122.510733),
-                    title: 'Title',
+                    coords: Coords(latitude, longitude),
+                    title: title,
                   );
                 } catch (e) {
                   print('Error showing marker: $e');
@@ -603,7 +616,7 @@ class _BlockWidgetState extends State<BlockWidget>
     );
   }
 
-  void BlockUpd(String location){
+  void BlockUpd(String location) {
     setState(() {
       widget.blockData.locations.add(location);
     });
@@ -724,7 +737,10 @@ class AddLocationWidget extends StatefulWidget {
   final List<String> locations;
   final void Function(String) blockUpd;
 
-  AddLocationWidget({required this.callbackFunc, required this.locations,required this.blockUpd});
+  AddLocationWidget(
+      {required this.callbackFunc,
+      required this.locations,
+      required this.blockUpd});
 
   @override
   _AddLocationWidgetState createState() => _AddLocationWidgetState();

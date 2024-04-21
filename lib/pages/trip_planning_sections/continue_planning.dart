@@ -32,6 +32,7 @@ class ContinuePlanning extends StatefulWidget {
   late String tripId;
   bool isNewTripPage = false;
   bool isBookmarked = false;
+  String? budget;
 
   ContinuePlanning({
     Key? key,
@@ -89,6 +90,7 @@ class _ContinuePlanningState extends State<ContinuePlanning>
           }
           widget.tripmateKind = tripDoc['tripmateKind'];
           widget.isManual = tripDoc['isManual'];
+          widget.budget = tripDoc['budget'];
           _dataFetched = true;
         });
       } else {
@@ -311,6 +313,10 @@ class _ContinuePlanningState extends State<ContinuePlanning>
                               endDate: widget.endDate,
                               location: widget.locationSelected,
                               tripId: widget.tripId,
+                              isManual: widget.isManual,
+                              tripMateKind: widget.tripmateKind,
+                              tripPreferences: widget.tripPreferences,
+                              budget: widget.budget,
                             ),
                             ExpensesTrips(
                               tripId: widget.tripId,

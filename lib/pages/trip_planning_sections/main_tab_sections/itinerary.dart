@@ -38,7 +38,7 @@ class ItineraryTrips extends StatefulWidget {
 
 class _ItineraryTripsState extends State<ItineraryTrips>
     with AutomaticKeepAliveClientMixin {
-  late BlockIti _blockIti;
+  BlockIti? _blockIti;
 
   late DateTime _selectedStartDate;
   late DateTime _selectedEndDate;
@@ -72,26 +72,6 @@ class _ItineraryTripsState extends State<ItineraryTrips>
       'param6': widget.location.toString().toLowerCase(),
     };
     var url = Uri.parse('http://$using:8000');
-
-    var response = await http.get(url.replace(queryParameters: params));
-
-    if (response.statusCode == 200) {
-      var responseBody = json.decode(response.body);
-      print(responseBody);
-    } else {
-      print(response.body);
-      print('Request failed with status: ${response.statusCode}.');
-    }
-  }
-
-  Future<void> getLatAndLongForLoc(String loc) async {
-    String param1 = widget.location.toString().toLowerCase();
-
-    var params = {
-      'param1': param1,
-      'param2': loc,
-    };
-    var url = Uri.parse('http://$using:8000/getloc');
 
     var response = await http.get(url.replace(queryParameters: params));
 
@@ -148,107 +128,97 @@ class _ItineraryTripsState extends State<ItineraryTrips>
     super.initState();
     _selectedStartDate = widget.startDate;
     _selectedEndDate = widget.endDate;
-    // getPOIforLoc().then((locations) {
-    //   setState(() {
-    //     locationsToVisit = locations;
-    //   });
-    // });
-    // _blockIti = BlockIti(
-    //   suggestions: locationsToVisit,
-    //   startDate: _selectedStartDate,
-    //   endDate: _selectedEndDate,
-    //   location: widget.location,
-    //   tripId: widget.tripId,
-    // );
     _initializeState();
   }
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-    //print(locationsToVisit.toList());
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 15.0),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 15.0),
-                  child: CustomStartEndCal(
-                    selectedStartDate: _selectedStartDate,
-                    selectedEndDate: _selectedEndDate,
-                    onDateRangeSelected: (startDate, endDate) {
-                      setState(() {
-                        _selectedStartDate = DateTime(
-                            startDate!.year, startDate.month, startDate.day);
-                        _selectedEndDate =
-                            DateTime(endDate!.year, endDate.month, endDate.day);
-                        _updateBlockItis();
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-          // add an add icon
-          if (!widget.isManual!)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.auto_fix_normal,
-                  color: kGreenColor,
-                  size: 18.0,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    //debugPrint('hi');
-                    getItinary();
-                    //getLatAndLongForLoc('AMBER PALACE');
-                  },
-                  child: Text(
-                    'Autofill Itinerary',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: 'ProductSans',
-                      color: kGreenColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-
-          Padding(
-            padding: const EdgeInsets.only(bottom: 15.0),
-            child: Slidable(
-              endActionPane: ActionPane(
-                motion: ScrollMotion(),
-                extentRatio: 0.42,
+    if (_blockIti == null) {
+      return CircularProgressIndicator();
+    } else {
+      super.build(context);
+      return SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 15.0),
+              child: Column(
                 children: [
-                  SlidableAction(
-                    onPressed: (context) {
-                      deleteTask(context, 0);
-                    },
-                    label: 'Delete',
-                    icon: Icons.delete,
-                    backgroundColor: Colors.red,
-                    foregroundColor: Colors.white,
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 15.0),
+                    child: CustomStartEndCal(
+                      selectedStartDate: _selectedStartDate,
+                      selectedEndDate: _selectedEndDate,
+                      onDateRangeSelected: (startDate, endDate) {
+                        setState(() {
+                          _selectedStartDate = DateTime(
+                              startDate!.year, startDate.month, startDate.day);
+                          _selectedEndDate = DateTime(
+                              endDate!.year, endDate.month, endDate.day);
+                          _updateBlockItis();
+                        });
+                      },
+                    ),
                   ),
                 ],
               ),
-              child: _blockIti,
             ),
-          ),
-        ],
-      ),
-    );
-  }
+            // add an add icon
+            if (!widget.isManual!)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.auto_fix_normal,
+                    color: kGreenColor,
+                    size: 18.0,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      //debugPrint('hi');
+                      getItinary();
+                      //getLatAndLongForLoc('AMBER PALACE');
+                    },
+                    child: Text(
+                      'Autofill Itinerary',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'ProductSans',
+                        color: kGreenColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
 
-  // Function to update the list of BlockIti widgets
+            Padding(
+              padding: const EdgeInsets.only(bottom: 15.0),
+              child: Slidable(
+                endActionPane: ActionPane(
+                  motion: ScrollMotion(),
+                  extentRatio: 0.42,
+                  children: [
+                    SlidableAction(
+                      onPressed: (context) {
+                        deleteTask(context, 0);
+                      },
+                      label: 'Delete',
+                      icon: Icons.delete,
+                      backgroundColor: Colors.red,
+                      foregroundColor: Colors.white,
+                    ),
+                  ],
+                ),
+                child: _blockIti!,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+  } // Function to update the list of BlockIti widgets
+
   void _updateBlockItis() {
     setState(() {
       _blockIti = BlockIti(
