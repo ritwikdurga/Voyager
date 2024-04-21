@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 final Map<String, String> descrption = {
   'Goa':
       "Goa, a tiny emerald on the west coast of India, with its natural Scenic beauty, abundant greenery, attractive beaches, historical temples and churches, colourful feasts and festivals, and above all warm and hospitable people with a rich cultural milieu, has today emerged as an ideal tourist destination worldwide.",
@@ -412,4 +414,13 @@ final Map<String, String> attDes = {
 
   "Chokhi Dhani":
       "Chokhi Dhani is an ethnic village resort located on the outskirts of Jaipur, Rajasthan, that offers a unique cultural experience of traditional Rajasthani hospitality and entertainment. Modeled after a Rajasthani village, the resort features rustic cottages, mud huts, and thatched-roof houses that reflect the region's rural charm and heritage. Visitors to Chokhi Dhani can enjoy a range of cultural activities and experiences, including folk dances, puppet shows, camel rides, and bullock cart rides, as well as traditional Rajasthani cuisine served in an open-air dining area. The resort also hosts themed events, festivals, and fairs that celebrate the vibrant culture and traditions of Rajasthan, allowing guests to immerse themselves in the colorful tapestry of Rajasthani life. Chokhi Dhani is not only a tourist attraction but also a cultural oasis that offers a glimpse into the timeless traditions and hospitality of Rajasthan, making it a memorable destination for travelers seeking an authentic Rajasthani experience."
+};
+
+Map<String, dynamic> locations = {
+  'Manali': {'long': 77.188713, 'lat': 32.239632},
+  'Delhi': {'long': 77.1025, 'lat': 28.7041},
+  'Hyderabad': {'long': 78.4772, 'lat': 17.4065},
+  'Goa': {'long': 74.1240, 'lat': 15.2993},
+  'Jaipur': {'long': 75.778885, 'lat': 26.922070},
+  'Chennai': {'long': 80.2707, 'lat': 13.0827}
 };

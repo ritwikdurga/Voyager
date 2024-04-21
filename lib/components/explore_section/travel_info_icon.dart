@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/pages/explore_sections/travel_info_page.dart';
@@ -9,7 +8,9 @@ import 'package:voyager/utils/constants.dart';
 class TravelInfoIcon extends StatelessWidget {
   late Icon icon;
   late String text;
-  TravelInfoIcon({super.key, required this.icon, required this.text});
+  String place;
+  TravelInfoIcon(
+      {super.key, required this.place, required this.icon, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -17,14 +18,14 @@ class TravelInfoIcon extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     return GestureDetector(
       child: SizedBox(
-        width: screenWidth/5-4,
+        width: screenWidth / 5 - 4,
         height: 99,
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: screenWidth/6-5,
+                height: screenWidth / 6 - 5,
                 width: 60,
                 child: icon,
               ),
@@ -50,7 +51,8 @@ class TravelInfoIcon extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => TravelInfoPage(heading: text)));
+                builder: (context) =>
+                    TravelInfoPage(place: place, heading: text)));
       },
     );
   }

@@ -1,14 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:voyager/utils/constants.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class TravelInfoPage extends StatefulWidget {
+  String place;
   late String heading;
-  TravelInfoPage({super.key, required this.heading});
+  TravelInfoPage({super.key, required this.place, required this.heading});
 
   @override
   State<TravelInfoPage> createState() => _TravelInfoPageState();
@@ -32,42 +32,41 @@ class _TravelInfoPageState extends State<TravelInfoPage> {
     initializeController();
   }
 
-  
   void initializeController() async {
-  final String headingParameter = headingParameters[widget.heading] ?? '';
-  final String url = 'https://wikitravel.org/en/Paris#${headingParameter}';
+    final String headingParameter = headingParameters[widget.heading] ?? '';
+    final String url =
+        'https://wikitravel.org/en/${widget.place}#$headingParameter';
 
-  controller = WebViewController();
-  
-  controller.setNavigationDelegate(NavigationDelegate(
-    onPageStarted: (url) {
-      if (mounted) {
-        setState(() {
-          loadingPercentage = 0;
-        });
-      }
-    },
-    onProgress: (progress) {
-      if (mounted) {
-        setState(() {
-          loadingPercentage = progress;
-        });
-      }
-    },
-    onPageFinished: (url) {
-      if (mounted) {
-        setState(() {
-          loadingPercentage = 100;
-        });
-      }
-    },
-  ));
+    controller = WebViewController();
 
-  controller.loadRequest(
-    Uri.parse(url),
-  );
-}
+    controller.setNavigationDelegate(NavigationDelegate(
+      onPageStarted: (url) {
+        if (mounted) {
+          setState(() {
+            loadingPercentage = 0;
+          });
+        }
+      },
+      onProgress: (progress) {
+        if (mounted) {
+          setState(() {
+            loadingPercentage = progress;
+          });
+        }
+      },
+      onPageFinished: (url) {
+        if (mounted) {
+          setState(() {
+            loadingPercentage = 100;
+          });
+        }
+      },
+    ));
 
+    controller.loadRequest(
+      Uri.parse(url),
+    );
+  }
 
   @override
   void dispose() {

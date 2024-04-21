@@ -7,8 +7,10 @@ import 'package:voyager/components/explore_section/categories_listview.dart';
 import 'package:voyager/utils/constants.dart';
 
 class bottomSheet extends StatefulWidget {
+  final String place;
   const bottomSheet({
     super.key,
+    required this.place,
   });
 
   @override
@@ -83,8 +85,7 @@ class _bottomSheetState extends State<bottomSheet> {
                             ),
                           ),
                         ),
-                        onChanged:
-                            searchCategories,
+                        onChanged: searchCategories,
                       ),
                     ),
                     IconButton(
@@ -102,6 +103,7 @@ class _bottomSheetState extends State<bottomSheet> {
                 ),
                 Expanded(
                   child: CatList(
+                    place: widget.place,
                     iconsData: iconsData,
                   ),
                 ),

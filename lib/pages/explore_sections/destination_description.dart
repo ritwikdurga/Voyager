@@ -119,7 +119,9 @@ class _DestDescState extends State<DestDesc> {
               ),
               SizedBox(
                 height: 90,
-                child: TravelInfoList(),
+                child: TravelInfoList(
+                  place: widget.place,
+                ),
               ),
               Padding(
                 padding:
@@ -173,7 +175,9 @@ class _DestDescState extends State<DestDesc> {
                         useSafeArea: true,
                         isScrollControlled: true,
                         builder: (BuildContext context) {
-                          return bottomSheet();
+                          return bottomSheet(
+                            place: widget.place,
+                          );
                         },
                       );
                     },
@@ -185,7 +189,9 @@ class _DestDescState extends State<DestDesc> {
               // ),
               SizedBox(
                 height: 105,
-                child: CatIconsListView(),
+                child: CatIconsListView(
+                  place: widget.place,
+                ),
               ),
               Padding(
                 padding:

@@ -8,7 +8,8 @@ import 'package:voyager/utils/constants.dart';
 
 class CatList extends StatelessWidget {
   late List<Map<String, dynamic>> iconsData;
-  CatList({super.key,required this.iconsData});
+  String place;
+  CatList({super.key, required this.place, required this.iconsData});
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +28,7 @@ class CatList extends StatelessWidget {
               //   ],
               // ),
               CatListTile(
+                place: place,
                 icon: Icon(iconsData[index]['icon'], size: 30),
                 text: iconsData[index]['text'],
                 category_id: iconsData[index]['category_id'],

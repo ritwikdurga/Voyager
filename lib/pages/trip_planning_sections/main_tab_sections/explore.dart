@@ -33,11 +33,11 @@ class _ExploreTripsState extends State<ExploreTrips> {
                 width: screenWidth,
                 child: ComplicatedImage(ImgList: imgList),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Text(
                   'About this Place',
                   style: TextStyle(
@@ -47,7 +47,7 @@ class _ExploreTripsState extends State<ExploreTrips> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Padding(
@@ -73,7 +73,7 @@ class _ExploreTripsState extends State<ExploreTrips> {
               const Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(12.0, 0, 12, 0),
+                    padding: EdgeInsets.fromLTRB(12.0, 0, 12, 0),
                     child: Text(
                       'Travel information',
                       style: TextStyle(
@@ -87,7 +87,9 @@ class _ExploreTripsState extends State<ExploreTrips> {
               ),
               SizedBox(
                 height: 90,
-                child: TravelInfoList(),
+                child: TravelInfoList(
+                  place: widget.place,
+                ),
               ),
               Padding(
                 padding:
@@ -99,8 +101,8 @@ class _ExploreTripsState extends State<ExploreTrips> {
               ),
               Row(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(12.0, 12, 12, 12),
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(12.0, 12, 12, 12),
                     child: Text(
                       'Categories',
                       style: TextStyle(
@@ -127,7 +129,7 @@ class _ExploreTripsState extends State<ExploreTrips> {
                               fontSize: 14,
                             ),
                           ),
-                          Icon(
+                          const Icon(
                             Icons.arrow_forward_ios,
                             size: 10,
                           ),
@@ -135,13 +137,14 @@ class _ExploreTripsState extends State<ExploreTrips> {
                       ),
                     ),
                     onTap: () {
-                      // show a popup with all the categories listed.
                       showModalBottomSheet<void>(
                         context: context,
                         useSafeArea: true,
                         isScrollControlled: true,
                         builder: (BuildContext context) {
-                          return bottomSheet();
+                          return bottomSheet(
+                            place: widget.place,
+                          );
                         },
                       );
                     },
@@ -153,7 +156,9 @@ class _ExploreTripsState extends State<ExploreTrips> {
               // ),
               SizedBox(
                 height: 105,
-                child: CatIconsListView(),
+                child: CatIconsListView(
+                  place: widget.place,
+                ),
               ),
               Padding(
                 padding:
@@ -165,8 +170,8 @@ class _ExploreTripsState extends State<ExploreTrips> {
               ),
               Row(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(6, 0, 0, 0),
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(6, 0, 0, 0),
                     child: Text(
                       'Top Attractions',
                       style: TextStyle(
@@ -214,7 +219,7 @@ class _ExploreTripsState extends State<ExploreTrips> {
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 6.5,
               ),
               SizedBox(
@@ -229,7 +234,7 @@ class _ExploreTripsState extends State<ExploreTrips> {
                     // );
                     return Card(
                       clipBehavior: Clip.hardEdge,
-                      shape: RoundedRectangleBorder(
+                      shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
                       color: themeProvider.themeMode == ThemeMode.dark
@@ -244,7 +249,7 @@ class _ExploreTripsState extends State<ExploreTrips> {
                         height: screenWidth / 3,
                         width: screenWidth - 10,
                         child: Padding(
-                          padding: EdgeInsets.fromLTRB(18, 8, 0, 8),
+                          padding: const EdgeInsets.fromLTRB(18, 8, 0, 8),
                           child: Row(
                             children: [
                               ConstrainedBox(
@@ -277,7 +282,7 @@ class _ExploreTripsState extends State<ExploreTrips> {
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),
-                                  SizedBox(height: 0.25),
+                                  const SizedBox(height: 0.25),
                                   ConstrainedBox(
                                     constraints: BoxConstraints(
                                         maxWidth: screenWidth / 2),

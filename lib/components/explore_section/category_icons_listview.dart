@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:voyager/components/explore_section/category_icon.dart';
 import 'package:voyager/pages/explore_sections/category_page.dart';
@@ -8,8 +7,8 @@ import 'package:voyager/utils/constants.dart';
 
 class CatIconsListView extends StatelessWidget {
   final List<Map<String, dynamic>> iconsData = Categories;
-
-  CatIconsListView({super.key});
+  final String place;
+  CatIconsListView({super.key, required this.place});
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +41,10 @@ class CatIconsListView extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          CategoryPage(heading: iconsData[index]['text'],category_id:iconsData[index]['category_id'])));
+                      builder: (context) => CategoryPage(
+                          place: place,
+                          heading: iconsData[index]['text'],
+                          category_id: iconsData[index]['category_id'])));
             });
       },
     );

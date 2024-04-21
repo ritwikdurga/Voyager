@@ -1,11 +1,9 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_typing_uninitialized_variables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_typing_uninitialized_variables, avoid_print
 
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:voyager/pages/trip_planning_sections/trips_form_input/tripmate_kind_input.dart';
 import 'package:voyager/utils/constants.dart';
 import '../../../components/trip_planning_section/horizontal_calendar.dart';
 import '../../../components/trip_planning_section/itinerary_block.dart';
