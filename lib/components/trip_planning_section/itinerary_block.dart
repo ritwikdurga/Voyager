@@ -371,7 +371,7 @@ class _BlockWidgetState extends State<BlockWidget>
         } else {
           final model = GenerativeModel(
             model: 'gemini-pro',
-            apiKey: 'AIzaSyAdTLdQjPK_GFd-8agz8XYeJ6A79lZBL1Y',
+            apiKey: dotenv.env['GEMINI']!,
           );
           final content = [
             Content.text(
@@ -676,11 +676,24 @@ class _BlockWidgetState extends State<BlockWidget>
       children: [
         Expanded(
           child: TextButton(
-            onPressed: () {
+            onPressed: () async {
+              List<Map<String, double>> coordinates = [];
+
+              for (var location in widget.blockData.locations) {
+                var data = await fetchLocationData(location);
+                var latitude = data['latitude'];
+                var longitude = data['longitude'];
+                if (latitude != null && longitude != null) {
+                  coordinates
+                      .add({'latitude': latitude, 'longitude': longitude});
+                }
+              }
+              print(coordinates.toList());
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MarkingMap(),
+                  builder: (context) =>
+                      MarkingMap(coordinatesList: coordinates),
                 ),
               );
             },

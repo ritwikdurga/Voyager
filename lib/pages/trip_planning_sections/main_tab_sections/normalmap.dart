@@ -1,35 +1,49 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
 class MarkingMap extends StatefulWidget {
+  final List<Map<String, double>> coordinatesList;
+  MarkingMap({required this.coordinatesList});
   @override
-  _MarkingMapState createState() => _MarkingMapState();
+  State<MarkingMap> createState() => _MarkingMapState();
 }
 
 class _MarkingMapState extends State<MarkingMap> {
-  final String mapboxPublicToken =
-      'pk.eyJ1Ijoicml0d2lrZHVyZ2EiLCJhIjoiY2x0dm42ZTNsMTZ3dDJpcGpmbTR1MDVteiJ9.hUsXnmCfwbNAiA_QF2a96w';
+  final String mapboxPublicToken = dotenv.env['KEY']!; // Your Mapbox access token here
 
-  List<LatLng> coordinates = [
-    LatLng(-33.852, 10.211), // Coordinates for marker 1
-    LatLng(-33.850, 100.215), // Coordinates for marker 2
-    LatLng(-33.855, 150.210), // Coordinates for marker 3
-  ];
+  late List<LatLng> coordinates;
 
-  MapboxMapController? mapController; // Make mapController nullable
+  @override
+  void initState() {
+    super.initState();
+    coordinates = convertToLatLng(widget.coordinatesList);
+    print(coordinates.toList());
+    print(widget.coordinatesList.toList());
+  }
+
+  List<LatLng> convertToLatLng(List<Map<String, double>> coordinatesList) {
+    return coordinatesList.map((coordinate) {
+      return LatLng(coordinate['latitude']!, coordinate['longitude']!);
+    }).toList();
+  }
+
+  late MapboxMapController mapController;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+      ),
       body: Center(
         child: MapboxMap(
           onMapCreated: _onMapCreated,
           accessToken: mapboxPublicToken,
           initialCameraPosition: CameraPosition(
-            target: coordinates[0], // Center the map on the first coordinate
-            zoom: 2.0,
+            target: coordinates.isNotEmpty ? coordinates[0] : LatLng(0, 0),
+            zoom: 8.0,
           ),
         ),
       ),
@@ -43,7 +57,6 @@ class _MarkingMapState extends State<MarkingMap> {
 
   Future<void> _addMarkers() async {
     var markerImage = await loadMarkerImage();
-
     if (mapController != null) {
       mapController!.addImage(
           'marker', markerImage); // Check if mapController is not null
@@ -61,10 +74,24 @@ class _MarkingMapState extends State<MarkingMap> {
     } else {
       print('Map controller is null');
     }
+    mapController.addImage('marker', markerImage);
+    print(coordinates.toList());
+
+    for (var coordinate in coordinates) {
+      await mapController.addSymbol(
+        SymbolOptions(
+          iconSize: 0.3,
+          iconImage: 'marker',
+          geometry: coordinate,
+          iconAnchor: 'bottom',
+        ),
+      );
+      print(coordinate);
+    }
   }
 
   Future<Uint8List> loadMarkerImage() async {
-    var byteData = await rootBundle.load("assets/images/a.png");
+    var byteData = await rootBundle.load('assets/images/location-pin.png');
     return byteData.buffer.asUint8List();
   }
 }
