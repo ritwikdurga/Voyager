@@ -9,16 +9,16 @@ class MarkingMap extends StatefulWidget {
 }
 
 class _MarkingMapState extends State<MarkingMap> {
-  final String mapboxPublicToken = '<KEY>'; // Your Mapbox access token here
+  final String mapboxPublicToken =
+      'pk.eyJ1Ijoicml0d2lrZHVyZ2EiLCJhIjoiY2x0dm42ZTNsMTZ3dDJpcGpmbTR1MDVteiJ9.hUsXnmCfwbNAiA_QF2a96w';
 
   List<LatLng> coordinates = [
     LatLng(-33.852, 10.211), // Coordinates for marker 1
     LatLng(-33.850, 100.215), // Coordinates for marker 2
     LatLng(-33.855, 150.210), // Coordinates for marker 3
-    // Add more coordinates as needed
   ];
 
-  late MapboxMapController mapController;
+  MapboxMapController? mapController; // Make mapController nullable
 
   @override
   Widget build(BuildContext context) {
@@ -44,17 +44,22 @@ class _MarkingMapState extends State<MarkingMap> {
   Future<void> _addMarkers() async {
     var markerImage = await loadMarkerImage();
 
-    mapController.addImage('marker', markerImage);
+    if (mapController != null) {
+      mapController!.addImage(
+          'marker', markerImage); // Check if mapController is not null
 
-    for (var coordinate in coordinates) {
-      await mapController.addSymbol(
-        SymbolOptions(
-          iconSize: 0.3,
-          iconImage: "marker",
-          geometry: coordinate,
-          iconAnchor: "bottom",
-        ),
-      );
+      for (var coordinate in coordinates) {
+        mapController!.addSymbol(
+          SymbolOptions(
+            iconSize: 0.3,
+            iconImage: "marker",
+            geometry: coordinate,
+            iconAnchor: "bottom",
+          ),
+        );
+      }
+    } else {
+      print('Map controller is null');
     }
   }
 

@@ -25,15 +25,22 @@ class BlockIti extends StatefulWidget {
   final DateTime endDate;
   final String location;
   final String tripId;
+  final bool isManual;
+  String? tripMateKind;
+  List<String>? tripPreferences;
+  String? budget;
   final List<String> suggestions;
-  const BlockIti(
+  BlockIti(
       {super.key,
+      this.budget,
+      this.tripMateKind,
+      this.tripPreferences,
       required this.suggestions,
       required this.startDate,
       required this.endDate,
       required this.location,
+      required this.isManual,
       required this.tripId});
-
   @override
   State<BlockIti> createState() => _BlockItiState();
 }
@@ -74,6 +81,76 @@ class _BlockItiState extends State<BlockIti>
     }
   }
 
+  Future<void> getItinary() async {
+    String param1 = widget.tripPreferences?.join(',') ?? '';
+    int length = widget.endDate!.difference(widget.startDate!).inDays + 1;
+    String param4;
+    if (widget.tripMateKind == "Going solo") {
+      param4 = "Individual";
+    } else if (widget.tripMateKind == "Partner") {
+      param4 = "Family";
+    } else if (widget.tripMateKind == "Friends") {
+      param4 = "Friends";
+    } else if (widget.tripMateKind == "Family") {
+      param4 = "Family";
+    } else {
+      param4 = "";
+    }
+
+    var params = {
+      'param1': param1,
+      'param2': length.toString(),
+      'param3': double.parse(widget.budget!).toInt().toString(),
+      'param4': param4,
+      'param5': 'Yes',
+      'param6': widget.location.toString().toLowerCase(),
+    };
+    var url = Uri.parse('http://$using:8000');
+
+    var response = await http.get(url.replace(queryParameters: params));
+
+    if (response.statusCode == 200) {
+      var responseBody = json.decode(response.body);
+      List<BlockData> blockDataListGen = [];
+
+      for (int i = 0; i < length; i++) {
+        DateTime currentDate = widget.startDate.add(Duration(days: i));
+        if (responseBody.containsKey(i.toString())) {
+          List<String> locations =
+              List<String>.from(responseBody[i.toString()]);
+          blockDataListGen
+              .add(BlockData(date: currentDate, locations: locations));
+        } else {
+          blockDataListGen.add(BlockData(date: currentDate, locations: []));
+        }
+      }
+
+      setState(() {
+        blockDataList = blockDataListGen;
+        updateBlocDataInFirebase();
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              backgroundColor: Colors.green,
+              content: Center(
+                child: Text(
+                  'Itinnerary Generated Successfully',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'ProductSans',
+                  ),
+                ),
+              ),
+            ),
+          );
+        }
+      });
+    } else {
+      print(response.body);
+      print('Request failed with status: ${response.statusCode}.');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -109,14 +186,11 @@ class _BlockItiState extends State<BlockIti>
                 date: widget.startDate.add(Duration(days: i)), locations: []));
           }
         }
-        print(blockDataListNew[0].locations.length);
         if (!areBlockDataListsEqual(blockDataListNew, blockDataList)) {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             setState(() {
               blockDataList.clear();
               blockDataList.addAll(blockDataListNew);
-              print(blockDataListNew[0].locations.length);
-              print(blockDataList[0].locations.length);
             });
           });
         }
@@ -126,6 +200,34 @@ class _BlockItiState extends State<BlockIti>
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
+                if (!widget.isManual)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.auto_fix_normal,
+                        color: kGreenColor,
+                        size: 18.0,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          getItinary();
+                        },
+                        child: Text(
+                          'Autofill Itinerary',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontFamily: 'ProductSans',
+                            color: kGreenColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                SizedBox(
+                  height: 10,
+                ),
                 for (int i = 0; i < blockDataList.length; i++)
                   Slidable(
                     endActionPane: ActionPane(
@@ -231,33 +333,25 @@ class _BlockWidgetState extends State<BlockWidget>
   late Animation<double> _animation;
   String apiKey = dotenv.env['KEY']!;
 
-  Future<Map<String, dynamic>> getLatAndLongForLoc(
-      String loc, String place) async {
-    var url = Uri.parse(
-        'https://api.mapbox.com/search/geocode/v6/forward?q=$loc,$place&access_token=$apiKey&proximity=28.7041,77.1025');
-
-    var response = await http.get(url);
-
+  Future<Map<String, double>> getLatAndLongForLoc(String loc) async {
+    var params = {
+      'param2': loc.toUpperCase(),
+      'param1': widget.loc.toLowerCase(),
+    };
+    var url = Uri.parse('http://$using:8000/getloc');
+    var response = await http.get(url.replace(queryParameters: params));
     if (response.statusCode == 200) {
       var responseBody = json.decode(response.body);
-      var features = responseBody['features'] as List<dynamic>;
-      var fullAddress = features.isNotEmpty
-          ? features[0]['properties']['full_address']
-          : null;
-      print(fullAddress);
-      var geometry = features.isNotEmpty ? features[0]['geometry'] : null;
-      var coordinates = geometry != null ? geometry['coordinates'] : null;
-      var latitude = coordinates != null ? coordinates[1] : null;
-      var longitude = coordinates != null ? coordinates[0] : null;
+      print(responseBody);
 
-      return {
-        'latitude': latitude,
-        'longitude': longitude,
-        'full_address': fullAddress,
-      };
+      var latitude = double.parse(responseBody['latitude'].toString());
+      var longitude = double.parse(responseBody['longitude'].toString());
+
+      return {'latitude': latitude, 'longitude': longitude};
     } else {
+      print(response.body);
       print('Request failed with status: ${response.statusCode}.');
-      return {};
+      return {'latitude': 0.0, 'longitude': 0.0};
     }
   }
 
@@ -281,7 +375,7 @@ class _BlockWidgetState extends State<BlockWidget>
           );
           final content = [
             Content.text(
-                'Provide the "rating", "description","address", "coordinates"coordinates should not contains oE,oN and should be in nested format and "timings" of $loc, ${widget.loc} in HH MM format as a string in JSON map format')
+                'Provide the "rating", "description","address", and "timings" of $loc, ${widget.loc} in HH MM format as a string in JSON map format')
           ];
           final response = await model.generateContent(content);
           final responseText = response.text!;
@@ -289,6 +383,14 @@ class _BlockWidgetState extends State<BlockWidget>
           final trimmedResponse = responseText.substring(
               responseText.indexOf('{'), responseText.lastIndexOf('}') + 1);
           final jsonResponseMap = json.decode(trimmedResponse);
+
+          final latLong = await getLatAndLongForLoc(loc);
+          final latitude = latLong['latitude'];
+          final longitude = latLong['longitude'];
+
+          jsonResponseMap['latitude'] = latitude;
+          jsonResponseMap['longitude'] = longitude;
+
           _locationInfoDataMap[loc] = jsonResponseMap;
           return jsonResponseMap;
         }
@@ -445,12 +547,12 @@ class _BlockWidgetState extends State<BlockWidget>
 
   Widget _buildLocationInfoWidgetWithData(
       ThemeProvider themeProvider, String location, Map<String, dynamic> data) {
-    var description = data['description'];
-    var rating = data['rating'];
-    var timings = data['timings'];
-    var address = data['address'];
-    var latitude = double.parse(data['coordinates']['latitude'].toString());
-    var longitude = double.parse(data['coordinates']['longitude'].toString());
+    var description = data['description'] ?? 'N/A';
+    var rating = data['rating'] ?? 'N/A';
+    var timings = data['timings'] ?? 'N/A';
+    var address = data['address'] ?? 'N/A';
+    var longitude = data['longitude'];
+    var latitude = data['latitude'];
 
     return Container(
       padding: EdgeInsets.all(10.0),

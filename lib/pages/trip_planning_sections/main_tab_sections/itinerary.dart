@@ -45,43 +45,6 @@ class _ItineraryTripsState extends State<ItineraryTrips>
   @override
   bool get wantKeepAlive => true;
 
-  Future<void> getItinary() async {
-    String param1 = widget.tripPreferences?.join(',') ?? '';
-    int length = widget.endDate!.difference(widget.startDate!).inDays + 1;
-    String param4;
-    if (widget.tripMateKind == "Going solo") {
-      param4 = "Individual";
-    } else if (widget.tripMateKind == "Partner") {
-      param4 = "Family";
-    } else if (widget.tripMateKind == "Friends") {
-      param4 = "Friends";
-    } else if (widget.tripMateKind == "Family") {
-      param4 = "Family";
-    } else {
-      param4 = "";
-    }
-
-    var params = {
-      'param1': param1,
-      'param2': length.toString(),
-      'param3': double.parse(widget.budget!).toInt().toString(),
-      'param4': param4,
-      'param5': 'Yes',
-      'param6': widget.location.toString().toLowerCase(),
-    };
-    var url = Uri.parse('http://$using:8000');
-
-    var response = await http.get(url.replace(queryParameters: params));
-
-    if (response.statusCode == 200) {
-      var responseBody = json.decode(response.body);
-      print(responseBody);
-    } else {
-      print(response.body);
-      print('Request failed with status: ${response.statusCode}.');
-    }
-  }
-
   Future<List<String>> getPOIforLoc() async {
     String param1 = widget.location.toString().toLowerCase();
 
@@ -112,6 +75,10 @@ class _ItineraryTripsState extends State<ItineraryTrips>
     setState(() {
       locationsToVisit = locations;
       _blockIti = BlockIti(
+        budget: widget.budget,
+        tripMateKind: widget.tripMateKind,
+        tripPreferences: widget.tripPreferences,
+        isManual: widget.isManual ?? false,
         suggestions: locationsToVisit,
         startDate: _selectedStartDate,
         endDate: _selectedEndDate,
@@ -161,35 +128,6 @@ class _ItineraryTripsState extends State<ItineraryTrips>
                 ],
               ),
             ),
-            // add an add icon
-            if (!widget.isManual!)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.auto_fix_normal,
-                    color: kGreenColor,
-                    size: 18.0,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      //debugPrint('hi');
-                      getItinary();
-                      //getLatAndLongForLoc('AMBER PALACE');
-                    },
-                    child: Text(
-                      'Autofill Itinerary',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontFamily: 'ProductSans',
-                        color: kGreenColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
             Padding(
               padding: const EdgeInsets.only(bottom: 15.0),
               child: Slidable(
@@ -220,6 +158,10 @@ class _ItineraryTripsState extends State<ItineraryTrips>
   void _updateBlockItis() {
     setState(() {
       _blockIti = BlockIti(
+        tripMateKind: widget.tripMateKind,
+        tripPreferences: widget.tripPreferences,
+        budget: widget.budget,
+        isManual: widget.isManual ?? false,
         suggestions: locationsToVisit,
         startDate: _selectedStartDate,
         endDate: _selectedEndDate,
