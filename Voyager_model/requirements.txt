@@ -1,0 +1,4 @@
+Django==5.0.4
+folium==0.16.0
+pandas==2.2.2
+plotly==5.21.0

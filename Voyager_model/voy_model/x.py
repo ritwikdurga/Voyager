@@ -1,5 +1,3 @@
-
-
 import pandas as pd
 import numpy as np
 from  itertools import chain
@@ -748,7 +746,7 @@ def location(city, place):
     lat_lng_file = f"{city}/{city}_lat_lng.csv"
     poi_df = pd.read_csv(poi_file)
     lat_lng_df = pd.read_csv(lat_lng_file)
-    location_index = poi_df[poi_df['POIs'] == place].index[0]
+    location_index = poi_df[poi_df['POIs'].str.lower() == place.lower()].index[0]
     lat_lng = lat_lng_df.iloc[location_index]['Lat,Lng']
     lat, lng = map(float, lat_lng.split(','))
     json_data = {
