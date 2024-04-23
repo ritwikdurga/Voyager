@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-String using='10.81.68.127';
+String using='<YOUR-IP-ADDRESS>';
 
 // Colors
 const kBackgroundColor = Color(0xFFFFFFFF);

@@ -139,6 +139,12 @@ Ensure all steps are followed carefully to successfully run the Voyager project 
 
 ## Screenshots
 
+<p float="left">
+  <img src="images/intro.PNG" width="100" />
+  <img src="images/signin.PNG" width="100" /> 
+  <img src="images/explore.PNG" width="100" />
+</p>
+
 ## API Reference
 ### IRCTC API
 
