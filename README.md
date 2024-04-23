@@ -139,11 +139,16 @@ Ensure all steps are followed carefully to successfully run the Voyager project 
 
 ## Screenshots
 
-<p float="left">
-  <img src="images/intro.PNG" width="100" />
-  <img src="images/signin.PNG" width="100" /> 
-  <img src="images/explore.PNG" width="100" />
-</p>
+<img src="images/intro.PNG" alt="Intro Page" width="250"> <img src="images/signin.PNG" alt="Sign In Page" width="250"> <img src="images/signup.PNG" alt="Sign up Page" width="250">
+
+<img src="images/explore.PNG" alt="Explore Page" width="250"> <img src="images/descrip.PNG" alt="description Page" width="250"> <img src="images/categories.PNG" alt="Categories Page" width="250">
+
+<img src="images/trains.PNG" alt="Trains Search" width="250"> <img src="images/flights.PNG" alt="Flights search" width="250"> <img src="images/ticket.PNG" alt="Result Page" width="250">
+
+<img src="images/tripplan.PNG" alt="Trip Plan page" width="250"> <img src="images/tripoverview.PNG" alt="Trip Overview" width="250"> <img src="images/itinerary.PNG" alt="Trip Itinerary" width="250">
+
+<img src="images/profile.PNG" alt="Profile" width="250"> <img src="images/editprofile.PNG" alt="Edit Profile" width="250"> <img src="images/resetpass.PNG" alt="Forgot Password" width="250">
+
 
 ## API Reference
 ### IRCTC API
