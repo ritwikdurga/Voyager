@@ -302,36 +302,53 @@ class _DestDescState extends State<DestDesc> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(
-                                    attractions[widget.place]![index],
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: themeProvider.themeMode ==
-                                              ThemeMode.dark
-                                          ? Colors.white
-                                          : Colors.black,
-                                      fontSize: 24,
+                                  SizedBox(
+                                    width:screenWidth/2.1,
+                                    child: SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            attractions[widget.place]![index],
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: themeProvider.themeMode ==
+                                                      ThemeMode.dark
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                              fontSize: 24,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
                                   ),
                                   SizedBox(height: 0.25),
-                                  ConstrainedBox(
-                                    constraints: BoxConstraints(
-                                        maxWidth: screenWidth / 2),
-                                    child: Text(
-                                      attDes[attractions[widget.place]![
-                                              index]] ??
-                                          '',
-                                      style: TextStyle(
-                                        color: themeProvider.themeMode ==
-                                                ThemeMode.dark
-                                            ? Colors.white
-                                            : Colors.black,
-                                        fontWeight: FontWeight.w400,
+                                  SizedBox(
+                                    width: screenWidth / 2.1,
+                                    height: screenWidth / 5,
+                                    child: SingleChildScrollView(
+                                      scrollDirection: Axis.vertical,
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            attDes[attractions[widget.place]![
+                                                    index]] ??
+                                                '',
+                                            style: TextStyle(
+                                              color: themeProvider.themeMode ==
+                                                      ThemeMode.dark
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                            //overflow: TextOverflow.ellipsis,
+                                            //maxLines: 3,
+                                          ),
+                                        ],
                                       ),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 3,
                                     ),
                                   )
                                 ],

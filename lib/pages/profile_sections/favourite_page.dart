@@ -55,6 +55,7 @@ class FavouritePage extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: tripsProvider.tripList.length,
                       itemBuilder: (BuildContext context, int index) {
+                        print(tripsProvider.tripList[index].isBookmarked);
                         if (tripsProvider.tripList[index].isBookmarked) {
                           return Column(
                             children: [
@@ -69,6 +70,8 @@ class FavouritePage extends StatelessWidget {
                               const SizedBox(height: 10),
                             ],
                           );
+                        }else{
+                          return Column(children: [SizedBox(height:0,),],);
                         }
                       },
                     ),

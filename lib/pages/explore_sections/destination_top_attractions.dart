@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
+import "package:flutter/widgets.dart";
 import "package:provider/provider.dart";
 import "package:voyager/components/explore_section/places.dart";
 import "package:voyager/utils/colors.dart";
@@ -93,36 +95,57 @@ class _DestTopAttExpState extends State<DestTopAttExp> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      attractions[widget.place]![index],
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: themeProvider.themeMode ==
-                                                ThemeMode.dark
-                                            ? Colors.white
-                                            : Colors.black,
-                                        fontSize: 24,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width:screenWidth/2.1,
+                                          child: SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  attractions[widget.place]![index],
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: themeProvider.themeMode ==
+                                                            ThemeMode.dark
+                                                        ? Colors.white
+                                                        : Colors.black,
+                                                    fontSize: 24,
+                                                  ),
+                                                  overflow: TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                     SizedBox(height: 0.25),
-                                    ConstrainedBox(
-                                      constraints: BoxConstraints(
-                                          maxWidth: screenWidth / 2),
-                                      child: Text(
-                                        attDes[attractions[widget.place]![
-                                                index]] ??
-                                            '',
-                                        style: TextStyle(
-                                          color: themeProvider.themeMode ==
-                                                  ThemeMode.dark
-                                              ? Colors.white
-                                              : Colors.black,
-                                          fontWeight: FontWeight.w400,
+                                    SizedBox(
+                                      width: screenWidth / 2.1,
+                                      height: screenWidth / 5,
+                                      child: SingleChildScrollView(
+                                        scrollDirection: Axis.vertical,
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              attDes[attractions[widget.place]![
+                                                      index]] ??
+                                                  '',
+                                              style: TextStyle(
+                                                color: themeProvider.themeMode ==
+                                                        ThemeMode.dark
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                              // overflow: TextOverflow.ellipsis,
+                                              // maxLines: 3,
+                                            ),
+                                          ],
                                         ),
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 3,
                                       ),
                                     )
                                   ],

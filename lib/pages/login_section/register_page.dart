@@ -8,6 +8,7 @@ import 'package:voyager/components/back_ground/animatedbck.dart';
 import 'package:voyager/components/auth_section/my_button.dart';
 import 'package:voyager/components/auth_section/third_party.dart';
 import 'package:voyager/home_screen.dart';
+import 'package:voyager/pages/login_section/login_page.dart';
 import 'package:voyager/pages/trip_planning_sections/trip_provider.dart';
 import 'package:voyager/services/auth_service.dart';
 import 'package:iconsax/iconsax.dart';
@@ -568,7 +569,12 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigator.pop(context);
+                            Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LoginPage(onTap: widget.onTap,),
+            ),
+          );
                           },
                           child: Text(
                             "Login Here",
