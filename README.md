@@ -143,7 +143,7 @@ Ensure all steps are followed carefully to successfully run the Voyager project 
 
 <img src="images/explore.PNG" alt="Explore Page" width="250"> <img src="images/descrip.PNG" alt="description Page" width="250"> <img src="images/categories.PNG" alt="Categories Page" width="250">
 
-<img src="images/trains.PNG" alt="Trains Search" width="250"> <img src="images/flights.PNG" alt="Flights search" width="250"> <img src="images/ticket.PNG" alt="Result Page" width="250">
+<img src="images/trains.PNG" alt="Trains Search" width="250"> <img src="images/flights.PNG" alt="Flights search" width="250"> <img src="images/result.PNG" alt="Result Page" width="250">
 
 <img src="images/tripplan.PNG" alt="Trip Plan page" width="250"> <img src="images/tripoverview.PNG" alt="Trip Overview" width="250"> <img src="images/itinerary.PNG" alt="Trip Itinerary" width="250">
 
